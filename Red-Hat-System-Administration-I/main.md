@@ -83,6 +83,7 @@ command | giai thich
 ---|---
 man 1 passwd	|Hướng dẫn dùng lệnh passwd
 man 5 passwd	|Mô tả định dạng file /etc/passwd
+
 ![pic3](pic/pic3.png) 
  
 các mục (1), (3), (8) trong man la cac section  
@@ -179,6 +180,7 @@ Ký tự	|Ý nghĩa
 *|Khớp với 0 hoặc nhiều ký tự bất kỳ
 ?	|Khớp với một ký tự duy nhất
 [ac]*	|Khớp với tên bắt đầu bằng a hoặc c
+
 ![pic5](pic/pic5.png) 
 ![pic6](pic/pic6.png) 
  
@@ -225,8 +227,8 @@ test
 
 Mở rộng dấu ngã (~) Trong shell Bash, ký tự dấu ngã ( ~) là phím tắt cho thư mục home của người dùng hiện tại. Bạn cũng có thể sử dụng dấu ngã ( ~) theo sau là tên người dùng để xác định thư mục home của người dùng được cung cấp.  
 
-![pic2](pic/pic2.png) 
-Mở rộng biến đổi 
+![pic2](pic/pic2.png)   
+Mở rộng biến đổi   
 ![pic2](pic/pic2.png) 
  
 Thay thế lệnh. Lệnh thay thế cho phép đầu ra của một lệnh thay thế chính lệnh đó trên dòng lệnh. $(xxxx)
@@ -582,14 +584,14 @@ umask 0027
 ---
 # Chapter 12.  Installing and Updating Software with RPM
 12.1 Investigating RPM Software Packages  
-Thành phần: 
+Thành phần:   
 ![30](pic/30.png)
 Thao tac
 ```
-# Cài đặt 1 package bằng rpm
+# Cài đặt package bằng rpm
 rpm -ivh podman-5.4.0-1.el10.x86_64.rpm
 
-# Gỡ 1 package
+# Gỡ package
 rpm -e podman-5.4.0-1.el10.x86_64.rpm
 
 ```
@@ -617,9 +619,52 @@ dnf install httpd
 dnf info httpd
 dnf repolist all
 ```
-Chapter 13.  Installing and Updating Applications by Using Flatpak
+
+---
+# Chapter 13.  Installing and Updating Applications by Using Flatpak
 
 Flatpak là một công nghệ đóng gói và phân phối ứng dụng cô lập (sandbox), dùng chung runtime.
+
+Flatpak là gì?
+- Flatpak là hệ thống đóng gói ứng dụng đa nền tảng cho Linux.
+- Giúp ứng dụng chạy ổn định trên nhiều bản phân phối mà không lo xung đột thư viện.
+- Ứng dụng Flatpak chạy trong môi trường sandbox (cô lập), chỉ truy cập tài nguyên được cấp phép.
+
+🧱 Flatpak Runtime
+- Runtime là tập hợp thư viện hệ thống dùng chung cho nhiều ứng dụng.
+- Giúp tiết kiệm dung lượng và dễ cập nhật bảo mật.
+- Ứng dụng có thể dùng runtime + thư viện riêng nếu cần.
+
+🌐 Kho ứng dụng Flatpak (Remote Repositories)
+Kho	|Mô 
+---|---
+Red Hat Ecosystem Catalog	|Kho mặc định cho RHEL 10
+Flathub	|Kho bên thứ ba lớn nhất: https://flathub.org
+Fedora Flatpak Repo	|Kho riêng của Fedora
+⚠️ Red Hat không hỗ trợ ứng dụng từ kho bên thứ ba.
+
+🛠️ Cài đặt và thiết lập ban đầu
+🔧 Cài Flatpak (nếu chưa có)
+
+`sudo dnf install flatpak`
+🔍 Kiểm tra phiên bản  
+`flatpak --version`
+Ví dụ: Flatpak 1.16.0
+
+🔐 Đăng nhập kho Red Hat
+Để truy cập kho Flatpak của Red Hat, cần đăng nhập bằng tài khoản Customer Portal:
+`podman login registry.redhat.io`
+Nhập username và password → Login Succeeded!
+
+
+lệnh Flatpak cơ bản  
+Lệnh	|Chức năng
+---|---
+flatpak install <remote> <app>	|Cài ứng dụng từ kho
+flatpak list	|Liệt kê ứng dụng đã cài
+flatpak update	|Cập nhật ứng dụng
+flatpak remote-add	|Thêm kho ứng dụng mới
+flatpak uninstall <app>	|Gỡ ứng dụng
 
 ---
 # Chapter 14.  Accessing Removable Media
