@@ -674,6 +674,7 @@ Number of days of warning before password expires	: 7
 Kết quả:
 - Tạo một thư mục nơi người dùng có thể cùng nhau làm việc trên các tập tin.
 - Tạo cấu trúc tệp và thư mục cần thiết, chỉ định quyền truy cập theo yêu cầu.  
+
 Chuyển sang người dùng `sudo -i `     
 2. Tạo thư mục cộng tác `techdocs` trong thư mục `/home`. Đặt quyền sở hữu nhóm của thư mục thành nhóm `techdocs`, cấp toàn quyền cho người dùng và nhóm, và cấu hình thư mục sao cho chỉ chủ sở hữu tệp mới có thể xóa tệp của họ.  
 
@@ -857,32 +858,413 @@ drwxr-x---. 2 dev1 techdocs  6 Aug 13 15:42 dev1
 
 ```
 
-5.2
+5.2 Chuyển đến thư mục dev1. Liệt kê giá trị umask cho người dùng dev1. Đổi umask mặc định cho người dùng dev1 thành 0027.
+
 ```
+[dev1@redhat9-server-1 techdocs]$ cd dev1/
+[dev1@redhat9-server-1 dev1]$ umask
+0022
+[dev1@redhat9-server-1 dev1]$ umask 0027
 
 ```
 
-5.3
+5.3 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev1. Đổi quyền sở hữu nhóm của các tệp này thành nhóm `techdocs`. Xác minh rằng người dùng dev1 có thể ghi vào chúng.
 ```
+[dev1@redhat9-server-1 dev1]$ touch dev1.txt
+[dev1@redhat9-server-1 dev1]$ touch dev1.log
+[dev1@redhat9-server-1 dev1]$ touch dev1.cfg
+[dev1@redhat9-server-1 dev1]$ chown :techdocs dev1.*
+[dev1@redhat9-server-1 dev1]$ ll
+total 0
+-rw-r-----. 1 dev1 techdocs 0 Aug 13 15:50 dev1.cfg
+-rw-r-----. 1 dev1 techdocs 0 Aug 13 15:50 dev1.log
+-rw-r-----. 1 dev1 techdocs 0 Aug 13 15:50 dev1.txt
+[dev1@redhat9-server-1 dev1]$ echo "hello" > dev1.txt 
+[dev1@redhat9-server-1 dev1]$ cat dev1.txt 
+hello
 
 ```
 
-5.4
+5.4 Thoát khỏi shell người dùng dev1. Chuyển sang người dùng dev2. Chuyển đến thư mục /home/techdocs.
+
 ```
+[dev1@redhat9-server-1 dev1]$ exit
+logout
+[root@redhat9-server-1 ~]# su - dev2
+[dev2@redhat9-server-1 ~]$ cd /home/techdocs/
+```
+
+5.5 Với tư cách là người dùng dev2, hãy tạo thư mục dev2. Đổi quyền sở hữu nhóm cho thư mục dev2 thành nhóm `techdocs`. Thiết lập quyền đọc, quyền ghi và quyền thực thi cho người dùng, quyền đọc và quyền thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev2.
+```
+[dev2@redhat9-server-1 techdocs]$ mkdir dev2
+[dev2@redhat9-server-1 techdocs]$ chown :techdocs dev2
+[dev2@redhat9-server-1 techdocs]$ chmod 0750 dev2
+[dev2@redhat9-server-1 techdocs]$ ll
+total 4
+drwxr-x---. 2 dev1 techdocs 54 Aug 13 15:50 dev1
+drwxr-x---. 2 dev2 techdocs  6 Aug 13 15:54 dev2
+-rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
 
 ```
 
-5.5
+5.6 Chuyển đến thư mục dev2. Liệt kê giá trị umask cho người dùng dev2. Đổi umask mặc định cho người dùng dev2 thành 0027.
 ```
+[dev2@redhat9-server-1 techdocs]$ cd dev2/
+[dev2@redhat9-server-1 dev2]$ umask
+0022
+[dev2@redhat9-server-1 dev2]$ umask 0027
 
 ```
 
-5.6
+5.7 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev2. Đổi quyền sở hữu nhóm cho các tệp này thành nhóm techdocs. Xác minh rằng người dùng dev2 có thể ghi vào chúng.
+
 ```
+[dev2@redhat9-server-1 dev2]$ touch dev2.txt \
+> dev2.log dev2.cfg
+[dev2@redhat9-server-1 dev2]$ ll
+total 0
+-rw-r-----. 1 dev2 techdocs 0 Aug 13 15:58 dev2.cfg
+-rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.log
+-rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.txt
+[dev2@redhat9-server-1 dev2]$ chown :techdocs dev2.*
+[dev2@redhat9-server-1 dev2]$ ll
+total 0
+-rw-r-----. 1 dev2 techdocs 0 Aug 13 15:58 dev2.cfg
+-rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.log
+-rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.txt
+[dev2@redhat9-server-1 dev2]$ echo "hello" > dev2.txt
+[dev2@redhat9-server-1 dev2]$ cat dev2.txt 
+hello
 
 ```
 
-5.7
+6. Xác minh rằng người dùng trong nhóm techdocs không phải là chủ sở hữu tệp có thể đọc nội dung tệp trong thư mục cộng tác /home/techdocs. Với tư cách là người dùng editor1, hãy đọc các tệp thuộc sở hữu của những người dùng khác trong nhóm techdocs.
+6.1 Thoát khỏi shell người dùng dev2. Chuyển sang người dùng editor1. Chuyển đến thư mục /home/techdocs.
+
+```
+[dev2@redhat9-server-1 dev2]$ exit
+logout
+[root@redhat9-server-1 ~]# su - editor1 
+[editor1@redhat9-server-1 ~]$ cd /home/techdocs/
+
+```
+6.2 Xác định các thư mục và tệp mà người dùng editor1 không sở hữu. Xem cấu trúc tệp và chủ sở hữu trong thư mục cộng tác /home/techdocs.
+```
+[editor1@redhat9-server-1 techdocs]$ tree -ug
+.
+├── [dev1     techdocs]  dev1
+│   ├── [dev1     techdocs]  dev1.cfg
+│   ├── [dev1     techdocs]  dev1.log
+│   └── [dev1     techdocs]  dev1.txt
+├── [dev2     techdocs]  dev2
+│   ├── [dev2     techdocs]  dev2.cfg
+│   ├── [dev2     techdocs]  dev2.log
+│   └── [dev2     techdocs]  dev2.txt
+└── [dev1     techdocs]  techdoc1.txt
+
+2 directories, 7 files
+```
+6.3 Với tư cách là người dùng editor1, hãy đọc nội dung trong các tệp techdoc1.txt, dev1.txt và dev2.txt.
+```
+[editor1@redhat9-server-1 techdocs]$ ll
+total 4
+drwxr-x---. 2 dev1 techdocs 54 Aug 13 15:50 dev1
+drwxr-x---. 2 dev2 techdocs 54 Aug 13 15:58 dev2
+-rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
+[editor1@redhat9-server-1 techdocs]$ cat techdoc1.txt 
+This is the first tech doc.
+[editor1@redhat9-server-1 techdocs]$ cat dev1/dev1.txt 
+hello
+[editor1@redhat9-server-1 techdocs]$ cat dev2/dev2.txt 
+hello
+
+```
+7. Xác minh rằng chỉ những người dùng trong nhóm techdocs mới có thể truy cập thư mục cộng tác /home/techdocs. Với tư cách là người dùng dbadmin1, hãy thử truy cập thư mục /home/techdocs.
+
+7.1 Thoát khỏi shell người dùng editor1. Chuyển sang người dùng dbadmin1. Chuyển đến thư mục /home/techdocs.
+
 ```
 
+[editor1@redhat9-server-1 techdocs]$ exit
+logout
+[root@redhat9-server-1 ~]# su - dbadmin1 
+[dbadmin1@redhat9-server-1 ~]$ cd /home/techdocs/
+-bash: cd: /home/techdocs/: Permission denied
+[dbadmin1@redhat9-server-1 ~]$ 
+
+```
+7.2 Thoát khỏi shell người dùng dbadmin1.
+
+```
+[dbadmin1@redhat9-server-1 ~]$ exit
+logout
+[root@redhat9-server-1 ~]# 
+ 
+```
+
+# CHAPTER 12: Install and Update Software with RPM
+12.7 PAGE 71/128  
+Tải xuống, cài đặt, cập nhật và quản lý các gói phần mềm từ kho lưu trữ gói Red Hat và DNF.
+
+Kết quả
+- Quản lý kho phần mềm.
+- Cài đặt và nâng cấp các gói từ kho lưu trữ.
+- Cài đặt gói RPM.
+
+1. Trên máy chủ, hãy cấu hình kho phần mềm tùy chỉnh để cài đặt các gói cụ thể. Đặt tên kho lưu trữ là `errata` và tạo tệp kho lưu trữ `errata.repo`. Cấu hình tệp `errata.repo` để sử dụng kho lưu trữ http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata. Không xác minh chữ ký GPG.
+
+- Tuy thuoc vao version redhat
+- Chi lab duoc tren tren moi truong redhat vi la repo private
+
+```
+[root@redhat9-server-1 ~]# vi /etc/yum.repos.d/errata.repo
+---
+[errata]
+name=Custom Errata Repository
+baseurl=http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata
+enabled=1
+gpgcheck=0
+---
+
+---
+[errata]
+name=Red Hat Updates
+baseurl=http://content.example.com/rhel9.3/x86_64/rhcsa-practice/errata
+enabled=1
+gpgcheck=0
+---
+```
+2. Trên máy chủ, hãy cài đặt gói `rht-system`  
+
+2.1 Liệt kê các gói có sẵn cho gói rht-system.
+```
+dnf list rht-system
+```
+2.2 Cài đặt phiên bản mới nhất của gói rht-system.
+```
+dnf install rht-system
+```
+
+3. Vì lý do bảo mật, máy chủ ServerB không được phép kết nối với máy in giấy. Bạn có thể thực hiện việc này bằng cách gỡ bỏ gói cups. Khi hoàn tất, hãy thoát khỏi root shell.
+
+3.1 Liệt kê các gói cups đã cài đặt.
+
+```
+[root@redhat9-server-1 ~]# dnf list cups
+Last metadata expiration check: 0:08:02 ago on Wed 27 Apr 2022 05:01:59 AM EDT.
+Installed Packages
+cups.x86_64        1:2.3.3op2-13.el9      @rhel-9.0-for-x86_64-appstream-rpms
+```
+3.2 Remove the cups package.
+```
+dnf remove cups.x86_64
+```
+
+4. Tập lệnh khởi động sẽ tải xuống gói `rhcsa-script-1.0.0-1.noarch.rpm` trong thư mục /`home/student` trên máy serverb.
+
+Hãy xác nhận rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb và cài đặt nó bằng quyền root. Kiểm tra xem gói đã được cài đặt chưa. Thoát khỏi máy serverb.
+
+4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb.
+
+```
+[student@serverb ~]$ rpm -q -p rhcsa-script-1.0.0-1.noarch.rpm -i
+Name        : rhcsa-script
+Version     : 1.0.0
+Release     : 1
+Architecture: noarch
+Install Date: (not installed)
+Group       : System
+Size        : 593
+License     : GPL
+Signature   : (none)
+Source RPM  : rhcsa-script-1.0.0-1.src.rpm
+Build Date  : Wed 23 Mar 2022 08:24:21 AM EDT
+Build Host  : localhost
+Packager    : Bernardo Gargallo
+URL         : http://example.com
+Summary     : RHCSA Practice Script
+Description :
+A RHCSA practice script.
+The package changes the motd.
+```
+
+4.2 Install the rhcsa-script-1.0.0-1.noarch.rpm package.
+```
+[student@serverb ~]$ sudo dnf install \
+rhcsa-script-1.0.0-1.noarch.rpm
+[sudo] password for student: student
+```
+
+4.3 Verify that the package is installed.
+```
+[student@serverb ~]$ rpm -q rhcsa-script
+rhcsa-script-1.0.0-1.noarch
+[student@serverb ~]$
+```
+4.4 Trở lại hệ thống máy trạm với tư cách là người dùng là sinh viên.
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
+
+---
+# CHAPTER 14: Access Removable Media
+14.7 PAGE 85/128  
+Truy cập hệ thống tệp trên các thiết bị lưu trữ di động bằng cách gắn chúng vào một thư mục trong hệ thống phân cấp tệp.
+
+Kết quả
+- Gắn hệ thống tệp.
+- Tạo báo cáo sử dụng đĩa.
+- Tìm tệp trong hệ thống tệp cục bộ.
+
+1. Với tư cách là người dùng root trên máy serverb, hãy xác định UUID cho device `/dev/sdb1` và gắn kết nó bằng cách sử dụng UUID của nó trên thư mục `/mnt/system-report`.
+
+1.1 Đăng nhập vào máy chủ serverb với tư cách là người dùng student và chuyển sang người dùng root. Sử dụng student làm mật khẩu.
+```
+student@workstation:~$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
+
+1.2 Truy vấn UUID của thiết bị /dev/sdb1.
+```
+[root@redhat9-server-1 ~]# lsblk -fp /dev/sdb
+NAME        FSTYPE FSVER LABEL UUID          FSAVAIL FSUSE% MOUNTPOINTS
+/dev/sdb
+└─/dev/sdb1 xfs                48bd5...3337a
+```
+Note: UUID có thể thay đổi tùy theo môi trường của bạn.
+
+1.3 Kiểm tra xem thư mục `/mnt/system-report` có tồn tại không.
+
+```
+[root@redhat9-server-1 ~]# ls /mnt/system-report
+ls: cannot access '/mnt/system-report': No such file or directory
+```
+1.4  Create the /mnt/system-report directory.
+```
+mkdir /mnt/system-report
+```
+1.5  Gắn thiết bị `/dev/sdb1` vào thư mục `/mnt/system-report` bằng cách sử dụng UUID. Thay thế UUID giữ chỗ trong lệnh sau bằng UUID từ môi trường của bạn.
+
+```
+mount UUID="48bd5...3337a" /mnt/system-report
+```
+
+Tren may ca nhan uuid
+```
+[root@redhat9-server-1 ~]# df -h
+Filesystem             Size  Used Avail Use% Mounted on
+devtmpfs               4.0M     0  4.0M   0% /dev
+tmpfs                  870M     0  870M   0% /dev/shm
+tmpfs                  348M  7.3M  341M   3% /run
+efivarfs               256K   56K  196K  23% /sys/firmware/efi/efivars
+/dev/mapper/rhel-root   22G  5.9G   16G  28% /
+/dev/nvme0n1p2         960M  357M  604M  38% /boot
+/dev/nvme0n1p1         599M  7.1M  592M   2% /boot/efi
+tmpfs                  174M   52K  174M   1% /run/user/42
+tmpfs                  174M   36K  174M   1% /run/user/0
+[root@redhat9-server-1 ~]# lsblk -fp /dev/mapper/rhel-root 
+NAME                  FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+/dev/mapper/rhel-root xfs                131d0080-1a1b-4e25-be6b-dded50e4a185   15.5G    27% /
+```
+
+1.6 Xác minh rằng thiết bị /dev/sdb1 được gắn vào thư mục /mnt/system-report.
+
+```
+lsblk -fp /dev/sdb1
+NAME      FSTYPE FSVER LABEL UUID           FSAVAIL FSUSE% MOUNTPOINTS
+/dev/sdb1 xfs                48bd5...3337a     4.8G     3% /mnt/system-report
+```
+
+2. Tạo báo cáo sử dụng đĩa cho thư mục `/usr/share`. Lưu kết quả vào tệp `/mnt/system-report/disk-usage.txt`.
+
+```
+du /usr/share > /mnt/system-report/disk-usage.txt
+```
+
+3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp
+
+3.1 Update the locate database.
+```
+updatedb
+```
+3.2 Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf`. Lưu kết quả vào tệp `/mnt/system-report/search1.txt`.
+```
+locate rsyslog.conf > /mnt/system-report/search1.txt
+```
+4. Tìm kiếm tất cả các tệp trong thư mục `/usr/share` có kích thước lớn hơn 5 MB nhưng nhỏ hơn 10 MB. Lưu kết quả vào tệp `/mnt/system-report/search2.txt`
+
+```
+[root@redhat9-server-1 ~]# find /usr/share -size +5M -size -10M > \
+/mnt/system-report/search2.txt
+```
+
+5. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy trạm với tư cách là người dùng là học viên.
+```
+[root@serverb ~]# exit
+logout
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+student@workstation:~$
+```
+
+# CHAPTER 15: Monitor and Manage Linux Processes
+15.9 PAGE 95/128
+
+Diễn giải và giám sát các số liệu hệ thống, đồng thời nghiên cứu ý nghĩa của các phép đo đó để cải thiện hiệu suất hệ thống của bạn.
+
+Kết quả
+- Quản lý quy trình với Top như một công cụ quản lý quy trình.
+
+1. Trên may workstation , hãy mở hai cửa sổ terminal cạnh nhau. Trong phần này, các terminal này được gọi là trái và phải. Trên mỗi cửa sổ terminal, hãy đăng nhập vào máy `serverb` với tư cách là user `student`.
+
+Tạo tập lệnh `task101.sh` trong thư mục `/home/student/bin`. Tập lệnh `task101.sh` tạo ra tải CPU nhân tạo bằng cách thực hiện các phép tính số học liên tục.
+
+1.2 Trong shell bên trái, tạo thư mục /home/student/bin.
+```
+ mkdir -p /home/student/bin
+```
+1.3 Trong shell terminal bên trái, hãy tạo tệp `task101.sh` trong thư mục `~/bin`. Tệp phải chứa nội dung sau.
+```
+#!/bin/bash
+touch ~/bin/.$(basename $0)
+while true; do
+  var=1
+  while [[ var -lt 50000 ]]; do
+    var=$(($var+1))
+  done
+  sleep 1
+done
+```
+1.4 Làm cho tập lệnh task101.sh có thể thực thi được.
+```
+chmod +x /home/student/bin/task101.sh
+```
+
+2. Trong terminal bên phải, theo dõi tất cả các tiến trình đang chạy trong máy serverb.  
+
+2.1 Trong terminal bên phải, hãy chạy tiện ích trên cùng để theo dõi tất cả các tiến trình. Điều chỉnh cửa sổ sao cho cao nhất có thể để xem thêm thông tin. Tiếp tục chạy tiện ích trên cùng để kiểm tra mức sử dụng CPU và tải trung bình trong các bước sau.
+```
+top
+```
+
+3. Trong shell terminal bên trái, hãy kiểm tra số lượng CPU logic trên máy ảo. Chạy tập lệnh task101.sh ở chế độ nền.
+
+3.1 Kiểm tra số lượng CPU logic.
+
+```
+[student@serverb ~]$ grep "model name" /proc/cpuinfo | wc -l
+2
+```
+3.2 Chạy tập lệnh task101.sh ở chế độ nền. Tập lệnh `task101.sh` nằm trong thư mục con `~/bin`. Do vị trí này, biến môi trường PATH sẽ định vị tập lệnh mà không cần xác định đường dẫn đầy đủ của nó.
+
+```
+[student@serverb ~]$ task101.sh &
+[1] 2608
 ```
