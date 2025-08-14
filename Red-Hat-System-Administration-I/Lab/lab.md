@@ -1268,3 +1268,681 @@ top
 [student@serverb ~]$ task101.sh &
 [1] 2608
 ```
+4. Trong shell terminal bên phải, hãy quan sát các tiến trình đang chạy. Tìm ID tiến trình (PID) của tiến trình `task101.sh` và lượng CPU mà tiến trình này tiêu thụ.
+
+Kiểm tra mức tiêu thụ tải hệ thống, luồng và bộ nhớ. Đảm bảo tìm các tài nguyên hệ thống bị ảnh hưởng bởi tiến trình `task101.sh`.  
+4.1 Kiểm tra kết quả đầu ra của tiện ích `top`.
+
+Tiện ích top sắp xếp các tiến trình theo mức tiêu thụ CPU theo mặc định. Tiến trình `task101.sh` nằm ở đầu danh sách. PID của tiến trình là 2608. PID trong hệ thống của bạn có thể khác.
+
+Lưu ý rằng tỷ lệ phần trăm CPU mà tiến trình task101.sh sử dụng dao động trong khoảng 10% đến 16%.
+```
+top - 20:44:19 up  1:25,  3 users,  load average: 0.14, 0.09, 0.02
+Tasks: 136 total,   1 running, 135 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  5.1 us,  0.5 sy,  0.0 ni, 94.0 id,  0.0 wa,  0.2 hi,  0.2 si,  0.0 st
+MiB Mem :   1705.2 total,   1285.2 free,    383.5 used,    183.4 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1321.7 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 2608 student   20   0  228796   3056   2800 S  11.0   0.2   0:35.00 task101.sh
+ 2568 student   20   0  232152   5164   2988 R   0.3   0.3   0:00.33 top
+    1 root      20   0   48740  40532  10316 S   0.0   2.3   0:02.23 systemd
+    2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+...output omitted...
+```
+
+4.2 Sắp xếp các tiến trình theo mức sử dụng bộ nhớ bằng cách nhấn `Shift+M`. Tiến trình `task101.sh` không tiêu tốn nhiều tài nguyên bộ nhớ.
+```
+top - 21:00:39 up  1:42,  3 users,  load average: 0.14, 0.13, 0.09
+Tasks: 137 total,   1 running, 136 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  7.5 us,  1.0 sy,  0.0 ni, 91.2 id,  0.2 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem :   1705.2 total,   1305.1 free,    363.6 used,    183.5 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1341.6 avail Mem
+
+  PID USER    PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+  916 root    20   0  350960  42620  16788 S   0.0   2.4   0:01.62 firewalld
+    1 root    20   0   48740  40532  10316 S   0.0   2.3   0:02.28 systemd
+...output omitted...
+ 2608 student 20   0  228796   3056   2800 S  16.7   0.2   2:55.59 task101.sh
+...output omitted...
+```
+
+4.3 Hiển thị thêm chi tiết bộ nhớ bằng cách nhấn M. Thanh sử dụng bộ nhớ không hiển thị mức sử dụng đáng kể trong máy chủ.
+
+```
+top - 21:05:56 up  1:47,  3 users,  load average: 0.27, 0.17, 0.10
+Tasks: 138 total,   4 running, 134 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  7.5 us,  1.0 sy,  0.0 ni, 91.2 id,  0.2 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem : 21.6/1705.2   [||||||||||||||                                          ]
+MiB Swap:  0.0/0.0      [                                                        ]
+
+  PID USER    PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+  916 root    20   0  350960  42620  16788 S   0.0   2.4   0:01.71 firewalld
+    1 root    20   0   48740  40532  10316 S   0.0   2.3   0:02.30 systemd
+...output omitted...
+ 2608 student 20   0  228796   3056   2800 S  16.3   0.2   3:41.10 task101.sh
+...output omitted...
+```
+4.4 Hiển thị thông tin luồng bằng cách nhấn Shift+H. Tổng số luồng trong hệ thống hiển thị là 157. Thoát khỏi tiện ích trên cùng bằng cách nhấn Q.
+```
+top - 21:23:28 up  2:05,  3 users,  load average: 0.09, 0.12, 0.09
+Threads: 157 total,   1 running, 156 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  7.7 us,  1.0 sy,  0.0 ni, 91.2 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem : 22.4/1705.2   [||||||||||||||||                                        ]
+MiB Swap:  0.0/0.0      [                                                        ]
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+  916 root      20   0  350960  42620  16788 S   0.0   2.4   0:01.89 firewalld
+  996 root      20   0  350960  42620  16788 S   0.0   2.4   0:00.00 gmain
+...output omitted...
+ 2608 student   20   0  228796   3056   2800 S  11.0   0.2   4:25.37 task101.sh
+...output omitted...
+Q
+```
+4.5 Xem tất cả các luồng đang chạy cho tiến trình task101.sh. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn -H và -p. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.
+
+Tiến trình task101.sh không chạy nhiều luồng.
+
+Thoát khỏi tiện ích top bằng cách nhấn Q.
+```
+[student@serverb ~]$ top -H -p 2608
+top - 21:28:42 up  2:10,  3 users,  load average: 0.19, 0.13, 0.10
+Threads:   1 total,   1 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  6.9 us,  1.1 sy,  0.0 ni, 91.8 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem :   1705.2 total,   1300.1 free,    368.4 used,    184.0 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1336.9 avail Mem
+
+   PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   2608 student   20   0  228796   3132   2876 S  15.7   0.2   6:56.92 task101.sh
+
+Q
+```
+
+4.6 Chạy `top` với các tùy chọn mặc định của nó.
+```
+[student@serverb ~]$ top
+top - 21:32:43 up  2:14,  3 users,  load average: 0.17, 0.15, 0.10
+Tasks: 136 total,   1 running, 135 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  7.5 us,  1.0 sy,  0.0 ni, 91.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   1705.2 total,   1295.6 free,    372.8 used,    184.0 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1332.4 avail Mem
+
+  PID USER    PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 2608 student 20   0  228796   3056   2800 S  16.3   0.2   7:31.29 task101.sh
+    1 root    20   0   48740  40532  10316 S   0.0   2.3   0:02.44 systemd
+    2 root    20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+...output omitted...
+```
+
+5. Sao chép tập lệnh `task101.sh` vào tệp moi `task102.sh`  và tăng tải CPU nhân tạo lên 100000 trong tập lệnh mới. Khởi động tiến trình `task102.sh` ở chế độ nền.
+
+5.1 Trong shell bên trái, sao chép tệp task101.sh vào tệp task102.sh mới.
+
+```
+[student@serverb ~]$  cp bin/task101.sh bin/task102.sh
+
+```
+5.2 Chỉnh sửa tập lệnh `task102.sh` và tăng số phép tính cộng từ 50000 lên 100000. Tập lệnh `task102.sh` phải khớp với nội dung sau:
+```
+#!/bin/bash
+touch ~/bin/.$(basename $0)
+while true; do
+  var=1
+  while [[ var -lt 100000 ]]; do
+    var=$(($var+1))
+  done
+  sleep 1
+done
+
+```
+5.3
+```
+[student@serverb ~]$ task102.sh &
+```
+Note:
+- `&` -> chạy nền (background)  
+
+5.4
+```
+[student@serverb ~]$ jobs
+[1]-  Running                 task101.sh &
+[2]+  Running                 task102.sh &
+```
+6. Trong shell terminal bên phải, hãy kiểm tra xem tiến trình task102.sh có đang chạy và sử dụng nhiều tài nguyên CPU nhất không. Kiểm tra mức tải trung bình của máy chủ serverb.
+
+Trong shell terminal bên phải, hãy kiểm tra xem tiến trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng từ 25% đến 35%.  
+6.1 Trong shell terminal bên phải, hãy kiểm tra xem quy trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng 25% đến 35%.
+
+```
+[root@redhat9-server-1 ~]# top
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 6430 student   20   0  228796   3080   2824 R  30.7   0.2   0:19.73 task102.sh
+ 2608 student   20   0  228796   3056   2800 R  11.7   0.2   8:53.08 task101.sh
+...output omitted...
+```
+6.2 Kiểm tra tải trung bình của máy chủ. Tải trung bình của máy chủ luôn dưới 1, nghĩa là máy không bị quá tải.
+
+```
+[root@redhat9-server-1 ~]# top
+top - 21:44:53 up  2:26,  3 users,  load average: 0.51, 0.30, 0.16
+...output omitted...
+
+```
+
+7. Sao chép tập lệnh `task101.sh` sang một tập lệnh mới có tên `task103.sh`. Tăng số lần thêm vào lên 800000. Khởi động `task103.sh` ở chế độ nền. Theo dõi tải trung bình của máy chủ serverb. Tải trung bình có thể mất vài phút để tăng.  
+
+7.1 Trong shell bên trái, sao chép tập lệnh task101.sh vào tập lệnh task103.sh mới.
+
+```
+[student@serverb ~]$ cp bin/task101.sh bin/task103.sh
+
+```
+7.2 Chỉnh sửa tập lệnh `task103.sh`. Tăng số lần cộng lên 800000.
+
+```
+#!/bin/bash
+touch ~/bin/.$(basename $0)
+while true; do
+  var=1
+  while [[ var -lt 800000 ]]; do
+    var=$(($var+1))
+  done
+  sleep 1
+done
+```
+7.3 Start the task103.sh process in the background.
+```
+[student@serverb ~]$ task103.sh &
+
+```
+7.4 Verify that the three jobs are running in the background.
+
+```
+jobs
+```
+7.5 Trong shell terminal bên phải, hãy kiểm tra mức sử dụng CPU của tiến trình task103.sh và mức tải trung bình của máy. Mức sử dụng CPU của tiến trình task03.sh dao động trong khoảng từ 60% đến 85%. Mức tải trung bình có thể mất vài phút để tăng lên.
+
+Lưu ý rằng tổng mức tiêu thụ CPU của ba tiến trình lớn hơn 100. Khi tiến trình task103.sh đang chạy, máy chủ serverb sử dụng 100% CPU, nhưng không đủ để đáp ứng nhu cầu tài nguyên của tất cả các tiến trình. Do tình huống này, mức tải trung bình tăng dần lên trên 1.
+```
+top - 21:51:54 up  2:33,  3 users,  load average: 1.13, 0.61, 0.33
+...output omitted...
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 7581 student   20   0  228796   3148   2892 R  63.1   0.2   1:59.98 task103.sh
+ 6430 student   20   0  228796   3120   2864 R  27.2   0.2   0:41.86 task102.sh
+ 2608 student   20   0  228796   3260   3004 S  17.3   0.2   0:36.07 task101.sh
+...output omitted...
+```
+Note: 
++ (plus)
+  - Là job mặc định (current job).
+  - Nếu bạn gõ fg hoặc bg mà không chỉ định job ID, shell sẽ áp dụng cho job có dấu +.
+
+- (minus)
+  - Là job trước đó (previous job) — job sẽ trở thành mặc định nếu job + kết thúc.
+- Các job khác (không có + hoặc -) thì không phải “current” hay “previous” job.
+  
+8. Trong shell terminal bên trái, chuyển sang tài khoản root và sử dụng redhat làm mật khẩu. Tạm dừng tiến trình task101.sh. Liệt kê các tác vụ còn lại. Xác minh rằng tiến trình task101.sh hiện đang ở trạng thái T.  
+
+8.1 Switch to the root user. Use redhat as the password.
+```
+su - or sudo -i
+```
+8.2 Tạm dừng tiến trình `task101.sh`.
+```
+[root@serverb ~]# pkill -SIGSTOP `task101.sh`
+
+```
+8.3 Trong shell bên phải, hãy xác nhận rằng tiến trình task101.sh không còn chạy nữa.
+```
+[root@redhat9-server-1 ~]# top
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 7581 student   20   0  228796   3132   2876 R  66.4   0.2   2:25.59 task103.sh
+ 6430 student   20   0  228796   3080   2824 S  22.3   0.2   3:15.12 task102.sh
+```
+8.4 Trong shell  bên trái, hãy xem các công việc còn lại.
+```
+[root@serverb ~]# ps jT
+PPID  PID ... TPGID STAT  UID  TIME COMMAND
+2395 2396 ...  8047 Ss   1000  0:00 -bash
+2396 2608 ...  8047 T    1000 10:34 /bin/bash /home/student/bin/task101.sh
+2396 6430 ...  8047 S    1000  3:25 /bin/bash /home/student/bin/task102.sh
+2396 7581 ...  8047 R    1000  2:57 /bin/bash /home/student/bin/task103.sh
+...output omitted...
+```
+Note: `task101.sh` có trạng thái là `T`. Trạng thái này có nghĩa là tiến trình hiện đang bị tạm dừng. 
+
+9. Tiếp tục tiến trình task101.sh.
+9.1 Trong shell bên trái, tiếp tục tiến trình task101.sh.
+
+```
+[root@serverb ~]# pkill -SIGCONT task101.sh
+```
+9.2 Trong shell  bên phải, hãy xác minh rằng quy trình đang chạy lại.
+
+```
+[root@redhat9-server-1 ~]# top
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 7581 student   20   0  228796   3132   2876 R  86.4   0.2   3:59.96 task103.sh
+ 6430 student   20   0  228796   3080   2824 S  24.6   0.2   3:47.45 task102.sh
+ 2608 student   20   0  228796   3056   2800 S  16.6   0.2  10:34.92 task101.sh
+```
+10. Kết thúc các tiến trình `task101.sh, task102.sh và task103.sh` từ dòng lệnh. Sau khi kết thúc các tiến trình này, hãy kiểm tra mức sử dụng CPU và tải trung bình.
+
+10.1 In the left terminal shell, terminate the task101.sh, task102.sh, and task103.sh processes.
+
+```
+[root@serverb ~]# pkill task101.sh
+[root@serverb ~]# pkill task102.sh
+[root@serverb ~]# pkill task103.sh
+
+```
+10.2 Trong shell terminal bên phải, hãy kiểm tra xem các tiến trình không còn xuất hiện trong đầu ra tiện ích hàng đầu nữa. Tải trung bình giảm dần.
+
+```
+[root@redhat9-server-1 ~]# top
+```
+
+---
+# CHAPTER 16: Control Services and Daemons
+Kiểm soát và giám sát các dịch vụ hệ thống và daemon mà systemd khởi chạy.   
+Kết quả   
+- Bật, tắt, khởi động và dừng các dịch vụ.
+
+1. Vao `root` ; pass: `student`
+
+2. Kiểm tra trạng thái hiện tại của dịch vụ `psacct`. Nếu dịch vụ `psacct` đã dừng, hãy khởi động lại.   
+
+2.1 Xác minh trạng thái của dịch vụ `psacct`.
+
+```
+[root@redhat9-server-1 ~]# systemctl status psacct.service 
+○ psacct.service - Kernel process accounting
+     Loaded: loaded (/usr/lib/systemd/system/psacct.service; disabled; preset: disabled)
+     Active: inactive (dead)
+
+```
+2.2
+```
+[root@serverb ~]# systemctl start psacct
+
+```
+2.3
+```
+[root@serverb ~]# systemctl is-active psacct
+active
+# or
+[root@redhat9-server-1 ~]# systemctl status psacct.service 
+
+```
+
+3. Cấu hình dịch vụ `psacct` để bắt đầu khi khởi động hệ thống.  
+
+3.1 Cho phép dịch vụ psacct khởi động khi hệ thống khởi động.
+
+```
+[root@serverb ~]# systemctl enable psacct
+Created symlink '/etc/systemd/system/multi-user.target.wants/psacct.service' → '/usr/lib/systemd/system/psacct.service'.
+```
+3.2 Xác minh rằng dịch vụ psacct được bật để khởi động khi hệ thống khởi động.
+
+```
+[root@serverb ~]# systemctl is-enabled psacct
+enabled
+```
+
+4. Kiểm tra trạng thái của dịch vụ rsyslog. Nếu dịch vụ rsyslog đang chạy, hãy dừng dịch vụ và xác minh rằng nó không còn hoạt động nữa.
+
+4.1 Kiểm tra trạng thái của dịch vụ rsyslog. Lưu ý rằng dịch vụ rsyslog đang chạy và được bật để khởi động khi khởi động.
+
+```
+[root@redhat9-server-1 ~]# systemctl status rsyslog
+● rsyslog.service - System Logging Service
+     Loaded: loaded (/usr/lib/systemd/system/rsyslog.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2025-08-14 08:33:45 +07; 47min ago
+       Docs: man:rsyslogd(8)
+```
+4.2 Stop the rsyslog service.
+```
+ systemctl stop rsyslog
+```
+4.3 Verify that the rsyslog service is stopped.
+
+```
+[root@serverb ~]# systemctl is-active rsyslog
+inactive
+```
+5. Cấu hình dịch vụ rsyslog để nó không khởi động khi hệ thống khởi động. 
+
+5.1 Vô hiệu hóa dịch vụ rsyslog để nó không khởi động khi hệ thống khởi động.
+```
+[root@serverb ~]# systemctl disable rsyslog
+Removed '/etc/systemd/system/multi-user.target.wants/rsyslog.service'.
+```
+5.2 Xác minh rằng dịch vụ rsyslog không khởi động trong quá trình khởi động.
+```
+[root@serverb ~]# systemctl is-enabled rsyslog
+disabled
+```
+6. Khởi động lại máy serverb để cấu hình khởi động cho các dịch vụ có hiệu lực. Đợi máy khởi động trước khi đánh giá hoạt động này. Máy có thể mất vài phút để khởi động.
+```
+[root@serverb ~]# systemctl reboot
+Connection to serverb closed by remote host.
+Connection to serverb closed.
+student@workstation:~$
+```
+
+---
+# CHAPTER 18: Manage Network Configuration
+Cấu hình giao diện mạng và cài đặt trên máy chủ Red Hat Enterprise Linux.   
+Kết quả:
+ - Cấu hình hai địa chỉ IPv4 tĩnh cho giao diện mạng chính.
+
+sudo -i
+
+2. Tạo kết nối sử dụng cấu hình mạng tĩnh bằng cách sử dụng thông tin từ bảng sau.
+
+Parameter	|Setting
+---|---
+Connection name	|custom-profile
+Interface name|	Use the interface with the 52:54:00:00:fa:0b |MAC address.
+IP address	|172.25.250.11/24
+Gateway address	|172.25.250.254
+DNS address	|172.25.250.254
+
+2.1 Liệt kê các giao diện mạng và xác định giao diện nào được liên kết với địa chỉ MAC `52:54:00:00:fa:0b`.
+
+```
+[root@redhat9-server-1 ~]# ip link
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 00:0c:29:a9:58:17 brd ff:ff:ff:ff:ff:ff
+    altname enp3s0
+
+```
+Note: The ens160 interface uses the `00:0c:29:a9:58:17` MAC address.  
+2.2 Tạo cấu hình kết nối tùy chỉnh dựa trên thông tin bảng trong hướng dẫn. Liên kết cấu hình với giao diện mạng sử dụng địa chỉ MAC `00:0c:29:a9:58:17`.
+```
+[root@serverb ~]# nmcli con add con-name custom-profile \
+ifname ens160 \
+type ethernet \
+ipv4.method manual \
+ipv4.dns '192.168.38.2' \
+ipv4.addresses '192.168.38.128/24' \
+ipv4.gateway '192.168.38.2'
+```
+Giải thích từng tham số:
+| Tham số                                | Ý nghĩa                                                                   |
+| -------------------------------------- | ------------------------------------------------------------------------- |
+| **nmcli con add**                      | Tạo mới một **connection profile** trong NetworkManager.                  |
+| **con-name custom-profile**            | Đặt tên profile là **custom-profile**.                                    |
+| **ifname ens160**                      | Gắn profile này cho card mạng tên **ens160**.                             |
+| **type ethernet**                      | Loại kết nối là Ethernet (có thể là wifi, vlan, bond...).                 |
+| **ipv4.method manual**                 | Dùng cấu hình IP thủ công (static IP), không dùng DHCP.                   |
+| **ipv4.dns '192.168.38.2'**            | Đặt DNS server cho kết nối là **192.168.38.2**.                           |
+| **ipv4.addresses '192.168.38.129/24'** | IP tĩnh của máy là **192.168.38.129**, subnet mask `/24` = 255.255.255.0. |
+| **ipv4.gateway '192.168.38.2'**        | Gateway mặc định là **192.168.38.2**.                                     |
+
+Neu muon ap dung:
+```
+# Bạn cần disconnect profile cũ và up profile mới:
+
+nmcli con down ens160
+nmcli con up custom-profile
+```
+
+
+Trên Red Hat (hoặc các distro dùng NetworkManager), profile mà bạn tạo bằng nmcli con add sẽ được lưu và quản lý bởi NetworkManager.
+```
+[root@redhat9-server-1 ~]# nmcli connection show
+NAME            UUID                                  TYPE      DEVICE 
+ens160          b9c865bf-2aad-3958-9321-02ce73f48461  ethernet  ens160 
+lo              509863ac-d85c-4dbb-946d-5fce9cce5ccc  loopback  lo     
+custom-profile  9d8273fd-8882-42b2-8689-d98f45dbcf6b  ethernet  -- 
+# rut gon 
+nmcli con show
+
+```
+
+3. Cấu hình kết nối `custom-profile` để tự động bắt đầu. Đối với tất cả các kết nối Ethernet khác, hãy tắt cài đặt tự động kết nối.
+
+3.1 Cấu hình kết nối `custom-profile` để tự động bắt đầu.
+```
+[root@serverb ~]# nmcli con mod "custom-profile" connection.autoconnect yes
+```
+3.2 Tìm các kết nối Ethernet khác.
+```
+[root@redhat9-server-1 ~]# nmcli connection show
+```
+3.3 Xem lại kết nối `ens160` và tắt cài đặt kết nối tự động nếu cần.
+
+```
+[root@serverb ~]# nmcli con show ens160
+connection.id:                          ens160
+...output omitted...
+connection.autoconnect:                 yes
+...output omitted...
+[root@serverb ~]# nmcli con mod ens160 connection.autoconnect no
+```
+3.4 Xem lại  `Wired connection`  và tắt cài đặt kết nối tự động nếu cần. (Theo lab cua redhat)
+
+```
+[root@serverb ~]# nmcli con show "Wired connection 1"
+connection.id:                          Wired connection 1
+...output omitted...
+connection.autoconnect:                 yes
+...output omitted...
+[root@serverb ~]# nmcli con mod "Wired connection 1" connection.autoconnect no
+```
+4. Thêm địa chỉ IP `172.25.250.150/24` làm địa chỉ phụ cho kết nối  `custom-profile`. Kiểm tra xem cấu hình mới đã được áp dụng cho kết nối chưa.
+
+4.1 Thêm địa chỉ IP `172.25.250.150/24` làm địa chỉ phụ cho kết nối  `custom-profile`.
+ 
+```
+[root@serverb ~]# nmcli con mod "custom-profile" \
++ipv4.addresses '172.25.250.150/24'
+[root@serverb ~]# nmcli con reload
+```
+4.2 Review the custom-profile connection
+```
+[root@serverb ~]# nmcli con show custom-profile
+connection.id:                          custom-profile
+...output omitted...
+ipv4.addresses:                         172.25.250.11/24, 172.25.250.150/24
+ipv4.gateway:                           172.25.250.254
+...output omitted...
+```
+
+5. Reboot the serverb machine.
+```
+[root@serverb ~]# systemctl reboot
+...output omitted...
+student@workstation:~$
+```
+6. Trên máy `workstation` , hãy kiểm tra xem máy serverb đã được khởi tạo và nhận được các gói ICMP chưa. Máy serverb sẽ khởi động sau khoảng một phút. 
+```
+student@workstation:~$ ping -c3 serverb
+PING serverb.lab.example.com (172.25.250.11) 56(84) bytes of data.
+64 bytes from serverb.lab.example.com (172.25.250.11): icmp_seq=1 ttl=64 time=0.666 ms
+64 bytes from serverb.lab.example.com (172.25.250.11): icmp_seq=2 ttl=64 time=0.417 ms
+64 bytes from serverb.lab.example.com (172.25.250.11): icmp_seq=3 ttl=64 time=0.513 ms
+
+--- serverb.lab.example.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2052ms
+rtt min/avg/max/mdev = 0.417/0.532/0.666/0.102 ms
+
+``` 
+
+7. Trên máy `workstation`, với tư cách là user `root`, hãy thêm một mục vào tệp `/etc/hosts` để ánh xạ địa chỉ IP `172.25.250.150` thành tên `serverb-secondary`. Địa chỉ IP phụ của máy serverb phải được phân giải theo tên đó từ máy `workstation`.
+
+7.1 Switch to the root user. Use student as the password.
+```
+student@workstation:~$ sudo -i
+[sudo] password for student: student
+root@workstation:~#
+```
+7.2 Chỉnh sửa tệp `/etc/hosts` và thêm dòng `172.25.250.150 serverb-secondary` vào cuối tệp. Ví dụ sau đây cho thấy nội dung dự kiến của tệp /etc/hosts:
+
+```
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+172.25.254.254 classroom.example.com classroom
+172.25.254.254 content.example.com content
+172.25.254.254 materials.example.com materials
+172.25.250.9 workstation.lab.example.com workstation
+172.25.250.150 serverb-secondary
+```
+7.3 Exit from the root user.
+
+
+```
+root@workstation:~# exit
+logout
+```
+7.4 Xác minh rằng bạn có thể truy cập được địa chỉ IP phụ của serverb bằng tên serverb-secondary.
+
+```
+student@workstation:~$ ping -c3 serverb-secondary
+PING serverb-secondary (172.25.250.150) 56(84) bytes of data.
+64 bytes from serverb-secondary (172.25.250.150): icmp_seq=1 ttl=64 time=0.385 ms
+64 bytes from serverb-secondary (172.25.250.150): icmp_seq=2 ttl=64 time=0.381 ms
+64 bytes from serverb-secondary (172.25.250.150): icmp_seq=3 ttl=64 time=0.345 ms
+
+--- serverb-secondary ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2084ms
+rtt min/avg/max/mdev = 0.345/0.370/0.385/0.018 ms
+```
+
+
+---
+# CHAPTER 19: Configure and Secure SSH
+19.5 PAGE 120/128  
+Bảo vệ giao tiếp SSH bằng cách quản lý khóa máy chủ và triển khai xác thực dựa trên khóa cho người dùng.
+
+Kết quả
+- Xác thực bằng khóa SSH.
+- Ngăn người dùng đăng nhập trực tiếp với tư cách người dùng root bằng SSH.
+- Cấu hình xác thực dựa trên khóa để ngăn người dùng đăng nhập bằng mật khẩu.
+
+1. From the workstation machine, log in to the servera machine as the student user.
+```
+student@workstation:~$ ssh student@servera
+[student@servera ~]$
+```
+2. Switch to the production1 user on the servera machine. Enter redhat as the password.
+```
+[student@servera ~]$ su - production1
+Password: redhat
+[production1@servera ~]$
+```
+3. Generate SSH keys for the `production1` user on the servera machine. Do not set a passphrase.
+```
+[production1@servera ~]$ ssh-keygen
+```
+4. Gửi public key SSH của người dùng `production1` trên máy chủ servera đến người dùng `production1` trên máy chủ serverb. Sử dụng `redhat` làm mật khẩu.
+```
+[production1@servera ~]$ ssh-copy-id production1@serverb
+```
+5. Từ máy servera, hãy xác minh rằng người dùng production1 có thể đăng nhập thành công vào máy serverb bằng cách sử dụng khóa SSH.
+```
+[production1@servera ~]$ ssh production1@serverb
+...output omitted...
+[production1@serverb ~]$
+```
+6. Cấu hình dịch vụ `sshd` trên máy serverb để ngăn người dùng đăng nhập với tư cách người dùng root. Sử dụng `redhat` làm mật khẩu `root`. Mở một terminal thứ hai để xác minh rằng người dùng production1 không thể đăng nhập vào máy serverb với tư cách người dùng root.
+
+6.1 Switch to the root user on the serverb machine.
+```
+[production1@serverb ~]$ su -
+Password: redhat
+[root@serverb ~]#
+```
+6.2 Set the `PermitRootLogin` parameter to `prohibit-password `in the `/etc/ssh/sshd_config` file and restart the sshd service. Edit the active uncommented parameter and not a commented example.  
+`vi  /etc/ssh/sshd_config`
+```
+...output omitted...
+PermitRootLogin prohibit-password
+...output omitted...
+[root@serverb ~]# systemctl restart sshd.service
+```
+6.3 Kiểm tra xem bạn có thể đăng nhập vào máy serverb với tư cách người dùng root hay không ?. Mở một terminal thứ hai và đăng nhập vào máy serverb với tư cách người dùng production1. Từ máy serverb, hãy thử đăng nhập vào máy serverb với tư cách người dùng root, với mật khẩu là `redhat`. Lệnh này sẽ không thành công sau ba lần đăng nhập.
+
+Theo mặc định, SSH trước tiên sẽ thử sử dụng khóa SSH để xác thực. Nếu khóa SSH cho người dùng chưa được cấu hình, SSH sẽ yêu cầu mật khẩu của người dùng để xác thực.
+```
+student@workstation:~$ ssh production1@servera
+...output omitted...
+[production1@servera ~]$ ssh root@serverb
+root@serverb's password: redhat
+Permission denied, please try again.
+root@serverb's password: redhat
+Permission denied, please try again.
+root@serverb's password: redhat
+root@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
+[production1@servera ~]$
+```
+Note:  However, this configuration is highly insecure, and is not recommended for any production environment.
+
+7. Sử dụng terminal đầu tiên để cấu hình dịch vụ `sshd` trên máy serverb sao cho người dùng phải xác thực bằng khóa SSH và không thể xác thực bằng mật khẩu. Sử dụng terminal thứ hai để xác minh rằng người dùng phải sử dụng khóa SSH để đăng nhập vào máy serverb. Trước tiên, hãy thử đăng nhập vào máy serverb với tư cách là người dùng production2, nơi khóa SSH chưa được cấu hình. Sau đó, hãy thử đăng nhập với tư cách là người dùng production1 bằng cách sử dụng khóa SSH.
+
+7.1 Quay lại terminal đầu tiên với shell root đang hoạt động trên máy serverb. Đặt tham số `PasswordAuthentication` thành `no` trong tệp `/etc/ssh/sshd_config` và khởi động lại dịch vụ sshd. Chỉnh sửa tham số chưa chú thích đang hoạt động chứ không phải ví dụ đã chú thích.  
+`vi  /etc/ssh/sshd_config`
+```
+...output omitted...
+PasswordAuthentication no
+...output omitted...
+[root@serverb ~]# systemctl restart sshd
+```
+7.2 Hãy chuyển đến terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production2`. Lệnh này sẽ không thành công, vì khóa SSH chưa được cấu hình cho người dùng production2 và dịch vụ sshd trên máy serverb không cho phép sử dụng mật khẩu để xác thực.
+```
+[production1@servera ~]$ ssh production2@serverb
+production2@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+```
+7.3 Quay lại terminal đầu tiên với shell `root` đang hoạt động trên máy serverb. Kiểm tra xem tham số `PubkeyAuthentication` đã được bật trong tệp `/etc/ssh/sshd_config` chưa.
+
+```
+[root@serverb ~]# grep PubkeyAuthentication /etc/ssh/sshd_config
+#PubkeyAuthentication yes
+```
+Dòng `PubkeyAuthentication` được chú thích. Các dòng được chú thích biểu thị các giá trị mặc định của tham số. Xác thực khóa công khai được kích hoạt theo mặc định, như được biểu thị trong dòng chú thích.
+
+7.4 Quay lại terminal thứ hai với shell production1 đang hoạt động trên máy servera và thử đăng nhập vào máy serverb với tư cách người dùng production1. Lệnh này sẽ thành công, vì khóa SSH đã được cấu hình để người dùng production1 có thể đăng nhập vào máy serverb từ máy servera.
+```
+[production1@servera ~]$ ssh production1@serverb
+...output omitted...
+[production1@serverb ~]$
+```
+7.5 Exit and close the second terminal.
+```
+[production1@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[production1@servera ~]$ exit
+logout
+student@workstation:~$ exit
+```
+8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy trạm với tư cách là người dùng là học viên.
+```
+[root@serverb ~]# exit
+logout
+[production1@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[production1@servera ~]$ exit
+logout
+[student@servera ~]$ exit
+logout
+Connection to servera closed.
+student@workstation:~$
+```
+
+---
+# CHAPTER 20:  Comprehensive Review
+
+20.2 Lab: Manage Files from the Command Line  
+Quản lý tệp, chuyển hướng một tập hợp các dòng cụ thể từ tệp văn bản sang tệp khác và chỉnh sửa tệp văn bản.
+
+Kết quả
+- Quản lý tệp từ dòng lệnh.
+- Ghi lại nội dung cụ thể từ tệp văn bản hoặc lệnh và chuyển hướng đầu ra sang tệp khác.
+- Chỉnh sửa tệp văn bản.
