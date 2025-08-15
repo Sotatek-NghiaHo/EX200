@@ -1690,6 +1690,9 @@ Neu muon ap dung:
 
 nmcli con down ens160
 nmcli con up custom-profile
+
+# or 
+reboot
 ```
 
 
@@ -1939,10 +1942,471 @@ student@workstation:~$
 ---
 # CHAPTER 20:  Comprehensive Review
 
-20.2 Lab: Manage Files from the Command Line  
+**Note:** The allocated time for this activity is 15 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more.
+
+**20.2 Lab: Manage Files from the Command Line**
+
 Quản lý tệp, chuyển hướng một tập hợp các dòng cụ thể từ tệp văn bản sang tệp khác và chỉnh sửa tệp văn bản.
 
 Kết quả
 - Quản lý tệp từ dòng lệnh.
 - Ghi lại nội dung cụ thể từ tệp văn bản hoặc lệnh và chuyển hướng đầu ra sang tệp khác.
 - Chỉnh sửa tệp văn bản.
+
+Create the /home/student/grading directory.
+```
+[root@redhat9-server-1 ~]# mkdir -p /home/nghiahv/grading
+
+```
+Create three empty files named grade1, grade2, and grade3, in the /home/student/grading directory.
+```
+[root@redhat9-server-1 ~]# touch /home/nghiahv/grading/grade{1,2,3}
+
+```
+Capture the first five lines of the /home/student/bin/manage file in the /home/student/grading/review.txt file.
+
+
+```
+head -5 bin/manage > grading/review.txt
+```
+Without overwriting any existing text, append the last three lines of the /home/student/bin/manage file to the /home/student/grading/review.txt file.
+
+
+```
+ tail -3 bin/manage >> grading/review.txt 
+```
+Copy the /home/student/grading/review.txt file to the /home/student/grading/review-copy.txt file.
+
+
+```
+cp grading/review.txt grading/review-copy.txt
+```
+Duplicate the Test JJ line in the /home/student/grading/review-copy.txt file. Make sure that the duplicated line appears immediately after the original line.
+
+
+```
+vi /home/student/grading/review-copy.txt
+```
+-> Comand mode Vim
+```
+type "yy" line "Test JJ" -> type "p"
+```
+Remove the Test HH line from the /home/student/grading/review-copy.txt file.
+```
+vi /home/student/grading/review-copy.txt
+```
+-> Comand mode Vim
+```
+type "dd" line "Test HH" 
+```
+Add the `Level 1 Training` line between the `Test BB` line and the `Test CC` line in the /home/student/grading/review-copy.txt file.
+
+```
+vi /home/student/grading/review-copy.txt
+```
+-> Insert mode Vim
+```
+Test AA
+Test BB
+Level 1 Training
+Test CC
+Test DD
+Test EE
+Test II
+Test JJ
+Test JJ
+```
+Create a link named `data-backup` that points to the same data as the `/home/student/grading/grade1` file.
+```
+ln -s grading/grade1 data-backup
+```
+- Create a link named filename-backup that points to the /home/student/grading/grade2 file name.
+
+
+```
+ln -s grading/grade2 filename-backup
+```
+- List the contents of the `/boot` directory and save the output to the `/home/student/grading/longlisting.txt` file. The output should be a long listing that includes the file permissions, owner and group owner, size, and modification date of each file. The output must omit hidden files.
+```
+ls -l /boot > grading/longlisting.txt
+```
+**20.3 Lab: Manage Users and Groups, Permissions, and Processes**
+
+Quản lý tài khoản người dùng và nhóm, thiết lập quyền cho tệp và thư mục, và quản lý quy trình.  
+Kết quả
+- Quản lý tài khoản người dùng và nhóm.
+- Thiết lập quyền cho tệp và thư mục.
+- Xác định và quản lý các quy trình tiêu tốn nhiều CPU.
+
+`sudo -i`
+
+Identify and terminate the process that currently uses the most CPU time.
+```
+top → PID → kill
+```
+
+Create the database group with a group ID (GID) of 50000.
+```
+groupadd -g 50000 database
+```
+- Create the `dbadmin1` user and configure it with the following requirements:
+  - Add the database group as a supplementary group.
+  ```
+  useradd -G database dbadmin1
+  ```
+  - Set the password to redhat and force a password change on first login.
+  ```
+   chage -d 0 dbadmin1
+  ```
+  - Allow the password to be changed 10 days after the last password change.
+  ```
+  chage -m 10 dbadmin1
+  ```
+  - Configure the password to expire 30 days after the last password change.
+  ```
+  chage -M 30 dbadmin1
+  ```
+  - Allow the user to use Sudo to run any command as the superuser by creating its own sudoers file.
+  ```
+  vi  /etc/sudoers.d/dbadmin1
+  dbadmin1 ALL=(ALL) ALL
+  ```
+  - Configure the default umask as 027 for the dbadmin1 user.
+  ```
+  [root@redhat9-server-1 ~]# su - dbadmin1 
+  [dbadmin1@redhat9-server-1 ~]$ umask
+  0022
+  [dbadmin1@redhat9-server-1 ~]$ echo "umask 027" >> .bashrc
+  [dbadmin1@redhat9-server-1 ~]$ source ~/.bashrc
+  ```
+Note
+```
+-d 0 →  ép đổi mật khẩu ngay lần đăng nhập tới.
+
+-m 10 → đặt minimum days = 10 ngày → người dùng chỉ được đổi mật khẩu sau khi mật khẩu hiện tại đã được dùng ít nhất 10 ngày.
+
+-M 30 → đặt maximum days = 30 ngày → mật khẩu sẽ hết hạn sau 30 ngày, buộc phải đổi.
+
+📌 Nghĩa là: Lần đăng nhập tới (dau tien), consultant1 phải đổi mật khẩu. Sau đó, Số ngày tối thiểu để đổi mật khẩu la 10 ngày, và mật khẩu sẽ hết hạn sau 30 ngày.
+```
+umask = 0027
+```
+Thư mục mới: 777 - 027 = 750
+-> rwx cho owner, r-x cho group, --- cho other.
+
+File mới: 666 - 027 = 640
+-> rw- cho owner, r-- cho group, --- cho other.
+
+```
+
+
+Create the `/home/dbadmin1/grading/review2 `directory and set all its contents to be owned by the dbadmin1 user and the database group.
+```
+mkdir -p /home/dbadmin1/grading/review2
+
+---
+[dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
+/home/dbadmin1/:
+total 0
+drwxr-x---. 3 dbadmin1 dbadmin1 21 Aug 14 14:34 grading
+
+/home/dbadmin1/grading:
+total 0
+drwxr-x---. 2 dbadmin1 dbadmin1 6 Aug 14 14:34 review2
+
+/home/dbadmin1/grading/review2:
+total 0
+---
+
+[dbadmin1@redhat9-server-1 ~]$ chown -R dbadmin1:database /home/dbadmin1/grading/review2/
+[dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
+/home/dbadmin1/:
+total 0
+drwxr-x---. 3 dbadmin1 dbadmin1 21 Aug 14 14:34 grading
+
+/home/dbadmin1/grading:
+total 0
+drwxr-x---. 2 dbadmin1 database 6 Aug 14 14:34 review2
+
+/home/dbadmin1/grading/review2:
+total 0
+
+```
+Note"
+- Neu tao file sau khi ap dung `chown -R` thi se khong co tac dung ma muon ap dung vinh vien phai :
+```
+chown dbadmin1:database /home/dbadmin1/grading/review2
+chmod g+s /home/dbadmin1/grading/review2 
+```
+
+Configure the `/home/dbadmin1/grading/review2 `directory so that users are allowed to delete only files that they own. Configure the permissions on the directory to allow members of the database group to access the directory and to create contents in it. All other users must have read and execute permissions on the directory.
+
+- Sau khi thay doi umask = 0027
+```
+[dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
+/home/dbadmin1/:
+total 0
+drwxr-x---. 3 dbadmin1 dbadmin1 21 Aug 14 14:34 grading
+
+/home/dbadmin1/grading:
+total 0
+drwxr-x---. 2 dbadmin1 database 6 Aug 14 14:39 review2
+
+/home/dbadmin1/grading/review2:
+total 0
+```
+
+- người dùng chỉ được phép xóa các tệp thuộc sở hữu của họ
+```
+chmod o+t /home/dbadmin1/grading/review2
+```
+Note:
+- Lúc này chỉ ... co the xoa :
+  - Owner của file
+  - Owner của thư mục (thu muc cha)
+  - root
+- Cấu hình quyền trên thư mục để cho phép các thành viên của nhóm `database` truy cập và tạo nội dung trong đó
+```
+ chmod g+w /home/dbadmin1/grading/review2
+ chmod g+w /home/dbadmin1/grading/
+
+```
+- Tất cả người dùng khác phải có quyền đọc và thực thi trên thư mục.
+```
+chmod o+r /home/dbadmin1/grading/review2
+```
+
+Them 
+```
+chmod -R 710 /home/dbadmin1
+```
+bonus
+```
+user: dbadmin2 
+[dbadmin2@redhat9-server-1 ~]$ touch /home/dbadmin1/grading/review2/21111
+[dbadmin2@redhat9-server-1 ~]$ umask
+0022
+# nen khi tao se khac 
+[dbadmin1@redhat9-server-1 ~]$ ll /home/dbadmin1/grading/review2/
+total 0
+-rw-r--r--. 1 dbadmin2 dbadmin2 0 Aug 14 16:22 21111
+-rw-r-----. 1 dbadmin1 dbadmin1 0 Aug 14 16:26 555555
+-rw-r--r--. 1 dbadmin2 database 0 Aug 14 15:46 hiiiii
+-rw-r-----. 1 dbadmin1 database 0 Aug 14 15:18 tessssst
+```
+
+![](../pic/37.png)
+
+**20.4 Lab: Configure and Manage a Server**  
+Cấu hình, bảo mật và sử dụng dịch vụ SSH để truy cập máy tính từ xa.  
+Cấu hình dnf và quản lý các gói bằng tiện ích dnf.
+
+Kết quả
+- Tạo cặp khóa SSH.
+- Vô hiệu hóa đăng nhập SSH với tư cách là người dùng root.
+- Vô hiệu hóa đăng nhập SSH bằng mật khẩu.
+- Cấu hình kho phần mềm trên máy chủ để nhận các bản cập nhật.
+- Cài đặt các gói và mô-đun gói bằng lệnh dnf.
+
+Generate an SSH key pair for the student user. Do not protect the private key with a passphrase. Save the private key as the /home/student/.ssh/review3_key file, and save the public key as the /home/student/.ssh/review3_key.pub file.
+```
+[dbadmin1@redhat9-server-1 ~]$ ssh-keygen -f /home/dbadmin1/.ssh/review3_key
+
+[dbadmin1@redhat9-server-1 ~]$ ls -l .ssh/
+total 8
+-rw-------. 1 dbadmin1 dbadmin1 2610 Aug 14 16:35 review3_key
+-rw-r-----. 1 dbadmin1 dbadmin1  579 Aug 14 16:35 review3_key.pub
+```
+Configure SSH to prevent the root user from logging in.
+```
+ vi /etc/ssh/sshd_config
+ PermitRootLogin no
+ systemctl restart sshd
+
+```
+Configure SSH so that users log in by using key-based authentication and not by password-based authentication.
+```
+ vi /etc/ssh/sshd_config
+ PasswordAuthentication no
+ systemctl restart sshd
+```
+Configure DNF to get packages from http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata. Disable GPG checking for this repository.
+```
+sudo dnf config-manager --add-repo \
+"http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata" \
+&& sudo dnf config-manager --save \
+--setopt=repo.example.com_rhel10.0_x86_64_rhcsa-practice_errata.gpgcheck=0 \
+&& sudo dnf install rht-system zsh -y
+
+# or
+vi /etc/yum.repos.d/custom.repo
+[custom-repo]
+name=Custom RHCSA Practice Repo
+baseurl=http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata
+enabled=1
+gpgcheck=0
+
+```
+Install the zsh and rht-system packages.
+```
+-> sudo dnf install zsh rht-system -y
+
+```
+The student user on the serverb machine must be able to log in to the servera machine by using the review3_key.pub SSH key.
+```
+ssh student#
+```
+ 
+**20.5 Lab: Manage Networks**   
+Note : The allocated time for this activity is 10 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more. 
+
+Cấu hình và kiểm tra kết nối mạng.
+
+Kết quả
+- Cấu hình cài đặt mạng.
+- Kiểm tra kết nối mạng.
+- Đặt tên máy chủ tĩnh.
+- Sử dụng tên máy chủ chuẩn có thể phân giải cục bộ để kết nối với hệ thống.
+
+Tìm thiết bị mạng chưa sử dụng và sử dụng thiết bị đó để tạo và kích hoạt cấu hình kết nối tĩnh. Cấu hình cấu hình tĩnh để thiết lập cài đặt mạng tĩnh và không sử dụng DHCP. Sử dụng thông tin từ bảng sau cho các cài đặt kết nối khác:
+```
+[dbadmin1@redhat9-server-1 ~]$ nmcli device status 
+DEVICE  TYPE      STATE                   CONNECTION     
+ens160  ethernet  connected               custom-profile 
+lo      loopback  connected (externally)  lo  
+
+---
+
+nmcli connection add con-name static type ethernet \
+ifname ens4 ipv4.addresses '172.25.250.111/24' ipv4.gateway '172.25.250.254' \
+ipv4.dns '172.25.250.254' ipv4.method manual \
+&& nmcli connection up static \
+
+```
+Parameter	|Setting
+---|---
+IPv4 address	|172.25.250.111
+Netmask	|255.255.255.0
+Gateway	|172.25.250.254
+DNS Server	|172.25.250.
+
+Đặt tên máy chủ thành `server-review4.lab4.example.com`.
+```
+hostnamectl hostname server-review4.lab4.example.com
+```
+
+Đặt `client-review4` làm tên máy chủ chính tắc cho địa chỉ IPv4 `172.25.250.10` của máy chủ.
+```
+vi /etc/hosts
+172.25.250.10 client-review4 
+
+```
+Cấu hình `static` connection profile với địa chỉ IPv4 bổ sung là `172.25.250.211` với netmask là 255.255.255.0. Không xóa địa chỉ IPv4 hiện có. Đảm bảo máy chủ phản hồi tất cả các địa chỉ khi kết nối tĩnh đang hoạt động.
+```
+nmcli connection modify static \
++ipv4.addresses '172.25.250.211/24' \
+&& nmcli connection up static
+
+```
+
+Note
+```
+[root@redhat9-server-1 ~]# nmcli connection modify custom-profile +ipv4.addresses '192.168.38.129/24' && nmcli connection up custom-profile
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/3)
+
+---
+2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:a9:58:17 brd ff:ff:ff:ff:ff:ff
+    altname enp3s0
+    inet 192.168.38.128/24 brd 192.168.38.255 scope global noprefixroute ens160
+       valid_lft forever preferred_lft forever
+    inet 192.168.38.129/24 brd 192.168.38.255 scope global secondary noprefixroute ens160
+---
+
+# Nếu bạn chỉ muốn thay thế IP hiện tại → dùng ipv4.addresses (không có dấu +).
+```
+
+**20.6 Lab: Mount File Systems and Find Files**  
+Note: The allocated time for this activity is 10 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more.    
+
+Gắn hệ thống tệp và định vị tệp dựa trên các tiêu chí khác nhau.  
+Kết quả 
+- Gắn hệ thống tệp hiện có. 
+- Tìm tệp dựa trên tên tệp, quyền và kích thước.
+
+Xác định thiết bị block chưa được sử dụng, chưa được gắn kết có chứa hệ thống tệp XFS trên máy serverb. Gắn thiết bị block vào thư mục `/review5-disk`.
+```
+lsblk -f
+mkdir /review5-disk 
+mount /dev/sdb1 /review5-disk
+```
+Note:
+- Cột FSTYPE sẽ cho biết loại filesystem (ví dụ xfs).
+- Cột MOUNTPOINT sẽ trống nếu chưa được mount.
+
+![](../pic/38.png)
+
+Tìm tệp `review5-path`. Tạo tệp `/review5-disk/review5-path.txt` chứa một dòng duy nhất với đường dẫn tuyệt đối đến tệp `review5-path`.
+```
+find / -iname review5-path 2>/dev/null > /review5-disk/review5-path.txt
+
+```
+
+Note:
+- `/dev/null` → là “thùng rác” của Linux, mọi dữ liệu gửi vào đây sẽ bị bỏ đi.
+- Chỉ kết quả tìm thấy mới được in ra màn hình.
+
+Tìm tất cả các tệp có quyền 640 octal và thuộc sở hữu của người dùng `contractor1` và nhóm `contractor`. Lưu danh sách các tệp này trong tệp `/review5-disk/review5-perms.txt`.
+```
+find / -user contractor1 \
+-group contractor -perm 640 2>/dev/null \
+> /review5-disk/review5-perms.txt ; \
+```
+Tìm tất cả các tệp có kích thước 100 byte. Lưu đường dẫn tuyệt đối của các tệp này trong tệp /review5-disk/review5-size.txt.
+```
+find / -type f -size 100c 2>/dev/null \
+> /review5-disk/review5-size.txt
+```
+
+Note:  
+- -size 100c → đúng 100 byte (1c = 1bytes).
+- -size -10k → nhỏ hơn 10 KB (k = kilobytes).
+- Nếu muốn ≤ 10 KB thì phải viết -size -10241c (bytes).
+
+Bonus  
+- Cấu trúc của output `ls -l`
+```
+[Quyền] [Số liên kết cứng] [Owner] [Group] [Kích thước (bytes)] [Ngày sửa cuối] [Tên file]
+```
+- Xem kich thuoc tep, thu muc
+```
+[root@redhat9-server-1 ~]# du -sh /root/
+68K	/root/
+[root@redhat9-server-1 ~]# du -sh /root/test 
+4.0K	/root/test
+
+# du -sh: dung lượng chiếm trên ổ đĩa (sẽ làm tròn theo block size, thường là 4KB).
+# 1 block la 4KB (4096 byte)
+```
+```
+[root@redhat9-server-1 ~]# ll -l
+-rw-r--r--.  1 dbadmin1 dbadmin1    17 Aug 14 11:22 test
+[root@redhat9-server-1 ~]# du -sh /root/test 
+4.0K	/root/test
+```
+![](../pic/40.png)
+
+-> 
+```
+Lệnh find / -type f -size … sẽ dựa trên kích thước dữ liệu thực (logical size) của file, không dựa trên dung lượng chiếm trên ổ đĩa.
+```
+Vi du khac
+```
+[root@redhat9-server-1 ~]# ll -a
+-rw-------. 1 root root 10975 Aug 14 16:53 .bash_history 
+[root@redhat9-server-1 ~]# du -sh .bash_history 12K .bash_history
+
+# Giai thich tai sao la 12K
+10 975 / 4 096 = 2,68…
+Làm tròn lên → 3 block (1 Block la 4K)~ 3x4 = 12K 
+```

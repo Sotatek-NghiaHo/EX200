@@ -556,12 +556,25 @@ root@host:~# chown :admins Pictures
 root@host:~# chown visitor:guests Pictures
 
 ``` 
+![](pic/39.png)
+
 11.5 Managing Default Permissions and Special Permissions  
-Permission	|Tác động đến các tập tin	|Tác động đến các thư mục| octal
----|---|---|---
-u+s(suid)	|Tệp được thực thi với tư cách là người dùng sở hữu tệp, không phải là người dùng chạy tệp.	|Không có tác dụng.|4
-g+s(sgid)	|Tệp được thực thi như nhóm sở hữu tệp đó.	|Các tệp được tạo trong thư mục có chủ sở hữu nhóm trùng với chủ sở hữu nhóm của thư mục.|2
-o+t(sticky)	|Không có tác dụng.	|Người dùng có quyền ghi vào thư mục chỉ có thể xóa các tệp mà họ sở hữu; họ không thể xóa hoặc buộc lưu vào các tệp mà người dùng khác sở hữu. |1  
+
+Bit đặc biệt	|Ký hiệu	|Giá trị số	|Áp dụng cho	|Tác dụng	|Ví dụ dùng
+---|---|---|---|---|---
+Sticky bit	|t	|1	|Thư mục|	Chỉ owner file, owner thư mục, hoặc root mới được xóa/đổi tên file. Ngăn user xóa file của nhau trong thư mục chung.	|/tmp → chmod +t /tmp
+Setgid	|g+s	|2|	Thư mục	|File/thư mục mới tạo bên trong sẽ tự động thừa hưởng group của thư mục cha. Giữ file trong cùng một group để cộng tác.	|Thư mục dự án chung: chmod 2770 /project, chmod g+s hoặc chmod 2xxx
+
+Khác nhau giữa +t và o+t
+- +t → thêm sticky bit cho mọi người (owner, group, others)
+- o+t → về lý thuyết là chỉ thêm sticky bit cho others
+
+Nhưng thực tế sticky bit không phân biệt user/group/others → nó áp dụng cho cả thư mục luôn.
+📌 Tóm tắt dễ nhớ:
+- Sticky = "Bảo vệ file của tôi trong thư mục chung" 🛡️
+- Setgid = "Tất cả file ở đây phải chung một group" 🤝
+
+
 
 Default Permissions
 Type	|Initial Octal Method	|Initial Symbolic Method
@@ -585,8 +598,8 @@ umask 0027
 # Chapter 12.  Installing and Updating Software with RPM
 12.1 Investigating RPM Software Packages  
 Thành phần:   
-![30](pic/30.png)
-Thao tac
+![30](pic/30.png)  
+Thao tac  
 ```
 # Cài đặt package bằng rpm
 rpm -ivh podman-5.4.0-1.el10.x86_64.rpm
