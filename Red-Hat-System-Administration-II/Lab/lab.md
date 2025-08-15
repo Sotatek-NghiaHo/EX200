@@ -97,3 +97,55 @@ Giai thich:
 ![](../pic/40.png)   
 
 
+```
+[root@redhat9-server-1 ~]# /root/bash-lab
+-bash: /root/bash-lab: Permission denied
+[root@redhat9-server-1 ~]# ll
+total 8
+-rw-------. 1 root root 836 Aug  5 09:55 anaconda-ks.cfg
+-rw-r--r--. 1 root root 492 Aug 15 11:28 bash-lab
+```
+Trong script user student/ nghiahv phai co quyen sudo & no password
+```
+[root@redhat9-server-1 ~]# ll
+total 8
+-rw-------. 1 root root 836 Aug  5 09:55 anaconda-ks.cfg
+-rwxr-xr-x. 1 root root 492 Aug 15 11:28 bash-lab
+[root@redhat9-server-1 ~]# /root/bash-lab
+sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
+sudo: a password is required
+
+```
+Có 3 hướng xử lý khi chay file script
+- Chạy trực tiếp bằng đường dẫn tuyệt đối  
+`/root/bash-lab`
+- Chạy bằng đường dẫn tương đối (nếu đang đứng ở /root)   
+`./bash-lab`
+- Di chuyển file về thư mục trong $PATH 
+```
+[root@redhat9-server-1 ~]# echo $PATH
+/root/.local/bin:/root/bin:/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin
+```
+Khi bạn gõ một lệnh (ví dụ `bash-lab)`), shell sẽ tìm file thực thi theo thứ tự các thư mục liệt kê trong biến môi trường `$PATH`.
+```
+# neu ko co thu muc trong $PATH tren thi tao
+mkdir -p /root/bin
+mv /root/bash-lab /root/bin/
+chmod +x /root/bin/bash-lab
+bash-lab
+```
+
+![](../pic/42.png)
+
+Note:
+1. `sh filename.sh`
+- Bạn chỉ định rõ chạy script bằng sh (thường là /bin/sh).
+- Nội dung file sẽ được sh đọc và thực thi, không cần quyền thực thi (+x).
+- Không quan tâm shebang ở đầu file, vì bạn đã chỉ định trình thông dịch là sh.
+- Nếu script viết cho bash mà dùng sh (nhất là trên Debian/Ubuntu, sh = dash), một số câu lệnh nâng cao của bash có thể lỗi.
+
+2. `filename.sh` (hoặc bash-lab, không cần .sh)
+- Hệ thống sẽ dựa vào shebang ở dòng đầu tiên (#!...) để biết dùng trình thông dịch nào (/usr/bin/bash, /usr/bin/python, …).
+- File bắt buộc phải có quyền thực thi (chmod +x filename.sh).
+- Nếu không có shebang, shell mặc định (thường là bash khi bạn đăng nhập) sẽ xử lý file.
+- Nam trong $PATH (neu muon go ten file ma khong can duong dan)
