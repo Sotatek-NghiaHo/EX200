@@ -1,4 +1,4 @@
-# CHAPTER 1: Access the Command Line
+# CHAPTER 2: Access the Command Line
 - Chạy thành công các chương trình đơn giản từ dòng lệnh Bash shell.
 - Thực hiện các lệnh để xác định loại tệp và hiển thị các phần của tệp văn bản.
 - Thực hành sử dụng phím tắt lịch sử lệnh Bash để lặp lại lệnh hoặc một phần lệnh hiệu quả hơn.
