@@ -1,4 +1,5 @@
 # CHAPTER 1 : Lab: Improve Command-line Productivity
+PAGE 10/112
 
 Tạo một tập lệnh Bash có thể lọc và lấy thông tin liên quan từ các máy chủ khác nhau.
 
@@ -58,11 +59,13 @@ Lưu thông tin cần thiết vào các tệp `output-servera` và `output-serve
 
 Note: Bạn có thể sử dụng lệnh sudo mà không cần mật khẩu trên máy chủ servera và serverb. Hãy nhớ sử dụng vòng lặp để đơn giản hóa tập lệnh của bạn. Bạn cũng có thể sử dụng nhiều lệnh grep được nối với nhau bằng cách sử dụng ký tự ống (|).
 
-2.1 
+2.1 Use the vim command to open and edit the /home/student/bin/bash-lab script file.
+
 ```
 [student@workstation ~]$ vim ~/bin/bash-lab
 ```
-2.2 
+2.2 Thêm các dòng sau vào tệp script /home/student/bin/bash-lab. Số lượng dấu thăng là tùy ý.
+
 ```
 #!/usr/bin/bash
 USR='student'
@@ -90,6 +93,47 @@ Giai thich:
 
 - grep -v '^$' → bỏ dòng trống
 - grep -v '^#' → bỏ dòng comment
+
+3. Execute the /home/student/bin/bash-lab script, and review the output content on workstation.
+
+3.1 On workstation, execute the /home/student/bin/bash-lab script.
+
+```
+[student@workstation ~]$ bash-lab
+
+```
+3.2 Xem lại nội dung của các tệp /home/student/output-servera và /home/student/output-serverb.
+```
+[student@workstation ~]$ cat /home/student/output-servera
+servera.lab.example.com
+#####
+CPU op-mode(s):                  32-bit, 64-bit
+CPU(s):                          2
+CPU family:                      6
+#####
+SELINUX=enforcing
+SELINUXTYPE=targeted
+#####
+Apr  1 05:42:07 servera sshd[1275]: Failed password for invalid user operator1 from 172.25.250.9 port 42460 ssh2
+Apr  1 05:42:09 servera sshd[1277]: Failed password for invalid user sysadmin1 from 172.25.250.9 port 42462 ssh2
+Apr  1 05:42:11 servera sshd[1279]: Failed password for invalid user manager1 from 172.25.250.9 port 42464 ssh2
+#####
+[student@workstation ~]$ cat /home/student/output-serverb
+serverb.lab.example.com
+#####
+CPU op-mode(s):                  32-bit, 64-bit
+CPU(s):                          2
+CPU family:                      6
+#####
+SELINUX=enforcing
+SELINUXTYPE=targeted
+#####
+Apr  1 05:42:14 serverb sshd[1252]: Failed password for invalid user operator1 from 172.25.250.9 port 53494 ssh2
+Apr  1 05:42:17 serverb sshd[1257]: Failed password for invalid user sysadmin1 from 172.25.250.9 port 53496 ssh2
+Apr  1 05:42:19 serverb sshd[1259]: Failed password for invalid user manager1 from 172.25.250.9 port 53498 ssh2
+#####
+```
+
 
 Note: Cau hinh user NOPASSWD  
 ![](../pic/41.png)
@@ -154,6 +198,7 @@ Note:
 - Nếu không có shebang, shell mặc định (thường là bash khi bạn đăng nhập) sẽ xử lý file.
 - Nam trong $PATH (neu muon go ten file ma khong can duong dan)
 
+
 # CHAPTER 3: Lab: Analyze and Store Logs
 Thay đổi múi giờ trên máy chủ hiện có và cấu hình tệp nhật ký mới cho tất cả các sự kiện xác thực không thành công.
 
@@ -161,6 +206,12 @@ Kết quả
 - Cập nhật múi giờ trên máy chủ hiện có.
 - Cấu hình tệp nhật ký mới để lưu trữ tất cả thông báo xác thực không thành công.
 
+1. Log in to the serverb machine as the student user.
+```
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$
+```
 2. Giả sử máy chủ được chuyển đến Jamaica và bạn phải cập nhật múi giờ thành `America/Jamaica`. Hãy kiểm tra xem bạn đã đặt đúng múi giờ chưa.  
 
 2.1 Chọn múi giờ phù hợp cho Jamaica.
@@ -195,22 +246,23 @@ System clock synchronized: yes
 ```
 [student@serverb ~]$ journalctl --since "-30min"
 ...output omitted...
-Mar 16 07:10:58 localhost kernel: x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT
-Mar 16 07:10:58 localhost kernel: found SMP MP-table at [mem 0x000f5bd0-0x000f5bdf]
-Mar 16 07:10:58 localhost kernel: Using GB pages for direct mapping
-Mar 16 07:10:58 localhost kernel: RAMDISK: [mem 0x2e0d9000-0x33064fff]
-Mar 16 07:10:58 localhost kernel: ACPI: Early table checksum verification disabled
-Mar 16 07:10:58 localhost kernel: ACPI: RSDP 0x00000000000F5B90 000014 (v00 BOCHS )
-Mar 16 07:10:58 localhost kernel: ACPI: RSDT 0x000000007FFE12C4 00002C (v01 BOCHS  BXPCRSDT 00000001 BXPC 00000001)
-Mar 16 07:10:58 localhost kernel: ACPI: FACP 0x000000007FFE11D0 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)
-Mar 16 07:10:58 localhost kernel: ACPI: DSDT 0x000000007FFDFDC0 001410 (v01 BOCHS  BXPCDSDT 00000001 BXPC 00000001)
-lines 1-50/50 q
+Aug 17 21:24:10 redhat9-server-1 dnf[2097]: Error: Failed to download metadata for repo 'errata': Cannot download repomd.xml: Curl error (7): Couldn't connect to server for http://content.example.com/rhel9.3/x86_64/rhcsa-practice/errata/repodata/repomd.xml [Failed to connect to content.example.com port 80: Connection refused]
+Aug 17 21:24:10 redhat9-server-1 systemd[1]: dnf-makecache.service: Main process exited, code=exited, status=1/FAILURE
+Aug 17 21:24:10 redhat9-server-1 systemd[1]: dnf-makecache.service: Failed with result 'exit-code'.
+Aug 17 21:24:10 redhat9-server-1 systemd[1]: Failed to start dnf makecache.
+Aug 17 21:24:10 redhat9-server-1 systemd[1]: dnf-makecache.service: Consumed 2.106s CPU time.
+Aug 17 21:27:07 redhat9-server-1 systemd[1]: Starting Time & Date Service...
+Aug 17 21:27:07 redhat9-server-1 systemd[1]: Started Time & Date Service.
+Aug 17 21:27:14 redhat9-server-1 systemd-timedated[2133]: Changed time zone to 'America/Jamaica' (EST).
+Aug 17 21:27:52 redhat9-server-1 systemd[1]: systemd-timedated.service: Deactivated successfully.
+(END)
+
 [student@serverb ~]$
 ```
 
 4. Tạo tệp `/etc/rsyslog.d/auth-errors.conf`. Cấu hình dịch vụ `rsyslog` để ghi thông báo "Logging test authpriv.alert " vào tệp `/var/log/auth-errors.conf`. Sử dụng chức năng `authpriv` và mức độ ưu tiên `alert` .  
 - Bạn phải tạo file cấu hình riêng /etc/rsyslog.d/auth-errors.conf để chỉ định quy tắc log.
-- Quy tắc là: mọi log thuộc facility authpriv và priority alert thì ghi vào /var/log/auth-errors.
+- Quy tắc là: mọi log thuộc facility authpriv và priority alert thì ghi vào `/var/log/auth-errors`.
 - Sau đó phải test bằng cách gửi một log test, ví dụ dùng logger.
 
 4.1 Tạo tệp `/etc/rsyslog.d/auth-errors.conf` và chỉ định tệp `/var/log/auth-errors.conf`  làm đích đến cho các thông báo xác thực và bảo mật.
@@ -223,7 +275,7 @@ authpriv.alert    /var/log/auth-errors
 ```
 📌 Giải thích:
 - authpriv → facility liên quan đến xác thực (login, sudo, ssh...).
-- alert → mức ưu tiên (priority) cao (chỉ log alert và cao hơn).
+- alert → mức ưu tiên (priority) cao (mức độ từ alert trở lên (alert, crit, emerg)).
 - /var/log/auth-errors → file bạn muốn ghi log vào.
 
 4.2 Restart the `rsyslog` service to apply the configuration file changes.
@@ -263,8 +315,14 @@ Facility
 Priority
 ![](../pic/44.png)
 
+Khi cấu hình logging với rsyslog (hoặc syslog truyền thống), cú pháp chuẩn sẽ là:
+```
+facility.priority    destination
+```
+
+---
 # CHAPTER 4: Lab: Archive and Transfer Files  
-Sử dụng các lệnh tar, rsync và sftp để lưu trữ và sao lưu nội dung của các thư mục.
+Sử dụng các lệnh `tar`, `rsync` và `sftp` để lưu trữ và sao lưu nội dung của các thư mục.
 
 Kết quả  
 - Đồng bộ hóa thư mục từ xa với thư mục cục bộ.
@@ -301,6 +359,11 @@ etc/.rht_authorized_keys
 sent 11,519 bytes  received 20,203,285 bytes  40,429,608.00 bytes/sec
 total size is 20,150,298  speedup is 1.00
 ```
+
+Ket qua:
+![](../pic/47.png)
+Truoc do tren serverb da copy ssh sang servera
+`ssh-copy-id root@192.168.38.130`  
 Chu thich:
 Trong rsync, tùy chọn -av là viết tắt của:
 - -a (archive mode)
@@ -310,9 +373,12 @@ Trong rsync, tùy chọn -av là viết tắt của:
 - -v (verbose)
   - Hiển thị chi tiết quá trình copy: tên file, tiến trình, v.v.
 
+`rsync` chi update nhung noi dung moi   
+![](../pic/48.png)
 
-SS `scp` va `rsync`  
+SS `scp` & `rsync`  
 ![](../pic/45.png)
+
 
 2. Tạo tệp lưu trữ `configfile-backup-servera.tar.gz` với nội dung thư mục `/configsync`.  
 
@@ -341,6 +407,10 @@ tar -czf ../backup/configfile-backup-servera.tar.gz /configsync   # tương đ�
 
 ```
 
+Ket qua
+
+![](../pic/49.png)
+
 3. Sao chép an toàn tệp lưu trữ `/root/configfile-backup-servera.tar.gz` từ serverb vào thư mục `/home/student` trên máy workstation.
 ```
 [root@serverb ~]# sftp student@workstation
@@ -350,6 +420,19 @@ sftp> put configfile-backup-servera.tar.gz
 Uploading configfile-backup-servera.tar.gz to /home/student/configfile-backup-servera.tar.gz
 configfile-backup-servera.tar.gz                 100% 4933KB 359.5MB/s   00:00
 sftp> bye
+```
+Ket qua:  
+Tren serverb:
+![](../pic/50.png)
+
+Tren servera:
+```
+[root@redhat9-server-2 ~]# ls /home/nghiahv/
+Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+
+[root@redhat9-server-2 ~]# ls /home/nghiahv/
+configfile-backup-servera.tar.gz  Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+
 ```
 
 4. Trên workstation, giải nén nội dung vào thư mục `/tmp/savedconfig/`.
@@ -379,6 +462,10 @@ configsync/etc/vimrc
 configsync/etc/wgetrc
 configsync/etc/xattr.conf
 ```
+
+Note:
+
+![](../pic/51.png)
 4.4 Giải nén nội dung lưu trữ vào thư mục `/tmp/savedconfig/`.
 
 ```
@@ -404,6 +491,11 @@ total 12
 drwxr-xr-x. 105 student student 8192 Mar 28 16:03 etc
 ...output omitted...
 ```
+
+Ket qua  
+![](../pic/52.png)
+
+
 4.6 Return to the student user's home directory.
 ```
 [student@workstation savedconfig]$ cd
@@ -411,9 +503,9 @@ drwxr-xr-x. 105 student student 8192 Mar 28 16:03 etc
 ```
 
 # CHAPTER 5: Lab: Tune System Performance  
-Áp dụng một cấu hình điều chỉnh cụ thể và điều chỉnh mức độ ưu tiên lập lịch của một tiến trình hiện có đang sử dụng nhiều CPU.   
+Áp dụng một cấu hình tối ưu hóa (tuning profile) cụ thể và điều chỉnh mức độ ưu tiên lập lịch (scheduling priority) của một tiến trình đang chạy có mức sử dụng CPU cao.  
 Kết quả   
-- Kích hoạt một cấu hình điều chỉnh cụ thể cho một hệ thống máy tính. 
+- Kích hoạt một cấu hình tối ưu hóa (tuning profile) cụ thể cho một hệ thống máy tính. 
 - Điều chỉnh mức độ ưu tiên lập lịch CPU của một tiến trình.
 
 1. Thay đổi cấu hình điều chỉnh hiện tại cho máy chủ `serverb` thành `balanced` profile, một cấu hình điều chỉnh chung không chuyên biệt. Liệt kê thông tin cho `balanced` tuning profile khi đó là tuning profile hiện tại.
@@ -433,11 +525,16 @@ Kết quả
 Installed Packages
 tuned.noarch              2.18.0-1.el9                 @System
 ```
+![](../pic/53.png)
+
 1.3 Xác minh trạng thái dịch vụ `tuned` .
 
 ```
 [student@serverb ~]$ systemctl is-active tuned
+
 active
+
+[student@serverb ~]$ 
 ```
 1.4 Liệt kê tất cả các tuning profiles khả dụng và mô tả của chúng. Lưu ý rằng cấu hình đang hoạt động hiện tại là `virtual-guest`.
 
@@ -445,43 +542,23 @@ active
 [student@serverb ~]$ sudo tuned-adm list
 [sudo] password for student: student
 Available profiles:
-- accelerator-performance   - Throughput performance based tuning with disabled
-                              higher latency STOP states
-- balanced                  - General non-specialized tuned profile
-- desktop                   - Optimize for the desktop use-case
-- hpc-compute               - Optimize for HPC compute workloads
-- intel-sst                 - Configure for Intel Speed Select Base Frequency
-- latency-performance       - Optimize for deterministic performance at the cost
-                              of increased power consumption
-- network-latency           - Optimize for deterministic performance at the cost
-                              of increased power consumption, focused on low
-                              latency network performance
-- network-throughput        - Optimize for streaming network throughput, generally
-                              only necessary on older CPUs or 40G+ networks
-- optimize-serial-console   - Optimize for serial console use.
-- powersave                 - Optimize for low power consumption
-- throughput-performance    - Broadly applicable tuning that provides excellent
-                              performance across a variety of common server
-                              workloads
-- virtual-guest             - Optimize for running inside a virtual guest
-- virtual-host              - Optimize for running KVM guests
+- accelerator-performance   - Throughput 
+....
 Current active profile: virtual-guest
 ```
+![](../pic/54.png)
+
 1.5 Thay đổi  tuning profile đang hoạt động hiện tại thành `balanced` profile.
 
 ```
-[student@serverb ~]$ sudo tuned-adm profile_info
-Profile name:
-balanced
+[student@serverb ~]$ sudo tuned-adm profile balanced
 
-Profile summary:
-General non-specialized tuned profile
-...output omitted...
 ```
 1.6 Liệt kê thông tin tóm tắt của  tuned profile đang hoạt động hiện tại. Xác minh rằng cấu hình đang hoạt động là balanced profile.
 
 ```
 [student@serverb ~]$ sudo tuned-adm profile_info
+
 Profile name:
 balanced
 
@@ -501,6 +578,8 @@ USER    PID %CPU %MEM    VSZ   RSS TTY    STAT START   TIME COMMAND
 root    1079 98.5  0.1 225340  2300 ?     RN   06:25   4:29 sha1sum /dev/zero
 root    1095 99.0  0.1 225340  2232 ?     R<   06:25   4:30 md5sum /dev/zero
 ```
+Note co the su dung lenh `top` de xem `%cpu, pid, nice`
+
 2.2 Xác định mức độ `nice` hiện tại cho mỗi một trong hai tien trinh su dung CPU nhiều nhất.
 
 ```
@@ -510,6 +589,10 @@ $(pgrep sha1sum;pgrep md5sum)
  1079 98.8   2 sha1sum
  1095 99.1  -2 md5sum
 ```
+
+Co the dung lenh khac hoac `top` cho nhanh  
+![](../pic/55.png)
+
 2.3 Điều chỉnh mức `nice` cho mỗi quy trình thành 10. Sử dụng giá trị PID chính xác cho các quy trình của bạn từ đầu ra lệnh trước đó.
 
 ```
@@ -536,13 +619,26 @@ Connection to serverb closed.
 [student@workstation ~]$
 ```
 
+Note ve lenh `top`  
+```
+[dbadmin1@redhat9-server-1 ~]$ sudo renice -n 10 2835
+2835 (process ID) old priority 0, new priority 10
+[dbadmin1@redhat9-server-1 ~]$ ps -o pid,pcpu,nice,comm -C bash -C su
+    PID %CPU  NI COMMAND
+   1870  0.0   0 bash
+   2835  0.0  10 su
+   2836  0.0   0 bash
+```
+![](../pic/56.png)
+
 ---
 # CHAPTER 6: Lab: Manage SELinux Security
 Xác định các sự cố trong tệp nhật ký hệ thống và điều chỉnh cấu hình SELinux.   
 Kết quả:  
-- Xác định các sự cố trong tệp nhật ký hệ thống. - Điều chỉnh cấu hình SELinux.
+- Xác định các sự cố trong tệp nhật ký hệ thống.   
+- Điều chỉnh cấu hình SELinux.
 
-1. Log in to the `serverb` machine as the `student` user and switch to the `root` user.
+**1. Log in to the `serverb` machine as the `student` user and switch to the `root` user.**
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
@@ -550,9 +646,9 @@ Kết quả:
 [sudo] password for student: student
 [root@serverb ~]#
 ```
-2. Từ trình duyệt web trên máy workstation , hãy truy cập trang web `http://serverb/lab.html`. Bạn sẽ thấy thông báo lỗi: `You do not have permission to access this resource.`
+**2. Từ trình duyệt web trên máy workstation , hãy truy cập trang web `http://serverb/lab.html`. Bạn sẽ thấy thông báo lỗi: `You do not have permission to access this resource.`**
 
-3. Nghiên cứu và xác định sự cố SELinux ngăn dịch vụ `Apache` cung cấp nội dung web.
+**3. Nghiên cứu và xác định sự cố SELinux ngăn dịch vụ `Apache` cung cấp nội dung web.**
 
 3.1 Xem nội dung của tệp `/var/log/messages`. Sử dụng phím / và tìm kiếm chuỗi `sealert`. Sử dụng phím q để thoát lệnh less.
 
