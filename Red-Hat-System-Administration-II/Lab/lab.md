@@ -654,12 +654,9 @@ Kết quả:
 
 ```
 [root@serverb ~]# less /var/log/messages
-...output omitted...
-Apr  7 06:16:15 serverb setroubleshoot[26509]: failed to retrieve rpm info for /lab-content/la
-b.html
-Apr  7 06:16:17 serverb setroubleshoot[26509]: SELinux is preventing /usr/sbin/httpd from getattr access on the file /lab-content/lab.html. For complete SELinux messages run: sealert -l 35c9e452-2552-4ca3-8217-493b72ba6d0b
-Apr  7 06:16:17 serverb setroubleshoot[26509]: SELinux is preventing /usr/sbin/httpd from getattr access on the file /lab-content/lab.html
-...output omitted...
+
+Aug 18 09:06:53 redhat9-server-1 setroubleshoot[899]: SELinux is preventing /usr/bin/lsmd from getattr access on the file /usr/bin/passt-repair. For complete SELinux messages run: sealert -l 6009dba5-5c4e-407f-98bc-2130613b2ed6
+
 ```
 
 Note: Trong `less`, có thể tìm kiếm chuỗi bằng ký tự / giống như trong vi/vim:
@@ -667,52 +664,16 @@ Note: Trong `less`, có thể tìm kiếm chuỗi bằng ký tự / giống như
 - Gõ n → nhảy đến kết quả tiếp theo.
 - Gõ N → nhảy đến kết quả trước đó.
 
-3.2 Chạy lệnh `sealert` được đề xuất. Lưu ý ngữ cảnh nguồn, đối tượng đích, chính sách và chế độ thực thi.
+File /var/log/messages  
+![](../pic/57.png)
+
+3.2 Chạy lệnh `sealert` được đề xuất tu lenh truoc do. Lưu ý ngữ cảnh nguồn, đối tượng đích, chính sách và chế độ thực thi.
 ```
 [root@serverb ~]# sealert -l 35c9e452-2552-4ca3-8217-493b72ba6d0b
-SELinux is preventing /usr/sbin/httpd from getattr access on the file /lab-content/lab.html.
 
-*****  Plugin catchall_labels (83.8 confidence) suggests   *******************
-
-If you want to allow httpd to have getattr access on the lab.html file
-Then you need to change the label on /lab-content/lab.html
-Do
-# semanage fcontext -a -t FILE_TYPE '/lab-content/lab.html'
-where FILE_TYPE is one of the following:
-...output omitted...
-
-Additional Information:
-Source Context                system_u:system_r:httpd_t:s0
-Target Context                unconfined_u:object_r:default_t:s0
-Target Objects                /lab-content/lab.html [ file ]
-Source                        httpd
-Source Path                   /usr/sbin/httpd
-Port                          <Unknown>
-Host                          serverb.lab.example.com
-Source RPM Packages           httpd-2.4.51-7.el9_0.x86_64
-Target RPM Packages
-SELinux Policy RPM            selinux-policy-targeted-34.1.27-1.el9.noarch
-Local Policy RPM              selinux-policy-targeted-34.1.27-1.el9.noarch
-Selinux Enabled               True
-Policy Type                   targeted
-Enforcing Mode                Enforcing
-Host Name                     serverb.lab.example.com
-Platform                      Linux serverb.lab.example.com
-                              5.14.0-70.2.1.el9_0.x86_64 #1 SMP PREEMPT Wed Mar
-                              16 18:15:38 EDT 2022 x86_64 x86_64
-Alert Count                   8
-First Seen                    2022-04-07 06:14:45 EDT
-Last Seen                     2022-04-07 06:16:12 EDT
-Local ID                      35c9e452-2552-4ca3-8217-493b72ba6d0b
-
-Raw Audit Messages
-type=AVC msg=audit(1649326572.86:407): avc:  denied  { getattr } for  pid=10731 comm="httpd" path="/lab-content/lab.html" dev="vda4" ino=18192752 scontext=system_u:system_r:httpd_t:s0 tcontext=unconfined_u:object_r:default_t:s0 tclass=file permissive=0
-
-
-type=SYSCALL msg=audit(1649326572.86:407): arch=x86_64 syscall=newfstatat success=no exit=EACCES a0=ffffff9c a1=7f7c8c0457c0 a2=7f7c887f7830 a3=100 items=0 ppid=10641 pid=10731 auid=4294967295 uid=48 gid=48 euid=48 suid=48 fsuid=48 egid=48 sgid=48 fsgid=48 tty=(none) ses=4294967295 comm=httpd exe=/usr/sbin/httpd subj=system_u:system_r:httpd_t:s0 key=(null)
-
-Hash: httpd,httpd_t,default_t,file,getattr
 ```
+
+![](../pic/58.png)
 
 3.3 Phần *Raw Audit Messages* của lệnh `sealert` chứa thông tin từ tệp `/var/log/audit/audit.log`. Hãy tìm kiếm tệp `/var/log/audit/audit.log`. Tùy chọn `-m` tìm kiếm theo loại thông báo. Tùy chọn `ts` tìm kiếm theo thời gian. Mục sau đây xác định quy trình và tệp liên quan gây ra cảnh báo. Quy trình này là máy chủ web Apache httpd, tệp là `/lab-content/lab.html` và ngữ cảnh là `system_r:httpd_t`.
 ```
@@ -725,21 +686,47 @@ type=SYSCALL msg=audit(1649326572.086:407): arch=c000003e syscall=262 success=no
 type=AVC msg=audit(1649326572.086:407): avc:  denied  { getattr } for  pid=10731 comm="httpd" path="/lab-content/lab.html" dev="vda4" ino=18192752 scontext=system_u:system_r:httpd_t:s0 tcontext=unconfined_u:object_r:default_t:s0 tclass=file permissive=0
 ```
 
+Cú pháp cơ bản `ausearch`
+```
+ausearch -m <message_type> -ts <time>
+```
+Giai thich:  
+
+`-m` = lọc theo loại thông điệp (message type) trong audit log.
+Ví dụ message type thường gặp:
+- AVC → các sự kiện SELinux chặn (Access Vector Cache).
+- USER_LOGIN → đăng nhập user.
+- USER_AUTH → xác thực người dùng.
+- EXECVE → tiến trình được thực thi.
+- SYSCALL → lời gọi hệ thống.
+
+`-ts` = time start → chỉ định thời điểm bắt đầu để lọc log.
+Bạn có thể dùng nhiều kiểu giá trị:
+- recent → sự kiện mới nhất.
+- today → từ đầu ngày đến giờ.
+- yesterday → từ ngày hôm qua.
+- this-week, this-month, this-year.
+- Hoặc chỉ định cụ thể: 2025-08-17 20:00:00.
+
+(chua lap-kho)  
 4. Hiển thị ngữ cảnh SELinux của thư mục tài liệu HTTP mới và thư mục tài liệu HTTP gốc. Giải quyết sự cố SELinux ngăn máy chủ Apache phục vụ nội dung web.  
 
-4.1 So sánh ngữ cảnh SELinux cho các thư mục /lab-content và /var/www/html.
+4.1 So sánh context SELinux cho các thư mục `/lab-content` và `/var/www/html`.
 
 ```
 [root@serverb ~]# ls -dZ /lab-content /var/www/html
       unconfined_u:object_r:default_t:s0 /lab-content
 system_u:object_r:httpd_sys_content_t:s0 /var/www/html
 ```
-4.2 Tạo quy tắc ngữ cảnh tệp để đặt loại mặc định thành httpd_sys_content_ cho thư mục /lab-content và tất cả các tệp trong đó.
+![](../pic/59.png)
+
+
+4.2 Tạo quy tắc context tệp để đặt loại mặc định thành httpd_sys_content_ cho thư mục /lab-content và tất cả các tệp trong đó.
 ```
 [root@serverb ~]# semanage fcontext -a \
 -t httpd_sys_content_t '/lab-content(/.*)?'
 ```
-4.3 Sửa ngữ cảnh SELinux cho các tệp trong thư mục `/lab-content`.
+4.3 Sửa context SELinux cho các tệp trong thư mục `/lab-content`.
 ```
 [root@serverb ~]# restorecon -R /lab-content/
 
@@ -769,12 +756,11 @@ Tạo nhiều phân vùng trên một đĩa mới, định dạng một số ph�
 
 Kết quả
 
-Hiển thị và tạo phân vùng bằng lệnh parted.
+- Hiển thị và tạo phân vùng bằng lệnh `parted`.
 - Tạo hệ thống tệp trên các phân vùng và gắn kết chúng liên tục.
 - Tạo không gian hoán đổi và kích hoạt chúng khi khởi động.
-- Với tư cách là người dùng học viên trên máy trạm, hãy sử dụng
 
-1. Máy chủ ServerB có một số ổ đĩa chưa sử dụng. Trên ổ đĩa chưa sử dụng đầu tiên, hãy tạo nhãn phân vùng GPT và một phân vùng GPT 2 GB có tên là "backup".
+1. Máy chủ ServerB có một số ổ đĩa chưa sử dụng. Trên ổ đĩa chưa sử dụng đầu tiên, hãy tạo nhãn phân vùng GPT và một phân vùng GPT 2 GB có tên là `backup`.
 
 Vì khó thiết lập kích thước chính xác, nên dung lượng từ 1,8 GB đến 2,2 GB là chấp nhận được.
 
@@ -813,18 +799,28 @@ Sector size (logical/physical): 512B/512B
 Partition Table: unknown
 Disk Flags:
 ```
+
+![](../pic/60.png)
+
 1.4 Xác định sơ đồ phân vùng GPT.
 
 ```
 [root@serverb ~]# parted /dev/vdb mklabel gpt
 Information: You may need to update /etc/fstab.
 ```
+
+Giai thich:  
+![](../pic/61.png)
+
+![](../pic/62.png)
 1.5 Tạo phân vùng `backup` 2 GB với loại hệ thống tệp `xfs`. Bắt đầu phân vùng ở sector 2048.
 
 ```
 [root@serverb ~]# parted /dev/vdb mkpart backup xfs 2048s 2GB
 Information: You may need to update /etc/fstab.
 ```
+![](../pic/63.png)
+
 1.6 Xác nhận việc tạo phân vùng `backup`.
 
 ```
@@ -844,23 +840,17 @@ Number  Start   End     Size    File system  Name    Flags
 [root@serverb ~]# udevadm settle
 ```
 
-2. Định dạng phân vùng sao lưu 2 GB bằng hệ thống tệp XFS và gắn liên tục vào thư mục /﻿backup bằng cách sử dụng UUID.
+Note: Nếu bạn làm lệnh tiếp theo ngay lập tức (vd: mkfs hoặc mount) ma khong `udevadm settle`, partition có thể chưa xuất hiện kịp → lỗi “No such file or directory”.
+
+2. Định dạng phân vùng sao lưu 2 GB bằng hệ thống tệp XFS và gắn liên tục vào thư mục `/backup` bằng cách sử dụng UUID.
 
 2.1 Định dạng phân vùng `/dev/vbd1`.
 
 ```
 [root@serverb ~]# mkfs.xfs /dev/vdb1
-meta-data=/dev/vdb1              isize=512    agcount=4, agsize=121984 blks
-         =                       sectsz=512   attr=2, projid32bit=1
-         =                       crc=1        finobt=1, sparse=1, rmapbt=0
-         =                       reflink=1    bigtime=1 inobtcount=1
-data     =                       bsize=4096   blocks=487936, imaxpct=25
-         =                       sunit=0      swidth=0 blks
-naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
-log      =internal log           bsize=4096   blocks=2560, version=2
-         =                       sectsz=512   sunit=0 blks, lazy-count=1
-realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
+Note: `mkfs` phải thực hiện trên partition, không thực hiện trên disk vật lý trừ khi bạn muốn dùng cả ổ (format toàn bộ ổ đĩa) mà không có partition table.
+
 2.2 Tạo điểm gắn kết `/backup`.
 
 ```
@@ -874,13 +864,21 @@ realtime =none                   extsz=4096   blocks=0, rtextents=0
 NAME FSTYPE FSVER LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
 vdb1 xfs                f74ed805-b1fc-401a-a5ee-140f97c6757d
 ```
-2.4 Chỉnh sửa tệp /etc/fstab và xác định hệ thống tệp mới.
+Or
+```
+[root@redhat9-server-1 ~]# blkid /dev/nvme0n2p1 
+/dev/nvme0n2p1: UUID="f68511a4-8274-45b9-a6c5-83ce28ef3f62" TYPE="xfs" PARTLABEL="backup" PARTUUID="ee3eb4ed-1427-4a2a-896e-004d2223470a"
+```
+
+2.4 Chỉnh sửa tệp `/etc/fstab` và xác định hệ thống tệp mới.
 
 ```
 [root@serverb ~]# vim /etc/fstab
 ...output omitted...
 UUID=f74ed805-b1fc-401a-a5ee-140f97c6757d   /backup   xfs   defaults   0 0
 ```
+![](../pic/64.png)
+
 2.5 Buộc daemon systemd đọc lại tệp /etc/fstab.
 
 ```
@@ -894,6 +892,10 @@ UUID=f74ed805-b1fc-401a-a5ee-140f97c6757d   /backup   xfs   defaults   0 0
 [root@serverb ~]# mount | grep /backup
 /dev/vdb1 on /backup type xfs (rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota)
 ```
+
+Note: `mount` không chỉ rõ partition vi
+
+![](../pic/65.png)
 
 3. Trên cùng một ổ đĩa, tạo hai phân vùng GPT 512 MB với tên là swap1 và swap2.  
 Dung lượng từ 460 MB đến 564 MB là chấp nhận được.      
@@ -912,7 +914,7 @@ Disk Flags:
 Number  Start   End     Size    File system  Name    Flags
  1      1049kB  2000MB  1999MB  xfs          backup
 ```
-3.2 Tạo phân vùng GPT 512 MB đầu tiên có tên là swap1. Đặt loại của phân vùng này là linux-swap. Sử dụng vị trí cuối của phân vùng đầu tiên làm điểm bắt đầu. Vị trí cuối là 2000 MB + 512 MB = 2512 MB.
+3.2 Tạo phân vùng GPT 512 MB đầu tiên có tên là `swap1`. Đặt loại của phân vùng này là `linux-swap`. Sử dụng vị trí cuối của phân vùng đầu tiên làm điểm bắt đầu. Vị trí cuối là 2000 MB + 512 MB = 2512 MB.
 
 ```
 [root@serverb ~]# parted /dev/vdb mkpart swap1 linux-swap 2000M 2512M
@@ -946,11 +948,11 @@ Number  Start   End     Size    File system  Name    Flags
 
 ```
 
+![](../pic/66.png)
 
+4. Khởi tạo hai phân vùng 512 MB làm swap spaces và cấu hình chúng để kích hoạt khi khởi động. Thiết lập swap spaces trên phân vùng `swap2` được ưu tiên hơn phân vùng còn lại. Lưu ý rằng 512 MB tương đương với khoảng 488 MB. Hiển thị Giải pháp
 
-4. Khởi tạo hai phân vùng 512 MB làm không gian hoán đổi và cấu hình chúng để kích hoạt khi khởi động. Thiết lập không gian hoán đổi trên phân vùng swap2 được ưu tiên hơn phân vùng còn lại. Lưu ý rằng 512 MB tương đương với khoảng 488 MB. Hiển thị Giải pháp
-
-4.1 Sử dụng lệnh mkswap để khởi tạo các phân vùng swap. Lưu ý mã UUID của hai không gian swap, vì bạn sẽ sử dụng thông tin đó ở bước tiếp theo. Nếu bạn xóa đầu ra mkswap, hãy sử dụng lệnh lsblk --fs để lấy mã UUID.
+4.1 Sử dụng lệnh `mkswap` để khởi tạo các phân vùng swap. Lưu ý mã UUID của hai không gian swap, vì bạn sẽ sử dụng thông tin đó ở bước tiếp theo. Nếu bạn xóa đầu ra `mkswap`, hãy sử dụng lệnh lsblk --fs để lấy mã UUID.
 ```
 [root@serverb ~]# mkswap /dev/vdb2
 Setting up swapspace version 1, size = 489 MiB (512749568 bytes)
@@ -959,7 +961,7 @@ no label, UUID=87976166-4697-47b7-86d1-73a02f0fc803
 Setting up swapspace version 1, size = 488 MiB (511700992 bytes)
 no label, UUID=4d9b847b-98e0-4d4e-9ef7-dfaaf736b942
 ```
-4.2 Chỉnh sửa tệp /etc/fstab và xác định không gian hoán đổi mới. Để đặt không gian hoán đổi trên phân vùng swap2 được ưu tiên hơn phân vùng swap1, hãy cấp cho phân vùng swap2 mức ưu tiên cao hơn bằng tùy chọn pri.
+4.2 Chỉnh sửa tệp `/etc/fstab` và xác định swap spaces mới. Để đặt swap spaces  trên phân vùng `swap2` được ưu tiên hơn phân vùng swap1, hãy cấp cho phân vùng swap2 mức ưu tiên cao hơn bằng tùy chọn pri.
 
 ```
 [root@serverb ~]# vim /etc/fstab
@@ -968,13 +970,16 @@ UUID=a3665c6b-4bfb-49b6-a528-74e268b058dd   /backup xfs   defaults  0 0
 UUID=87976166-4697-47b7-86d1-73a02f0fc803   swap    swap  pri=10    0 0
 UUID=4d9b847b-98e0-4d4e-9ef7-dfaaf736b942   swap    swap  pri=20    0 0
 ```
+
+Note: `PRIO` càng cao → swap càng được ưu tiên.
+
 4.3 Buộc daemon systemd đọc lại tệp /etc/fstab.
 
 ```
 [root@serverb ~]# systemctl daemon-reload
 
 ```
-4.4 Kích hoạt không gian hoán đổi mới. Xác minh việc kích hoạt không gian hoán đổi đã chính xác.
+4.4 Kích hoạt swap spaces mới. Xác minh việc kích hoạt swap spaces đã chính xác.
 
 ```
 [root@serverb ~]# swapon -a
@@ -984,6 +989,8 @@ NAME      TYPE      SIZE USED PRIO
 /dev/vdb3 partition 488M   0B   20
 ```
 
+Ket qua:  
+![](../pic/67.png)
 
 5. Để xác minh công việc của bạn, hãy khởi động lại máy `serverb`. Xác nhận rằng hệ thống tự động gắn phân vùng đầu tiên vào thư mục `/backup`. Đồng thời, hãy xác nhận rằng hệ thống đã kích hoạt hai swap spaces
 
@@ -1021,6 +1028,19 @@ logout
 Connection to serverb closed.
 [student@workstation ~]$
 ```
+Ket qua:   
+![](../pic/68.png)
+
+![](../pic/69.png)
+
+Note:
+- Có cách tính dung lượng swap
+- Cách Linux dùng swap (Cơ chế này chỉ xảy ra khi RAM vật lý đầy hoặc gần đầy): 
+  - Dữ liệu ít sử dụng trong RAM → ghi vào swap.
+  - Khi cần, dữ liệu từ swap → đưa lại RAM.
+  - Swap cũng được dùng khi chạy hibernate (ngủ đông), ghi toàn bộ RAM xuống swap.
+  - Khi bạn tạo partition swap 512MB, toàn bộ 512MB đã được “dành riêng” trên ổ đĩa. Dù swap không được dùng ngay, dung lượng đó vẫn không thể lưu dữ liệu bình thường (không mount được như filesystem).
+
 ---
 # CHAPTER 8: Lab: Manage Storage Stack
 Thay đổi kích thước ổ đĩa logic hiện có, thêm tài nguyên LVM nếu cần, sau đó thêm một ổ đĩa logic mới với hệ thống tệp XFS được gắn kết liên tục.
@@ -1032,7 +1052,7 @@ Kết quả
 
 Hướng dẫn
 
-Trên máy serverb, ổ đĩa logic serverb_01_lv được gắn vào thư mục /storage/data1 đang hết dung lượng đĩa và phải được mở rộng lên 768 MiB. Bạn phải đảm bảo rằng LV serverb_01_lv vẫn được gắn liên tục vào thư mục /storage/data1.
+Trên máy serverb, ổ đĩa logic `serverb_01_lv` được gắn vào thư mục `/storage/data1` đang hết dung lượng đĩa và phải được mở rộng lên 768 MiB. Bạn phải đảm bảo rằng LV serverb_01_lv vẫn được gắn liên tục vào thư mục `/storage/data1`.
 
 LV serverb_01_lv hiện diện trên nhóm ổ đĩa serverb_01_vg. Nó không đủ dung lượng để mở rộng ổ đĩa logic hiện có. Có một phân vùng 512 MiB trên ổ đĩa /dev/vdb. Hãy tạo một phân vùng có kích thước 512 MiB trên ổ đĩa /dev/vdb.
 
