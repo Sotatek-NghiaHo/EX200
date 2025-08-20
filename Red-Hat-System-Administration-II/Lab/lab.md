@@ -1063,6 +1063,8 @@ Mặc dù đơn vị mặc định khi sử dụng lệnh parted /dev/vdb print 
 
 Tạo LV serverb_02_lv với 128 MiB. Tạo hệ thống tệp XFS trên ổ đĩa mới tạo. Gắn ổ đĩa logic mới tạo vào thư mục /storage/data2.
 
+
+
 1. Tạo một phân vùng 512 MiB trên ổ đĩa /dev/vdb. Khởi tạo phân vùng này dưới dạng ổ đĩa vật lý và mở rộng nhóm ổ đĩa serverb_01_vg để sử dụng phân vùng này.
 
 
@@ -1085,14 +1087,19 @@ Number  Start    End     Size    File system  Name     Flags
  1      1.00MiB  513MiB  512MiB               primary
 ```
 
-1.3 Tạo phân vùng 512 MiB và đặt loại phân vùng lvm.
+1.3 Tạo phân vùng 512 MiB và đặt loại phân vùng `lvm`.
 
 ```
 [root@serverb ~]# parted /dev/vdb mkpart primary 513MiB 1026MiB
 ...output omitted...
 [root@serverb ~]# parted /dev/vdb set 2 lvm on
 ```
-1.4 Đăng ký phân vùng mới với hạt nhân.
+
+Note:
+- `set 2 lvm on` nghĩa là: bật cờ LVM (flag lvm) cho phân vùng số 2 trên ổ `/dev/vdb`.
+- Điều này giúp hệ thống và các công cụ LVM (pvcreate, vgextend, …) nhận biết rằng phân vùng đó sẽ được quản lý bởi LVM chứ không phải dùng trực tiếp làm ext4, xfs hay swap.
+
+1.4 Đăng ký phân vùng mới với kernel.
 
 ```
 [root@serverb ~]# udevadm settle
@@ -1104,14 +1111,15 @@ Number  Start    End     Size    File system  Name     Flags
 [root@serverb ~]# pvcreate /dev/vdb2
   Physical volume "/dev/vdb2" successfully created.
 ```
-1.6 Mở rộng VG serverb_01_vg bằng cách sử dụng PV /dev/vdb2 mới.
+1.6 Mở rộng VG` serverb_01_vg `bằng cách sử dụng PV /dev/vdb2 mới.
 
 ```
 [root@serverb ~]# vgextend serverb_01_vg /dev/vdb2
   Volume group "serverb_01_vg" successfully extended
 ```
 
-2. Mở rộng ổ đĩa logic serverb_01_lv lên 768 MiB.
+2. Mở rộng ổ đĩa logic `
+` lên 768 MiB.
 
 
 2.1 Mở rộng LV serverb_01_lv lên 768 MiB. Ngoài ra, bạn cũng có thể sử dụng tùy chọn lệnh lvcreate -L +512M để thay đổi kích thước LV.
@@ -1242,23 +1250,22 @@ Kết quả
 - Cài đặt các gói cần thiết để thiết lập automounter. 
 - Cấu hình một bản đồ gián tiếp automounter với các tài nguyên từ máy chủ NFSv4 được cấu hình sẵn.
 
-Với tư cách là người dùng học viên trên máy trạm, hãy sử dụng lệnh lab để chuẩn bị hệ thống cho bài tập này.
 
-Tập lệnh khởi động này xác định xem hệ thống servera và serverb có thể truy cập được trên mạng hay không. Tập lệnh khởi động cấu hình serverb làm máy chủ NFSv4, thiết lập quyền và xuất thư mục. Tập lệnh cũng tạo người dùng và nhóm cần thiết trên cả hệ thống servera và serverb.
+Tập lệnh khởi động này xác định xem hệ thống `servera` và `serverb` có thể truy cập được trên mạng hay không. Tập lệnh khởi động cấu hình `serverb` làm máy chủ NFSv4, thiết lập quyền và xuất thư mục. Tập lệnh cũng tạo người dùng và nhóm cần thiết trên cả hệ thống `servera` và `serverb`.
 
-Hướng dẫn
-Một công ty hỗ trợ CNTT sử dụng máy chủ trung tâm, serverb, để lưu trữ một số thư mục đã xuất trên /shares cho các nhóm và người dùng của họ. Người dùng phải có thể đăng nhập và gắn kết các thư mục đã xuất của họ theo yêu cầu và sẵn sàng sử dụng, trong thư mục /remote trên servera.
+Hướng dẫn  
+Một công ty hỗ trợ CNTT sử dụng máy chủ trung tâm, `serverb`, để lưu trữ một số thư mục đã xuất trên `/shares` cho các nhóm và người dùng của họ. Người dùng phải có thể đăng nhập và gắn kết các thư mục đã xuất của họ theo yêu cầu và sẵn sàng sử dụng, trong thư mục `/remote` trên servera.
 
 Danh sách sau đây cung cấp các đặc điểm môi trường để hoàn thành bài tập này:
-- Máy serverb đang chia sẻ thư mục /shares, thư mục này chứa các thư mục con management, production và operation.
-- Nhóm managers bao gồm người dùng manager1 và manager2. Những người dùng này có quyền đọc và ghi vào thư mục đã xuất /shares/management.
-- Nhóm production bao gồm người dùng dbuser1 và sysadmin1. Những người dùng này có quyền đọc và ghi vào thư mục đã xuất /shares/production.
-- Nhóm operators bao gồm người dùng contractor1 và consultant1. Những người dùng này có quyền đọc và ghi vào thư mục đã xuất /shares/operation.
-- Điểm gắn kết chính cho servera là thư mục /remote.
-- Sử dụng tệp /etc/auto.master.d/shares.autofs làm tệp bản đồ chính và sử dụng tệp /etc/auto.shares làm tệp bản đồ gián tiếp.
-- Thư mục đã xuất /shares/management được tự động gắn kết vào /remote/management trên servera.
-- Thư mục đã xuất /shares/production được tự động gắn kết vào /remote/production trên servera.
-- Thư mục đã xuất /shares/operation được tự động gắn kết vào /remote/operation trên servera.
+- Máy serverb đang chia sẻ thư mục `/shares`, thư mục này chứa các thư mục con `management`, `production` và `operation`.
+- Nhóm `managers` bao gồm user `manager1` và `manager2`. Những người dùng này có quyền đọc và ghi vào thư mục  `/shares/management`.
+- Nhóm `production` bao gồm user `dbuser1` và `sysadmin1`. Những người dùng này có quyền đọc và ghi vào thư mục  `/shares/production`.
+- Nhóm `operators` bao gồm user `contractor1` và `consultant1`. Những người dùng này có quyền đọc và ghi vào thư mục `/shares/operation`.
+- Điểm gắn kết chính cho servera là thư mục `/remote`.
+- Sử dụng tệp `/etc/auto.master.d/shares.autofs `làm tệp bản đồ chính và sử dụng tệp `/etc/auto.shares` làm tệp bản đồ gián tiếp.
+- Thư mục đã xuất `/shares/management` được tự động gắn kết vào `/remote/management` trên servera.
+- Thư mục đã xuất `/shares/production` được tự động gắn kết vào `/remote/production` trên servera.
+- Thư mục đã xuất `/shares/operation` được tự động gắn kết vào `/remote/operation` trên servera.
 - Tất cả mật khẩu người dùng được đặt thành redhat.
 
 1. Đăng nhập vào servera và cài đặt các gói cần thiết.
@@ -1829,6 +1836,9 @@ SERVER B
 VHOST 1
 ```
 
+# CHAPTER 12: Lab: Install Red Hat Enterprise Linux
+
+
 # CHAPTER 13: Lab: Run Containers
 
 Sử dụng podman để kéo một ảnh container từ sổ đăng ký và sử dụng ảnh đó để chạy một container tách biệt.
@@ -2036,36 +2046,33 @@ Connection to serverb closed.
 
 Khắc phục sự cố và sửa chữa các vấn đề khởi động, đồng thời cập nhật mục tiêu mặc định của hệ thống. Bạn cũng có thể lên lịch các tác vụ chạy theo lịch trình lặp lại với tư cách người dùng bình thường.
 
-Kết quả
-
-Chẩn đoán sự cố và khôi phục hệ thống từ chế độ khẩn cấp.
-
-Thay đổi mục tiêu mặc định từ graphical.target thành multi-user.target.
-
-Lên lịch các tác vụ định kỳ để chạy với tư cách người dùng bình thường.
+Kết quả  
+- Chẩn đoán sự cố và khôi phục hệ thống từ chế độ khẩn cấp.
+- Thay đổi mục tiêu mặc định từ graphical.target thành multi-user.target.
+- Lên lịch các tác vụ định kỳ để chạy với tư cách người dùng bình thường.
 
 ---
 
 Thông số kỹ thuật
 
-- Trên máy trạm, chạy tập lệnh /tmp/rhcsa-break1. Tập lệnh này gây ra sự cố với quy trình khởi động trên serverb và sau đó khởi động lại máy. Khắc phục sự cố và sửa chữa sự cố khởi động. Khi được nhắc, hãy sử dụng redhat làm mật khẩu của người dùng root.
-- Trên máy trạm, chạy tập lệnh /tmp/rhcsa-break2. Tập lệnh này khiến mục tiêu mặc định chuyển từ mục tiêu đa người dùng sang mục tiêu đồ họa trên máy serverb và sau đó khởi động lại máy. Trên serverb, đặt lại mục tiêu mặc định để sử dụng mục tiêu đa người dùng. Cài đặt mục tiêu mặc định phải được duy trì sau khi khởi động lại mà không cần can thiệp thủ công. Với tư cách là người dùng sinh viên, hãy sử dụng lệnh sudo để thực hiện các lệnh đặc quyền. Sử dụng student làm mật khẩu khi cần thiết.
+- Trên máy `workstation`, chạy tập lệnh `/tmp/rhcsa-break1`. Tập lệnh này gây ra sự cố với quy trình khởi động trên serverb và sau đó khởi động lại máy. Khắc phục sự cố và sửa chữa sự cố khởi động. Khi được nhắc, hãy sử dụng `redhat` làm mật khẩu của người dùng `root`.
+- Trên máy `workstation`, chạy tập lệnh `/tmp/rhcsa-break2`. Tập lệnh này khiến mục tiêu mặc định chuyển từ mục tiêu đa người dùng sang mục tiêu đồ họa trên máy `serverb` và sau đó khởi động lại máy. Trên `serverb`, đặt lại mục tiêu mặc định để sử dụng mục tiêu đa người dùng. Cài đặt mục tiêu mặc định phải được duy trì sau khi khởi động lại mà không cần can thiệp thủ công. Với tư cách là người dùng sinh viên, hãy sử dụng lệnh sudo để thực hiện các lệnh đặc quyền. Sử dụng `student` làm mật khẩu khi cần thiết.
 
-- Trên serverb, hãy lên lịch một tác vụ định kỳ với tư cách là người dùng sinh viên để thực thi tập lệnh /home/student/backup-home.sh hàng giờ từ 19:00 đến 21:00 mỗi ngày, trừ Thứ Bảy và Chủ Nhật. Tải xuống tập lệnh sao lưu từ http://materials.example.com/labs/backup-home.sh. Tập lệnh backup-home.sh sao lưu thư mục /home/student từ serverb sang servera trong thư mục /home/student/serverb-backup. Sử dụng tập lệnh backup-home.sh để lên lịch tác vụ định kỳ với tư cách là người dùng sinh viên. Chạy lệnh dưới dạng tệp thực thi.
+- Trên serverb, hãy lên lịch một tác vụ định kỳ với tư cách là người dùng student để thực thi tập lệnh `/home/student/backup-home.sh` hàng giờ từ 19:00 đến 21:00 mỗi ngày, trừ Thứ Bảy và Chủ Nhật. Tải xuống tập lệnh sao lưu từ `http://materials.example.com/labs/backup-home.sh`. Tập lệnh `backup-home.sh` sao lưu thư mục `/home/student` từ serverb sang servera trong thư mục `/home/student/serverb-backup`. Sử dụng tập lệnh `backup-home.sh` để lên lịch tác vụ định kỳ với tư cách là người dùng sinh viên. Chạy lệnh dưới dạng tệp thực thi.
 
-- Khởi động lại máy serverb và đợi quá trình khởi động hoàn tất trước khi chấm điểm.
+- Khởi động lại máy `serverb` và đợi quá trình khởi động hoàn tất trước khi chấm điểm.
 
-1. Trên máy trạm, chạy tập lệnh /tmp/rhcsa-break1.
+1. Trên máy trạm, chạy tập lệnh `/tmp/rhcsa-break1`.
 ```
-
+[student@workstation ~]$ sh /tmp/rhcsa-break1
 ```
 2. Sau khi máy chủ khởi động, hãy truy cập bảng điều khiển và nhận thấy quá trình khởi động bị dừng sớm. Hãy xem xét nguyên nhân có thể gây ra hiện tượng này.
 
-2.1 Tìm biểu tượng của bảng điều khiển serverb, tùy theo môi trường lớp học của bạn. Mở bảng điều khiển và kiểm tra lỗi. Có thể mất vài giây để lỗi xuất hiện.
+2.1 Tìm biểu tượng của bảng điều khiển `serverb`, tùy theo môi trường lớp học của bạn. Mở bảng điều khiển và kiểm tra lỗi. Có thể mất vài giây để lỗi xuất hiện.
 
-2.2 Nhấn Ctrl+Alt+Del để khởi động lại máy serverb. Khi menu boot-loader xuất hiện, hãy nhấn bất kỳ phím nào ngoại trừ phím Enter để ngắt quá trình đếm ngược.
+2.2 Nhấn `Ctrl+Alt+Del` để khởi động lại máy `serverb`. Khi menu boot-loader xuất hiện, hãy nhấn bất kỳ phím nào ngoại trừ phím Enter để ngắt quá trình đếm ngược.
 
-2.3 Chỉnh sửa mục nhập boot-loader mặc định, trong bộ nhớ, để đăng nhập vào chế độ khẩn cấp. Nhấn e để chỉnh sửa mục nhập hiện tại.
+2.3 Chỉnh sửa mục nhập boot-loader mặc định, trong bộ nhớ, để đăng nhập vào chế độ khẩn cấp. Nhấn `e` để chỉnh sửa mục nhập hiện tại.
 
 2.4 Sử dụng các phím mũi tên để điều hướng đến dòng bắt đầu bằng linux. Thêm `systemd.unit=emergency.target`.
 
@@ -2084,7 +2091,6 @@ Give root password for maintenance
 
 ```
 [root@serverb ~]# mount -o remount,rw /
-
 ```
 3.2 Hãy thử gắn kết tất cả các hệ thống tệp khác. Lưu ý rằng một trong các hệ thống tệp không được gắn kết.
 
@@ -2118,13 +2124,13 @@ mount: /FakeMount: can't find UUID=fake.
 [root@serverb ~]# systemctl reboot
 
 ```
-4. Trên máy trạm, hãy chạy tập lệnh /tmp/rhcsa-break2. Đợi máy serverb khởi động lại trước khi tiếp tục.
+4. Trên máy `workstation`, hãy chạy tập lệnh `/tmp/rhcsa-break2`. Đợi máy `serverb` khởi động lại trước khi tiếp tục.
 ```
 [student@workstation ~]$ sh /tmp/rhcsa-break2
 
 ```
 
-5. Trên serverb, đặt mục tiêu nhiều người dùng làm mục tiêu hiện tại và mặc định.
+5. Trên `serverb`, đặt mục tiêu `multi-user` làm mục tiêu hiện tại và mặc định.
 
 5.1 Log in to serverb as the student user.
 
@@ -2147,6 +2153,11 @@ graphical.target
 [student@serverb ~]$ sudo systemctl isolate multi-user.target
 [sudo] password for student: student
 ```
+
+Giai thich tai sao phai chay isolate roi chay set-default
+
+![](../pic/71.png)
+
 5.4 Đặt mục tiêu `multi-user` làm mục tiêu mặc định.
 
 ```
@@ -2195,6 +2206,14 @@ multi-user.target
 ```
 Save the changes and exit the editor.
 
+Note:
+- Mon – Monday
+- Tue – Tuesday
+- Wed – Wednesday
+- Thu – Thursday
+- Fri – Friday
+- Sat – Saturday
+- Sun – Sunday
 
 6.4 Use the crontab -l command to list the scheduled recurring jobs.
 
@@ -2221,28 +2240,18 @@ Nếu bạn dự định thi RHCSA, hãy áp dụng cách sau để tối đa h�
 Tạo một ổ đĩa logic, gắn hệ thống tệp mạng và tạo một phân vùng hoán đổi được tự động kích hoạt khi khởi động. Bạn cũng cấu hình các thư mục để lưu trữ các tệp tạm thời.
 
 Kết quả
-
-Tạo một ổ đĩa logic.
-
-Gắn hệ thống tệp mạng.
-
-Tạo một phân vùng hoán đổi được tự động kích hoạt khi khởi động.
-
-Cấu hình một thư mục để lưu trữ các tệp tạm thời.
+- Tạo một ổ đĩa logic.
+- Gắn hệ thống tệp mạng.
+- Tạo một phân vùng hoán đổi được tự động kích hoạt khi khởi động.
+- Cấu hình một thư mục để lưu trữ các tệp tạm thời.
 
 Thông số kỹ thuật
-
-Trên serverb, cấu hình một ổ đĩa logic vol_home 1 GB mới trong một nhóm ổ đĩa extra_storage 2 GB mới. Sử dụng đĩa /dev/vdb chưa phân vùng để tạo phân vùng.
-
-Định dạng ổ đĩa logic vol_home với kiểu hệ thống tệp XFS và gắn kết liên tục vào thư mục /user-homes.
-
-Trên serverb, gắn kết liên tục hệ thống tệp mạng /share mà servera xuất vào thư mục /local-share. Máy servera sẽ xuất đường dẫn servera.lab.example.com:/share.
-
-Trên serverb, tạo một phân vùng swap 512 MB trên đĩa /dev/vdc. Gắn kết liên tục phân vùng swap.
-
-Tạo nhóm người dùng production. Tạo người dùng production1, production2, production3 và production4 với nhóm production là nhóm bổ sung của họ.
-
-Trên serverb, cấu hình thư mục /run/volatile để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Hãy đặt 0700 làm quyền bát phân cho thư mục. Sử dụng tệp /etc/tmpfiles.d/volatile.conf để cấu hình xóa theo thời gian các tệp trong thư mục /run/volatile.
+- Trên serverb, cấu hình một ổ đĩa logic vol_home 1 GB mới trong một nhóm ổ đĩa extra_storage 2 GB mới. Sử dụng đĩa /dev/vdb chưa phân vùng để tạo phân vùng.
+- Định dạng ổ đĩa logic vol_home với kiểu hệ thống tệp XFS và gắn kết liên tục vào thư mục /user-homes.
+- Trên serverb, gắn kết liên tục hệ thống tệp mạng /share mà servera xuất vào thư mục /local-share. Máy servera sẽ xuất đường dẫn servera.lab.example.com:/share.
+- Trên serverb, tạo một phân vùng swap 512 MB trên đĩa /dev/vdc. Gắn kết liên tục phân vùng swap.
+- Tạo nhóm người dùng production. Tạo người dùng production1, production2, production3 và production4 với nhóm production là nhóm bổ sung của họ.
+- Trên serverb, cấu hình thư mục /run/volatile để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Hãy đặt 0700 làm quyền bát phân cho thư mục. Sử dụng tệp /etc/tmpfiles.d/volatile.conf để cấu hình xóa theo thời gian các tệp trong thư mục /run/volatile.
 
 1. Trên serverb, hãy cấu hình một ổ đĩa logic vol_home 1 GiB mới trong một nhóm ổ đĩa extra_storage 2 GiB mới. Sử dụng đĩa /dev/vdb chưa phân vùng để tạo phân vùng.
 
