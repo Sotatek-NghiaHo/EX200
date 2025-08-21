@@ -834,7 +834,7 @@ Owner	|Directory|	Group	|Files
 dev1	|dev1	|techdocs	|dev1.txt <br> dev1.log <br> dev1.cfg
 dev2	|dev2	|techdocs	|dev2.txt <br> dev2.log <br>dev2.cfg
 
-5.1 Với tư cách là người dùng dev1, hãy tạo thư mục dev1. Đổi quyền sở hữu nhóm cho thư mục dev1 thành nhóm `techdocs`. Thiết lập quyền đọc, ghi và thực thi cho người dùng, quyền đọc và thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev1.
+*5.1 Với tư cách là người dùng dev1, hãy tạo thư mục dev1. Đổi quyền sở hữu nhóm cho thư mục dev1 thành nhóm `techdocs`. Thiết lập quyền đọc, ghi và thực thi cho người dùng, quyền đọc và thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev1.*
 ```
 [dev1@redhat9-server-1 techdocs]$ ls
 techdoc1.txt
@@ -875,7 +875,7 @@ hello
 
 ```
 
-5.4 Thoát khỏi shell người dùng dev1. Chuyển sang người dùng dev2. Chuyển đến thư mục /home/techdocs.
+*5.4 Thoát khỏi shell người dùng `dev1`. Chuyển sang người dùng `dev2`. Chuyển đến thư mục `/home/techdocs`.*
 
 ```
 [dev1@redhat9-server-1 dev1]$ exit
@@ -884,7 +884,7 @@ logout
 [dev2@redhat9-server-1 ~]$ cd /home/techdocs/
 ```
 
-5.5 Với tư cách là người dùng dev2, hãy tạo thư mục dev2. Đổi quyền sở hữu nhóm cho thư mục dev2 thành nhóm `techdocs`. Thiết lập quyền đọc, quyền ghi và quyền thực thi cho người dùng, quyền đọc và quyền thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev2.
+*5.5 Với tư cách là người dùng dev2, hãy tạo thư mục `dev2`. Đổi quyền sở hữu nhóm cho thư mục dev2 thành nhóm `techdocs`. Thiết lập quyền đọc, quyền ghi và quyền thực thi cho người dùng, quyền đọc và quyền thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev2.*
 ```
 [dev2@redhat9-server-1 techdocs]$ mkdir dev2
 [dev2@redhat9-server-1 techdocs]$ chown :techdocs dev2
@@ -897,7 +897,7 @@ drwxr-x---. 2 dev2 techdocs  6 Aug 13 15:54 dev2
 
 ```
 
-5.6 Chuyển đến thư mục dev2. Liệt kê giá trị umask cho người dùng dev2. Đổi umask mặc định cho người dùng dev2 thành 0027.
+*5.6 Chuyển đến thư mục `dev2`. Liệt kê giá trị umask cho người dùng `dev2`. Đổi umask mặc định cho người dùng `dev2` thành 0027.*
 ```
 [dev2@redhat9-server-1 techdocs]$ cd dev2/
 [dev2@redhat9-server-1 dev2]$ umask
@@ -906,7 +906,7 @@ drwxr-x---. 2 dev2 techdocs  6 Aug 13 15:54 dev2
 
 ```
 
-5.7 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev2. Đổi quyền sở hữu nhóm cho các tệp này thành nhóm techdocs. Xác minh rằng người dùng dev2 có thể ghi vào chúng.
+*5.7 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev2. Đổi quyền sở hữu nhóm cho các tệp này thành nhóm techdocs. Xác minh rằng người dùng dev2 có thể ghi vào chúng.*
 
 ```
 [dev2@redhat9-server-1 dev2]$ touch dev2.txt \
@@ -925,11 +925,10 @@ total 0
 [dev2@redhat9-server-1 dev2]$ echo "hello" > dev2.txt
 [dev2@redhat9-server-1 dev2]$ cat dev2.txt 
 hello
-
 ```
 
-6. Xác minh rằng người dùng trong nhóm techdocs không phải là chủ sở hữu tệp có thể đọc nội dung tệp trong thư mục cộng tác /home/techdocs. Với tư cách là người dùng editor1, hãy đọc các tệp thuộc sở hữu của những người dùng khác trong nhóm techdocs.
-6.1 Thoát khỏi shell người dùng dev2. Chuyển sang người dùng editor1. Chuyển đến thư mục /home/techdocs.
+**6. Xác minh rằng người dùng trong nhóm techdocs không phải là chủ sở hữu tệp có thể đọc nội dung tệp trong thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng `editor1`, hãy đọc các tệp thuộc sở hữu của những người dùng khác trong nhóm techdocs.**
+*6.1 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng `editor1`. Chuyển đến thư mục` /home/techdocs`.*
 
 ```
 [dev2@redhat9-server-1 dev2]$ exit
@@ -954,7 +953,7 @@ logout
 
 2 directories, 7 files
 ```
-6.3 Với tư cách là người dùng editor1, hãy đọc nội dung trong các tệp techdoc1.txt, dev1.txt và dev2.txt.
+*6.3 Với tư cách là người dùng `editor1`, hãy đọc nội dung trong các tệp techdoc1.txt, dev1.txt và `dev2.txt`.*
 ```
 [editor1@redhat9-server-1 techdocs]$ ll
 total 4
@@ -969,9 +968,9 @@ hello
 hello
 
 ```
-7. Xác minh rằng chỉ những người dùng trong nhóm techdocs mới có thể truy cập thư mục cộng tác /home/techdocs. Với tư cách là người dùng dbadmin1, hãy thử truy cập thư mục /home/techdocs.
+**7. Xác minh rằng chỉ những người dùng trong nhóm techdocs mới có thể truy cập thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng dbadmin1, hãy thử truy cập thư mục` /home/techdocs`.**
 
-7.1 Thoát khỏi shell người dùng editor1. Chuyển sang người dùng dbadmin1. Chuyển đến thư mục /home/techdocs.
+*7.1 Thoát khỏi shell người dùng `editor1`. Chuyển sang người dùng `dbadmin1`. Chuyển đến thư mục `/home/techdocs`.*
 
 ```
 
@@ -983,8 +982,7 @@ logout
 [dbadmin1@redhat9-server-1 ~]$ 
 
 ```
-7.2 Thoát khỏi shell người dùng dbadmin1.
-
+*7.2 Thoát khỏi shell người dùng `dbadmin1`.*
 ```
 [dbadmin1@redhat9-server-1 ~]$ exit
 logout
@@ -1024,37 +1022,34 @@ enabled=1
 gpgcheck=0
 ---
 ```
-2. Trên máy chủ, hãy cài đặt gói `rht-system`  
-
-2.1 Liệt kê các gói có sẵn cho gói rht-system.
+**2. Trên máy chủ, hãy cài đặt gói `rht-system`**
+*2.1 Liệt kê các gói có sẵn cho gói `rht-system`*
 ```
 dnf list rht-system
 ```
-2.2 Cài đặt phiên bản mới nhất của gói rht-system.
+*2.2 Cài đặt phiên bản mới nhất của gói `rht-system`.*
 ```
 dnf install rht-system
 ```
+**3. Vì lý do bảo mật, máy chủ ServerB không được phép kết nối với máy in giấy. Bạn có thể thực hiện việc này bằng cách gỡ bỏ gói `cups`. Khi hoàn tất, hãy thoát khỏi root shell.**
 
-3. Vì lý do bảo mật, máy chủ ServerB không được phép kết nối với máy in giấy. Bạn có thể thực hiện việc này bằng cách gỡ bỏ gói cups. Khi hoàn tất, hãy thoát khỏi root shell.
-
-3.1 Liệt kê các gói cups đã cài đặt.
-
+*3.1 Liệt kê các gói `cups` đã cài đặt.*
 ```
 [root@redhat9-server-1 ~]# dnf list cups
 Last metadata expiration check: 0:08:02 ago on Wed 27 Apr 2022 05:01:59 AM EDT.
 Installed Packages
 cups.x86_64        1:2.3.3op2-13.el9      @rhel-9.0-for-x86_64-appstream-rpms
 ```
-3.2 Remove the cups package.
+*3.2 Remove the `cups` package.*
 ```
 dnf remove cups.x86_64
 ```
 
-4. Tập lệnh khởi động sẽ tải xuống gói `rhcsa-script-1.0.0-1.noarch.rpm` trong thư mục /`home/student` trên máy serverb.
+**4. Tập lệnh khởi động sẽ tải xuống gói `rhcsa-script-1.0.0-1.noarch.rpm` trong thư mục `/home/student` trên máy serverb.**
 
 Hãy xác nhận rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb và cài đặt nó bằng quyền root. Kiểm tra xem gói đã được cài đặt chưa. Thoát khỏi máy serverb.
 
-4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb.
+*4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb.*
 
 ```
 [student@serverb ~]$ rpm -q -p rhcsa-script-1.0.0-1.noarch.rpm -i
@@ -1078,20 +1073,20 @@ A RHCSA practice script.
 The package changes the motd.
 ```
 
-4.2 Install the rhcsa-script-1.0.0-1.noarch.rpm package.
+*4.2 Install the `rhcsa-script-1.0.0-1.noarch.rpm` package.*
 ```
 [student@serverb ~]$ sudo dnf install \
 rhcsa-script-1.0.0-1.noarch.rpm
 [sudo] password for student: student
 ```
 
-4.3 Verify that the package is installed.
+*4.3 Verify that the package is installed.*
 ```
 [student@serverb ~]$ rpm -q rhcsa-script
 rhcsa-script-1.0.0-1.noarch
 [student@serverb ~]$
 ```
-4.4 Trở lại hệ thống máy trạm với tư cách là người dùng là sinh viên.
+*4.4 Trở lại hệ thống máy workstation với tư cách là người dùng là student.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -1109,9 +1104,9 @@ Kết quả
 - Tạo báo cáo sử dụng đĩa.
 - Tìm tệp trong hệ thống tệp cục bộ.
 
-1. Với tư cách là người dùng root trên máy serverb, hãy xác định UUID cho device `/dev/sdb1` và gắn kết nó bằng cách sử dụng UUID của nó trên thư mục `/mnt/system-report`.
+**1. Với tư cách là người dùng root trên máy serverb, hãy xác định UUID cho device `/dev/sdb1` và gắn kết nó bằng cách sử dụng UUID của nó trên thư mục `/mnt/system-report`.**
 
-1.1 Đăng nhập vào máy chủ serverb với tư cách là người dùng student và chuyển sang người dùng root. Sử dụng student làm mật khẩu.
+*1.1 Đăng nhập vào máy chủ serverb với tư cách là người dùng student và chuyển sang người dùng root. Sử dụng student làm mật khẩu.*
 ```
 student@workstation:~$ ssh student@serverb
 ...output omitted...
@@ -1120,7 +1115,7 @@ student@workstation:~$ ssh student@serverb
 [root@serverb ~]#
 ```
 
-1.2 Truy vấn UUID của thiết bị /dev/sdb1.
+*1.2 Truy vấn UUID của thiết bị `/dev/sdb1`.*
 ```
 [root@redhat9-server-1 ~]# lsblk -fp /dev/sdb
 NAME        FSTYPE FSVER LABEL UUID          FSAVAIL FSUSE% MOUNTPOINTS
@@ -1129,17 +1124,17 @@ NAME        FSTYPE FSVER LABEL UUID          FSAVAIL FSUSE% MOUNTPOINTS
 ```
 Note: UUID có thể thay đổi tùy theo môi trường của bạn.
 
-1.3 Kiểm tra xem thư mục `/mnt/system-report` có tồn tại không.
+*1.3 Kiểm tra xem thư mục `/mnt/system-report` có tồn tại không.*
 
 ```
 [root@redhat9-server-1 ~]# ls /mnt/system-report
 ls: cannot access '/mnt/system-report': No such file or directory
 ```
-1.4  Create the /mnt/system-report directory.
+*1.4  Create the `/mnt/system-report` directory.*
 ```
 mkdir /mnt/system-report
 ```
-1.5  Gắn thiết bị `/dev/sdb1` vào thư mục `/mnt/system-report` bằng cách sử dụng UUID. Thay thế UUID giữ chỗ trong lệnh sau bằng UUID từ môi trường của bạn.
+*1.5  Gắn thiết bị `/dev/sdb1` vào thư mục `/mnt/system-report` bằng cách sử dụng UUID. Thay thế UUID giữ chỗ trong lệnh sau bằng UUID từ môi trường của bạn.*
 
 ```
 mount UUID="48bd5...3337a" /mnt/system-report
@@ -1163,7 +1158,7 @@ NAME                  FSTYPE FSVER LABEL UUID                                 FS
 /dev/mapper/rhel-root xfs                131d0080-1a1b-4e25-be6b-dded50e4a185   15.5G    27% /
 ```
 
-1.6 Xác minh rằng thiết bị /dev/sdb1 được gắn vào thư mục /mnt/system-report.
+*1.6 Xác minh rằng thiết bị `/dev/sdb1` được gắn vào thư mục `/mnt/system-report`.*
 
 ```
 lsblk -fp /dev/sdb1
@@ -1171,30 +1166,28 @@ NAME      FSTYPE FSVER LABEL UUID           FSAVAIL FSUSE% MOUNTPOINTS
 /dev/sdb1 xfs                48bd5...3337a     4.8G     3% /mnt/system-report
 ```
 
-2. Tạo báo cáo sử dụng đĩa cho thư mục `/usr/share`. Lưu kết quả vào tệp `/mnt/system-report/disk-usage.txt`.
-
+**2. Tạo báo cáo sử dụng đĩa cho thư mục `/usr/share`. Lưu kết quả vào tệp `/mnt/system-report/disk-usage.txt`.**
 ```
 du /usr/share > /mnt/system-report/disk-usage.txt
 ```
 
-3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp
-
-3.1 Update the locate database.
+**3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp**
+*3.1 Update the locate database.*
 ```
 updatedb
 ```
-3.2 Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf`. Lưu kết quả vào tệp `/mnt/system-report/search1.txt`.
+*3.2 Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf`. Lưu kết quả vào tệp `/mnt/system-report/search1.txt`.*
 ```
 locate rsyslog.conf > /mnt/system-report/search1.txt
 ```
-4. Tìm kiếm tất cả các tệp trong thư mục `/usr/share` có kích thước lớn hơn 5 MB nhưng nhỏ hơn 10 MB. Lưu kết quả vào tệp `/mnt/system-report/search2.txt`
+**4. Tìm kiếm tất cả các tệp trong thư mục `/usr/share` có kích thước lớn hơn 5 MB nhưng nhỏ hơn 10 MB. Lưu kết quả vào tệp `/mnt/system-report/search2.txt`**
 
 ```
 [root@redhat9-server-1 ~]# find /usr/share -size +5M -size -10M > \
 /mnt/system-report/search2.txt
 ```
 
-5. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy trạm với tư cách là người dùng là học viên.
+**5. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy workstation với tư cách là người dùng là student.**
 ```
 [root@serverb ~]# exit
 logout
@@ -1204,6 +1197,7 @@ Connection to serverb closed.
 student@workstation:~$
 ```
 
+---
 # CHAPTER 15: Monitor and Manage Linux Processes
 15.9 PAGE 95/128
 
@@ -1212,15 +1206,15 @@ Diễn giải và giám sát các số liệu hệ thống, đồng thời nghi�
 Kết quả
 - Quản lý quy trình với Top như một công cụ quản lý quy trình.
 
-1. Trên may workstation , hãy mở hai cửa sổ terminal cạnh nhau. Trong phần này, các terminal này được gọi là trái và phải. Trên mỗi cửa sổ terminal, hãy đăng nhập vào máy `serverb` với tư cách là user `student`.
+**1. Trên may workstation , hãy mở hai cửa sổ terminal cạnh nhau. Trong phần này, các terminal này được gọi là trái và phải. Trên mỗi cửa sổ terminal, hãy đăng nhập vào máy `serverb` với tư cách là user `student`.**
 
 Tạo tập lệnh `task101.sh` trong thư mục `/home/student/bin`. Tập lệnh `task101.sh` tạo ra tải CPU nhân tạo bằng cách thực hiện các phép tính số học liên tục.
 
-1.2 Trong shell bên trái, tạo thư mục /home/student/bin.
+*1.2 Trong shell bên trái, tạo thư mục `/home/student/bin`.*
 ```
- mkdir -p /home/student/bin
+mkdir -p /home/student/bin
 ```
-1.3 Trong shell terminal bên trái, hãy tạo tệp `task101.sh` trong thư mục `~/bin`. Tệp phải chứa nội dung sau.
+*1.3 Trong shell terminal bên trái, hãy tạo tệp `task101.sh` trong thư mục `~/bin`. Tệp phải chứa nội dung sau.*
 ```
 #!/bin/bash
 touch ~/bin/.$(basename $0)
@@ -1232,33 +1226,32 @@ while true; do
   sleep 1
 done
 ```
-1.4 Làm cho tập lệnh task101.sh có thể thực thi được.
+*1.4 Làm cho tập lệnh task101.sh có thể thực thi được.*
 ```
 chmod +x /home/student/bin/task101.sh
 ```
 
-2. Trong terminal bên phải, theo dõi tất cả các tiến trình đang chạy trong máy serverb.  
+**2. Trong terminal bên phải, theo dõi tất cả các tiến trình đang chạy trong máy serverb.**
 
 2.1 Trong terminal bên phải, hãy chạy tiện ích trên cùng để theo dõi tất cả các tiến trình. Điều chỉnh cửa sổ sao cho cao nhất có thể để xem thêm thông tin. Tiếp tục chạy tiện ích trên cùng để kiểm tra mức sử dụng CPU và tải trung bình trong các bước sau.
 ```
 top
 ```
 
-3. Trong shell terminal bên trái, hãy kiểm tra số lượng CPU logic trên máy ảo. Chạy tập lệnh task101.sh ở chế độ nền.
+**3. Trong shell terminal bên trái, hãy kiểm tra số lượng CPU logic trên máy ảo. Chạy tập lệnh task101.sh ở chế độ nền.**
 
-3.1 Kiểm tra số lượng CPU logic.
-
+*3.1 Kiểm tra số lượng CPU logic.*
 ```
 [student@serverb ~]$ grep "model name" /proc/cpuinfo | wc -l
 2
 ```
-3.2 Chạy tập lệnh task101.sh ở chế độ nền. Tập lệnh `task101.sh` nằm trong thư mục con `~/bin`. Do vị trí này, biến môi trường PATH sẽ định vị tập lệnh mà không cần xác định đường dẫn đầy đủ của nó.
+*3.2 Chạy tập lệnh task101.sh ở chế độ nền. Tập lệnh `task101.sh` nằm trong thư mục con `~/bin`. Do vị trí này, biến môi trường PATH sẽ định vị tập lệnh mà không cần xác định đường dẫn đầy đủ của nó.*
 
 ```
 [student@serverb ~]$ task101.sh &
 [1] 2608
 ```
-4. Trong shell terminal bên phải, hãy quan sát các tiến trình đang chạy. Tìm ID tiến trình (PID) của tiến trình `task101.sh` và lượng CPU mà tiến trình này tiêu thụ.
+**4. Trong shell terminal bên phải, hãy quan sát các tiến trình đang chạy. Tìm ID tiến trình (PID) của tiến trình `task101.sh` và lượng CPU mà tiến trình này tiêu thụ.**
 
 Kiểm tra mức tiêu thụ tải hệ thống, luồng và bộ nhớ. Đảm bảo tìm các tài nguyên hệ thống bị ảnh hưởng bởi tiến trình `task101.sh`.  
 4.1 Kiểm tra kết quả đầu ra của tiện ích `top`.
@@ -1914,7 +1907,7 @@ Connection to serverb closed.
 logout
 student@workstation:~$ exit
 ```
-8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy trạm với tư cách là người dùng là học viên.
+8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy workstation với tư cách là người dùng là học viên.
 ```
 [root@serverb ~]# exit
 logout
