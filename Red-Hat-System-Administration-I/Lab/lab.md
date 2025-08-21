@@ -1274,7 +1274,7 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1321.7 avail Mem
 ...output omitted...
 ```
 
-4.2 Sắp xếp các tiến trình theo mức sử dụng bộ nhớ bằng cách nhấn `Shift+M`. Tiến trình `task101.sh` không tiêu tốn nhiều tài nguyên bộ nhớ.
+*4.2 Sắp xếp các tiến trình theo mức sử dụng bộ nhớ bằng cách nhấn `Shift+M`. Tiến trình `task101.sh` không tiêu tốn nhiều tài nguyên bộ nhớ.*
 ```
 top - 21:00:39 up  1:42,  3 users,  load average: 0.14, 0.13, 0.09
 Tasks: 137 total,   1 running, 136 sleeping,   0 stopped,   0 zombie
@@ -1290,7 +1290,7 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1341.6 avail Mem
 ...output omitted...
 ```
 
-4.3 Hiển thị thêm chi tiết bộ nhớ bằng cách nhấn M. Thanh sử dụng bộ nhớ không hiển thị mức sử dụng đáng kể trong máy chủ.
+*4.3 Hiển thị thêm chi tiết bộ nhớ bằng cách nhấn M. Thanh sử dụng bộ nhớ không hiển thị mức sử dụng đáng kể trong máy chủ.*
 
 ```
 top - 21:05:56 up  1:47,  3 users,  load average: 0.27, 0.17, 0.10
@@ -1306,7 +1306,7 @@ MiB Swap:  0.0/0.0      [                                                       
  2608 student 20   0  228796   3056   2800 S  16.3   0.2   3:41.10 task101.sh
 ...output omitted...
 ```
-4.4 Hiển thị thông tin luồng bằng cách nhấn Shift+H. Tổng số luồng trong hệ thống hiển thị là 157. Thoát khỏi tiện ích trên cùng bằng cách nhấn Q.
+*4.4 Hiển thị thông tin luồng bằng cách nhấn Shift+H. Tổng số luồng trong hệ thống hiển thị là 157. Thoát khỏi tiện ích trên cùng bằng cách nhấn Q.*
 ```
 top - 21:23:28 up  2:05,  3 users,  load average: 0.09, 0.12, 0.09
 Threads: 157 total,   1 running, 156 sleeping,   0 stopped,   0 zombie
@@ -1322,9 +1322,9 @@ MiB Swap:  0.0/0.0      [                                                       
 ...output omitted...
 Q
 ```
-4.5 Xem tất cả các luồng đang chạy cho tiến trình task101.sh. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn -H và -p. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.
+4.5 Xem tất cả các luồng đang chạy cho tiến trình `task101.sh`. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn -H và -p. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.
 
-Tiến trình task101.sh không chạy nhiều luồng.
+Tiến trình `task101.sh` không chạy nhiều luồng.
 
 Thoát khỏi tiện ích top bằng cách nhấn Q.
 ```
@@ -1341,7 +1341,7 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1336.9 avail Mem
 Q
 ```
 
-4.6 Chạy `top` với các tùy chọn mặc định của nó.
+*4.6 Chạy `top` với các tùy chọn mặc định của nó.*
 ```
 [student@serverb ~]$ top
 top - 21:32:43 up  2:14,  3 users,  load average: 0.17, 0.15, 0.10
@@ -1357,15 +1357,15 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1332.4 avail Mem
 ...output omitted...
 ```
 
-5. Sao chép tập lệnh `task101.sh` vào tệp moi `task102.sh`  và tăng tải CPU nhân tạo lên 100000 trong tập lệnh mới. Khởi động tiến trình `task102.sh` ở chế độ nền.
+**5. Sao chép tập lệnh `task101.sh` vào tệp moi `task102.sh`  và tăng tải CPU nhân tạo lên 100000 trong tập lệnh mới. Khởi động tiến trình `task102.sh` ở chế độ nền.**
 
-5.1 Trong shell bên trái, sao chép tệp task101.sh vào tệp task102.sh mới.
+*5.1 Trong shell bên trái, sao chép tệp `task101.sh` vào tệp `task102.sh` mới.*
 
 ```
 [student@serverb ~]$  cp bin/task101.sh bin/task102.sh
 
 ```
-5.2 Chỉnh sửa tập lệnh `task102.sh` và tăng số phép tính cộng từ 50000 lên 100000. Tập lệnh `task102.sh` phải khớp với nội dung sau:
+*5.2 Chỉnh sửa tập lệnh `task102.sh` và tăng số phép tính cộng từ 50000 lên 100000. Tập lệnh `task102.sh` phải khớp với nội dung sau:*
 ```
 #!/bin/bash
 touch ~/bin/.$(basename $0)
@@ -1391,10 +1391,10 @@ Note:
 [1]-  Running                 task101.sh &
 [2]+  Running                 task102.sh &
 ```
-6. Trong shell terminal bên phải, hãy kiểm tra xem tiến trình task102.sh có đang chạy và sử dụng nhiều tài nguyên CPU nhất không. Kiểm tra mức tải trung bình của máy chủ serverb.
+**6. Trong shell terminal bên phải, hãy kiểm tra xem tiến trình `task102.sh` có đang chạy và sử dụng nhiều tài nguyên CPU nhất không. Kiểm tra mức tải trung bình của máy chủ serverb.**
 
 Trong shell terminal bên phải, hãy kiểm tra xem tiến trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng từ 25% đến 35%.  
-6.1 Trong shell terminal bên phải, hãy kiểm tra xem quy trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng 25% đến 35%.
+*6.1 Trong shell terminal bên phải, hãy kiểm tra xem quy trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng 25% đến 35%.*
 
 ```
 [root@redhat9-server-1 ~]# top
@@ -1404,7 +1404,7 @@ Trong shell terminal bên phải, hãy kiểm tra xem tiến trình có đang ch
  2608 student   20   0  228796   3056   2800 R  11.7   0.2   8:53.08 task101.sh
 ...output omitted...
 ```
-6.2 Kiểm tra tải trung bình của máy chủ. Tải trung bình của máy chủ luôn dưới 1, nghĩa là máy không bị quá tải.
+*6.2 Kiểm tra tải trung bình của máy chủ. Tải trung bình của máy chủ luôn dưới 1, nghĩa là máy không bị quá tải.*
 
 ```
 [root@redhat9-server-1 ~]# top
@@ -1413,16 +1413,15 @@ top - 21:44:53 up  2:26,  3 users,  load average: 0.51, 0.30, 0.16
 
 ```
 
-7. Sao chép tập lệnh `task101.sh` sang một tập lệnh mới có tên `task103.sh`. Tăng số lần thêm vào lên 800000. Khởi động `task103.sh` ở chế độ nền. Theo dõi tải trung bình của máy chủ serverb. Tải trung bình có thể mất vài phút để tăng.  
+**7. Sao chép tập lệnh `task101.sh` sang một tập lệnh mới có tên `task103.sh`. Tăng số lần thêm vào lên 800000. Khởi động `task103.sh` ở chế độ nền. Theo dõi tải trung bình của máy chủ serverb. Tải trung bình có thể mất vài phút để tăng.** 
 
-7.1 Trong shell bên trái, sao chép tập lệnh task101.sh vào tập lệnh task103.sh mới.
+*7.1 Trong shell bên trái, sao chép tập lệnh `task101.sh` vào tập lệnh `task103.sh` mới.*
 
 ```
 [student@serverb ~]$ cp bin/task101.sh bin/task103.sh
 
 ```
-7.2 Chỉnh sửa tập lệnh `task103.sh`. Tăng số lần cộng lên 800000.
-
+*7.2 Chỉnh sửa tập lệnh `task103.sh`. Tăng số lần cộng lên 800000.*
 ```
 #!/bin/bash
 touch ~/bin/.$(basename $0)
@@ -1434,17 +1433,17 @@ while true; do
   sleep 1
 done
 ```
-7.3 Start the task103.sh process in the background.
+*7.3 Start the `task103.sh` process in the background.*
 ```
 [student@serverb ~]$ task103.sh &
 
 ```
-7.4 Verify that the three jobs are running in the background.
+*7.4 Verify that the three jobs are running in the background.*
 
 ```
 jobs
 ```
-7.5 Trong shell terminal bên phải, hãy kiểm tra mức sử dụng CPU của tiến trình task103.sh và mức tải trung bình của máy. Mức sử dụng CPU của tiến trình task03.sh dao động trong khoảng từ 60% đến 85%. Mức tải trung bình có thể mất vài phút để tăng lên.
+*7.5 Trong shell terminal bên phải, hãy kiểm tra mức sử dụng CPU của tiến trình `task103.sh` và mức tải trung bình của máy. Mức sử dụng CPU của tiến trình `task03.sh` dao động trong khoảng từ 60% đến 85%. Mức tải trung bình có thể mất vài phút để tăng lên.*
 
 Lưu ý rằng tổng mức tiêu thụ CPU của ba tiến trình lớn hơn 100. Khi tiến trình task103.sh đang chạy, máy chủ serverb sử dụng 100% CPU, nhưng không đủ để đáp ứng nhu cầu tài nguyên của tất cả các tiến trình. Do tình huống này, mức tải trung bình tăng dần lên trên 1.
 ```
@@ -1467,23 +1466,23 @@ Note:
   
 8. Trong shell terminal bên trái, chuyển sang tài khoản root và sử dụng redhat làm mật khẩu. Tạm dừng tiến trình task101.sh. Liệt kê các tác vụ còn lại. Xác minh rằng tiến trình task101.sh hiện đang ở trạng thái T.  
 
-8.1 Switch to the root user. Use redhat as the password.
+*8.1 Switch to the root user. Use `redhat` as the password.*
 ```
 su - or sudo -i
 ```
-8.2 Tạm dừng tiến trình `task101.sh`.
+*8.2 Tạm dừng tiến trình `task101.sh`.*
 ```
 [root@serverb ~]# pkill -SIGSTOP `task101.sh`
 
 ```
-8.3 Trong shell bên phải, hãy xác nhận rằng tiến trình task101.sh không còn chạy nữa.
+*8.3 Trong shell bên phải, hãy xác nhận rằng tiến trình `task101.sh` không còn chạy nữa.*
 ```
 [root@redhat9-server-1 ~]# top
   PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
  7581 student   20   0  228796   3132   2876 R  66.4   0.2   2:25.59 task103.sh
  6430 student   20   0  228796   3080   2824 S  22.3   0.2   3:15.12 task102.sh
 ```
-8.4 Trong shell  bên trái, hãy xem các công việc còn lại.
+*8.4 Trong shell  bên trái, hãy xem các công việc còn lại.*
 ```
 [root@serverb ~]# ps jT
 PPID  PID ... TPGID STAT  UID  TIME COMMAND
@@ -1495,14 +1494,13 @@ PPID  PID ... TPGID STAT  UID  TIME COMMAND
 ```
 Note: `task101.sh` có trạng thái là `T`. Trạng thái này có nghĩa là tiến trình hiện đang bị tạm dừng. 
 
-9. Tiếp tục tiến trình task101.sh.
-9.1 Trong shell bên trái, tiếp tục tiến trình task101.sh.
+**9. Tiếp tục tiến trình `task101.sh`.**
+*9.1 Trong shell bên trái, tiếp tục tiến trình `task101.sh`.*
 
 ```
 [root@serverb ~]# pkill -SIGCONT task101.sh
 ```
-9.2 Trong shell  bên phải, hãy xác minh rằng quy trình đang chạy lại.
-
+*9.2 Trong shell  bên phải, hãy xác minh rằng quy trình đang chạy lại.*
 ```
 [root@redhat9-server-1 ~]# top
   PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
@@ -1510,9 +1508,9 @@ Note: `task101.sh` có trạng thái là `T`. Trạng thái này có nghĩa là 
  6430 student   20   0  228796   3080   2824 S  24.6   0.2   3:47.45 task102.sh
  2608 student   20   0  228796   3056   2800 S  16.6   0.2  10:34.92 task101.sh
 ```
-10. Kết thúc các tiến trình `task101.sh, task102.sh và task103.sh` từ dòng lệnh. Sau khi kết thúc các tiến trình này, hãy kiểm tra mức sử dụng CPU và tải trung bình.
+**10. Kết thúc các tiến trình `task101.sh, task102.sh và task103.sh` từ dòng lệnh. Sau khi kết thúc các tiến trình này, hãy kiểm tra mức sử dụng CPU và tải trung bình.**
 
-10.1 In the left terminal shell, terminate the task101.sh, task102.sh, and task103.sh processes.
+*10.1 In the left terminal shell, terminate the `task101.sh`, `task102.sh`, and `task103.sh` processes.*
 
 ```
 [root@serverb ~]# pkill task101.sh
@@ -1520,7 +1518,7 @@ Note: `task101.sh` có trạng thái là `T`. Trạng thái này có nghĩa là 
 [root@serverb ~]# pkill task103.sh
 
 ```
-10.2 Trong shell terminal bên phải, hãy kiểm tra xem các tiến trình không còn xuất hiện trong đầu ra tiện ích hàng đầu nữa. Tải trung bình giảm dần.
+*10.2 Trong shell terminal bên phải, hãy kiểm tra xem các tiến trình không còn xuất hiện trong đầu ra tiện ích hàng đầu nữa. Tải trung bình giảm dần.*
 
 ```
 [root@redhat9-server-1 ~]# top
@@ -1532,12 +1530,10 @@ Kiểm soát và giám sát các dịch vụ hệ thống và daemon mà systemd
 Kết quả   
 - Bật, tắt, khởi động và dừng các dịch vụ.
 
-1. Vao `root` ; pass: `student`
+**1. Vao `root` ; pass: `student`**
+**2. Kiểm tra trạng thái hiện tại của dịch vụ `psacct`. Nếu dịch vụ `psacct` đã dừng, hãy khởi động lại.**
 
-2. Kiểm tra trạng thái hiện tại của dịch vụ `psacct`. Nếu dịch vụ `psacct` đã dừng, hãy khởi động lại.   
-
-2.1 Xác minh trạng thái của dịch vụ `psacct`.
-
+*2.1 Xác minh trạng thái của dịch vụ `psacct`.*
 ```
 [root@redhat9-server-1 ~]# systemctl status psacct.service 
 ○ psacct.service - Kernel process accounting
@@ -1559,24 +1555,24 @@ active
 
 ```
 
-3. Cấu hình dịch vụ `psacct` để bắt đầu khi khởi động hệ thống.  
+**3. Cấu hình dịch vụ `psacct` để bắt đầu khi khởi động hệ thống.** 
 
-3.1 Cho phép dịch vụ psacct khởi động khi hệ thống khởi động.
+*3.1 Cho phép dịch vụ `psacct` khởi động khi hệ thống khởi động.*
 
 ```
 [root@serverb ~]# systemctl enable psacct
 Created symlink '/etc/systemd/system/multi-user.target.wants/psacct.service' → '/usr/lib/systemd/system/psacct.service'.
 ```
-3.2 Xác minh rằng dịch vụ psacct được bật để khởi động khi hệ thống khởi động.
+*3.2 Xác minh rằng dịch vụ `psacct` được bật để khởi động khi hệ thống khởi động.*
 
 ```
 [root@serverb ~]# systemctl is-enabled psacct
 enabled
 ```
 
-4. Kiểm tra trạng thái của dịch vụ rsyslog. Nếu dịch vụ rsyslog đang chạy, hãy dừng dịch vụ và xác minh rằng nó không còn hoạt động nữa.
+**4. Kiểm tra trạng thái của dịch vụ `rsyslog`. Nếu dịch vụ `rsyslog` đang chạy, hãy dừng dịch vụ và xác minh rằng nó không còn hoạt động nữa.**
 
-4.1 Kiểm tra trạng thái của dịch vụ rsyslog. Lưu ý rằng dịch vụ rsyslog đang chạy và được bật để khởi động khi khởi động.
+*4.1 Kiểm tra trạng thái của dịch vụ `rsyslog`. Lưu ý rằng dịch vụ `rsyslog` đang chạy và được bật để khởi động khi khởi động.*
 
 ```
 [root@redhat9-server-1 ~]# systemctl status rsyslog
@@ -1585,29 +1581,28 @@ enabled
      Active: active (running) since Thu 2025-08-14 08:33:45 +07; 47min ago
        Docs: man:rsyslogd(8)
 ```
-4.2 Stop the rsyslog service.
+*4.2 Stop the `rsyslog` service.*
 ```
  systemctl stop rsyslog
 ```
-4.3 Verify that the rsyslog service is stopped.
-
+*4.3 Verify that the `rsyslog` service is stopped.*
 ```
 [root@serverb ~]# systemctl is-active rsyslog
 inactive
 ```
-5. Cấu hình dịch vụ rsyslog để nó không khởi động khi hệ thống khởi động. 
+**5. Cấu hình dịch vụ `rsyslog` để nó không khởi động khi hệ thống khởi động.**
 
-5.1 Vô hiệu hóa dịch vụ rsyslog để nó không khởi động khi hệ thống khởi động.
+*5.1 Vô hiệu hóa dịch vụ rsyslog để nó không khởi động khi hệ thống khởi động.*
 ```
 [root@serverb ~]# systemctl disable rsyslog
 Removed '/etc/systemd/system/multi-user.target.wants/rsyslog.service'.
 ```
-5.2 Xác minh rằng dịch vụ rsyslog không khởi động trong quá trình khởi động.
+*5.2 Xác minh rằng dịch vụ `rsyslog` không khởi động trong quá trình khởi động.*
 ```
 [root@serverb ~]# systemctl is-enabled rsyslog
 disabled
 ```
-6. Khởi động lại máy serverb để cấu hình khởi động cho các dịch vụ có hiệu lực. Đợi máy khởi động trước khi đánh giá hoạt động này. Máy có thể mất vài phút để khởi động.
+**6. Khởi động lại máy `serverb` để cấu hình khởi động cho các dịch vụ có hiệu lực. Đợi máy khởi động trước khi đánh giá hoạt động này. Máy có thể mất vài phút để khởi động.**
 ```
 [root@serverb ~]# systemctl reboot
 Connection to serverb closed by remote host.
@@ -1623,7 +1618,7 @@ Kết quả:
 
 sudo -i
 
-2. Tạo kết nối sử dụng cấu hình mạng tĩnh bằng cách sử dụng thông tin từ bảng sau.
+**2. Tạo kết nối sử dụng cấu hình mạng tĩnh bằng cách sử dụng thông tin từ bảng sau.**
 
 Parameter	|Setting
 ---|---
@@ -1633,7 +1628,7 @@ IP address	|172.25.250.11/24
 Gateway address	|172.25.250.254
 DNS address	|172.25.250.254
 
-2.1 Liệt kê các giao diện mạng và xác định giao diện nào được liên kết với địa chỉ MAC `52:54:00:00:fa:0b`.
+*2.1 Liệt kê các giao diện mạng và xác định giao diện nào được liên kết với địa chỉ MAC `52:54:00:00:fa:0b`.*
 
 ```
 [root@redhat9-server-1 ~]# ip link
@@ -1656,8 +1651,8 @@ ipv4.addresses '192.168.38.128/24' \
 ipv4.gateway '192.168.38.2'
 ```
 Giải thích từng tham số:
-| Tham số                                | Ý nghĩa                                                                   |
-| -------------------------------------- | ------------------------------------------------------------------------- |
+| Tham số | Ý nghĩa|
+| --- | --- |
 | **nmcli con add**                      | Tạo mới một **connection profile** trong NetworkManager.                  |
 | **con-name custom-profile**            | Đặt tên profile là **custom-profile**.                                    |
 | **ifname ens160**                      | Gắn profile này cho card mạng tên **ens160**.                             |
@@ -1691,17 +1686,17 @@ nmcli con show
 
 ```
 
-3. Cấu hình kết nối `custom-profile` để tự động bắt đầu. Đối với tất cả các kết nối Ethernet khác, hãy tắt cài đặt tự động kết nối.
+**3. Cấu hình kết nối `custom-profile` để tự động bắt đầu. Đối với tất cả các kết nối Ethernet khác, hãy tắt cài đặt tự động kết nối.**
 
-3.1 Cấu hình kết nối `custom-profile` để tự động bắt đầu.
+*3.1 Cấu hình kết nối `custom-profile` để tự động bắt đầu.*
 ```
 [root@serverb ~]# nmcli con mod "custom-profile" connection.autoconnect yes
 ```
-3.2 Tìm các kết nối Ethernet khác.
+*3.2 Tìm các kết nối Ethernet khác.*
 ```
 [root@redhat9-server-1 ~]# nmcli connection show
 ```
-3.3 Xem lại kết nối `ens160` và tắt cài đặt kết nối tự động nếu cần.
+*3.3 Xem lại kết nối `ens160` và tắt cài đặt kết nối tự động nếu cần.*
 
 ```
 [root@serverb ~]# nmcli con show ens160
@@ -1711,7 +1706,7 @@ connection.autoconnect:                 yes
 ...output omitted...
 [root@serverb ~]# nmcli con mod ens160 connection.autoconnect no
 ```
-3.4 Xem lại  `Wired connection`  và tắt cài đặt kết nối tự động nếu cần. (Theo lab cua redhat)
+*3.4 Xem lại  `Wired connection`  và tắt cài đặt kết nối tự động nếu cần. (Theo lab cua redhat)*
 
 ```
 [root@serverb ~]# nmcli con show "Wired connection 1"
@@ -1721,16 +1716,16 @@ connection.autoconnect:                 yes
 ...output omitted...
 [root@serverb ~]# nmcli con mod "Wired connection 1" connection.autoconnect no
 ```
-4. Thêm địa chỉ IP `172.25.250.150/24` làm địa chỉ phụ cho kết nối  `custom-profile`. Kiểm tra xem cấu hình mới đã được áp dụng cho kết nối chưa.
+**4. Thêm địa chỉ IP `172.25.250.150/24` làm địa chỉ phụ cho kết nối  `custom-profile`. Kiểm tra xem cấu hình mới đã được áp dụng cho kết nối chưa.**
 
-4.1 Thêm địa chỉ IP `172.25.250.150/24` làm địa chỉ phụ cho kết nối  `custom-profile`.
+*4.1 Thêm địa chỉ IP `172.25.250.150/24` làm địa chỉ phụ cho kết nối  `custom-profile`.*
  
 ```
 [root@serverb ~]# nmcli con mod "custom-profile" \
 +ipv4.addresses '172.25.250.150/24'
 [root@serverb ~]# nmcli con reload
 ```
-4.2 Review the custom-profile connection
+*4.2 Review the `custom-profile` connection*
 ```
 [root@serverb ~]# nmcli con show custom-profile
 connection.id:                          custom-profile
@@ -1740,13 +1735,13 @@ ipv4.gateway:                           172.25.250.254
 ...output omitted...
 ```
 
-5. Reboot the serverb machine.
+**5. Reboot the `serverb` machine.**
 ```
 [root@serverb ~]# systemctl reboot
 ...output omitted...
 student@workstation:~$
 ```
-6. Trên máy `workstation` , hãy kiểm tra xem máy serverb đã được khởi tạo và nhận được các gói ICMP chưa. Máy serverb sẽ khởi động sau khoảng một phút. 
+**6. Trên máy `workstation` , hãy kiểm tra xem máy serverb đã được khởi tạo và nhận được các gói ICMP chưa. Máy `serverb` sẽ khởi động sau khoảng một phút.**
 ```
 student@workstation:~$ ping -c3 serverb
 PING serverb.lab.example.com (172.25.250.11) 56(84) bytes of data.
@@ -1760,15 +1755,15 @@ rtt min/avg/max/mdev = 0.417/0.532/0.666/0.102 ms
 
 ``` 
 
-7. Trên máy `workstation`, với tư cách là user `root`, hãy thêm một mục vào tệp `/etc/hosts` để ánh xạ địa chỉ IP `172.25.250.150` thành tên `serverb-secondary`. Địa chỉ IP phụ của máy serverb phải được phân giải theo tên đó từ máy `workstation`.
+**7. Trên máy `workstation`, với tư cách là user `root`, hãy thêm một mục vào tệp `/etc/hosts` để ánh xạ địa chỉ IP `172.25.250.150` thành tên `serverb-secondary`. Địa chỉ IP phụ của máy serverb phải được phân giải theo tên đó từ máy `workstation`.**
 
-7.1 Switch to the root user. Use student as the password.
+*7.1 Switch to the root user. Use student as the password.*
 ```
 student@workstation:~$ sudo -i
 [sudo] password for student: student
 root@workstation:~#
 ```
-7.2 Chỉnh sửa tệp `/etc/hosts` và thêm dòng `172.25.250.150 serverb-secondary` vào cuối tệp. Ví dụ sau đây cho thấy nội dung dự kiến của tệp /etc/hosts:
+*7.2 Chỉnh sửa tệp `/etc/hosts` và thêm dòng `172.25.250.150 serverb-secondary` vào cuối tệp. Ví dụ sau đây cho thấy nội dung dự kiến của tệp `/etc/hosts`:*
 
 ```
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
@@ -1779,14 +1774,13 @@ root@workstation:~#
 172.25.250.9 workstation.lab.example.com workstation
 172.25.250.150 serverb-secondary
 ```
-7.3 Exit from the root user.
-
+*7.3 Exit from the root user.*
 
 ```
 root@workstation:~# exit
 logout
 ```
-7.4 Xác minh rằng bạn có thể truy cập được địa chỉ IP phụ của serverb bằng tên serverb-secondary.
+*7.4 Xác minh rằng bạn có thể truy cập được địa chỉ IP phụ của serverb bằng tên `serverb-secondary`.*
 
 ```
 student@workstation:~$ ping -c3 serverb-secondary
