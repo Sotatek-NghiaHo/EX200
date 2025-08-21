@@ -512,6 +512,8 @@ total 0
 -rw-r--r--. 2 nghiahv nghiahv 0 Aug 13 10:21 season2_project_plan.odf
 
 ```
+
+---
 # CHAPTER 10: Manage Local Users and Groups
 10.11 - PAGE 55/128
 Sử dụng quyền truy cập superuser để quản lý người dùng và nhóm cục bộ và để quản lý chính sách mật khẩu cục bộ.
@@ -525,19 +527,19 @@ Kết quả:
 - Đặt chính sách thời hạn mật khẩu dành riêng cho người dùng.
 
 Chuyển sang người dùng `sudo -i `   
-2. đảm bảo rằng người dùng mới tạo phải thay đổi mật khẩu sau mỗi 30 ngày.  (KHÔNG áp dụng cho user hiện có.)
+**2. đảm bảo rằng người dùng mới tạo phải thay đổi mật khẩu sau mỗi 30 ngày.  (KHÔNG áp dụng cho user hiện có.)**
 ```
 vi /etc/login.defs
 PASS_MAX_DAYS   30
 ```
-3. Tạo nhóm `consultants` có GID là 35000.
+**3. Tạo nhóm `consultants` có GID là 35000.**
 ```
 [root@redhat9-server-1 ~]#  groupadd -g 35000 consultants
 [root@redhat9-server-1 ~]# cat /etc/group | grep consultants
 consultants:x:35000:
 
 ```
-4.  Cấu hình quyền quản trị để cho phép tất cả thành viên nhóm `consultants` thực thi bất kỳ lệnh nào với tư cách người dùng. Tránh sử dụng công cụ dòng lệnh visudo để chỉnh sửa tệp /etc/sudoers. Thay vào đó, hãy đặt tệp cấu hình vào thư mục `/etc/sudoers.d`.
+4.  Cấu hình quyền quản trị để cho phép tất cả thành viên nhóm `consultants` thực thi bất kỳ lệnh nào với tư cách người dùng. Tránh sử dụng công cụ dòng lệnh visudo để chỉnh sửa tệp `/etc/sudoers`. Thay vào đó, hãy đặt tệp cấu hình vào thư mục `/etc/sudoers.d`.
 ```
 vi /etc/sudoers.d/consultants
 %consultants  ALL=(ALL) ALL
@@ -563,7 +565,6 @@ uid=1003(consultant2) gid=1003(consultant2) groups=1003(consultant2),35000(consu
 uid=1004(consultant3) gid=1004(consultant3) groups=1004(consultant3),35000(consultants)
 [root@redhat9-server-1 ~]# id consultant1
 uid=1002(consultant1) gid=35001(consultant1) groups=35001(consultant1),35000(consultants)
-
 ```
 Note:
 - tuy chon `-G` : chỉ thêm user vào nhóm phụ consultants, không đặt nhóm chính (primary group) là consultants
@@ -571,7 +572,8 @@ Note:
 `usermod -aG groupname username`
 - Đổi nhóm chính:  
 `sudo usermod -g new_primary_group username`
-6. Đặt mật khẩu consultant1, consultant2 và consultant3 la redhat.
+
+**6. Đặt mật khẩu `consultant1`, `consultant2` và `consultant3` la redhat.**
 ```
 [root@redhat9-server-1 ~]# passwd consultant1
 Changing password for user consultant1.
@@ -593,19 +595,16 @@ New password:
 BAD PASSWORD: The password is shorter than 8 characters
 Retype new password: 
 passwd: all authentication tokens updated successfully.
-
-
 ```
-7. Đặt thời hạn hết hạn cho các tài khoản consultant1, consultant2 và consultant3 là 90 ngày kể từ ngày hiện tại.
+**7. Đặt thời hạn hết hạn cho các tài khoản `consultant1`, `consultant2` và `consultant3` là 90 ngày kể từ ngày hiện tại.**
 
-7.1 Xác định ngày trong tương lai 90 ngày. 
-
+*7.1 Xác định ngày trong tương lai 90 ngày.*
 ```
 [root@redhat9-server-1 ~]# date -d "+90 days" +%F
 2025-11-11
 
 ```
-7.2 Đặt các tài khoản consultant1, consultant2, và consultant3 hết hạn vào ngày được hiển thị ở bước trước
+*7.2 Đặt các user `consultant1`, `consultant2`, và `consultant3` hết hạn vào ngày được hiển thị ở bước trước*
 ```
 [root@redhat9-server-1 ~]# chage -E 2025-11-11 consultant1 
 [root@redhat9-server-1 ~]# chage -E 2025-11-11 consultant2
@@ -613,14 +612,14 @@ passwd: all authentication tokens updated successfully.
 
 ```
 
-8. Thay đổi chính sách mật khẩu cho tài khoản consultant2 để yêu cầu mật khẩu mới sau mỗi 15 ngày.
+**8. Thay đổi chính sách mật khẩu cho user `consultant2` để yêu cầu mật khẩu mới sau mỗi 15 ngày.**
 
 ```
 [root@redhat9-server-1 ~]# chage -M 15 consultant2
 
 
 ```
-9. Ngoài ra, hãy buộc người dùng consultant1, consultant2 và consultant3 thay đổi mật khẩu khi đăng nhập lần đầu.
+**9. Ngoài ra, hãy buộc người dùng `consultant1`, `consultant2` và `consultant3` thay đổi mật khẩu khi đăng nhập lần đầu.**
 
 Đặt ngày cuối cùng thay đổi mật khẩu thành 0 để người dùng phải thay đổi mật khẩu khi lần đầu đăng nhập vào hệ thống.
 
@@ -669,7 +668,7 @@ Kết quả:
 - Tạo cấu trúc tệp và thư mục cần thiết, chỉ định quyền truy cập theo yêu cầu.  
 
 Chuyển sang người dùng `sudo -i `     
-2. Tạo thư mục cộng tác `techdocs` trong thư mục `/home`. Đặt quyền sở hữu nhóm của thư mục thành nhóm `techdocs`, cấp toàn quyền cho người dùng và nhóm, và cấu hình thư mục sao cho chỉ chủ sở hữu tệp mới có thể xóa tệp của họ.  
+2. Tạo thư mục cộng tác `techdocs` trong thư mục `/home`. Đặt quyền sở hữu nhóm của thư mục thành nhóm `techdocs`, cấp toàn quyền cho user và group, và cấu hình thư mục sao cho chỉ chủ sở hữu tệp mới có thể xóa tệp của họ.  
 
 Ban dau
 ```
@@ -686,35 +685,34 @@ useradd dbadmin1
 
 ```
 
-2.1 Tạo thư mục /home/techdocs.
+*2.1 Tạo thư mục `/home/techdocs`.*
 ```
 mkdir /home/techdocs
 [root@redhat9-server-1 ~]# ll /home/
 drwxr-xr-x.  2 root        root           6 Aug 13 14:46 techdocs
 
 ```
-2.2 Thay đổi quyền sở hữu nhóm cho thư mục /home/techdocs thành nhóm techdocs.
+*2.2 Thay đổi quyền sở hữu nhóm cho thư mục `/home/techdocs` thành nhóm `techdocs`.*
 ```
 [root@redhat9-server-1 ~]# chown :techdocs /home/techdocs/
 [root@redhat9-server-1 ~]# ll /home/
 drwxr-xr-x.  2 root        techdocs       6 Aug 13 14:46 techdocs
 ```
-2.3 Đặt quyền đọc, ghi và thực thi cho người dùng và nhóm, không cấp quyền cho những người khác trong thư mục /home/techdocs.
+*2.3 Đặt quyền đọc, ghi và thực thi cho người dùng và nhóm, không cấp quyền cho những người khác trong thư mục `/home/techdocs`.*
 ```
 [root@redhat9-server-1 ~]# chmod 0770 /home/techdocs
 [root@redhat9-server-1 ~]# ll /home/
 drwxrwx---.  2 root        techdocs       6 Aug 13 14:46 techdocs
 
 ```
-2.4 Gán bit cố định vào thư mục /home/techdocs.
-
+*2.4 Gán bit cố định vào thư mục `/home/techdocs`.*
 ```
 [root@redhat9-server-1 ~]#  chmod o+t /home/techdocs
 [root@redhat9-server-1 ~]# ll /home/
 drwxrwx--T.  2 root        techdocs       6 Aug 13 14:46 techdocs
 ```
 
-2.5 Liệt kê các quyền của thư mục.
+*2.5 Liệt kê các quyền của thư mục.*
 ```
 [root@redhat9-server-1 ~]# ls -ld /home/techdocs
 drwxrwx--T. 2 root techdocs 6 Aug 13 14:46 /home/techdocs
@@ -723,18 +721,18 @@ drwxrwx--T. 2 root techdocs 6 Aug 13 14:46 /home/techdocs
 
 3. Xác minh rằng người dùng trong nhóm `techdocs` có thể tạo và cộng tác trên các tệp trong thư mục `/home/techdocs`. Với tư cách là người dùng dev1, hãy tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`. Với tư cách là người dùng dev2, hãy thêm nội dung sau vào tệp: "This is the first tech doc". Cấu hình quyền sở hữu và quyền hạn nhóm cần thiết để cho phép cộng tác này.
 
-3.1 Chuyển sang người dùng dev1. Chuyển đến thư mục `/home/techdocs`.
+*3.1 Chuyển sang người dùng `dev1`. Chuyển đến thư mục `/home/techdocs`.*
 ```
 [root@redhat9-server-1 ~]# su - dev1
 [dev1@redhat9-server-1 ~]$ cd /home/techdocs/
 ```
-3.2 Tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`.
+*3.2 Tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`.*
 ```
 [dev1@redhat9-server-1 techdocs]$ touch techdoc1.txt
 [dev1@redhat9-server-1 techdocs]$ ls
 techdoc1.txt
 ```
-3.3 Thay đổi quyền sở hữu nhóm cho tệp `techdoc1.txt` thành nhóm techdocs. Thêm quyền ghi cho nhóm trên tệp `techdoc1.txt`. Liệt kê các quyền của tệp.
+*3.3 Thay đổi quyền sở hữu nhóm cho tệp `techdoc1.txt` thành nhóm techdocs. Thêm quyền ghi cho nhóm trên tệp `techdoc1.txt`. Liệt kê các quyền của tệp.*
 
 ```
 [dev1@redhat9-server-1 techdocs]$ ll
@@ -751,7 +749,7 @@ total 0
 [dev1@redhat9-server-1 techdocs]$ 
 
 ```
-3.4 Exit from the dev1 user shell. Switch to the dev2 user.
+*3.4 Exit from the dev1 user shell. Switch to the dev2 user.*
 ```
 [dev1@redhat9-server-1 techdocs]$ exit
 logout
@@ -767,7 +765,7 @@ uid=1006(dev2) gid=35002(techdocs) groups=35002(techdocs)
 uid=1005(dev1) gid=35002(techdocs) groups=35002(techdocs)
 ```
 
-3.5 Chuyển đến thư mục `/home/techdocs`. Xác minh rằng người dùng dev2 có thể ghi vào tệp techdoc1.txt.
+*3.5 Chuyển đến thư mục `/home/techdocs`. Xác minh rằng người dùng dev2 có thể ghi vào tệp techdoc1.txt.*
 ```
 [dev2@redhat9-server-1 ~]$ cd /home/techdocs/
 [dev2@redhat9-server-1 techdocs]$ echo "This is the first tech doc." > techdoc1.txt 
@@ -777,7 +775,7 @@ This is the first tech doc.
 ```
 4. Xác minh rằng chỉ chủ sở hữu của tệp `techdoc1.txt` mới có thể xóa tệp đó. Nếu không phải là người dùng sở hữu tệp, hãy thử xóa tệp. Sau đó, chuyển sang chủ sở hữu, sao lưu tệp và xóa tệp. Cuối cùng, khôi phục tệp gốc từ bản sao lưu bằng cách di chuyển tệp.  
 
-4.1 Với tư cách là người dùng dev2, hãy thử xóa tệp techdoc1.txt
+*4.1 Với tư cách là người dùng `dev2`, hãy thử xóa tệp `techdoc1.txt`*
 ```
 [dev2@redhat9-server-1 techdocs]$ rm techdoc1.txt 
 rm: cannot remove 'techdoc1.txt': Operation not permitted
@@ -786,8 +784,8 @@ total 4
 -rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
 
 ```
-4.2 Thoát khỏi shell người dùng dev2. Chuyển sang người dùng dev1. Chuyển đến thư mục /home/techdocs.
-
+*4.2 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng dev1. Chuyển đến thư mục` /home/techdocs`.
+*
 ```
 [dev2@redhat9-server-1 techdocs]$ exit
 logout
@@ -795,7 +793,7 @@ logout
 [dev1@redhat9-server-1 ~]$ cd /home/techdocs/
 
 ```
-4.3 Sao lưu tệp `techdoc1.txt`, sau đó xóa tệp này.
+*4.3 Sao lưu tệp `techdoc1.txt`, sau đó xóa tệp này.*
 
 ```
 [dev1@redhat9-server-1 techdocs]$ cp -pr techdoc1.txt techdoc1.txt.bkp
@@ -818,8 +816,7 @@ total 4
   - Copy thư mục và toàn bộ nội dung bên trong (bao gồm cả thư mục con, file con).
   - Nếu copy chỉ một file, -r gần như không có tác dụng.
 
-4.4 Khôi phục tệp techdoc1.txt từ bản sao lưu.
-
+*4.4 Khôi phục tệp `techdoc1.txt` từ bản sao lưu.*
 ```
 [dev1@redhat9-server-1 techdocs]$  mv techdoc1.txt.bkp techdoc1.txt
 [dev1@redhat9-server-1 techdocs]$ ll
@@ -828,7 +825,7 @@ total 4
 
 ```
 
-5. Trong thư mục `/home/techdocs`, hãy tạo các thư mục con cho người dùng dev1 và dev2 dựa trên bảng sau.
+**5. Trong thư mục `/home/techdocs`, hãy tạo các thư mục con cho người dùng `dev1` và `dev2` dựa trên bảng sau.**
 
 Chỉnh sửa quyền để chỉ chủ sở hữu mới có thể ghi vào các tệp và thư mục, nhóm `techdocs` có thể đọc chúng và những người khác không có quyền truy cập. Điều chỉnh quyền sở hữu và quyền cho phù hợp, đồng thời xác minh rằng các tệp mới tuân thủ các quy tắc truy cập này.
 
@@ -851,7 +848,7 @@ drwxr-x---. 2 dev1 techdocs  6 Aug 13 15:42 dev1
 
 ```
 
-5.2 Chuyển đến thư mục dev1. Liệt kê giá trị umask cho người dùng dev1. Đổi umask mặc định cho người dùng dev1 thành 0027.
+*5.2 Chuyển đến thư mục dev1. Liệt kê giá trị umask cho người dùng dev1. Đổi umask mặc định cho người dùng dev1 thành 0027.*
 
 ```
 [dev1@redhat9-server-1 techdocs]$ cd dev1/
