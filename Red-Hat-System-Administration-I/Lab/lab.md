@@ -707,7 +707,7 @@ Giai thich
 Lệnh	|Tùy chọn	
 ---|---
 useradd -g	|Đặt nhóm chính khi tạo user	
-useradd -G	|Gán nhóm phụ khi tạo user	
+useradd -G	|Gán nhóm phụ khi tạo user (van con nhom chinh)
 ---|---
 usermod -g	|Đổi nhóm chính của user	
 usermod -G	|Thay thế toàn bộ nhóm phụ	
