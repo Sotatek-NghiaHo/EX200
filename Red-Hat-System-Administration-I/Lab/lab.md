@@ -101,7 +101,14 @@ date +%R
 
 ---
 # CHAPTER 3: Get Help from Local Documentation
-PAGE 17/128   
+PAGE 17/128  
+
+Tìm kiếm thông tin từ tài liệu cục bộ để giúp bạn chạy lệnh và hoàn thành tác vụ.   
+Kết quả 
+- Tìm kiếm thông tin liên quan đến lệnh bằng cách tìm kiếm trong man page. 
+- Khám phá các tùy chọn cho một số lệnh quản trị hệ thống phổ biến.
+
+
 Trong hoạt động này, bạn tạo `my_task.txt` và sau đó thêm thông tin cụ thể vào tệp này cho từng bước.  
 `touch my_task.txt`  
 **1. Tìm kiếm và mở trang hướng dẫn sử dụng `hostname`. Tìm tùy chọn lệnh để hiển thị tất cả tên miền đủ điều kiện (FQDN) của máy. Sau đó, chạy `hostname` với tùy chọn in tất cả FQDN và gửi kết quả ra `my_task.txt`.**
@@ -117,7 +124,7 @@ getipnodebyname (3)  - get network hostnames and addresses
 hostname (1)         - show or set the system's host name
 .....
 ```
-1.2 Mở trang hướng dẫn của hostname và tìm kiếm tùy chọn hiển thị tất cả FQDN của máy.
+*1.2 Mở trang hướng dẫn của `hostname` và tìm kiếm tùy chọn hiển thị tất cả FQDN của máy.*
 ```
 [root@redhat9-server-1 ~]# man hostname
 
@@ -132,13 +139,14 @@ OPTIONS
               put may contain duplicate entries. Do not make any assumptions about the order of the output.
 ```
 "q" to quit the man page  
-1.3 Sử dụng lệnh chuyển hướng với tùy chọn hostname -A để thêm tên máy chủ của máy vào my_task.txt
-`[root@redhat9-server-1 ~]# hostname -A >> my_task.txt`  
-1.4 Xác minh rằng tệp my_task.txt có chứa thông tin cần thiết.
+*1.3 Sử dụng lệnh chuyển hướng với tùy chọn hostname -A để thêm tên máy chủ của máy vào `my_task.txt`*
 ```
-[root@redhat9-server-1 ~]# cat my_task.txt 
-Enforcing
-redhat9-server-1 
+student@workstation:~$ hostname -A >> my_task.txt
+```  
+*1.4 Xác minh rằng tệp `my_task.txt` có chứa thông tin cần thiết.*
+```
+student@workstation:~$ cat my_task.txt
+workstation.lab.example.com workstation
 ```
 
 **2. Mở trang hướng dẫn của `date`. Tìm tùy chọn giúp bạn xác định số giây đã trôi qua giữa ngày 1 tháng 1 năm 1970 và ngày 1 tháng 1 năm 2025. Chạy lệnh và thêm kết quả đầu ra vào `my_task.txt`.**
@@ -356,6 +364,24 @@ mystery_chapter1.odf  mystery_chapter2.odf
 mystery_chapter3.odf  mystery_chapter4.odf  mystery_chapter5.odf  mystery_chapter6.odf  mystery_chapter7.odf  mystery_chapter8.odf
 
 ```
+
+Giai thich ve `..`
+```
+# Gia su co thuc muc
+/home/nghia/
+├── chapters/
+└── vacation/
+    ├── photo1.jpg
+    └── photo2.jpg
+
+pwd 
+/home/nghia/chapters
+
+ls ../vacation
+
+= cd .. + ls /vacation
+```
+
 ```
 [nghiahv@redhat9-server-1 chapters]$ pwd
 /home/nghiahv/Documents/my_bestseller/chapters
@@ -515,7 +541,7 @@ total 0
 
 ---
 # CHAPTER 10: Manage Local Users and Groups
-10.11 - PAGE 55/128
+10.11 - PAGE 55/128  
 Sử dụng quyền truy cập superuser để quản lý người dùng và nhóm cục bộ và để quản lý chính sách mật khẩu cục bộ.
 
 Kết quả:
@@ -990,6 +1016,7 @@ logout
  
 ```
 
+---
 # CHAPTER 12: Install and Update Software with RPM
 12.7 PAGE 71/128  
 Tải xuống, cài đặt, cập nhật và quản lý các gói phần mềm từ kho lưu trữ gói Red Hat và DNF.
@@ -1022,7 +1049,7 @@ enabled=1
 gpgcheck=0
 ---
 ```
-**2. Trên máy chủ, hãy cài đặt gói `rht-system`**
+**2. Trên máy chủ, hãy cài đặt gói `rht-system`**  
 *2.1 Liệt kê các gói có sẵn cho gói `rht-system`*
 ```
 dnf list rht-system
