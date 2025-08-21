@@ -463,7 +463,6 @@ Bằng cách sử dụng lệnh thay thế với lệnh` date +%s`, hãy tạo m
 [nghiahv@redhat9-server-1 changes]$ cp mystery_chapter5.odf mystery_chapter5_$(date +%s).odf
 [nghiahv@redhat9-server-1 changes]$ ls
 mystery_chapter5_1755058581.odf  mystery_chapter5_2025-08-13.odf  mystery_chapter5.odf  mystery_chapter6.odf
-
 ```
 Note: Phần $(...) là command substitution (thay thế bằng kết quả của lệnh bên trong).
 
@@ -494,7 +493,6 @@ chapters  editor  vacation
 chapters  editor
 [nghiahv@redhat9-server-1 my_bestseller]$ cd
 [nghiahv@redhat9-server-1 ~]$ 
-
 ```
 
 12. Tạo một liên kết cứng đến tệp `~/Documents/project_plans/season2_project_plan.odf` có tên là `~/Documents/backups/season2_project_plan.odf`.back. Liên kết cứng giúp bảo vệ tệp gốc khỏi việc vô tình xóa nhầm và giữ cho tệp sao lưu được cập nhật khi bạn thay đổi tệp gốc.
@@ -536,7 +534,6 @@ Documents/project_plans:
 total 0
 -rw-r--r--. 1 nghiahv nghiahv 0 Aug 13 10:21 season1_project_plan.odf
 -rw-r--r--. 2 nghiahv nghiahv 0 Aug 13 10:21 season2_project_plan.odf
-
 ```
 
 ---
@@ -563,7 +560,6 @@ PASS_MAX_DAYS   30
 [root@redhat9-server-1 ~]#  groupadd -g 35000 consultants
 [root@redhat9-server-1 ~]# cat /etc/group | grep consultants
 consultants:x:35000:
-
 ```
 4.  Cấu hình quyền quản trị để cho phép tất cả thành viên nhóm `consultants` thực thi bất kỳ lệnh nào với tư cách người dùng. Tránh sử dụng công cụ dòng lệnh visudo để chỉnh sửa tệp `/etc/sudoers`. Thay vào đó, hãy đặt tệp cấu hình vào thư mục `/etc/sudoers.d`.
 ```
@@ -628,22 +624,18 @@ passwd: all authentication tokens updated successfully.
 ```
 [root@redhat9-server-1 ~]# date -d "+90 days" +%F
 2025-11-11
-
 ```
 *7.2 Đặt các user `consultant1`, `consultant2`, và `consultant3` hết hạn vào ngày được hiển thị ở bước trước*
 ```
 [root@redhat9-server-1 ~]# chage -E 2025-11-11 consultant1 
 [root@redhat9-server-1 ~]# chage -E 2025-11-11 consultant2
 [root@redhat9-server-1 ~]# chage -E 2025-11-11 consultant3
-
 ```
 
 **8. Thay đổi chính sách mật khẩu cho user `consultant2` để yêu cầu mật khẩu mới sau mỗi 15 ngày.**
 
 ```
 [root@redhat9-server-1 ~]# chage -M 15 consultant2
-
-
 ```
 **9. Ngoài ra, hãy buộc người dùng `consultant1`, `consultant2` và `consultant3` thay đổi mật khẩu khi đăng nhập lần đầu.**
 
@@ -710,6 +702,16 @@ useradd -g techdocs editor1
 useradd dbadmin1
 
 ```
+Giai thich
+
+Lệnh	|Tùy chọn	
+---|---
+useradd -g	|Đặt nhóm chính khi tạo user	
+useradd -G	|Gán nhóm phụ khi tạo user	
+---|---
+usermod -g	|Đổi nhóm chính của user	
+usermod -G	|Thay thế toàn bộ nhóm phụ	
+usermod -aG	|Thêm nhóm phụ mới, giữ lại nhóm cũ
 
 *2.1 Tạo thư mục `/home/techdocs`.*
 ```
