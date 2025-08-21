@@ -1,21 +1,26 @@
+Lab environment  
+![](../pic/42.png)
+
+
+
 # CHAPTER 2: Access the Command Line
 - Chạy thành công các chương trình đơn giản từ dòng lệnh Bash shell.
 - Thực hiện các lệnh để xác định loại tệp và hiển thị các phần của tệp văn bản.
 - Thực hành sử dụng phím tắt lịch sử lệnh Bash để lặp lại lệnh hoặc một phần lệnh hiệu quả hơn.
 
-1. Sử dụng lệnh để hiển thị thời gian và ngày hiện tại.
+**1. Sử dụng lệnh để hiển thị thời gian và ngày hiện tại.**
 ```
 [root@redhat9-server-1 ~]# date
 Wed Aug 13 08:24:16 AM +07 2025
 ``` 
 
-2. Hiển thị thời gian hiện tại theo giờ 24 giờ (ví dụ: 13:57). Gợi ý: Chuỗi định dạng hiển thị đầu ra đó là %R.
+**2. Hiển thị thời gian hiện tại theo giờ 24 giờ (ví dụ: 13:57). Gợi ý: Chuỗi định dạng hiển thị đầu ra đó là %R.**
 ```
 [root@redhat9-server-1 ~]# date +%R
 08:24
 ```
 
-3. Tệp tin này là loại tệp gì /root/ ? Con người có thể đọc được không?
+**3. Tệp tin trong folder `/root/` này là loại tệp gì ? Con người có thể đọc được không?**
 
 ```
 [root@redhat9-server-1 ~]# file script.sh 
@@ -23,8 +28,7 @@ script.sh: ASCII text
 ```
 Tệp văn bản ASCII có thể đọc được bằng mắt thường
 
-4. Sử dụng `wc` và phím tắt Bash để hiển thị kích thước của zcat tệp.
- wc để hiển thị số dòng, từ và byte
+**4. Sử dụng `wc` và phím tắt Bash để hiển thị kích thước của file `zcat` . `wc` để hiển thị số dòng, từ và byte**
 ```
 # trước đó
 [root@redhat9-server-1 ~]# file script.sh 
@@ -38,50 +42,40 @@ Trong đó:
 - 3 → Số từ trong file script.sh (word count).
 - 13 → Số byte trong file script.sh (byte count), tức là tổng số ký tự, bao gồm cả dấu xuống dòng và dấu cách.
 
-5. Hiển thị 10 dòng đầu tiên của file.
+**5. Hiển thị 10 dòng đầu tiên của file `zcat`.**
 ```
 [root@redhat9-server-1 ~]# head Esc+.
 [root@redhat9-server-1 ~]# head script.sh 
 sad
-
 asd
-
 a
-
-
 ```
 Note: default head & tail display 10 line  
-6. Hiển thị 10 dòng cuối cùng của file.
+**6. Hiển thị 10 dòng cuối cùng của file `zcat`.**
 ```
 [root@redhat9-server-1 ~]# tail Esc+.
 [root@redhat9-server-1 ~]# tail script.sh 
 sad
-
 asd
-
 a
 ```
-7. Lặp lại chính xác lệnh trước đó với bốn lần nhấn phím hoặc ít hơn.
+**7. Lặp lại chính xác lệnh trước đó với bốn lần nhấn phím hoặc ít hơn.**
 - Một lựa chọn khác là nhấn phím Mũi tên Lên một lần để cuộn ngược lại một lệnh trong lịch sử lệnh, rồi nhấn Enter . Cách này sử dụng hai lần nhấn phím.
 - Một phương pháp khác là nhập lệnh tắt !!rồi nhấn Enter để chạy lệnh gần đây nhất trong lịch sử lệnh
 ```
 [root@redhat9-server-1 ~]# tail script.sh 
 sad
-
 asd
-
 a
 
 [root@redhat9-server-1 ~]# !!
 tail script.sh 
 sad
-
 asd
-
 a
 ```
 
-8. Sử dụng tùy chọn `tail -n 20` để hiển thị 20 dòng cuối cùng trong file. Sử dụng tính năng chỉnh sửa dòng lệnh để thực hiện tác vụ này với số lần nhấn phím tối thiểu.
+**8. Sử dụng tùy chọn `tail -n 20` để hiển thị 20 dòng cuối cùng trong file. Sử dụng tính năng chỉnh sửa dòng lệnh để thực hiện tác vụ này với số lần nhấn phím tối thiểu.**
 
 Sử dụng phím Mũi tên Lên để hiển thị lệnh trước đó. 
 -> Tiếp theo, sử dụng tổ hợp phím Ctrl + A để di chuyển con trỏ đến đầu dòng. 
@@ -89,13 +83,11 @@ Sử dụng phím Mũi tên Lên để hiển thị lệnh trước đó.
 ```
 [root@redhat9-server-1 ~]# tail -n 20 script.sh 
 sad
-
 asd
-
 a
 ```
 
-9. Sử dụng lịch sử shell để chạy `date +%R` lại lệnh.
+**9. Sử dụng lịch sử shell để chạy `date +%R` lại lệnh.**
 ```
 [root@redhat9-server-1 ~]# history
   475  date +%R
@@ -105,14 +97,14 @@ a
 [root@redhat9-server-1 ~]# !475
 date +%R
 08:49
-
 ```
 
+---
 # CHAPTER 3: Get Help from Local Documentation
-(page 17/128)  
+PAGE 17/128   
 Trong hoạt động này, bạn tạo `my_task.txt` và sau đó thêm thông tin cụ thể vào tệp này cho từng bước.  
-`touch my_task.txt`
-1. Tìm kiếm và mở trang hướng dẫn sử dụng `hostname`. Tìm tùy chọn lệnh để hiển thị tất cả tên miền đủ điều kiện (FQDN) của máy. Sau đó, chạy `hostname` với tùy chọn in tất cả FQDN và gửi kết quả ra `my_task.txt`.
+`touch my_task.txt`  
+**1. Tìm kiếm và mở trang hướng dẫn sử dụng `hostname`. Tìm tùy chọn lệnh để hiển thị tất cả tên miền đủ điều kiện (FQDN) của máy. Sau đó, chạy `hostname` với tùy chọn in tất cả FQDN và gửi kết quả ra `my_task.txt`.**
 
 1.1 Tìm kiếm các trang hướng dẫn có chứa chuỗi "hostname"  
 ```
@@ -149,7 +141,7 @@ Enforcing
 redhat9-server-1 
 ```
 
-2. Mở trang hướng dẫn của `date`. Tìm tùy chọn giúp bạn xác định số giây đã trôi qua giữa ngày 1 tháng 1 năm 1970 và ngày 1 tháng 1 năm 2025. Chạy lệnh và thêm kết quả đầu ra vào my_task.txt.
+**2. Mở trang hướng dẫn của `date`. Tìm tùy chọn giúp bạn xác định số giây đã trôi qua giữa ngày 1 tháng 1 năm 1970 và ngày 1 tháng 1 năm 2025. Chạy lệnh và thêm kết quả đầu ra vào `my_task.txt`.**
 
 2.1 Duyệt trang hướng dẫn sử dụng date để tìm tùy chọn phù hợp.
 ```
@@ -162,12 +154,12 @@ EXAMPLES
               $ date --date='@2147483647'
 ```
 "q" to quit the man page  
-2.2 Sử dụng date với các tùy chọn -d và %s để lấy số giây giữa các ngày được yêu cầu. Thêm đầu ra của lệnh vào my_task.txt.
+*2.2 Sử dụng `date` với các tùy chọn `-d` và `%s` để lấy số giây giữa các ngày được yêu cầu. Thêm đầu ra của lệnh vào `my_task.txt`.*
 ```
 [root@redhat9-server-1 ~]# date -d "Jan 1 2025" +%s >> my_task.txt 
 ```
 
-2.3 Xác minh rằng my_task.txt có chứa thông tin cần thiết.
+*2.3 Xác minh rằng `my_task.txt` có chứa thông tin cần thiết.*
 ```
 [root@redhat9-server-1 ~]# cat my_task.txt 
 Enforcing
@@ -175,25 +167,25 @@ redhat9-server-1
 1735664400
 ```
 
-2.4 Bạn có thể xác minh kết quả bằng cách chuyển đổi số giây bạn lấy được thành ngày tháng.
+*2.4 Bạn có thể xác minh kết quả bằng cách chuyển đổi số giây bạn lấy được thành ngày tháng.*
 ```
 [root@redhat9-server-1 ~]# date --date='@1735689600'
 Wed Jan  1 07:00:00 AM +07 2025
 ```
 
-3. Tìm trang hướng dẫn của lệnh xác định chế độ SELinux hiện tại của máy. Chạy lệnh và thêm kết quả vào my_task.txt.
+**3. Tìm trang hướng dẫn của lệnh xác định chế độ SELinux hiện tại của máy. Chạy lệnh và thêm kết quả vào `my_task.txt`.**
 
-3.1 Tìm lệnh hiển thị chế độ SELinux hiện tại.
+*3.1 Tìm lệnh hiển thị chế độ SELinux hiện tại*
 ```
 [root@redhat9-server-1 ~]#  man -k selinux
 getenforce (8)       - get the current mode of SELinux
 ```
-3.2 Sử dụng getenforce để lấy chế độ SELinux hiện tại và thêm vào my_tasks.txt.
+3.2 Sử dụng `getenforce` để lấy chế độ SELinux hiện tại và thêm vào `my_tasks.txt`.
 ```
 [root@redhat9-server-1 ~]# getenforce >> my_task.txt 
 
 ```
-**3.3 Xác minh rằng my_task.txt có chứa thông tin cần thiết.**
+*3.3 Xác minh rằng my_task.txt có chứa thông tin cần thiết.*
 ```
 [root@redhat9-server-1 ~]# cat my_task.txt 
 Enforcing
@@ -201,20 +193,20 @@ redhat9-server-1
 1735664400
 Enforcing
 ```
-4. Mở trang hướng dẫn của man. Tìm thông tin về cách in trang hướng dẫn bằng PostScript. Nối lệnh, chứ không phải phần đầu ra, vào my_task.txt.    
+**4. Mở trang hướng dẫn của `man`. Tìm thông tin về cách in trang hướng dẫn bằng PostScript. Nối lệnh, chứ không phải phần đầu ra, vào `my_task.txt`.**   
 
-**4.1 Sử dụng man man để xác định cách chuẩn bị trang hướng dẫn để in.**
+*4.1 Sử dụng `man` `man` để xác định cách chuẩn bị trang hướng dẫn để in.*
 ```
 [root@redhat9-server-1 ~]# man man
        man -t bash | lpr -Pps
            Format the manual page for bash into the default troff or groff format and pipe it to the printer  named  ps.   The  default
            output for groff is usually PostScript.  man --help should advise as to which processor is bound to the -t option.
 ```
-**4.2 Sử dụng echo để thêm man có tùy chọn phù hợp vào my_tasks.txt.**
+*4.2 Sử dụng echo để thêm man có tùy chọn phù hợp vào `my_tasks.txt`.*
 ```
 [root@redhat9-server-1 ~]# echo "man -t bash | lpr -Pps" >> my_task.txt
 ```
-**4.3 Xác minh rằng my_task.txt có chứa thông tin cần thiết.**
+*4.3 Xác minh rằng `my_task.txt` có chứa thông tin cần thiết.*
 ```
 [root@redhat9-server-1 ~]# cat my_task.txt 
 Enforcing
@@ -223,14 +215,16 @@ redhat9-server-1
 Enforcing
 man -t bash | lpr -Pps
 ```
+
+---
 # CHAPTER 7: Manage Files from the Command Line   
 7.7 page 36/128    
 Sao chép, di chuyển, tạo, xóa và sắp xếp các tệp từ dòng lệnh.   
 Target: Sử dụng ký tự đại diện để định vị và thao tác với tệp.
 
-2. Tạo một thư mục có tên là `project_plans` trong thu muc Documents . Thư muc Documents này được đặt trong thư mục gốc của người dùng `nghiahv`. Tạo hai tệp trống trong project_plans có tên là `season1_project_plan.odf` và `season2_project_plan.odf`.  
+**2. Tạo một thư mục có tên là `project_plans` trong thu muc Documents . Thư muc Documents này được đặt trong thư mục gốc của người dùng `nghiahv`. Tạo hai tệp trống trong project_plans có tên là `season1_project_plan.odf` và `season2_project_plan.odf`.** 
 
-Gợi ý: Nếu thư mục ~/Documents không tồn tại, hãy sử dụng tùy chọn lệnh mkdir -p để tạo thư mục.
+Gợi ý: Nếu thư mục `~/Documents` không tồn tại, hãy sử dụng tùy chọn lệnh `mkdir -p` để tạo thư mục.
 ```
 [nghiahv@redhat9-server-1 ~]$ mkdir -p Documents/project_plans
 [nghiahv@redhat9-server-1 ~]$ touch \
@@ -246,17 +240,16 @@ total 0
 -rw-r--r--. 1 nghiahv nghiahv 0 Aug 13 10:21 season1_project_plan.odf
 -rw-r--r--. 1 nghiahv nghiahv 0 Aug 13 10:21 season2_project_plan.odf
 ```
-3. Tạo 12 tệp với tên `tv_seasonX_episodeY.ogg` trong thư mục /home/student. Thay thế ký tự X bằng số mùa và ký tự Y bằng tập của mùa đó, cho hai mùa, mỗi mùa sáu tập.
+**3. Tạo 12 tệp với tên `tv_seasonX_episodeY.ogg` trong thư mục `/home/student`. Thay thế ký tự X bằng số mùa và ký tự Y bằng tập của mùa đó, cho hai mùa, mỗi mùa sáu tập.**
 ```
 [nghiahv@redhat9-server-1 ~]$ touch tv_season{1..2}_episode{1..6}.ogg
 [nghiahv@redhat9-server-1 ~]$ ls tv*
 tv_season1_episode1.ogg  tv_season1_episode4.ogg  tv_season2_episode1.ogg  tv_season2_episode4.ogg
 tv_season1_episode2.ogg  tv_season1_episode5.ogg  tv_season2_episode2.ogg  tv_season2_episode5.ogg
 tv_season1_episode3.ogg  tv_season1_episode6.ogg  tv_season2_episode3.ogg  tv_season2_episode6.ogg
-
 ```
 
-4. Là tác giả của một loạt tiểu thuyết trinh thám thành công, bạn đang biên tập các chương của cuốn sách bán chạy tiếp theo để xuất bản. Hãy tạo tám tệp với tên `mystery_chapterX.odf`. Thay thế ký tự X bằng các số từ 1 đến 8.
+**4. Là tác giả của một loạt tiểu thuyết trinh thám thành công, bạn đang biên tập các chương của cuốn sách bán chạy tiếp theo để xuất bản. Hãy tạo tám tệp với tên `mystery_chapterX.odf`. Thay thế ký tự X bằng các số từ 1 đến 8.**
 ```
 [nghiahv@redhat9-server-1 ~]$ touch mystery_chapter{1..8}.odf
 [nghiahv@redhat9-server-1 ~]$ ls mys*
@@ -266,7 +259,7 @@ mystery_chapter2.odf  mystery_chapter4.odf  mystery_chapter6.odf  mystery_chapte
 ```
 5. Sử dụng một lệnh duy nhất để tạo thư mục `~/Videos/season1` và `~/Videos/season2` để sắp xếp các tập phim truyền hình. Di chuyển các tập phim truyền hình phù hợp vào các thư mục con của mùa phim. Chỉ sử dụng hai lệnh và chỉ định đích đến bằng cú pháp tương ứng.  
 
-Tạo hai thư mục con có tên là season1 và season2 trong thư mục Videos bằng cách sử dụng một lệnh duy nhất.
+Tạo hai thư mục con có tên là `season1` và `season2` trong thư mục `Videos` bằng cách sử dụng một lệnh duy nhất.
 ```
 [nghiahv@redhat9-server-1 ~]$ mkdir -p Videos/season{1..2}
 [nghiahv@redhat9-server-1 ~]$ ls Videos/
@@ -280,7 +273,7 @@ tv_season1_episode2.ogg  tv_season1_episode5.ogg  tv_season2_episode2.ogg  tv_se
 tv_season1_episode3.ogg  tv_season1_episode6.ogg  tv_season2_episode3.ogg  tv_season2_episode6.ogg
 
 ```
-Di chuyển các tập phim truyền hình phù hợp vào thư mục con theo mùa chỉ bằng hai lệnh.
+Di chuyển các tập phim truyền hình phù hợp vào thư mục con theo mùa chỉ bằng 2 lệnh.
 ```
 [nghiahv@redhat9-server-1 ~]$ mv tv_season1* Videos/season1/
 [nghiahv@redhat9-server-1 ~]$ mv tv_season2* Videos/season2/
@@ -296,9 +289,9 @@ Videos/season2:
 tv_season2_episode1.ogg  tv_season2_episode3.ogg  tv_season2_episode5.ogg
 tv_season2_episode2.ogg  tv_season2_episode4.ogg  tv_season2_episode6.ogg
 ```
-6. Tạo một hệ thống phân cấp thư mục hai cấp chỉ bằng một lệnh để sắp xếp các chương sách bí ẩn. Tạo thư mục con `my_bestseller` trong thư mục `Documents`, và tạo thư mục con `chapters` trong thư mục `my_bestseller` mới. Tạo thêm ba thư mục con ngay trong thư mục `my_bestseller` chỉ bằng một lệnh. Đặt tên cho các thư mục con này là `editor, changes và vacation`. Bạn không cần sử dụng lệnh mkdir -p để tạo thư mục cha vì thư mục cha my_bestseller đã tồn tại.
+6. Tạo một hệ thống phân cấp thư mục hai cấp chỉ bằng một lệnh để sắp xếp các chương sách bí ẩn. Tạo thư mục con `my_bestseller` trong thư mục `Documents`, và tạo thư mục con `chapters` trong thư mục `my_bestseller` mới. Tạo thêm ba thư mục con ngay trong thư mục `my_bestseller` chỉ bằng một lệnh. Đặt tên cho các thư mục con này là `editor, changes và vacation`. Bạn không cần sử dụng lệnh `mkdir -p `để tạo thư mục cha vì thư mục cha `my_bestseller` đã tồn tại.
 
-6.1 Tạo thư mục my_bestseller trong thư mục Documents. Tạo thư mục chapters trong thư mục my_bestseller.
+6.1 Tạo thư mục `my_bestseller` trong thư mục `Documents`. Tạo thư mục `chapters` trong thư mục `my_bestseller`.
 ```
 [nghiahv@redhat9-server-1 ~]$ mkdir -p Documents/my_bestseller/chapters
 [nghiahv@redhat9-server-1 ~]$ ls -R Documents/
@@ -315,7 +308,7 @@ season1_project_plan.odf  season2_project_plan.odf
 
 ```
 
-6.2 Tạo ba thư mục có tên là `editor`, `changes` và `vacation` trong thư mục my_bestseller bằng cách sử dụng một lệnh duy nhất.
+6.2 Tạo ba thư mục có tên là `editor`, `changes` và `vacation` trong thư mục `my_bestseller` bằng cách sử dụng một lệnh duy nhất.
 ```
 [nghiahv@redhat9-server-1 ~]$ mkdir Documents/my_bestseller/{editor,changes,vacation}
 [nghiahv@redhat9-server-1 ~]$ ls -R Documents/
