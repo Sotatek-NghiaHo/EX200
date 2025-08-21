@@ -718,7 +718,6 @@ usermod -aG	|Thêm nhóm phụ mới, giữ lại nhóm cũ
 mkdir /home/techdocs
 [root@redhat9-server-1 ~]# ll /home/
 drwxr-xr-x.  2 root        root           6 Aug 13 14:46 techdocs
-
 ```
 *2.2 Thay đổi quyền sở hữu nhóm cho thư mục `/home/techdocs` thành nhóm `techdocs`.*
 ```
@@ -740,6 +739,13 @@ drwxrwx---.  2 root        techdocs       6 Aug 13 14:46 techdocs
 drwxrwx--T.  2 root        techdocs       6 Aug 13 14:46 techdocs
 ```
 
+Note 
+- Sticky bit (t / T)
+Quy tắc (other):
+- Có x → hiện t
+- Không có x → hiện T
+
+
 *2.5 Liệt kê các quyền của thư mục.*
 ```
 [root@redhat9-server-1 ~]# ls -ld /home/techdocs
@@ -760,7 +766,7 @@ drwxrwx--T. 2 root techdocs 6 Aug 13 14:46 /home/techdocs
 [dev1@redhat9-server-1 techdocs]$ ls
 techdoc1.txt
 ```
-*3.3 Thay đổi quyền sở hữu nhóm cho tệp `techdoc1.txt` thành nhóm techdocs. Thêm quyền ghi cho nhóm trên tệp `techdoc1.txt`. Liệt kê các quyền của tệp.*
+*3.3 Thay đổi quyền sở hữu nhóm cho tệp `techdoc1.txt` thành nhóm `techdocs`. Thêm quyền ghi cho nhóm trên tệp `techdoc1.txt`. Liệt kê các quyền của tệp.*
 
 ```
 [dev1@redhat9-server-1 techdocs]$ ll
@@ -793,7 +799,7 @@ uid=1006(dev2) gid=35002(techdocs) groups=35002(techdocs)
 uid=1005(dev1) gid=35002(techdocs) groups=35002(techdocs)
 ```
 
-*3.5 Chuyển đến thư mục `/home/techdocs`. Xác minh rằng người dùng dev2 có thể ghi vào tệp techdoc1.txt.*
+*3.5 Chuyển đến thư mục `/home/techdocs`. Xác minh rằng người dùng `dev2` có thể ghi vào tệp `techdoc1.txt`.*
 ```
 [dev2@redhat9-server-1 ~]$ cd /home/techdocs/
 [dev2@redhat9-server-1 techdocs]$ echo "This is the first tech doc." > techdoc1.txt 
@@ -801,7 +807,7 @@ uid=1005(dev1) gid=35002(techdocs) groups=35002(techdocs)
 This is the first tech doc.
 
 ```
-4. Xác minh rằng chỉ chủ sở hữu của tệp `techdoc1.txt` mới có thể xóa tệp đó. Nếu không phải là người dùng sở hữu tệp, hãy thử xóa tệp. Sau đó, chuyển sang chủ sở hữu, sao lưu tệp và xóa tệp. Cuối cùng, khôi phục tệp gốc từ bản sao lưu bằng cách di chuyển tệp.  
+**4. Xác minh rằng chỉ chủ sở hữu của tệp `techdoc1.txt` mới có thể xóa tệp đó. Nếu không phải là người dùng sở hữu tệp, hãy thử xóa tệp. Sau đó, chuyển sang chủ sở hữu, sao lưu tệp và xóa tệp. Cuối cùng, khôi phục tệp gốc từ bản sao lưu bằng cách di chuyển tệp.**
 
 *4.1 Với tư cách là người dùng `dev2`, hãy thử xóa tệp `techdoc1.txt`*
 ```
@@ -862,7 +868,7 @@ Owner	|Directory|	Group	|Files
 dev1	|dev1	|techdocs	|dev1.txt <br> dev1.log <br> dev1.cfg
 dev2	|dev2	|techdocs	|dev2.txt <br> dev2.log <br>dev2.cfg
 
-*5.1 Với tư cách là người dùng dev1, hãy tạo thư mục dev1. Đổi quyền sở hữu nhóm cho thư mục dev1 thành nhóm `techdocs`. Thiết lập quyền đọc, ghi và thực thi cho người dùng, quyền đọc và thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev1.*
+*5.1 Với tư cách là người dùng `dev1`, hãy tạo thư mục `dev1`. Đổi quyền sở hữu nhóm cho thư mục `dev1` thành nhóm `techdocs`. Thiết lập quyền đọc, ghi và thực thi cho người dùng, quyền đọc và thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục `dev1`.*
 ```
 [dev1@redhat9-server-1 techdocs]$ ls
 techdoc1.txt
@@ -885,6 +891,10 @@ drwxr-x---. 2 dev1 techdocs  6 Aug 13 15:42 dev1
 [dev1@redhat9-server-1 dev1]$ umask 0027
 
 ```
+Note
+- Bất kể đang ở thư mục nào (/home/dev1, /tmp, /etc, hay /home/techdocs/dev1), khi tạo file mới trong session này, quyền sẽ tuân theo 0027. Muốn một thư mục có “policy riêng” -> chmod. 
+- Khi login lại (dù qua su - dev1 hay ssh dev1@host), shell mới sẽ đọc các file config mặc định (/etc/profile, ~/.bashrc, ~/.bash_profile …). umask sẽ trở về giá trị mặc định (thường là 0022, trừ khi anh sửa file config). Nghĩa là thiết lập 0027 vừa set trước đó không còn hiệu lực
+
 
 5.3 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev1. Đổi quyền sở hữu nhóm của các tệp này thành nhóm `techdocs`. Xác minh rằng người dùng dev1 có thể ghi vào chúng.
 ```
@@ -955,7 +965,7 @@ total 0
 hello
 ```
 
-**6. Xác minh rằng người dùng trong nhóm techdocs không phải là chủ sở hữu tệp có thể đọc nội dung tệp trong thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng `editor1`, hãy đọc các tệp thuộc sở hữu của những người dùng khác trong nhóm techdocs.**
+**6. Xác minh rằng người dùng trong nhóm `techdocs` không phải là chủ sở hữu tệp có thể đọc nội dung tệp trong thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng `editor1`, hãy đọc các tệp thuộc sở hữu của những người dùng khác trong nhóm `techdocs`.**  
 *6.1 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng `editor1`. Chuyển đến thư mục` /home/techdocs`.*
 
 ```
@@ -965,7 +975,7 @@ logout
 [editor1@redhat9-server-1 ~]$ cd /home/techdocs/
 
 ```
-6.2 Xác định các thư mục và tệp mà người dùng editor1 không sở hữu. Xem cấu trúc tệp và chủ sở hữu trong thư mục cộng tác /home/techdocs.
+*6.2 Xác định các thư mục và tệp mà người dùng `editor1` không sở hữu. Xem cấu trúc tệp và chủ sở hữu trong thư mục cộng tác` /home/techdocs`.*
 ```
 [editor1@redhat9-server-1 techdocs]$ tree -ug
 .
@@ -981,7 +991,7 @@ logout
 
 2 directories, 7 files
 ```
-*6.3 Với tư cách là người dùng `editor1`, hãy đọc nội dung trong các tệp techdoc1.txt, dev1.txt và `dev2.txt`.*
+*6.3 Với tư cách là người dùng `editor1`, hãy đọc nội dung trong các tệp `techdoc1.txt`, `dev1.txt` và `dev2.txt`.*
 ```
 [editor1@redhat9-server-1 techdocs]$ ll
 total 4
@@ -996,7 +1006,7 @@ hello
 hello
 
 ```
-**7. Xác minh rằng chỉ những người dùng trong nhóm techdocs mới có thể truy cập thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng dbadmin1, hãy thử truy cập thư mục` /home/techdocs`.**
+**7. Xác minh rằng chỉ những người dùng trong nhóm `techdocs` mới có thể truy cập thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng `dbadmin1`, hãy thử truy cập thư mục` /home/techdocs`.**
 
 *7.1 Thoát khỏi shell người dùng `editor1`. Chuyển sang người dùng `dbadmin1`. Chuyển đến thư mục `/home/techdocs`.*
 
@@ -1034,15 +1044,15 @@ Kết quả
 - Chi lab duoc tren tren moi truong redhat vi la repo private
 
 ```
-[root@redhat9-server-1 ~]# vi /etc/yum.repos.d/errata.repo
----
-[errata]
-name=Custom Errata Repository
-baseurl=http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata
-enabled=1
-gpgcheck=0
----
 
+student@workstation:~$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
+```
+[root@serverb ~]# vi /etc/yum.repos.d/errata.repo
 ---
 [errata]
 name=Red Hat Updates
@@ -1054,34 +1064,34 @@ gpgcheck=0
 **2. Trên máy chủ, hãy cài đặt gói `rht-system`**  
 *2.1 Liệt kê các gói có sẵn cho gói `rht-system`*
 ```
-dnf list rht-system
+[root@serverb ~]# dnf list rht-system
 ```
 *2.2 Cài đặt phiên bản mới nhất của gói `rht-system`.*
 ```
-dnf install rht-system
+[root@serverb ~]# dnf install rht-system
 ```
 **3. Vì lý do bảo mật, máy chủ ServerB không được phép kết nối với máy in giấy. Bạn có thể thực hiện việc này bằng cách gỡ bỏ gói `cups`. Khi hoàn tất, hãy thoát khỏi root shell.**
 
 *3.1 Liệt kê các gói `cups` đã cài đặt.*
 ```
-[root@redhat9-server-1 ~]# dnf list cups
-Last metadata expiration check: 0:08:02 ago on Wed 27 Apr 2022 05:01:59 AM EDT.
+[root@serverb ~]# dnf list cups
+...output omitted...
 Installed Packages
-cups.x86_64        1:2.3.3op2-13.el9      @rhel-9.0-for-x86_64-appstream-rpms
+cups.x86_64        1:2.4.10-11.el10         @rhel-10.0-for-x86_64-appstream-rpms
 ```
 *3.2 Remove the `cups` package.*
 ```
-dnf remove cups.x86_64
+[root@serverb ~]# dnf remove cups.x86_64
 ```
 
 **4. Tập lệnh khởi động sẽ tải xuống gói `rhcsa-script-1.0.0-1.noarch.rpm` trong thư mục `/home/student` trên máy serverb.**
 
-Hãy xác nhận rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb và cài đặt nó bằng quyền root. Kiểm tra xem gói đã được cài đặt chưa. Thoát khỏi máy serverb.
+Hãy xác nhận rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb và cài đặt nó bằng quyền `root`. Kiểm tra xem gói đã được cài đặt chưa. Thoát khỏi máy `serverb`.
 
-*4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb.*
+*4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên `serverb`.*
 
 ```
-[student@serverb ~]$ rpm -q -p rhcsa-script-1.0.0-1.noarch.rpm -i
+[root@serverb ~]# rpm -q -p -i ~/rhcsa-script-1.0.0-1.noarch.rpm
 Name        : rhcsa-script
 Version     : 1.0.0
 Release     : 1
@@ -1092,7 +1102,7 @@ Size        : 593
 License     : GPL
 Signature   : (none)
 Source RPM  : rhcsa-script-1.0.0-1.src.rpm
-Build Date  : Wed 23 Mar 2022 08:24:21 AM EDT
+Build Date  : Wed Mar 23 12:24:21 2022
 Build Host  : localhost
 Packager    : Bernardo Gargallo
 URL         : http://example.com
@@ -1104,16 +1114,15 @@ The package changes the motd.
 
 *4.2 Install the `rhcsa-script-1.0.0-1.noarch.rpm` package.*
 ```
-[student@serverb ~]$ sudo dnf install \
-rhcsa-script-1.0.0-1.noarch.rpm
-[sudo] password for student: student
+[root@serverb ~]# dnf install ~/rhcsa-script-1.0.0-1.noarch.rpm
+
 ```
 
 *4.3 Verify that the package is installed.*
 ```
-[student@serverb ~]$ rpm -q rhcsa-script
+[root@serverb ~]# rpm -q rhcsa-script
 rhcsa-script-1.0.0-1.noarch
-[student@serverb ~]$
+[root@serverb ~]#
 ```
 *4.4 Trở lại hệ thống máy workstation với tư cách là người dùng là student.*
 ```
@@ -1135,7 +1144,7 @@ Kết quả
 
 **1. Với tư cách là người dùng root trên máy serverb, hãy xác định UUID cho device `/dev/sdb1` và gắn kết nó bằng cách sử dụng UUID của nó trên thư mục `/mnt/system-report`.**
 
-*1.1 Đăng nhập vào máy chủ serverb với tư cách là người dùng student và chuyển sang người dùng root. Sử dụng student làm mật khẩu.*
+*1.1 Đăng nhập vào máy chủ `serverb` với tư cách là người dùng `student` và chuyển sang người dùng `root`. Sử dụng `student` làm mật khẩu.*
 ```
 student@workstation:~$ ssh student@serverb
 ...output omitted...
@@ -1235,7 +1244,7 @@ Diễn giải và giám sát các số liệu hệ thống, đồng thời nghi�
 Kết quả
 - Quản lý quy trình với Top như một công cụ quản lý quy trình.
 
-**1. Trên may workstation , hãy mở hai cửa sổ terminal cạnh nhau. Trong phần này, các terminal này được gọi là trái và phải. Trên mỗi cửa sổ terminal, hãy đăng nhập vào máy `serverb` với tư cách là user `student`.**
+**1. Trên may `workstation` , hãy mở hai cửa sổ terminal cạnh nhau. Trong phần này, các terminal này được gọi là trái và phải. Trên mỗi cửa sổ terminal, hãy đăng nhập vào máy `serverb` với tư cách là user `student`.**
 
 Tạo tập lệnh `task101.sh` trong thư mục `/home/student/bin`. Tập lệnh `task101.sh` tạo ra tải CPU nhân tạo bằng cách thực hiện các phép tính số học liên tục.
 
@@ -1255,7 +1264,7 @@ while true; do
   sleep 1
 done
 ```
-*1.4 Làm cho tập lệnh task101.sh có thể thực thi được.*
+*1.4 Làm cho tập lệnh `task101.sh` có thể thực thi được.*
 ```
 chmod +x /home/student/bin/task101.sh
 ```
@@ -1278,6 +1287,7 @@ top
 
 ```
 [student@serverb ~]$ task101.sh &
+
 [1] 2608
 ```
 **4. Trong shell terminal bên phải, hãy quan sát các tiến trình đang chạy. Tìm ID tiến trình (PID) của tiến trình `task101.sh` và lượng CPU mà tiến trình này tiêu thụ.**
@@ -1287,7 +1297,7 @@ Kiểm tra mức tiêu thụ tải hệ thống, luồng và bộ nhớ. Đảm 
 
 Tiện ích top sắp xếp các tiến trình theo mức tiêu thụ CPU theo mặc định. Tiến trình `task101.sh` nằm ở đầu danh sách. PID của tiến trình là 2608. PID trong hệ thống của bạn có thể khác.
 
-Lưu ý rằng tỷ lệ phần trăm CPU mà tiến trình task101.sh sử dụng dao động trong khoảng 10% đến 16%.
+Lưu ý rằng tỷ lệ phần trăm CPU mà tiến trình `task101.sh` sử dụng dao động trong khoảng 10% đến 16%.
 ```
 top - 20:44:19 up  1:25,  3 users,  load average: 0.14, 0.09, 0.02
 Tasks: 136 total,   1 running, 135 sleeping,   0 stopped,   0 zombie
@@ -1493,13 +1503,13 @@ Note:
   - Là job trước đó (previous job) — job sẽ trở thành mặc định nếu job + kết thúc.
 - Các job khác (không có + hoặc -) thì không phải “current” hay “previous” job.
   
-8. Trong shell terminal bên trái, chuyển sang tài khoản root và sử dụng redhat làm mật khẩu. Tạm dừng tiến trình task101.sh. Liệt kê các tác vụ còn lại. Xác minh rằng tiến trình task101.sh hiện đang ở trạng thái T.  
+**8. Trong shell terminal bên trái, chuyển sang tài khoản root và sử dụng redhat làm mật khẩu. Tạm dừng tiến trình task101.sh. Liệt kê các tác vụ còn lại. Xác minh rằng tiến trình task101.sh hiện đang ở trạng thái T.** 
 
-*8.1 Switch to the root user. Use `redhat` as the password.*
+*8.1 Switch to the `root` user. Use `redhat` as the password.*
 ```
 su - or sudo -i
 ```
-*8.2 Tạm dừng tiến trình `task101.sh`.*
+*8.2 Tạm dừng tiến trình task101.sh.*
 ```
 [root@serverb ~]# pkill -SIGSTOP `task101.sh`
 
