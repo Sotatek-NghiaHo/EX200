@@ -365,23 +365,6 @@ mystery_chapter3.odf  mystery_chapter4.odf  mystery_chapter5.odf  mystery_chapte
 
 ```
 
-Giai thich ve `..`
-```
-# Gia su co thuc muc
-/home/nghia/
-├── chapters/
-└── vacation/
-    ├── photo1.jpg
-    └── photo2.jpg
-
-pwd 
-/home/nghia/chapters
-
-ls ../vacation
-
-= cd .. + ls /vacation
-```
-
 ```
 [nghiahv@redhat9-server-1 chapters]$ pwd
 /home/nghiahv/Documents/my_bestseller/chapters
@@ -413,6 +396,23 @@ mystery_chapter3.odf  mystery_chapter4.odf  mystery_chapter5.odf  mystery_chapte
 [nghiahv@redhat9-server-1 chapters]$ ls ../vacation/
 mystery_chapter7.odf  mystery_chapter8.odf
 ```
+
+Giai thich ve `..`
+```
+# Gia su co thuc muc
+/home/nghia/
+├── chapters/
+└── vacation/
+    ├── photo1.jpg
+    └── photo2.jpg
+
+pwd 
+/home/nghia/chapters
+
+ls ../vacation
+= cd .. + ls /vacation
+```
+
 8. Chuyển thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa phim vào thư mục `vacation`. Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`. Liệt kê các tệp của thư mục đó. Sử dụng đối số thư mục làm việc trước đó để quay lại thư mục `season2`. Đối số này thành công nếu lần thay đổi thư mục cuối cùng bằng lệnh cd chỉ sử dụng một lệnh thay vì nhiều lệnh cd. Từ thư mục `season2`, sao chép tệp tập 2 vào thư mục `vacation`. Sử dụng phím tắt một lần nữa để quay lại thư mục `vacation`.  
 
 8.1 Thay đổi thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa giải vào thư mục `vacation`.
