@@ -8,7 +8,7 @@ Kết quả
 - Sử dụng vòng lặp để đơn giản hóa mã của bạn.
 - Lọc nội dung liên quan bằng cách sử dụng grep và biểu thức chính quy.
 
-1. Tạo tệp lệnh thực thi `/home/student/bin/bash-lab` trên máy `workstation` . Nội dung ban đầu trong lệnh phải sử dụng chỉ thị thông dịch shebang.
+**1. Tạo tệp lệnh thực thi `/home/student/bin/bash-lab` trên máy `workstation` . Nội dung ban đầu trong lệnh phải sử dụng chỉ thị thông dịch shebang.**
 
 Kiểm tra Bash shell nằm ở đâu bằng lệnh `which` hoặc `type`
 ```
@@ -16,20 +16,23 @@ Kiểm tra Bash shell nằm ở đâu bằng lệnh `which` hoặc `type`
 /usr/bin/bash
 [root@redhat9-server-1 ~]# type -a bash
 bash is /usr/bin/bash
-
 ```
-On the workstation machine, create the `/home/student/bin/` directory if needed.
+
+On the `workstation` machine, create the `/home/student/bin/` directory if needed.
 ```
 [student@workstation ~]$ mkdir -p /home/student/bin
 ```
+
 Use the vim command to create and edit the /home/student/bin/bash-lab script file.
 ```
 [student@workstation ~]$ vim ~/bin/bash-lab
 ```
+
 Insert the following text and save the file.
 ```
 #!/usr/bin/bash
 ```
+
 Make your script file executable.
 ```
 [student@workstation ~]$ chmod a+x ~/bin/bash-lab
@@ -42,7 +45,7 @@ So sánh `chmod a+x` & `chmod +x`
 
 ![](../pic/38.png)
 
-2. Chỉnh sửa tệp script mới tạo của bạn để lưu trữ *thông tin sau* từ máy servera và serverb trên `workstation`. Hệ thống sử dụng khóa SSH để xác thực, do đó bạn không cần mật khẩu. Lưu trữ kết quả đầu ra của các lệnh được liệt kê từ bảng sau vào các tệp `/home/student/output-servera` và `/home/student/output-serverb` tương ứng trên `workstation`. Sử dụng dấu thăng (#) để phân biệt kết quả đầu ra của các lệnh liên tiếp trong tệp đầu ra.
+**2. Chỉnh sửa tệp script mới tạo của bạn để lưu trữ *thông tin sau* từ máy `servera` và `serverb` trên `workstation`. Hệ thống sử dụng khóa SSH để xác thực, do đó bạn không cần mật khẩu. Lưu trữ kết quả đầu ra của các lệnh được liệt kê từ bảng sau vào các tệp `/home/student/output-servera` và `/home/student/output-serverb` tương ứng trên `workstation`. Sử dụng dấu thăng (#) để phân biệt kết quả đầu ra của các lệnh liên tiếp trong tệp đầu ra.**
 
 Command or file	| Content requested | Muc tieu
 ---|---|---
@@ -59,13 +62,12 @@ Lưu thông tin cần thiết vào các tệp `output-servera` và `output-serve
 
 Note: Bạn có thể sử dụng lệnh sudo mà không cần mật khẩu trên máy chủ servera và serverb. Hãy nhớ sử dụng vòng lặp để đơn giản hóa tập lệnh của bạn. Bạn cũng có thể sử dụng nhiều lệnh grep được nối với nhau bằng cách sử dụng ký tự ống (|).
 
-2.1 Use the vim command to open and edit the /home/student/bin/bash-lab script file.
-
+*2.1 Use the vim command to open and edit the `/home/student/bin/bash-lab` script file.*
 ```
 [student@workstation ~]$ vim ~/bin/bash-lab
 ```
-2.2 Thêm các dòng sau vào tệp script /home/student/bin/bash-lab. Số lượng dấu thăng là tùy ý.
 
+*2.2 Thêm các dòng sau vào tệp script `/home/student/bin/bash-lab`. Số lượng dấu thăng là tùy ý.*
 ```
 #!/usr/bin/bash
 USR='student'
@@ -94,15 +96,14 @@ Giai thich:
 - grep -v '^$' → bỏ dòng trống
 - grep -v '^#' → bỏ dòng comment
 
-3. Execute the `/home/student/bin/bash-lab` script, and review the output content on workstation.
-
-3.1 On workstation, execute the /home/student/bin/bash-lab script.
+**3. Execute the `/home/student/bin/bash-lab` script, and review the output content on workstation.**  
+*3.1 On `workstation`, execute the `/home/student/bin/bash-lab` script.*
 
 ```
 [student@workstation ~]$ bash-lab
 
 ```
-3.2 Xem lại nội dung của các tệp `/home/student/output-servera` và `/home/student/output-serverb`.
+*3.2 Xem lại nội dung của các tệp `/home/student/output-servera` và `/home/student/output-serverb`.*
 ```
 [student@workstation ~]$ cat /home/student/output-servera
 servera.lab.example.com
@@ -162,8 +163,8 @@ total 8
 [root@redhat9-server-1 ~]# /root/bash-lab
 sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
 sudo: a password is required
-
 ```
+
 Có 3 hướng xử lý khi chay file script
 - Chạy trực tiếp bằng đường dẫn tuyệt đối  
 `/root/bash-lab`
@@ -174,6 +175,7 @@ Có 3 hướng xử lý khi chay file script
 [root@redhat9-server-1 ~]# echo $PATH
 /root/.local/bin:/root/bin:/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin
 ```
+
 Khi bạn gõ một lệnh (ví dụ `bash-lab)`), shell sẽ tìm file thực thi theo thứ tự các thư mục liệt kê trong biến môi trường `$PATH`.
 ```
 # neu ko co thu muc trong $PATH tren thi tao
@@ -198,7 +200,7 @@ Note:
 - Nếu không có shebang, shell mặc định (thường là bash khi bạn đăng nhập) sẽ xử lý file.
 - Nam trong $PATH (neu muon go ten file ma khong can duong dan)
 
-
+---
 # CHAPTER 3: Lab: Analyze and Store Logs
 Thay đổi múi giờ trên máy chủ hiện có và cấu hình tệp nhật ký mới cho tất cả các sự kiện xác thực không thành công.
 
@@ -206,15 +208,16 @@ Kết quả
 - Cập nhật múi giờ trên máy chủ hiện có.
 - Cấu hình tệp nhật ký mới để lưu trữ tất cả thông báo xác thực không thành công.
 
-1. Log in to the serverb machine as the student user.
+**1. Log in to the serverb machine as the student user.**
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-2. Giả sử máy chủ được chuyển đến Jamaica và bạn phải cập nhật múi giờ thành `America/Jamaica`. Hãy kiểm tra xem bạn đã đặt đúng múi giờ chưa.  
 
-2.1 Chọn múi giờ phù hợp cho Jamaica.
+**2. Giả sử máy chủ được chuyển đến Jamaica và bạn phải cập nhật múi giờ thành `America/Jamaica`. Hãy kiểm tra xem bạn đã đặt đúng múi giờ chưa.**  
+
+*2.1 Chọn múi giờ phù hợp cho `Jamaica`.*
 ```
 [student@serverb ~]$ tzselect
 -> 2 (Americas)
@@ -225,12 +228,13 @@ Note:
 - `tzselect` → chỉ để chọn và hiển thị tên múi giờ.
 - `timedatectl set-timezone ...` → mới là lệnh áp dụng thật.
 
-2.2 Nâng cao quyền của người dùng `student` để cập nhật múi giờ của máy chủ serverb thành America/Jamaica.
+*2.2 Nâng cao quyền của người dùng `student` để cập nhật múi giờ của máy chủ serverb thành America/Jamaica.*
 ```
 [student@serverb ~]$ sudo timedatectl set-timezone America/Jamaica
 [sudo] password for student: student
 ```
-2.3 Verify that you successfully set the time zone to America/Jamaica.
+
+*2.3 Verify that you successfully set the time zone to America/Jamaica.*
 ```
 [student@serverb ~]$ timedatectl
                Local time: Wed 2022-03-16 07:18:40 EST
@@ -242,7 +246,7 @@ System clock synchronized: yes
           RTC in local TZ: no
 ```
 
-3. Xem các log events được ghi lại trong 30 phút trước trên máy chủ serverb.
+*3. Xem các log events được ghi lại trong 30 phút trước trên máy chủ `serverb`.*
 ```
 [student@serverb ~]$ journalctl --since "-30min"
 ...output omitted...
@@ -260,48 +264,41 @@ Aug 17 21:27:52 redhat9-server-1 systemd[1]: systemd-timedated.service: Deactiva
 [student@serverb ~]$
 ```
 
-4. Tạo tệp `/etc/rsyslog.d/auth-errors.conf`. Cấu hình dịch vụ `rsyslog` để ghi thông báo "Logging test authpriv.alert " vào tệp `/var/log/auth-errors.conf`. Sử dụng chức năng `authpriv` và mức độ ưu tiên `alert` .  
+**4. Tạo tệp `/etc/rsyslog.d/auth-errors.conf`. Cấu hình dịch vụ `rsyslog` để ghi thông báo "Logging test authpriv.alert " vào tệp `/var/log/auth-errors.conf`. Sử dụng chức năng `authpriv` và mức độ ưu tiên `alert` .**    
 - Bạn phải tạo file cấu hình riêng /etc/rsyslog.d/auth-errors.conf để chỉ định quy tắc log.
 - Quy tắc là: mọi log thuộc facility authpriv và priority alert thì ghi vào `/var/log/auth-errors`.
 - Sau đó phải test bằng cách gửi một log test, ví dụ dùng logger.
 
-4.1 Tạo tệp `/etc/rsyslog.d/auth-errors.conf` và chỉ định tệp `/var/log/auth-errors.conf`  làm đích đến cho các thông báo xác thực và bảo mật.
+*4.1 Tạo tệp `/etc/rsyslog.d/auth-errors.conf` và chỉ định tệp `/var/log/auth-errors.conf`  làm đích đến cho các thông báo xác thực và bảo mật.*
 
 ```
 sudo vi /etc/rsyslog.d/auth-errors.conf
 # them dong ben duoi
 authpriv.alert    /var/log/auth-errors
-
 ```
+
 📌 Giải thích:
 - authpriv → facility liên quan đến xác thực (login, sudo, ssh...).
 - alert → mức ưu tiên (priority) cao (mức độ từ alert trở lên (alert, crit, emerg)).
 - /var/log/auth-errors → file bạn muốn ghi log vào.
 
-4.2 Restart the `rsyslog` service to apply the configuration file changes.
-
+*4.2 Restart the `rsyslog` service to apply the configuration file changes.*
 ```
 [student@serverb ~]$ sudo systemctl restart rsyslog
-
 ```
 
-4.3 Sử dụng lệnh `logger -p` để ghi thông báo "Logging test authpriv.alert" vào tệp /var/log/auth-errors. Sử dụng chức năng authpriv và mức độ ưu tiên cảnh báo.
-
+*4.3 Sử dụng lệnh `logger -p` để ghi thông báo "Logging test authpriv.alert" vào tệp `/var/log/auth-errors`. Sử dụng chức năng authpriv và mức độ ưu tiên cảnh báo.*
 ```
 [student@serverb ~]$ logger -p authpriv.alert "Logging test authpriv.alert"
-
 ```
 
-4.4 Xác minh rằng tệp `/var/log/auth-errors` có chứa mục nhật ký với thông báo Logging test authpriv.alert hay không.
-
+*4.4 Xác minh rằng tệp `/var/log/auth-errors` có chứa mục nhật ký với thông báo Logging test authpriv.alert hay không.*
 ```
 [student@serverb ~]$ sudo tail /var/log/auth-errors
 Mar 16 07:25:12 serverb student[1339]: Logging test authpriv.alert
 ```
 
-4.5  Return to the workstation system as the student user.
-
-
+*4.5  Return to the `workstation` system as the `student` user.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -332,9 +329,9 @@ Kết quả
 
 Note:  It also installs SSH keys on your systems so that you can transfer files without entering passwords.
 
-1. Trên serverb, đồng bộ hóa cây thư mục `/etc` từ servera sang thư mục `/configsync`.  
+**1. Trên serverb, đồng bộ hóa cây thư mục `/etc` từ servera sang thư mục `/configsync`.** 
 
-1.1
+*1.1*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
@@ -342,13 +339,13 @@ Note:  It also installs SSH keys on your systems so that you can transfer files 
 [sudo] password for student: student
 [root@serverb ~]#
 ```
-1.2 Tạo thư mục `/configsync` để lưu trữ các tệp được đồng bộ hóa từ servera.
+
+*1.2 Tạo thư mục `/configsync` để lưu trữ các tệp được đồng bộ hóa từ `servera`.*
 ```
 [root@serverb ~]# mkdir /configsync
-
 ```
-1.3 Đồng bộ hóa cây thư mục `/etc` từ servera đến thư mục `/configsync` trên serverb.
 
+*1.3 Đồng bộ hóa cây thư mục `/etc` từ `servera` đến thư mục `/configsync` trên `serverb`.*
 ```
 [root@serverb ~]# rsync -av root@servera:/etc /configsync
 receiving incremental file list
@@ -380,9 +377,9 @@ SS `scp` & `rsync`
 ![](../pic/45.png)
 
 
-2. Tạo tệp lưu trữ `configfile-backup-servera.tar.gz` với nội dung thư mục `/configsync`.  
+**2. Tạo tệp lưu trữ `configfile-backup-servera.tar.gz` với nội dung thư mục `/configsync`.**
 
-2.1 Tạo một tệp nén gzip.
+*2.1 Tạo một tệp nén gzip.*
 ```
 [root@serverb ~]# tar -czf configfile-backup-servera.tar.gz /configsync
 tar: Removing leading `/' from member names
@@ -390,7 +387,7 @@ tar: Removing leading `/' from member names
 Giai thich "Removing leading..."
 ![](../pic/46.png)
 
-2.2 Liệt kê nội dung của kho lưu trữ `configfile-backup-servera.tar.gz`.
+*2.2 Liệt kê nội dung của kho lưu trữ `configfile-backup-servera.tar.gz`.*
 ```
 [root@serverb ~]# tar -tzf configfile-backup-servera.tar.gz
 ...output omitted...
@@ -404,14 +401,13 @@ Bonus: Nếu muốn file nằm chỗ khác, Nếu muốn lưu ở chỗ khác th
 ```
 tar -czf /tmp/configfile-backup-servera.tar.gz /configsync    # tuyệt đối
 tar -czf ../backup/configfile-backup-servera.tar.gz /configsync   # tương đối
-
 ```
 
-Ket qua
+Ket qua: 
 
 ![](../pic/49.png)
 
-3. Sao chép an toàn tệp lưu trữ `/root/configfile-backup-servera.tar.gz` từ serverb vào thư mục `/home/student` trên máy workstation.
+**3. Sao chép an toàn tệp lưu trữ `/root/configfile-backup-servera.tar.gz` từ serverb vào thư mục `/home/student` trên máy `workstation`.**
 ```
 [root@serverb ~]# sftp student@workstation
 student@workstation's password: student
@@ -435,9 +431,9 @@ configfile-backup-servera.tar.gz  Desktop  Documents  Downloads  Music  Pictures
 
 ```
 
-4. Trên workstation, giải nén nội dung vào thư mục `/tmp/savedconfig/`.
+**4. Trên workstation, giải nén nội dung vào thư mục `/tmp/savedconfig/`.**
 
-4.1 Trở lại hệ thống máy workstation với tư cách là người dùng là `student`.
+*4.1 Trở lại hệ thống máy `workstation` với tư cách là người dùng là `student`.*
 ```
 [root@serverb ~]# exit
 logout
@@ -446,15 +442,15 @@ logout
 Connection to serverb closed.
 [student@workstation]$
 ```
-4.2 Tạo thư mục `/tmp/savedconfig `để lưu trữ nội dung đã giải nén. Chuyển sang thư mục mới.
 
+*4.2 Tạo thư mục `/tmp/savedconfig `để lưu trữ nội dung đã giải nén. Chuyển sang thư mục mới.*
 ```
 [student@workstation ~]$ mkdir /tmp/savedconfig
 [student@workstation ~]$ cd /tmp/savedconfig
 [student@workstation savedconfig]$
 ```
-4.3 Liệt kê nội dung của kho lưu trữ `configfile-backup-servera.tar.gz`.
 
+*4.3 Liệt kê nội dung của kho lưu trữ `configfile-backup-servera.tar.gz`.*
 ```
 [student@workstation savedconfig]$ tar -tzf ~/configfile-backup-servera.tar.gz
 ...output omitted...
@@ -467,11 +463,9 @@ Note:
 
 ![](../pic/51.png)
 
-4.4 Giải nén nội dung lưu trữ vào thư mục `/tmp/savedconfig/`.
-
+*4.4 Giải nén nội dung lưu trữ vào thư mục `/tmp/savedconfig/`.*
 ```
 [student@workstation savedconfig]$ tar -xzf ~/configfile-backup-servera.tar.gz
-
 ```
 
 Bonus: neu muon chỉ định thư mục giải nén
@@ -479,8 +473,7 @@ Bonus: neu muon chỉ định thư mục giải nén
 tar -xzf ~/configfile-backup-servera.tar.gz -C /tmp
 ```
 
-4.5 Liệt kê thư mục để xác minh rằng nó chứa các tệp etc
- 
+*4.5 Liệt kê thư mục để xác minh rằng nó chứa các tệp etc*
 ```
 [student@workstation savedconfig]$ ls -lR
 .:
@@ -493,33 +486,33 @@ drwxr-xr-x. 105 student student 8192 Mar 28 16:03 etc
 ...output omitted...
 ```
 
-Ket qua  
+Ket qua:
 ![](../pic/52.png)
 
 
-4.6 Return to the student user's home directory.
+`4.6 Return to the student user's home directory.`
 ```
 [student@workstation savedconfig]$ cd
 [student@workstation ~]$
 ```
 
+---
 # CHAPTER 5: Lab: Tune System Performance  
 Áp dụng một cấu hình tối ưu hóa (tuning profile) cụ thể và điều chỉnh mức độ ưu tiên lập lịch (scheduling priority) của một tiến trình đang chạy có mức sử dụng CPU cao.  
 Kết quả   
 - Kích hoạt một cấu hình tối ưu hóa (tuning profile) cụ thể cho một hệ thống máy tính. 
 - Điều chỉnh mức độ ưu tiên lập lịch CPU của một tiến trình.
 
-1. Thay đổi cấu hình điều chỉnh hiện tại cho máy chủ serverb thành `balanced` profile, một cấu hình điều chỉnh chung không chuyên biệt. Liệt kê thông tin cho `balanced` tuning profile khi đó là tuning profile hiện tại.
+**1. Thay đổi cấu hình điều chỉnh hiện tại cho máy chủ `serverb` thành `balanced` profile, một cấu hình điều chỉnh chung không chuyên biệt. Liệt kê thông tin cho `balanced` tuning profile khi đó là tuning profile hiện tại.**
 
-1.1 Đăng nhập vào máy chủ serverb với tư cách là người dùng student.
-
+*1.1 Đăng nhập vào máy chủ `serverb` với tư cách là người dùng `student`.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-1.2 Xác minh rằng gói `tuned` đã được cài đặt.
 
+*1.2 Xác minh rằng gói `tuned` đã được cài đặt.*
 ```
 [student@serverb ~]$ dnf list tuned
 ...output omitted...
@@ -528,8 +521,7 @@ tuned.noarch              2.18.0-1.el9                 @System
 ```
 ![](../pic/53.png)
 
-1.3 Xác minh trạng thái dịch vụ `tuned` .
-
+*1.3 Xác minh trạng thái dịch vụ `tuned` .*
 ```
 [student@serverb ~]$ systemctl is-active tuned
 
@@ -537,8 +529,8 @@ active
 
 [student@serverb ~]$ 
 ```
-1.4 Liệt kê tất cả các tuning profiles khả dụng và mô tả của chúng. Lưu ý rằng cấu hình đang hoạt động hiện tại là `virtual-guest`.
 
+*1.4 Liệt kê tất cả các tuning profiles khả dụng và mô tả của chúng. Lưu ý rằng cấu hình đang hoạt động hiện tại là `virtual-guest`.*
 ```
 [student@serverb ~]$ sudo tuned-adm list
 [sudo] password for student: student
@@ -549,14 +541,12 @@ Current active profile: virtual-guest
 ```
 ![](../pic/54.png)
 
-1.5 Thay đổi tuning profile đang hoạt động hiện tại thành balanced profile.
-
+*1.5 Thay đổi tuning profile đang hoạt động hiện tại thành `balanced` profile.*
 ```
 [student@serverb ~]$ sudo tuned-adm profile balanced
-
 ```
-1.6 Liệt kê thông tin tóm tắt của  tuned profile đang hoạt động hiện tại. Xác minh rằng cấu hình đang hoạt động là balanced profile.
 
+*1.6 Liệt kê thông tin tóm tắt của  tuned profile đang hoạt động hiện tại. Xác minh rằng cấu hình đang hoạt động là `balanced` profile.*
 ```
 [student@serverb ~]$ sudo tuned-adm profile_info
 
@@ -568,9 +558,9 @@ General non-specialized tuned profile
 ...output omitted...
 ```
 
-2. Hai tiến trình trên serverb đang chiếm dụng một tỷ lệ phần trăm CPU cao. Hãy điều chỉnh mức `nice` của mỗi tiến trình lên 10 để dành nhiều thời gian CPU hơn cho các tiến trình khác.
+**2. Hai tiến trình trên serverb đang chiếm dụng một tỷ lệ phần trăm CPU cao. Hãy điều chỉnh mức `nice` của mỗi tiến trình lên 10 để dành nhiều thời gian CPU hơn cho các tiến trình khác.**
 
-2.1 Xác định hai top tien trinh sử dụng nhiều CPU nhất trên máy chủ serverb . Lệnh ps liệt kê những tien trinh sử dụng nhiều CPU nhất ở cuối kết quả. Giá trị phần trăm CPU có thể khác nhau tùy theo máy của bạn.
+*2.1 Xác định hai top tien trinh sử dụng nhiều CPU nhất trên máy chủ `serverb` . Lệnh `ps` liệt kê những tien trinh sử dụng nhiều CPU nhất ở cuối kết quả. Giá trị phần trăm CPU có thể khác nhau tùy theo máy của bạn.*
 
 ```
 [student@serverb ~]$ ps aux --sort=pcpu
@@ -581,8 +571,7 @@ root    1095 99.0  0.1 225340  2232 ?     R<   06:25   4:30 md5sum /dev/zero
 ```
 Note co the su dung lenh `top` de xem `%cpu, pid, nice`
 
-2.2 Xác định mức độ `nice` hiện tại cho mỗi một trong hai tien trinh su dung CPU nhiều nhất.
-
+*2.2 Xác định mức độ `nice` hiện tại cho mỗi một trong hai tien trinh su dung CPU nhiều nhất.*
 ```
 [student@serverb ~]$ ps -o pid,pcpu,nice,comm \
 $(pgrep sha1sum;pgrep md5sum)
@@ -594,16 +583,15 @@ $(pgrep sha1sum;pgrep md5sum)
 Co the dung lenh khac hoac `top` cho nhanh  
 ![](../pic/55.png)
 
-2.3 Điều chỉnh mức `nice` cho mỗi quy trình thành 10. Sử dụng giá trị PID chính xác cho các quy trình của bạn từ đầu ra lệnh trước đó.
-
+*2.3 Điều chỉnh mức `nice` cho mỗi quy trình thành 10. Sử dụng giá trị PID chính xác cho các quy trình của bạn từ đầu ra lệnh trước đó.*
 ```
 [student@serverb ~]$ sudo renice -n 10 1079 1095
 [sudo] password for student: student
 1079 (process ID) old priority 2, new priority 10
 1095 (process ID) old priority -2, new priority 10
 ```
-2.4 Xác minh rằng mức `nice` hiện tại cho mỗi tiến trình là 10.
 
+*2.4 Xác minh rằng mức `nice` hiện tại cho mỗi tiến trình là 10.*
 ```
 [student@serverb ~]$ ps -o pid,pcpu,nice,comm \
 $(pgrep sha1sum;pgrep md5sum)
@@ -611,8 +599,8 @@ $(pgrep sha1sum;pgrep md5sum)
  1079 98.9  10 sha1sum
  1095 99.2  10 md5sum
 ```
-2.5 Return to the workstation machine as the student user.
 
+*2.5 Return to the `workstation` machine as the `student` user.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -651,13 +639,11 @@ Kết quả:
 
 **3. Nghiên cứu và xác định sự cố SELinux ngăn dịch vụ `Apache` cung cấp nội dung web.**
 
-3.1 Xem nội dung của tệp `/var/log/messages`. Sử dụng phím / và tìm kiếm chuỗi `sealert`. Sử dụng phím q để thoát lệnh less.
-
+*3.1 Xem nội dung của tệp `/var/log/messages`. Sử dụng phím / và tìm kiếm chuỗi `sealert`. Sử dụng phím q để thoát lệnh less.*
 ```
 [root@serverb ~]# less /var/log/messages
 
 Aug 18 09:06:53 redhat9-server-1 setroubleshoot[899]: SELinux is preventing /usr/bin/lsmd from getattr access on the file /usr/bin/passt-repair. For complete SELinux messages run: sealert -l 6009dba5-5c4e-407f-98bc-2130613b2ed6
-
 ```
 
 Note: Trong `less`, có thể tìm kiếm chuỗi bằng ký tự / giống như trong vi/vim:
@@ -668,15 +654,14 @@ Note: Trong `less`, có thể tìm kiếm chuỗi bằng ký tự / giống như
 File /var/log/messages  
 ![](../pic/57.png)
 
-3.2 Chạy lệnh `sealert` được đề xuất tu lenh truoc do. Lưu ý ngữ cảnh nguồn, đối tượng đích, chính sách và chế độ thực thi.
+*3.2 Chạy lệnh `sealert` được đề xuất tu lenh truoc do. Lưu ý ngữ cảnh nguồn, đối tượng đích, chính sách và chế độ thực thi.*
 ```
 [root@serverb ~]# sealert -l 35c9e452-2552-4ca3-8217-493b72ba6d0b
-
 ```
 
 ![](../pic/58.png)
 
-3.3 Phần *Raw Audit Messages* của lệnh `sealert` chứa thông tin từ tệp `/var/log/audit/audit.log`. Hãy tìm kiếm tệp `/var/log/audit/audit.log`. Tùy chọn `-m` tìm kiếm theo loại thông báo. Tùy chọn `ts` tìm kiếm theo thời gian. Mục sau đây xác định quy trình và tệp liên quan gây ra cảnh báo. Quy trình này là máy chủ web Apache httpd, tệp là `/lab-content/lab.html` và ngữ cảnh là `system_r:httpd_t`.
+*3.3 Phần *Raw Audit Messages* của lệnh `sealert` chứa thông tin từ tệp `/var/log/audit/audit.log`. Hãy tìm kiếm tệp `/var/log/audit/audit.log`. Tùy chọn `-m` tìm kiếm theo loại thông báo. Tùy chọn `ts` tìm kiếm theo thời gian. Mục sau đây xác định quy trình và tệp liên quan gây ra cảnh báo. Quy trình này là máy chủ web Apache httpd, tệp là `/lab-content/lab.html` và ngữ cảnh là `system_r:httpd_t`.*
 ```
 [root@serverb ~]# ausearch -m AVC -ts recent
 ...output omitted...
@@ -710,10 +695,9 @@ Bạn có thể dùng nhiều kiểu giá trị:
 - Hoặc chỉ định cụ thể: 2025-08-17 20:00:00.
 
 (chua lap-kho)  
-4. Hiển thị ngữ cảnh SELinux của thư mục tài liệu HTTP mới và thư mục tài liệu HTTP gốc. Giải quyết sự cố SELinux ngăn máy chủ Apache phục vụ nội dung web.  
+**4. Hiển thị ngữ cảnh SELinux của thư mục tài liệu HTTP mới và thư mục tài liệu HTTP gốc. Giải quyết sự cố SELinux ngăn máy chủ Apache phục vụ nội dung web.**
 
-4.1 So sánh context SELinux cho các thư mục `/lab-content` và `/var/www/html`.
-
+*4.1 So sánh context SELinux cho các thư mục `/lab-content` và `/var/www/html`.*
 ```
 [root@serverb ~]# ls -dZ /lab-content /var/www/html
       unconfined_u:object_r:default_t:s0 /lab-content
@@ -722,26 +706,24 @@ system_u:object_r:httpd_sys_content_t:s0 /var/www/html
 ![](../pic/59.png)
 
 
-4.2 Tạo quy tắc context tệp để đặt loại mặc định thành httpd_sys_content_ cho thư mục /lab-content và tất cả các tệp trong đó.
+*4.2 Tạo quy tắc context tệp để đặt loại mặc định thành `httpd_sys_content_ `cho thư mục `/lab-content` và tất cả các tệp trong đó.*
 ```
 [root@serverb ~]# semanage fcontext -a \
 -t httpd_sys_content_t '/lab-content(/.*)?'
 ```
-4.3 Sửa context SELinux cho các tệp trong thư mục `/lab-content`.
+
+*4.3 Sửa context SELinux cho các tệp trong thư mục `/lab-content`.*
 ```
 [root@serverb ~]# restorecon -R /lab-content/
-
 ```
 
-
-5. Xác minh rằng máy chủ Apache hiện có thể phục vụ nội dung web.
-Sử dụng trình duyệt web để làm mới liên kết `http://serverb/lab.html`. Nếu nội dung được hiển thị, thì sự cố của bạn đã được giải quyết.
+**5. Xác minh rằng máy chủ Apache hiện có thể phục vụ nội dung web.
+Sử dụng trình duyệt web để làm mới liên kết `http://serverb/lab.html`. Nếu nội dung được hiển thị, thì sự cố của bạn đã được giải quyết.**
 ```
 This is the html file for the SELinux final lab on serverb.
 ```
 
-6. Return to the workstation machine as the student user.  
-
+**6. Return to the `workstation` machine as the `student` user.** 
 ```
 [root@serverb ~]# exit
 logout
@@ -761,13 +743,13 @@ Kết quả
 - Tạo hệ thống tệp trên các phân vùng và gắn kết chúng liên tục.
 - Tạo không gian hoán đổi và kích hoạt chúng khi khởi động.
 
-1. Máy chủ serverb có một số ổ đĩa chưa sử dụng. Trên ổ đĩa chưa sử dụng đầu tiên, hãy tạo nhãn phân vùng GPT và một phân vùng GPT 2 GB có tên là `backup`.
+**1. Máy chủ serverb có một số ổ đĩa chưa sử dụng. Trên ổ đĩa chưa sử dụng đầu tiên, hãy tạo nhãn phân vùng GPT và một phân vùng GPT 2 GB có tên là `backup`.**
 
 Vì khó thiết lập kích thước chính xác, nên dung lượng từ 1,8 GB đến 2,2 GB là chấp nhận được.
 
 Cấu hình phân vùng sao lưu để lưu trữ hệ thống tệp XFS.
 
-1.1 Log in to serverb as the student user and switch to the root user.
+*1.1 Log in to `serverb` as the `student` user and switch to the `root` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
@@ -775,8 +757,8 @@ Cấu hình phân vùng sao lưu để lưu trữ hệ thống tệp XFS.
 [sudo] password for student: student
 [root@serverb ~]#
 ```
-1.2 Xác định các đĩa chưa sử dụng. Đĩa chưa sử dụng đầu tiên, `/dev/vdb`, không có phân vùng nào.
 
+*1.2 Xác định các đĩa chưa sử dụng. Đĩa chưa sử dụng đầu tiên, `/dev/vdb`, không có phân vùng nào.*
 ```
 [root@serverb ~]# lsblk
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
@@ -789,8 +771,8 @@ vdb    252:16   0    5G  0 disk
 vdc    252:32   0    5G  0 disk
 vdd    252:48   0    5G  0 disk
 ```
-1.3 Xác nhận rằng đĩa `/dev/vdb` không có nhãn.
 
+*1.3 Xác nhận rằng đĩa `/dev/vdb` không có nhãn.*
 ```
 [root@serverb ~]# parted /dev/vdb print
 Error: /dev/vdb: unrecognised disk label
@@ -803,8 +785,7 @@ Disk Flags:
 
 ![](../pic/60.png)
 
-1.4 Xác định sơ đồ phân vùng GPT.
-
+*1.4 Xác định sơ đồ phân vùng GPT.*
 ```
 [root@serverb ~]# parted /dev/vdb mklabel gpt
 Information: You may need to update /etc/fstab.
@@ -814,16 +795,15 @@ Giai thich:
 ![](../pic/61.png)
 
 ![](../pic/62.png)
-1.5 Tạo phân vùng `backup` 2 GB với loại hệ thống tệp `xfs`. Bắt đầu phân vùng ở sector 2048.
 
+*1.5 Tạo phân vùng `backup` 2 GB với loại hệ thống tệp `xfs`. Bắt đầu phân vùng ở sector 2048.*
 ```
 [root@serverb ~]# parted /dev/vdb mkpart backup xfs 2048s 2GB
 Information: You may need to update /etc/fstab.
 ```
 ![](../pic/63.png)
 
-1.6 Xác nhận việc tạo phân vùng `backup`.
-
+*1.6 Xác nhận việc tạo phân vùng `backup`.*
 ```
 [root@serverb ~]# parted /dev/vdb print
 Model: Virtio Block Device (virtblk)
@@ -835,31 +815,28 @@ Disk Flags:
 Number  Start   End     Size    File system  Name    Flags
  1      1049kB  2000MB  1999MB               backup
 ```
-1.7 Chạy lệnh `udevadm settle`. Lệnh này chờ hệ thống phát hiện phân vùng mới và tạo tệp thiết bị `/dev/vdb1`.
 
+*1.7 Chạy lệnh `udevadm settle`. Lệnh này chờ hệ thống phát hiện phân vùng mới và tạo tệp thiết bị `/dev/vdb1`.*
 ```
 [root@serverb ~]# udevadm settle
 ```
 
 Note: Nếu bạn làm lệnh tiếp theo ngay lập tức (vd: mkfs hoặc mount) ma khong `udevadm settle`, partition có thể chưa xuất hiện kịp → lỗi “No such file or directory”.
 
-2. Định dạng phân vùng sao lưu 2 GB bằng hệ thống tệp XFS và gắn liên tục vào thư mục `/backup` bằng cách sử dụng UUID.
+**2. Định dạng phân vùng sao lưu 2 GB bằng hệ thống tệp XFS và gắn liên tục vào thư mục `/backup` bằng cách sử dụng UUID.**
 
-2.1 Định dạng phân vùng `/dev/vbd1`.
-
+*2.1 Định dạng phân vùng `/dev/vbd1`.*
 ```
 [root@serverb ~]# mkfs.xfs /dev/vdb1
 ```
 Note: `mkfs` phải thực hiện trên partition, không thực hiện trên disk vật lý trừ khi bạn muốn dùng cả ổ (format toàn bộ ổ đĩa) mà không có partition table.
 
-2.2 Tạo điểm gắn kết `/backup`.
-
+*2.2 Tạo điểm gắn kết `/backup`.*
 ```
 [root@serverb ~]# mkdir /backup
-
 ```
-2.3 Trước khi thêm hệ thống tệp mới vào tệp `/etc/fstab`, hãy lấy UUID của tệp đó. UUID trên hệ thống của bạn có thể khác.
 
+*2.3 Trước khi thêm hệ thống tệp mới vào tệp `/etc/fstab`, hãy lấy UUID của tệp đó. UUID trên hệ thống của bạn có thể khác.*
 ```
 [root@serverb ~]# lsblk --fs /dev/vdb1
 NAME FSTYPE FSVER LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
@@ -871,23 +848,21 @@ Or
 /dev/nvme0n2p1: UUID="f68511a4-8274-45b9-a6c5-83ce28ef3f62" TYPE="xfs" PARTLABEL="backup" PARTUUID="ee3eb4ed-1427-4a2a-896e-004d2223470a"
 ```
 
-2.4 Chỉnh sửa tệp `/etc/fstab` và xác định hệ thống tệp mới.
-
+*2.4 Chỉnh sửa tệp `/etc/fstab` và xác định hệ thống tệp mới.*
 ```
 [root@serverb ~]# vim /etc/fstab
 ...output omitted...
 UUID=f74ed805-b1fc-401a-a5ee-140f97c6757d   /backup   xfs   defaults   0 0
 ```
+
 ![](../pic/64.png)
 
-2.5 Buộc daemon systemd đọc lại tệp /etc/fstab.
-
+*2.5 Buộc daemon systemd đọc lại tệp `/etc/fstab`.*
 ```
 [root@serverb ~]# systemctl daemon-reload
-
 ```
-2.6 Gắn thủ công thư mục `/backup` để xác minh công việc của bạn. Xác nhận việc gắn kết thành công.
 
+*2.6 Gắn thủ công thư mục `/backup` để xác minh công việc của bạn. Xác nhận việc gắn kết thành công.*
 ```
 [root@serverb ~]# mount /backup
 [root@serverb ~]# mount | grep /backup
@@ -898,12 +873,11 @@ Note: `mount` không chỉ rõ partition vi
 
 ![](../pic/65.png)
 
-3. Trên cùng một ổ đĩa, tạo hai phân vùng GPT 512 MB với tên là swap1 và swap2.  
+**3. Trên cùng một ổ đĩa, tạo hai phân vùng GPT 512 MB với tên là swap1 và swap2.**
 Dung lượng từ 460 MB đến 564 MB là chấp nhận được.      
 Cấu hình loại hệ thống tệp của các phân vùng để lưu trữ không gian hoán đổi.
 
-3.1 Truy xuất vị trí kết thúc của phân vùng đầu tiên bằng cách hiển thị bảng phân vùng hiện tại trên đĩa `/dev/vdb`. Ở bước tiếp theo, bạn sử dụng giá trị đó làm điểm bắt đầu của phân vùng swap1.
-
+*3.1 Truy xuất vị trí kết thúc của phân vùng đầu tiên bằng cách hiển thị bảng phân vùng hiện tại trên đĩa `/dev/vdb`. Ở bước tiếp theo, bạn sử dụng giá trị đó làm điểm bắt đầu của phân vùng swap1.*
 ```
 [root@serverb ~]# parted /dev/vdb print
 Model: Virtio Block Device (virtblk)
@@ -915,20 +889,20 @@ Disk Flags:
 Number  Start   End     Size    File system  Name    Flags
  1      1049kB  2000MB  1999MB  xfs          backup
 ```
-3.2 Tạo phân vùng GPT 512 MB đầu tiên có tên là `swap1`. Đặt loại của phân vùng này là `linux-swap`. Sử dụng vị trí cuối của phân vùng đầu tiên làm điểm bắt đầu. Vị trí cuối là 2000 MB + 512 MB = 2512 MB.
 
+*3.2 Tạo phân vùng GPT 512 MB đầu tiên có tên là `swap1`. Đặt loại của phân vùng này là `linux-swap`. Sử dụng vị trí cuối của phân vùng đầu tiên làm điểm bắt đầu. Vị trí cuối là 2000 MB + 512 MB = 2512 MB.*
 ```
 [root@serverb ~]# parted /dev/vdb mkpart swap1 linux-swap 2000M 2512M
 Information: You may need to update /etc/fstab.
 ```
-3.3 Tạo phân vùng GPT 512 MB thứ hai có tên là swap2. Đặt loại của phân vùng này là linux-swap. Sử dụng vị trí kết thúc của phân vùng trước làm điểm bắt đầu: 2512M. Vị trí kết thúc là 2512 MB + 512 MB = 3024 MB.
 
+*3.3 Tạo phân vùng GPT 512 MB thứ hai có tên là swap2. Đặt loại của phân vùng này là linux-swap. Sử dụng vị trí kết thúc của phân vùng trước làm điểm bắt đầu: 2512M. Vị trí kết thúc là 2512 MB + 512 MB = 3024 MB.*
 ```
 [root@serverb ~]# parted /dev/vdb mkpart swap2 linux-swap 2512M 3024M
 Information: You may need to update /etc/fstab.
 ```
-3.4 Hiển thị bảng phân vùng để xác minh công việc của bạn.
 
+*3.4 Hiển thị bảng phân vùng để xác minh công việc của bạn.*
 ```
 [root@serverb ~]# parted /dev/vdb print
 Model: Virtio Block Device (virtblk)
@@ -942,18 +916,17 @@ Number  Start   End     Size    File system  Name    Flags
  2      2000MB  2512MB  513MB                swap1   swap
  3      2512MB  3024MB  512MB                swap2   swap
 ```
-3.5 Chạy lệnh udevadm settle. Lệnh này sẽ chờ hệ thống đăng ký các phân vùng mới và tạo các tệp thiết bị.
 
+*3.5 Chạy lệnh `udevadm settle`. Lệnh này sẽ chờ hệ thống đăng ký các phân vùng mới và tạo các tệp thiết bị.*
 ```
 [root@serverb ~]# udevadm settle
-
 ```
 
 ![](../pic/66.png)
 
-4. Khởi tạo hai phân vùng 512 MB làm swap spaces và cấu hình chúng để kích hoạt khi khởi động. Thiết lập swap spaces trên phân vùng `swap2` được ưu tiên hơn phân vùng còn lại. Lưu ý rằng 512 MB tương đương với khoảng 488 MB. Hiển thị Giải pháp
+**4. Khởi tạo hai phân vùng 512 MB làm swap spaces và cấu hình chúng để kích hoạt khi khởi động. Thiết lập swap spaces trên phân vùng `swap2` được ưu tiên hơn phân vùng còn lại. Lưu ý rằng 512 MB tương đương với khoảng 488 MB. Hiển thị Giải pháp**
 
-4.1 Sử dụng lệnh `mkswap` để khởi tạo các phân vùng swap. Lưu ý mã UUID của hai không gian swap, vì bạn sẽ sử dụng thông tin đó ở bước tiếp theo. Nếu bạn xóa đầu ra `mkswap`, hãy sử dụng lệnh lsblk --fs để lấy mã UUID.
+*4.1 Sử dụng lệnh `mkswap` để khởi tạo các phân vùng swap. Lưu ý mã UUID của hai không gian swap, vì bạn sẽ sử dụng thông tin đó ở bước tiếp theo. Nếu bạn xóa đầu ra `mkswap`, hãy sử dụng lệnh `lsblk --fs` để lấy mã UUID.*
 ```
 [root@serverb ~]# mkswap /dev/vdb2
 Setting up swapspace version 1, size = 489 MiB (512749568 bytes)
@@ -962,8 +935,8 @@ no label, UUID=87976166-4697-47b7-86d1-73a02f0fc803
 Setting up swapspace version 1, size = 488 MiB (511700992 bytes)
 no label, UUID=4d9b847b-98e0-4d4e-9ef7-dfaaf736b942
 ```
-4.2 Chỉnh sửa tệp `/etc/fstab` và xác định swap spaces mới. Để đặt swap spaces  trên phân vùng `swap2` được ưu tiên hơn phân vùng swap1, hãy cấp cho phân vùng swap2 mức ưu tiên cao hơn bằng tùy chọn pri.
 
+*4.2 Chỉnh sửa tệp `/etc/fstab` và xác định swap spaces mới. Để đặt swap spaces  trên phân vùng `swap2` được ưu tiên hơn phân vùng swap1, hãy cấp cho phân vùng swap2 mức ưu tiên cao hơn bằng tùy chọn `pri`.*
 ```
 [root@serverb ~]# vim /etc/fstab
 ...output omitted...
@@ -974,14 +947,12 @@ UUID=4d9b847b-98e0-4d4e-9ef7-dfaaf736b942   swap    swap  pri=20    0 0
 
 Note: `PRIO` càng cao → swap càng được ưu tiên.
 
-4.3 Buộc daemon systemd đọc lại tệp /etc/fstab.
-
+*4.3 Buộc daemon systemd đọc lại tệp `/etc/fstab`.*
 ```
 [root@serverb ~]# systemctl daemon-reload
-
 ```
-4.4 Kích hoạt swap spaces mới. Xác minh việc kích hoạt swap spaces đã chính xác.
 
+*4.4 Kích hoạt swap spaces mới. Xác minh việc kích hoạt swap spaces đã chính xác.*
 ```
 [root@serverb ~]# swapon -a
 [root@serverb ~]# swapon --show
@@ -993,36 +964,38 @@ NAME      TYPE      SIZE USED PRIO
 Ket qua:  
 ![](../pic/67.png)
 
-5. Để xác minh công việc của bạn, hãy khởi động lại máy serverb. Xác nhận rằng hệ thống tự động gắn phân vùng đầu tiên vào thư mục `/backup`. Đồng thời, hãy xác nhận rằng hệ thống đã kích hoạt hai swap spaces
+**5. Để xác minh công việc của bạn, hãy khởi động lại máy serverb. Xác nhận rằng hệ thống tự động gắn phân vùng đầu tiên vào thư mục `/backup`. Đồng thời, hãy xác nhận rằng hệ thống đã kích hoạt hai swap spaces**
 
-5.1 Reboot serverb.
+*5.1 Reboot serverb.*
 ```
 [root@serverb ~]# systemctl reboot
 Connection to serverb closed by remote host.
 Connection to serverb closed.
 [student@workstation ~]$
 ```
-5.2 Wait for serverb to boot, and then log in as the student user.
+
+*5.2 Wait for `serverb` to boot, and then log in as the `student` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-5.3 Xác minh rằng hệ thống tự động gắn phân vùng /dev/vdb1 vào thư mục /﻿backup.
+
+*5.3 Xác minh rằng hệ thống tự động gắn phân vùng `/dev/vdb1` vào thư mục `/backup`.*
 ```
 [student@serverb ~]$ mount | grep /backup
 /dev/vdb1 on /backup type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
 ```
-5.4 Xác minh rằng hệ thống kích hoạt cả hai swap spaces
+
+*5.4 Xác minh rằng hệ thống kích hoạt cả hai swap spaces*
 ```
 [student@serverb ~]$ swapon --show
 NAME      TYPE      SIZE USED PRIO
 /dev/vdb2 partition 489M   0B   10
 /dev/vdb3 partition 488M   0B   20
 ```
-5.5 Return to the workstation machine as the student user.
 
-
+*5.5 Return to the `workstation` machine as the `student` user.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -1064,13 +1037,9 @@ Mặc dù đơn vị mặc định khi sử dụng lệnh parted /dev/vdb print 
 
 Tạo LV serverb_02_lv với 128 MiB. Tạo hệ thống tệp XFS trên ổ đĩa mới tạo. Gắn ổ đĩa logic mới tạo vào thư mục /storage/data2.
 
+**1. Tạo một phân vùng 512 MiB trên ổ đĩa /dev/vdb. Khởi tạo phân vùng này dưới dạng ổ đĩa vật lý và mở rộng nhóm ổ đĩa serverb_01_vg để sử dụng phân vùng này.**
 
-
-1. Tạo một phân vùng 512 MiB trên ổ đĩa /dev/vdb. Khởi tạo phân vùng này dưới dạng ổ đĩa vật lý và mở rộng nhóm ổ đĩa serverb_01_vg để sử dụng phân vùng này.
-
-
-1.1 Đăng nhập vào máy chủ với tư cách là người dùng student và chuyển sang người dùng gốc.
-
+*1.1 Đăng nhập vào máy chủ `serverb` với tư cách là người dùng `student` và chuyển sang người dùng `root`.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
@@ -1079,7 +1048,7 @@ Tạo LV serverb_02_lv với 128 MiB. Tạo hệ thống tệp XFS trên ổ đ�
 [root@serverb ~]#
 ```
 
-1.2 In kích thước phân vùng theo MiB để xác định vị trí kết thúc của phân vùng đầu tiên.
+*1.2 In kích thước phân vùng theo MiB để xác định vị trí kết thúc của phân vùng đầu tiên.*
 ```
 [root@serverb ~]# parted /dev/vdb unit MiB print
 ...output omitted...
@@ -1088,8 +1057,7 @@ Number  Start    End     Size    File system  Name     Flags
  1      1.00MiB  513MiB  512MiB               primary
 ```
 
-1.3 Tạo phân vùng 512 MiB và đặt loại phân vùng `lvm`.
-
+*1.3 Tạo phân vùng 512 MiB và đặt loại phân vùng `lvm`.*
 ```
 [root@serverb ~]# parted /dev/vdb mkpart primary 513MiB 1026MiB
 ...output omitted...
@@ -1100,38 +1068,33 @@ Note:
 - `set 2 lvm on` nghĩa là: bật cờ LVM (flag lvm) cho phân vùng số 2 trên ổ `/dev/vdb`.
 - Điều này giúp hệ thống và các công cụ LVM (pvcreate, vgextend, …) nhận biết rằng phân vùng đó sẽ được quản lý bởi LVM chứ không phải dùng trực tiếp làm ext4, xfs hay swap.
 
-1.4 Đăng ký phân vùng mới với kernel.
-
+*1.4 Đăng ký phân vùng mới với kernel.*
 ```
 [root@serverb ~]# udevadm settle
 
 ```
-1.5 Khởi tạo phân vùng dưới dạng PV.
 
+*1.5 Khởi tạo phân vùng dưới dạng PV.*
 ```
 [root@serverb ~]# pvcreate /dev/vdb2
   Physical volume "/dev/vdb2" successfully created.
 ```
-1.6 Mở rộng VG` serverb_01_vg `bằng cách sử dụng PV /dev/vdb2 mới.
 
+*1.6 Mở rộng VG` serverb_01_vg `bằng cách sử dụng PV /dev/vdb2 mới.*
 ```
 [root@serverb ~]# vgextend serverb_01_vg /dev/vdb2
   Volume group "serverb_01_vg" successfully extended
 ```
 
-2. Mở rộng ổ đĩa logic `
-` lên 768 MiB.
-
-
-2.1 Mở rộng LV serverb_01_lv lên 768 MiB. Ngoài ra, bạn cũng có thể sử dụng tùy chọn lệnh lvcreate -L +512M để thay đổi kích thước LV.
-
+`2. Mở rộng ổ đĩa logic lên 768 MiB.`  
+*2.1 Mở rộng LV `serverb_01_lv` lên 768 MiB. Ngoài ra, bạn cũng có thể sử dụng tùy chọn lệnh `lvcreate -L +512M` để thay đổi kích thước LV.*
 ```
 [root@serverb ~]# lvextend -L 768M /dev/serverb_01_vg/serverb_01_lv
   Size of logical volume serverb_01_vg/serverb_01_lv changed from 256.00 MiB (64 extents) to 768.00 MiB (192 extents).
   Logical volume serverb_01_vg/serverb_01_lv successfully resized.
 ```
-2.2 Mở rộng hệ thống tệp XFS để sử dụng không gian còn lại trên LV.
 
+*2.2 Mở rộng hệ thống tệp `XFS` để sử dụng không gian còn lại trên LV.*
 ``` 
 [root@serverb ~]# xfs_growfs /storage/data1
 meta-data=/dev/mapper/serverb_01_vg-serverb_01_lv isize=512    agcount=4, agsize=16384 blks
@@ -1141,63 +1104,56 @@ data blocks changed from 65536 to 196608
 
 LƯU Ý Lệnh xfs_growfs thêm một bước để mở rộng hệ thống tệp. Một cách khác là sử dụng tùy chọn -r của lệnh lvextend.
 
-3. Trong nhóm ổ đĩa hiện có, hãy tạo ổ đĩa logic serverb_02_lv với 128 MiB. Thêm hệ thống tệp XFS và gắn kết nó liên tục vào thư mục /storage/data2.
-
-3.1 Tạo LV serverb_02_lv với 128 MiB từ VG serverb_01_vg.
+**3. Trong nhóm ổ đĩa hiện có, hãy tạo ổ đĩa logic `serverb_02_lv` với 128 MiB. Thêm hệ thống tệp XFS và gắn kết nó liên tục vào thư mục `/storage/data2`.**  
+*3.1 Tạo LV `serverb_02_lv` với 128 MiB từ VG `serverb_01_vg`.*
 ```
 [root@serverb ~]# lvcreate -n serverb_02_lv -L 128M serverb_01_vg
   Logical volume "serverb_02_lv" created.
 ```
-3.2 Tạo hệ thống tệp xfs trên serverb_02_lv LV.
 
+*3.2 Tạo hệ thống tệp xfs trên `serverb_02_lv` LV.*
 ```
 [root@serverb ~]# mkfs -t xfs /dev/serverb_01_vg/serverb_02_lv
 ...output omitted...
 ```
-3.3 Tạo thư mục /storage/data2 làm điểm gắn kết.
 
+*3.3 Tạo thư mục `/storage/data2 `làm điểm gắn kết.*
 ```
 [root@serverb ~]# mkdir /storage/data2
-
 ```
-3.4 Thêm dòng sau vào cuối tệp /etc/fstab:
 
+*3.4 Thêm dòng sau vào cuối tệp `/etc/fstab`*
 ```
 /dev/serverb_01_vg/serverb_02_lv /storage/data2 xfs defaults 0 0
-
 ```
-3.5 Cập nhật daemon systemd bằng tệp cấu hình /etc/fstab mới.
 
+*3.5 Cập nhật daemon systemd bằng tệp cấu hình `/etc/fstab` mới.*
 ```
 [root@serverb ~]# systemctl daemon-reload
-
 ```
-3.6 Mount the serverb_02_lv LV.
 
-
+*3.6 Mount the `serverb_02_lv` LV.*
 ```
 [root@serverb ~]# mount /storage/data2
-
 ```
 
-4. Xác minh rằng LV mới tạo được lắp đúng kích thước mong muốn.
+**4. Xác minh rằng LV mới tạo được lắp đúng kích thước mong muốn.**
 
-4.1 Sử dụng lệnh df để xác minh kích thước LV của serverb_01_lv.
-
+*4.1 Sử dụng lệnh df để xác minh kích thước LV của `serverb_01_lv`.*
 ```
 [root@serverb ~]# df -h /storage/data1
 Filesystem                               Size  Used Avail Use% Mounted on
 /dev/mapper/serverb_01_vg-serverb_01_lv  763M   19M  744M   3% /storage/data1
 ```
-4.2 Xác minh kích thước LV của serverb_02_lv.
 
+*4.2 Xác minh kích thước LV của `serverb_02_lv`.*
 ```
 [root@serverb ~]# df -h /storage/data2
 Filesystem                               Size  Used Avail Use% Mounted on
 /dev/mapper/serverb_01_vg-serverb_02_lv  123M  7.6M  116M   7% /storage/data2
 ```
-4.3 Xác minh thông tin chi tiết LV của serverb_01_lv.
 
+*4.3 Xác minh thông tin chi tiết LV của `serverb_01_lv`.*
 ```
 [root@serverb ~]# lvdisplay /dev/serverb_01_vg/serverb_01_lv
   --- Logical volume ---
@@ -1217,8 +1173,8 @@ Filesystem                               Size  Used Avail Use% Mounted on
   - currently set to     8192
   Block device           253:0
 ```
-4.4 Xác minh thông tin chi tiết LV của serverb_02_lv.
 
+*4.4 Xác minh thông tin chi tiết LV của `serverb_02_lv`.*
 ```
 [root@serverb ~]# lvdisplay /dev/serverb_01_vg/serverb_02_lv
   --- Logical volume ---
@@ -1238,9 +1194,6 @@ Filesystem                               Size  Used Avail Use% Mounted on
   - currently set to     8192
   Block device           253:1
 ```
-
-
-
 
 ---
 # CHAPTER 9:  Lab: Access Network-Attached Storage
@@ -1269,10 +1222,9 @@ Danh sách sau đây cung cấp các đặc điểm môi trường để hoàn t
 - Thư mục đã xuất `/shares/operation` được tự động gắn kết vào `/remote/operation` trên servera.
 - Tất cả mật khẩu người dùng được đặt thành redhat.
 
-1. Đăng nhập vào `servera` và cài đặt các gói cần thiết.
+**1. Đăng nhập vào `servera` và cài đặt các gói cần thiết.**
 
-1.1 Đăng nhập vào `servera` với tư cách là người dùng `student` và chuyển sang người dùng gốc.
-
+*1.1 Đăng nhập vào `servera` với tư cách là người dùng `student` và chuyển sang người dùng gốc.*
 ```
 [student@workstation ~]$ ssh student@servera
 ...output omitted...
@@ -1280,8 +1232,8 @@ Danh sách sau đây cung cấp các đặc điểm môi trường để hoàn t
 [sudo] password for student: student
 [root@servera ~]#
 ```
-1.2 Install the autofs package.
 
+*1.2 Install the `autofs` package.*
 ```
 [root@servera ~]# dnf install autofs
 ...output omitted...
@@ -1290,10 +1242,9 @@ Is this ok [y/N]: y
 Complete!
 ```
 
-2. Cấu hình một bản đồ gián tiếp automounter trên `servera` với các bản xuất từ `serverb`. Tạo một bản đồ gián tiếp với các tệp có tên là `/etc/auto.master.d/shares.autofs` cho bản đồ chính và `/etc/auto.shares` cho tệp ánh xạ. Sử dụng thư mục `/remote` làm điểm gắn kết chính trên `servera`. Khởi động lại `servera` để xác định xem dịch vụ autofs có tự động khởi động hay không.
+**2. Cấu hình một bản đồ gián tiếp automounter trên `servera` với các bản xuất từ `serverb`. Tạo một bản đồ gián tiếp với các tệp có tên là `/etc/auto.master.d/shares.autofs` cho bản đồ chính và `/etc/auto.shares` cho tệp ánh xạ. Sử dụng thư mục `/remote` làm điểm gắn kết chính trên `servera`. Khởi động lại `servera` để xác định xem dịch vụ autofs có tự động khởi động hay không.**
 
-2.1 Kiểm tra máy chủ NFS trước khi cấu hình trình tự động gắn kết.
-
+*2.1 Kiểm tra máy chủ NFS trước khi cấu hình trình tự động gắn kết.*
 ```
 [root@servera ~]# mount -t nfs serverb.lab.example.com:/shares /mnt
 [root@servera ~]# ls -l /mnt
@@ -1303,30 +1254,26 @@ drwxrwx---. 2 root operators  25 Apr  4 01:13 operation
 drwxrwx---. 2 root production 25 Apr  4 01:13 production
 [root@servera ~]# umount /mnt
 ```
-2.2 Tạo một tệp bản đồ chính có tên là /etc/auto.master.d/shares.autofs, chèn nội dung sau và lưu các thay đổi.
 
+*2.2 Tạo một tệp bản đồ chính có tên là /`etc/auto.master.d/shares.autofs`, chèn nội dung sau và lưu các thay đổi.*
 ```
 /remote	/etc/auto.shares
-
 ```
-2.3 Tạo một tệp bản đồ gián tiếp có tên là /etc/auto.shares, chèn nội dung sau và lưu các thay đổi.
 
+*2.3 Tạo một tệp bản đồ gián tiếp có tên là `/etc/auto.shares`, chèn nội dung sau và lưu các thay đổi.*
 ```
 * -rw,sync,fstype=nfs4 serverb.lab.example.com:/shares/&
-
 ```
-2.4 Khởi động và kích hoạt dịch vụ autofs trên máy chủ.
 
+*2.4 Khởi động và kích hoạt dịch vụ `autofs` trên máy chủ.*
 ```
 [root@servera ~]# systemctl enable --now autofs
 Created symlink /etc/systemd/system/multi-user.target.wants/autofs.service → /usr/lib/systemd/system/autofs.service.
 ```
 
-3. Kiểm tra cấu hình autofs với nhiều người dùng khác nhau. Khi hoàn tất, hãy đăng xuất khỏi máy chủ.
+**3. Kiểm tra cấu hình `autofs` với nhiều người dùng khác nhau. Khi hoàn tất, hãy đăng xuất khỏi máy chủ.**
 
-3.1 Switch to the manager1 user and test access.
-
-
+*3.1 Switch to the `manager1` user and test access.*
 ```
 [root@servera ~]# su - manager1
 [manager1@servera ~]$ ls -l /remote/management/
@@ -1345,8 +1292,8 @@ ls: cannot open directory '/remote/production/': Permission denied
 logout
 [root@servera ~]#
 ```
-3.2 Chuyển sang người dùng dbuser1 và kiểm tra quyền truy cập.
 
+*3.2 Chuyển sang người dùng `dbuser1` và kiểm tra quyền truy cập.*
 ```
 [root@servera ~]# su - dbuser1
 [dbuser1@servera ~]$ ls -l /remote/production/
@@ -1365,8 +1312,8 @@ ls: cannot open directory '/remote/management/': Permission denied
 logout
 [root@servera ~]#
 ```
-3.3 Chuyển sang người dùng contractor1 và kiểm tra quyền truy cập.
 
+*3.3 Chuyển sang người dùng `contractor1` và kiểm tra quyền truy cập.*
 ```
 [root@servera ~]# su - contractor1
 [contractor1@servera ~]$ ls -l /remote/operation/
@@ -1385,8 +1332,8 @@ ls: cannot open directory '/remote/production/': Permission denied
 logout
 [root@servera ~]#
 ```
-3.4 Khám phá các tùy chọn gắn kết cho xuất tự động NFS.
 
+*3.4 Khám phá các tùy chọn gắn kết cho xuất tự động NFS.*
 ```
 [root@servera ~]# mount | grep nfs
 rpc_pipefs on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw,relatime)
@@ -1403,9 +1350,8 @@ serverb.lab.example.com:/shares/production on /remote/production type nfs4
 sync,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=172.25.250.10,
 local_lock=none,addr=172.25.250.11)
 ```
-3.5 Return to the workstation machine as the student user.
 
-
+*3.5 Return to the `workstation` machine as the `student` user.*
 ```
 [root@servera ~]# exit
 logout
@@ -1413,9 +1359,6 @@ logout
 logout
 Connection to servera closed.
 ```
-
-
-
 
 ---
 # CHAPTER 10 : Lab: Control the Boot Process
@@ -1426,32 +1369,32 @@ Kết quả
 - Đặt mục tiêu `systemd` mặc định.
 
 
-1. Trên máy serverb, hãy đặt lại mật khẩu redhat cho người dùng root. Tìm biểu tượng bảng điều khiển máy serverb phù hợp với môi trường lớp học của bạn, sau đó mở bảng điều khiển.
+**1. Trên máy `serverb`, hãy đặt lại mật khẩu redhat cho người dùng `root`. Tìm biểu tượng bảng điều khiển máy `serverb` phù hợp với môi trường lớp học của bạn, sau đó mở bảng điều khiển.**
  
-1.1 Gửi tổ hợp phím Ctrl+Alt+Del đến hệ thống của bạn bằng cách sử dụng nút hoặc mục menu tương ứng.
+1.1 Gửi tổ hợp phím `Ctrl+Alt+Del` đến hệ thống của bạn bằng cách sử dụng nút hoặc mục menu tương ứng.
 
 1.2 Khi menu trình khởi động xuất hiện, hãy nhấn bất kỳ phím nào để ngắt đếm ngược, ngoại trừ phím Enter.
 
 1.3 Sử dụng các phím mũi tên để tô sáng mục trình khởi động kernel cứu hộ (mục có từ cứu hộ trong tên).
 
-1.4 Nhấn e để chỉnh sửa mục hiện tại.
+1.4 Nhấn `e` để chỉnh sửa mục hiện tại.
 
 1.5 Sử dụng các phím mũi tên để điều hướng đến dòng bắt đầu bằng văn bản linux.
 
-1.6 Xóa tất cả các tùy chọn console= khỏi mục kernel cứu hộ.
+1.6 Xóa tất cả các tùy chọn `console=` khỏi mục kernel cứu hộ.
 
 QUAN TRỌNG Nếu bạn không xóa tùy chọn console= khỏi mục GRUB cho kernel cứu hộ, dấu nhắc root có thể được khởi chạy trên console không đúng và bạn có thể không truy cập được dễ dàng.
 
-1.7 Nhấn Ctrl+e để di chuyển con trỏ đến cuối dòng. 
+1.7 Nhấn `Ctrl+e` để di chuyển con trỏ đến cuối dòng. 
 
-1.8 Thêm một khoảng trắng theo sau là tùy chọn rd.break vào cuối dòng.
+1.8 Thêm một khoảng trắng theo sau là tùy chọn `rd.break` vào cuối dòng.
 
 Lưu ý  
 - Nếu bạn thấy khó nhìn thấy văn bản trong bảng điều khiển, hãy cân nhắc thay đổi độ phân giải khi chỉnh sửa dòng kernel trong mục nhập bộ nạp khởi động.
 
 - Để thay đổi độ phân giải bảng điều khiển, hãy thêm video=640x480 hoặc vga=ask vào dòng bắt đầu bằng từ linux, sau rd.break. Đối với hầu hết các bảng điều khiển, độ phân giải 640x480 là đủ. Bằng cách sử dụng vga=ask, bạn có thể chọn độ phân giải phù hợp hơn với môi trường của mình.
 
-1.9 Nhấn Ctrl+x để khởi động bằng cấu hình đã sửa đổi.
+1.9 Nhấn `Ctrl+x` (or F10) để khởi động bằng cấu hình đã sửa đổi.
 
 1.10 Nhấn Enter để vào chế độ bảo trì.
 
@@ -1463,8 +1406,7 @@ switch_root:/# chroot /sysroot
 sh-5.1#
 ```
 
-1.12 Đặt `redhat` làm mật khẩu cho người dùng `root`.
-
+*1.12 Đặt `redhat` làm mật khẩu cho người dùng `root`.*
 ```
 sh-5.1# passwd root
 Changing password for user root.
@@ -1473,18 +1415,17 @@ BAD PASSWORD: The password is shorter than 8 characters
 Retype new password: redhat
 passwd: all authentication tokens updated successfully.
 ```
-1.13 Cấu hình hệ thống để thực hiện việc dán nhãn lại SELinux hoàn toàn sau khi khởi động.
 
+*1.13 Cấu hình hệ thống để thực hiện việc dán nhãn lại SELinux hoàn toàn sau khi khởi động.*
 ```
 sh-5.1# touch /.autorelabel
-
 ```
+
 1.14 Thoát khỏi môi trường chroot và dấu nhắc switch_root:/#. Sau khi hệ thống tệp được đổi nhãn, hệ thống sẽ nhắc vào chế độ bảo trì. Tuy nhiên, nếu bạn đợi, quá trình khởi động lại sẽ hoàn tất và hiển thị menu boot-loader. Ẩn Giải pháp
 
-2.  Trong menu boot-loader, hãy chọn mục boot-loader kernel mặc định. Hệ thống không khởi động được vì tác vụ khởi động không hoàn tất thành công. Hãy khắc phục sự cố từ bảng điều khiển của máy serverb.
+**2.  Trong menu boot-loader, hãy chọn mục boot-loader kernel mặc định. Hệ thống không khởi động được vì tác vụ khởi động không hoàn tất thành công. Hãy khắc phục sự cố từ bảng điều khiển của máy `serverb`.**
 
-
-2.1 Khởi động hệ thống vào chế độ khẩn cấp. Khởi động lại máy chủ bằng cách nhấn tổ hợp phím Ctrl+Alt+Del vào hệ thống bằng cách sử dụng nút hoặc mục menu tương ứng.
+2.1 Khởi động hệ thống vào chế độ khẩn cấp. Khởi động lại máy chủ bằng cách nhấn tổ hợp phím `Ctrl+Alt+Del` vào hệ thống bằng cách sử dụng nút hoặc mục menu tương ứng.
 
 2.2 Khi menu trình khởi động xuất hiện, nhấn bất kỳ phím nào để ngắt đếm ngược, ngoại trừ phím Enter.
 
@@ -1506,50 +1447,44 @@ Give root password for maintenance
 (or press Control-D to continue): redhat
 [root@serverb ~]#
 ```
-2.10 Gắn lại hệ thống tệp / thành có thể ghi.
 
+2.10 Gắn lại hệ thống tệp / thành có thể ghi.
 ```
 [root@serverb ~]# mount -o remount,rw /
 ...output omitted...
 ```
+
 2.11 Mount all file systems.
 ```
 [root@serverb ~]# mount -a
 mount: /olddata: can't find UUID=4d5c85a5-8921-4a06-8aff-80567e9689bc.
 ```
-2.12 Chỉnh sửa tệp /etc/fstab để xóa hoặc chú thích dòng không chính xác gắn kết điểm gắn kết /﻿olddata.
 
+*2.12 Chỉnh sửa tệp `/etc/fstab` để xóa hoặc chú thích dòng không chính xác gắn kết điểm gắn kết `/olddata`.*
 ```
 [root@serverb ~]# vim /etc/fstab
 ...output omitted...
 #UUID=4d5c85a5-8921-4a06-8aff-80567e9689bc  /olddata  xfs  defaults  0 0
 ```
-2.13 Cập nhật daemon systemd để hệ thống đăng ký những thay đổi trong cấu hình tệp `/etc/fstab`.
 
+*2.13 Cập nhật daemon systemd để hệ thống đăng ký những thay đổi trong cấu hình tệp `/etc/fstab`.*
 ```
 [root@serverb ~]# systemctl daemon-reload
-
 ```
-2.14 Xác minh rằng cấu hình tệp `/etc/fstab` là chính xác bằng cách thử gắn kết tất cả các mục.
 
+*2.14 Xác minh rằng cấu hình tệp `/etc/fstab` là chính xác bằng cách thử gắn kết tất cả các mục.*
 ```
 [root@serverb ~]# mount -a
-
 ```
-2.15 Khởi động lại hệ thống và đợi quá trình khởi động hoàn tất. Hệ thống sẽ khởi động bình thường.
 
+*2.15 Khởi động lại hệ thống và đợi quá trình khởi động hoàn tất. Hệ thống sẽ khởi động bình thường.*
 ```
 [root@serverb ~]# systemctl reboot
-
 ```
-
-
 **3. Thay đổi mục tiêu systemd mặc định trên máy serverb để hệ thống tự động khởi động giao diện đồ họa khi khởi động.**  
 Máy serverb không cài đặt giao diện đồ họa. Chỉ đặt mục tiêu mặc định và không cài đặt các gói.
 
-3.1 Đăng nhập vào máy chủ với tư cách là người dùng `student` và chuyển sang người dùng root.
-
-
+*3.1 Đăng nhập vào máy chủ với tư cách là người dùng `student` và chuyển sang người dùng `root`.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
@@ -1557,19 +1492,21 @@ Máy serverb không cài đặt giao diện đồ họa. Chỉ đặt mục tiê
 [sudo] password for student: student
 [root@serverb ~]#
 ```
-3.2 Đặt graphical.target làm mục tiêu mặc định.
+
+*3.2 Đặt `graphical.target` làm mục tiêu mặc định.*
 ```
 [root@serverb ~]# systemctl set-default graphical.target
 Removed /etc/systemd/system/default.target.
 Created symlink /etc/systemd/system/default.target → /usr/lib/systemd/system/graphical.target.
 ```
 
-3.3 Xác minh rằng mặc định đã được thiết lập chính xác.
+*3.3 Xác minh rằng mặc định đã được thiết lập chính xác.*
 ```
 [root@serverb ~]# systemctl get-default
 graphical.target
 ```
-3.4 Trở lại `workstation` với tư cách là người dùng là học viên.
+
+*3.4 Trở lại `workstation` với tư cách là người dùng là student.*
 ```
 [root@serverb ~]# exit
 logout
@@ -1578,45 +1515,42 @@ logout
 Connection to serverb closed.
 ```
 
+---
 # CHAPTER 11 : Lab: Manage Network Security
 
 Cấu hình tường lửa và cài đặt SELinux để cho phép truy cập vào nhiều máy chủ web chạy trên cùng một máy chủ.   
 Kết quả   
 - Cấu hình tường lửa và cài đặt SELinux trên máy chủ web.
 
-1. Từ `workstation`, hãy kiểm tra quyền truy cập vào máy chủ web mặc định tại http://serverb.lab.example.com và máy chủ ảo http://serverb.lab.example.com:1001.
+**1. Từ `workstation`, hãy kiểm tra quyền truy cập vào máy chủ web mặc định tại http://serverb.lab.example.com và máy chủ ảo http://serverb.lab.example.com:1001.**
 
-1.1 Kiểm tra quyền truy cập vào máy chủ web http://serverb.lab.example.com. Hiện tại, thử nghiệm không thành công. Máy chủ web sẽ trả về SERVER B.
-
+*1.1 Kiểm tra quyền truy cập vào máy chủ web http://serverb.lab.example.com. Hiện tại, thử nghiệm không thành công. Máy chủ web sẽ trả về SERVER B.*
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com
 curl: (7) Failed to connect to serverb.lab.example.com port 80: Connection refused
 ```
-1.2 Kiểm tra quyền truy cập vào máy chủ ảo http://serverb.lab.example.com:1001. Kiểm tra hiện không thành công. Máy chủ ảo sẽ trả về VHOST 1.
 
+*1.2 Kiểm tra quyền truy cập vào máy chủ ảo http://serverb.lab.example.com:1001. Kiểm tra hiện không thành công. Máy chủ ảo sẽ trả về VHOST 1.*
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com:1001
 curl: (7) Failed to connect to serverb.lab.example.com port 1001: No route to host
 ```
 
-2. Đăng nhập vào máy chủ để xác định nguyên nhân nào đang ngăn cản việc truy cập vào máy chủ web.
-
-2.1 Log in to the serverb machine as the `student` user.
-
-
+**2. Đăng nhập vào máy chủ để xác định nguyên nhân nào đang ngăn cản việc truy cập vào máy chủ web.** 
+*2.1 Log in to the serverb machine as the `student` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-2.2 Xác định xem dịch vụ `httpd` có đang hoạt động không.
 
+*2.2 Xác định xem dịch vụ `httpd` có đang hoạt động không.*
 ```
 [student@serverb ~]$ systemctl is-active httpd
 inactive
 ```
-2.3 Bật và khởi động dịch vụ `httpd`. Dịch vụ `httpd` không khởi động được.
 
+*2.3 Bật và khởi động dịch vụ `httpd`. Dịch vụ `httpd` không khởi động được.*
 ```
 [student@serverb ~]$ sudo systemctl enable --now httpd
 [sudo] password for student: student
@@ -1624,8 +1558,8 @@ Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /u
 Job for httpd.service failed because the control process exited with error code.
 See "systemctl status httpd.service" and "journalctl -xeu httpd.service" for details.
 ```
-2.4 Điều tra lý do tại sao dịch vụ `httpd` không khởi động được.
 
+*2.4 Điều tra lý do tại sao dịch vụ `httpd` không khởi động được.*
 ```
 [student@serverb ~]$ systemctl status httpd.service
 × httpd.service - The Apache HTTP Server
@@ -1646,8 +1580,8 @@ Apr 13 06:55:01 serverb.lab.example.com systemd[1]: httpd.service: Main process 
 Apr 13 06:55:01 serverb.lab.example.com systemd[1]: httpd.service: Failed with result 'exit-code'.
 Apr 13 06:55:01 serverb.lab.example.com systemd[1]: Failed to start The Apache HTTP Server.
 ```
-2.5 Kiểm tra xem SELinux có chặn dịch vụ `httpd` liên kết với cổng `1001/TCP` không.
 
+*2.5 Kiểm tra xem SELinux có chặn dịch vụ `httpd` liên kết với cổng `1001/TCP` không.*
 ```
 [student@serverb ~]$ sudo sealert -a /var/log/audit/audit.log
 100% done
@@ -1668,9 +1602,9 @@ Do
 ...output omitted...
 ```
 
-3. Cấu hình SELinux để cho phép dịch vụ httpd lắng nghe trên cổng 1001/TCP.
+**3. Cấu hình SELinux để cho phép dịch vụ httpd lắng nghe trên cổng 1001/TCP.**
 
-3.1 Sử dụng lệnh `semanage` để tìm đúng loại cổng.
+*3.1 Sử dụng lệnh `semanage` để tìm đúng loại cổng.*
 ```
 [student@serverb ~]$ sudo semanage port -l | grep 'http'
 http_cache_port_t              tcp      8080, 8118, 8123, 10001-10010
@@ -1680,56 +1614,47 @@ pegasus_http_port_t            tcp      5988
 pegasus_https_port_t           tcp      5989
 ```
 
-3.2 Liên kết cổng 1001/TCP với kiểu http_port_t.
+*3.2 Liên kết cổng 1001/TCP với kiểu `http_port_t`.*
 ```
 [student@serverb ~]$ sudo semanage port -a -t http_port_t -p tcp 1001
-
 ```
 
-3.3 Xác nhận rằng cổng 1001/TCP được liên kết với loại cổng http_port_t.
-
+*3.3 Xác nhận rằng cổng 1001/TCP được liên kết với loại cổng `http_port_t`.*
 ```
 [student@serverb ~]$ sudo semanage port -l | grep '^http_port_t'
 http_port_t            tcp      1001, 80, 81, 443, 488, 8008, 8009, 8443, 9000
-
 ```
-3.4 Kích hoạt và khởi động dịch vụ httpd.
 
+*3.4 Kích hoạt và khởi động dịch vụ `httpd`.*
 ```
 [student@serverb ~]$ sudo systemctl enable --now httpd
-
 ```
-3.5 Xác minh trạng thái đang chạy của dịch vụ httpd.
 
+*3.5 Xác minh trạng thái đang chạy của dịch vụ `httpd`.*
 ```
 [student@serverb ~]$ systemctl is-active httpd
 active
 [student@serverb ~]$ systemctl is-enabled httpd
 enabled
 ```
-3.6 Trở lại máy workstation  với tư cách là người dùng là student.
 
+*3.6 Trở lại máy `workstation`  với tư cách là người dùng là `student`.*
 ```
 [student@serverb ~]$ exit
 logout
 Connection to serverb closed.
 [student@workstation ~]$
-
 ```
 
 **4. Từ máy `workstation`, hãy kiểm tra lại quyền truy cập vào máy chủ web mặc định tại http://serverb.lab.example.com và máy chủ ảo http://serverb.lab.example.com:1001.**
 
-
 *4.1 Test access to the http://serverb.lab.example.com web server. The web server should return SERVER B.*
-
-
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com
 SERVER B
 ```
+
 *4.2 Test access to the http://serverb.lab.example.com:1001 virtual host. The test continues to fail.*
-
-
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com:1001
 curl: (7) Failed to connect to serverb.lab.example.com port 1001: No route to host
@@ -1738,26 +1663,24 @@ curl: (7) Failed to connect to serverb.lab.example.com port 1001: No route to ho
 **5. Đăng nhập vào máy chủ để xác định xem các cổng có được gán đúng cho tường lửa hay không.**
 
 *5.1 Log in to the `serverb` machine as the `student` user.*
-
-
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-*5.2 Xác minh rằng vùng tường lửa mặc định được đặt thành `public` zone.*
 
+*5.2 Xác minh rằng vùng tường lửa mặc định được đặt thành `public` zone.*
 ```
 [student@serverb ~]$ firewall-cmd --get-default-zone
 public
 ```
-*5.3 Nếu bước trước đó không trả về `public` làm vùng mặc định, hãy sửa bằng lệnh sau:*
 
+*5.3 Nếu bước trước đó không trả về `public` làm vùng mặc định, hãy sửa bằng lệnh sau:*
 ```
 [student@serverb ~]$ sudo firewall-cmd --set-default-zone public
 ```
-*5.4 Xác định các cổng mở được liệt kê trong vùng mạng `publish`.*
 
+*5.4 Xác định các cổng mở được liệt kê trong vùng mạng `publish`.*
 ```
 [student@serverb ~]$ sudo firewall-cmd --zone=public --list-all
 [sudo] password for student: student
@@ -1780,7 +1703,6 @@ public
 **6. Thêm cổng 1001/TCP vào cấu hình cố định cho vùng mạng `public`.**
 
 *6.1 Thêm cổng 1001/TCP vào vùng mạng `public`.*
-
 ```
 [student@serverb ~]$ sudo firewall-cmd --permanent --zone=public \
 --add-port=1001/tcp
@@ -1879,7 +1801,6 @@ Connection to serverb closed.
 ```
 
 *1.4 Đăng nhập vào máy `serverb` với tư cách là người dùng `podsvc`. Sử dụng `redhat` làm mật khẩu.*
-
 ```
 [student@workstation ~]$ ssh podsvc@serverb
 ...output omitted...
@@ -1911,14 +1832,14 @@ Password: redhat321
 Login Succeeded!
 ```
 
-**3. Sử dụng thư mục `/home/podsvc/webserver/html/` làm bộ nhớ lưu trữ cố định cho vùng chứa máy chủ web. Tạo trang thử nghiệm `index.html` với nội dung "Welcome to the webserver container".**
+**3. Sử dụng thư mục `/home/podsvc/webserver/html/` làm bộ nhớ lưu trữ cố định cho container máy chủ web. Tạo trang thử nghiệm `index.html` với nội dung "Welcome to the webserver container".**
 
 *3.1 Tạo thư mục `~/webserver/html/`.*
 ```
 [podsvc@serverb ~]$ mkdir -p ~/webserver/html/
 ```
 
-*3.2 Tạo tệp `index.html `và thêm nội dung Chào mừng đến với vùng chứa máy chủ web.*
+*3.2 Tạo tệp `index.html `và thêm nội dung Chào mừng đến với container máy chủ web.*
 ```
 [podsvc@serverb ~]$ echo "Welcome to the webserver container" > \
 ~/webserver/html/index.html
@@ -1932,7 +1853,7 @@ drwxr-xr-x. 2 podsvc podsvc 24 Jul 10 05:42 /home/podsvc/webserver/html/
 -rw-r--r--. 1 podsvc podsvc 21 Jul 10 05:42 /home/podsvc/webserver/html/index.html
 ```
 
-**4. Tạo tệp dịch vụ systemd để quản lý vùng chứa máy chủ web bằng lệnh `systemctl`. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, trình nền systemd sẽ tạo một vùng chứa. Trình nền systemd dự kiến container đó chưa tồn tại ngay từ đầu.**
+**4. Tạo tệp dịch vụ systemd để quản lý container máy chủ web bằng lệnh `systemctl`. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, trình nền systemd sẽ tạo một container. Trình nền systemd dự kiến container đó chưa tồn tại ngay từ đầu.**
 
 *4.1 Thực hiện lệnh podman run để tạo container tách biệt. Sử dụng ảnh `registry.lab.example.com/rhel9/httpd-24` để chạy một container tách biệt có tên là webserver. Sử dụng tùy chọn -p để ánh xạ cổng 8080 trên máy serverb với cổng 8080 trong container. Sử dụng tùy chọn -v để gắn thư mục `~/webserver` trên máy serverb vào thư mục `/var/www` trong container. Sử dụng tùy chọn Z để đặt ngữ cảnh SELinux vào thư mục đã gắn kết.*
 ```
@@ -1954,7 +1875,8 @@ d970ff062f00  registry.lab.example.com/rhel9/httpd-24:latest  /usr/bin/run-http.
 [podsvc@serverb ~]$ curl http://localhost:8080
 Welcome to the webserver container
 ```
-**5. Tạo tệp dịch vụ `systemd` để quản lý `webserver` container bằng lệnh systemctl. Cấu hình dịch vụ `systemd` sao cho khi bạn khởi động dịch vụ, trình nền `systemd` sẽ tạo một vùng chứa. Trình nền `systemd` dự kiến container đó chưa tồn tại ngay từ đầu.**
+
+**5. Tạo tệp dịch vụ `systemd` để quản lý `webserver` container bằng lệnh systemctl. Cấu hình dịch vụ `systemd` sao cho khi bạn khởi động dịch vụ, trình nền `systemd` sẽ tạo một container. Trình nền `systemd` dự kiến container đó chưa tồn tại ngay từ đầu.**
 
 *5.1 Tạo và thay đổi thư mục `~/.config/systemd/user/`.*
 ```
@@ -1962,7 +1884,7 @@ Welcome to the webserver container
 [podsvc@serverb ~]$ cd ~/.config/systemd/user
 ```
 
-*5.2 Tạo tệp đơn vị cho `webserver` container. Sử dụng tùy chọn `--new` để dịch vụ `systemd` tạo vùng chứa khi khởi động dịch vụ và xóa vùng chứa khi dừng dịch vụ.*
+*5.2 Tạo tệp đơn vị cho `webserver` container. Sử dụng tùy chọn `--new` để dịch vụ `systemd` tạo container khi khởi động dịch vụ và xóa container khi dừng dịch vụ.*
 ```
 [podsvc@serverb user]$ podman generate systemd --new --files --name webserver
 /home/podsvc/.config/systemd/user/container-webserver.service
@@ -2001,7 +1923,6 @@ CONTAINER ID  IMAGE                                           COMMAND           
 **7. Đảm bảo rằng các dịch vụ dành cho người dùng `podsvc` khởi động khi hệ thống khởi động.**
 
 *7.1 Chạy lệnh `loginctl enable-linger`.*
-
 ```
 [podsvc@serverb user]$ loginctl enable-linger
 ```
@@ -2292,7 +2213,7 @@ UUID
 [root@serverb ~]# mount /user-homes
 ```
 
-3.  Trên `serverb`, hãy liên tục gắn hệ thống tệp mạng `/share` mà servera xuất vào thư mục `/local-share`. Máy `servera` sẽ xuất đường dẫn `servera.lab.example.com:/share`.
+**3.  Trên `serverb`, hãy liên tục gắn hệ thống tệp mạng `/share` mà servera xuất vào thư mục `/local-share`. Máy `servera` sẽ xuất đường dẫn `servera.lab.example.com:/share`.**
 
 *3.1 Create the /local-share directory.*
 ```
@@ -2345,7 +2266,7 @@ Note
 - -G: ghi đè toàn bộ danh sách nhóm phụ hiện có.
 - -aG : Thêm user vào nhóm phụ mới mà không xóa các nhóm phụ đang có.
 
-**6. Trên serverb, hãy cấu hình thư mục `/run/volatile` để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Đặt 0700 làm quyền octal cho thư mục. Sử dụng tệp `/etc/tmpfiles.d/volatile.conf` để cấu hình xóa các tệp trong thư mục /run/volatile theo thời gian.**  
+**6. Trên serverb, hãy cấu hình thư mục `/run/volatile` để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Đặt 0700 làm quyền octal cho thư mục. Sử dụng tệp `/etc/tmpfiles.d/volatile.conf` để cấu hình xóa các tệp trong thư mục /run/volatile theo thời gian.**    
 *6.1 Tạo tệp `/etc/tmpfiles.d/volatile.conf` với nội dung sau:*
 ```
 # Type Path          Mode  UID  GID  Age   Argument
@@ -2364,8 +2285,7 @@ Note:
 - `--create` → đảm bảo thư mục được tạo đúng mode/owner.
 - `--clean` → xóa các file quá hạn theo cấu hình (ở đây là >30 giây không truy cập). 
 
-Có 2 cách để dọn dẹp:
-
+Có 2 cách để dọn dẹp:  
 - Thủ công: khi bạn muốn test/ép hệ thống dọn rác ngay lập tức → dùng:
 ```
 sudo systemd-tmpfiles --clean /etc/tmpfiles.d/volatile.conf
@@ -2457,7 +2377,7 @@ Now try logging in to the machine, with:   "ssh 'student@servera'"
 and check to make sure that only the key(s) you wanted were added.
 ```
 
-2.2 Xác minh rằng người dùng `student` có thể đăng nhập vào `servera` từ `serverb` mà không cần nhập mật khẩu. Không đóng kết nối.
+*2.2 Xác minh rằng người dùng `student` có thể đăng nhập vào `servera` từ `serverb` mà không cần nhập mật khẩu. Không đóng kết nối.*
 ```
 [student@serverb ~]$ ssh student@servera
 ...output omitted...
@@ -2646,16 +2566,16 @@ success
 success
 ```
 
-7. Trên serverb, hãy kiểm tra và khắc phục sự cố liên quan đến dịch vụ web Apache đang gặp sự cố, hiện đang lắng nghe kết nối trên cổng 30080/TCP. Điều chỉnh cài đặt tường lửa phù hợp để cổng 30080/TCP được mở cho các kết nối đến.
+**7. Trên serverb, hãy kiểm tra và khắc phục sự cố liên quan đến dịch vụ web Apache đang gặp sự cố, hiện đang lắng nghe kết nối trên cổng 30080/TCP. Điều chỉnh cài đặt tường lửa phù hợp để cổng 30080/TCP được mở cho các kết nối đến.**
 
-7.1 Khởi động lại dịch vụ httpd. Lệnh này không khởi động lại được dịch vụ.
-
+*7.1 Khởi động lại dịch vụ `httpd`. Lệnh này không khởi động lại được dịch vụ.*
 ```
 [root@serverb ~]# systemctl restart httpd.service
 Job for httpd.service failed because the control process exited with error code.
 See "systemctl status httpd.service" and "journalctl -xeu httpd.service" for details.
 ```
-7.2 Kiểm tra lý do dịch vụ httpd bị lỗi. Lỗi cấp phép cho biết daemon httpd không liên kết được với cổng 30080/TCP khi khởi động. Chính sách SELinux có thể ngăn ứng dụng liên kết với cổng không chuẩn. Nhấn q để thoát lệnh.
+
+*7.2 Kiểm tra lý do dịch vụ httpd bị lỗi. Lỗi cấp phép cho biết daemon httpd không liên kết được với cổng 30080/TCP khi khởi động. Chính sách SELinux có thể ngăn ứng dụng liên kết với cổng không chuẩn. Nhấn q để thoát lệnh.*
 ```
 [root@serverb ~]# systemctl status httpd.service
 × httpd.service - The Apache HTTP Server
@@ -2673,7 +2593,8 @@ May 02 13:20:46 serverb.lab.example.com httpd[2322]: (13)Permission denied: AH00
 May 02 13:20:46 serverb.lab.example.com httpd[2322]: no listening sockets available, shutting down
 ...output omitted...
 ```
-7.3 Xác định xem chính sách SELinux có đang ngăn dịch vụ httpd liên kết với cổng 30080/TCP hay không. Thông báo nhật ký cho thấy cổng 30080/TCP không có ngữ cảnh SELinux http_port_t phù hợp, do đó SELinux ngăn dịch vụ httpd liên kết với cổng. Thông báo nhật ký cũng tạo ra cú pháp của lệnh semanage port để bạn có thể khắc phục sự cố.
+
+*7.3 Xác định xem chính sách SELinux có đang ngăn dịch vụ httpd liên kết với cổng 30080/TCP hay không. Thông báo nhật ký cho thấy cổng 30080/TCP không có ngữ cảnh SELinux http_port_t phù hợp, do đó SELinux ngăn dịch vụ httpd liên kết với cổng. Thông báo nhật ký cũng tạo ra cú pháp của lệnh semanage port để bạn có thể khắc phục sự cố.*
 ```
 [root@serverb ~]# sealert -a /var/log/audit/audit.log
 ...output omitted...
@@ -2688,29 +2609,26 @@ Do
     where PORT_TYPE is one of the following: http_cache_port_t, http_port_t, jboss_management_port_t, jboss_messaging_port_t, ntop_port_t, puppet_port_t.
 ...output omitted...
 ```
-7.4 Đặt ngữ cảnh SELinux phù hợp trên cổng 30080/TCP để dịch vụ httpd liên kết với nó.
 
+*7.4 Đặt ngữ cảnh SELinux phù hợp trên cổng 30080/TCP để dịch vụ `httpd` liên kết với nó.*
 ```
 [root@serverb ~]# semanage port -a -t http_port_t -p tcp 30080
-
 ```
-7.5 Khởi động lại dịch vụ httpd. Lệnh này sẽ khởi động lại dịch vụ thành công.
 
+*7.5 Khởi động lại dịch vụ `httpd`. Lệnh này sẽ khởi động lại dịch vụ thành công.*
 ```
 [root@serverb ~]# systemctl restart httpd
-
 ```
-7.6 Thêm cổng 30080/TCP vào vùng công cộng mặc định.
 
+*7.6 Thêm cổng 30080/TCP vào vùng công cộng mặc định.*
 ```
 [root@serverb ~]# firewall-cmd --add-port=30080/tcp --permanent
 success
 [root@serverb ~]# firewall-cmd --reload
 success
 ```
-7.7 Return to the workstation machine as the student user.
 
-
+*7.7 Return to the `workstation` machine as the `student` user.*
 ```
 [root@serverb ~]# exit
 logout
@@ -2723,12 +2641,11 @@ Connection to serverb closed.
 Tạo các container tách biệt không có root.
 
 Kết quả
+- Tạo các container tách biệt không có root.
+- Cấu hình ánh xạ cổng và lưu trữ liên tục.
+- Cấu hình container dưới dạng dịch vụ systemd và sử dụng lệnh systemctl để quản lý nó.
 
-Tạo các container tách biệt không có root.
-
-Cấu hình ánh xạ cổng và lưu trữ liên tục.
-
-Cấu hình container dưới dạng dịch vụ systemd và sử dụng lệnh systemctl để quản lý nó.
+---
 
 Thông số kỹ thuật
 
@@ -2736,7 +2653,7 @@ Trên serverb, hãy cấu hình người dùng podmgr với mật khẩu là red
 
 Thư mục /tmp/review4/container-dev chứa hai thư mục chứa các tệp phát triển cho các container trong bài đánh giá toàn diện này. Sao chép hai thư mục trong thư mục /tmp/review4/container-dev vào thư mục home của podmgr. Cấu hình thư mục con /home/podmgr/storage/database để bạn có thể sử dụng nó làm bộ nhớ lưu trữ liên tục cho một container.
 
-Tạo container tách biệt db-app01 dựa trên hình ảnh container registry.lab.example.com/rhel9/mariadb-105. Sử dụng thư mục /home/podmgr/storage/database làm bộ nhớ lưu trữ cố định cho thư mục /var/lib/mysql/data của vùng chứa db-app01. Ánh xạ cổng 13306 trên máy cục bộ thành cổng 3306 trong vùng chứa. Sử dụng các giá trị trong bảng sau để thiết lập các biến môi trường nhằm tạo cơ sở dữ liệu được chứa trong vùng chứa:
+Tạo container tách biệt db-app01 dựa trên hình ảnh container registry.lab.example.com/rhel9/mariadb-105. Sử dụng thư mục /home/podmgr/storage/database làm bộ nhớ lưu trữ cố định cho thư mục /var/lib/mysql/data của container db-app01. Ánh xạ cổng 13306 trên máy cục bộ thành cổng 3306 trong container. Sử dụng các giá trị trong bảng sau để thiết lập các biến môi trường nhằm tạo cơ sở dữ liệu được chứa trong container:
 
 Variable	|Value
 ---|---
@@ -2745,28 +2662,24 @@ MYSQL_PASSWORD	|redhat
 MYSQL_DATABASE	|inventory
 MYSQL_ROOT_PASSWORD	|redhat
 
-Tạo một tệp dịch vụ systemd để quản lý vùng chứa db-app01. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, daemon systemd sẽ giữ nguyên vùng chứa gốc. Khởi động và kích hoạt vùng chứa như một dịch vụ systemd. Cấu hình vùng chứa db-app01 để khởi động cùng hệ thống.
+Tạo một tệp dịch vụ systemd để quản lý container db-app01. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, daemon systemd sẽ giữ nguyên container gốc. Khởi động và kích hoạt container như một dịch vụ systemd. Cấu hình container db-app01 để khởi động cùng hệ thống.
 
-Sao chép tập lệnh /home/podmgr/db-dev/inventory.sql vào thư mục /tmp của vùng chứa db-app01 và thực thi tập lệnh bên trong vùng chứa. Nếu bạn đã thực thi tập lệnh cục bộ, bạn sẽ sử dụng lệnh mysql -u root inventory < /tmp/inventory.sql.
+Sao chép tập lệnh /home/podmgr/db-dev/inventory.sql vào thư mục /tmp của container db-app01 và thực thi tập lệnh bên trong container. Nếu bạn đã thực thi tập lệnh cục bộ, bạn sẽ sử dụng lệnh mysql -u root inventory < /tmp/inventory.sql.
 
-Sử dụng tệp vùng chứa trong thư mục /home/podmgr/http-dev để tạo vùng chứa http-app01 tách biệt. Tên ảnh vùng chứa phải là http-client:9.0. Ánh xạ cổng 8080 trên máy cục bộ với cổng 8080 trong vùng chứa.
+Sử dụng tệp container trong thư mục /home/podmgr/http-dev để tạo container http-app01 tách biệt. Tên ảnh container phải là http-client:9.0. Ánh xạ cổng 8080 trên máy cục bộ với cổng 8080 trong container.
 
-Sử dụng lệnh curl để truy vấn nội dung của vùng chứa http-app01. Xác minh rằng đầu ra của lệnh hiển thị tên vùng chứa của máy khách và trạng thái của cơ sở dữ liệu là đang hoạt động.
+Sử dụng lệnh curl để truy vấn nội dung của container http-app01. Xác minh rằng đầu ra của lệnh hiển thị tên container của máy khách và trạng thái của cơ sở dữ liệu là đang hoạt động.
 
-1. Trên serverb, hãy cấu hình người dùng podmgr với mật khẩu là redhat và thiết lập các công cụ phù hợp cho người dùng podmgr để quản lý các container cho bài đánh giá toàn diện này. Cấu hình registry.lab.example.com làm registry từ xa. Sử dụng admin làm người dùng và redhat321 làm mật khẩu để xác thực. Bạn có thể sử dụng tệp /tmp/review4/registries.conf để cấu hình registry.
+**1. Trên `serverb`, hãy cấu hình người dùng podmgr với mật khẩu là `redhat` và thiết lập các công cụ phù hợp cho người dùng podmgr để quản lý các container cho bài đánh giá toàn diện này. Cấu hình `registry.lab.example.com` làm registry từ xa. Sử dụng admin làm người dùng và redhat321 làm mật khẩu để xác thực. Bạn có thể sử dụng tệp `/tmp/review4/registries.conf` để cấu hình registry.**
 
-1.1 Log in to serverb as the student user.
-
-
+*1.1 Log in to `serverb` as the `student` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
-
 ```
-1.2 Install the container-tools meta-package.
 
-
+*1.2 Install the `container-tools` meta-package.*
 ```
 [student@serverb ~]$ sudo dnf install container-tools
 [sudo] password for student: student
@@ -2775,8 +2688,8 @@ Is this ok [y/N]: y
 ...output omitted...
 Complete!
 ```
-1.3 Tạo người dùng podmgr và đặt redhat làm mật khẩu cho người dùng.
 
+*1.3 Tạo người dùng `podmgr` và đặt `redhat` làm mật khẩu cho người dùng.*
 ```
 [student@serverb ~]$ sudo useradd podmgr
 [student@serverb ~]$ sudo passwd podmgr
@@ -2786,8 +2699,8 @@ BAD PASSWORD: The password is shorter than 8 characters
 Retype new password: redhat
 passwd: all authentication tokens updated successfully.
 ```
-1.4 Thoát khỏi phiên người dùng student. Đăng nhập vào máy serverb với tư cách người dùng podmgr. Nếu được yêu cầu, hãy sử dụng redhat làm mật khẩu.
 
+*1.4 Thoát khỏi phiên người dùng `student`. Đăng nhập vào máy `serverb` với tư cách người dùng `podmgr`. Nếu được yêu cầu, hãy sử dụng `redhat` làm mật khẩu.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -2796,21 +2709,18 @@ Connection to serverb closed.
 ...output omitted...
 [podmgr@serverb ~]$
 ```
-1.5 Create the ~/.config/containers directory.
 
-
+*1.5 Create the `~/.config/containers` directory.*
 ```
 [podmgr@serverb ~]$ mkdir -p ~/.config/containers
-
 ```
-1.6 Sao chép tệp /tmp/review4/registries.conf vào thư mục cấu hình vùng chứa trong thư mục gốc.
 
+*1.6 Sao chép tệp `/tmp/review4/registries.conf` vào thư mục cấu hình container trong thư mục gốc.*
 ```
 [podmgr@serverb ~]$ cp /tmp/review4/registries.conf ~/.config/containers/
-
 ```
-1.7 Đăng nhập vào sổ đăng ký để xác minh cấu hình.
 
+*1.7 Đăng nhập vào registry để xác minh cấu hình.*
 ```
 [podmgr@serverb ~]$ podman login registry.lab.example.com
 Username: admin
@@ -2818,10 +2728,9 @@ Password: redhat321
 Login Succeeded!
 ```
 
-2. Thư mục /tmp/review4/container-dev chứa hai thư mục chứa các tệp phát triển cho các container trong bài đánh giá toàn diện này. Sao chép hai thư mục trong thư mục /﻿tmp/review4/container-dev vào thư mục gốc của podmgr. Cấu hình thư mục con /home/podmgr/storage/database để bạn có thể sử dụng nó làm bộ nhớ lưu trữ cố định cho container.
+**2. Thư mục `/tmp/review4/container-dev` chứa hai thư mục chứa các tệp phát triển cho các container trong bài đánh giá toàn diện này. Sao chép hai thư mục trong thư mục `/tmp/review4/container-dev` vào thư mục gốc của podmgr. Cấu hình thư mục con `/home/podmgr/storage/database` để bạn có thể sử dụng nó làm bộ nhớ lưu trữ cố định cho container.**
 
-2.1 Sao chép nội dung của thư mục /tmp/review4/container-dev vào thư mục gốc podmgr.
-
+*2.1 Sao chép nội dung của thư mục `/tmp/review4/container-dev` vào thư mục gốc `podmgr`.*
 ```
 [podmgr@serverb ~]$ cp -r /tmp/review4/container-dev/*-dev .
 [podmgr@serverb ~]$ ls -l
@@ -2829,8 +2738,8 @@ total 0
 drwxr-xr-x. 2 podmgr podmgr 27 Jun 18 12:00 db-dev
 drwxr-xr-x. 3 podmgr podmgr 42 Jun 18 12:00 http-dev
 ```
-2.2 Tạo thư mục /home/podmgr/storage/database trong thư mục gốc của podmgr. Thiết lập quyền thích hợp cho thư mục này để container gắn nó vào bộ nhớ lưu trữ cố định.
 
+*2.2 Tạo thư mục `/home/podmgr/storage/database `trong thư mục gốc của `podmgr`. Thiết lập quyền thích hợp cho thư mục này để container gắn nó vào bộ nhớ lưu trữ cố định.*
 ```
 [podmgr@serverb ~]$ mkdir -p storage/database
 [podmgr@serverb ~]$ chmod 0777 storage/database
@@ -2839,7 +2748,7 @@ total 0
 drwxrwxrwx. 2 podmgr podmgr 6 Jun 18 12:05 database
 ```
 
-3. Tạo vùng chứa tách biệt db-app01 dựa trên ảnh vùng chứa registry.lab.example.com/rhel9/mariadb-105. Sử dụng thư mục /home/podmgr/storage/database làm bộ nhớ lưu trữ cố định cho thư mục /var/lib/mysql/data của vùng chứa db-app01. Ánh xạ cổng 13306 trên máy cục bộ thành cổng 3306 trong vùng chứa. Sử dụng các giá trị trong bảng sau để thiết lập các biến môi trường nhằm tạo cơ sở dữ liệu được chứa trong vùng chứa:
+**3. Tạo container tách biệt db-app01 dựa trên ảnh container `registry.lab.example.com/rhel9/mariadb-105`. Sử dụng thư mục `/home/podmgr/storage/database` làm bộ nhớ lưu trữ cố định cho thư mục `/var/lib/mysql/data` của container `db-app01`. Ánh xạ cổng `13306` trên máy cục bộ thành cổng `3306` trong container. Sử dụng các giá trị trong bảng sau để thiết lập các biến môi trường nhằm tạo cơ sở dữ liệu được chứa trong container:**
 
 Variable	|Value
 ---|---
@@ -2848,8 +2757,7 @@ MYSQL_PASSWORD	|redhat
 MYSQL_DATABASE	|inventory
 MYSQL_ROOT_PASSWORD	|redhat
 
-3.1 Kiểm tra hình ảnh container registry.lab.example.com/rhel9/mariadb.
-
+*3.1 Kiểm tra hình ảnh container `registry.lab.example.com/rhel9/mariadb`.*
 ```
 [podmgr@serverb ~]$ skopeo inspect \
 docker://registry.lab.example.com/rhel9/mariadb-105
@@ -2861,7 +2769,8 @@ docker://registry.lab.example.com/rhel9/mariadb-105
     ],
 ...output omitted...
 ```
-3.2 Sử dụng ảnh container registry.lab.example.com/rhel9/mariadb-105 để tạo container db-app01 tách rời. Sử dụng thư mục /home/podmgr/storage/database làm bộ nhớ lưu trữ cố định cho container. Ánh xạ cổng 13306 sang cổng container 3306. Sử dụng dữ liệu trong bảng để thiết lập các biến môi trường cho container.
+
+*3.2 Sử dụng ảnh container `registry.lab.example.com/rhel9/mariadb-105` để tạo container `db-app01` tách rời. Sử dụng thư mục `/home/podmgr/storage/database` làm bộ nhớ lưu trữ cố định cho container. Ánh xạ cổng `13306` sang cổng container `3306`. Sử dụng dữ liệu trong bảng để thiết lập các biến môi trường cho container.*
 ```
 [podmgr@serverb ~]$ podman run -d --name db-app01 \
 -e MYSQL_USER=developer \
@@ -2877,23 +2786,22 @@ registry.lab.example.com/rhel9/mariadb-105
 CONTAINER ID  IMAGE                                              COMMAND     CREATED         STATUS         PORTS                    NAMES
 0959ba5df57d  registry.lab.example.com/rhel9/mariadb-105:latest  run-mysqld  16 seconds ago  Up 15 seconds  0.0.0.0:13306->3306/tcp  db-app01
 ```
-4. Tạo một tệp dịch vụ systemd để quản lý vùng chứa db-app01. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, daemon systemd sẽ giữ nguyên vùng chứa gốc. Khởi động và kích hoạt vùng chứa dưới dạng dịch vụ systemd. Cấu hình vùng chứa db-app01 để khởi động cùng hệ thống.
 
-4.1 Tạo thư mục ~/.config/systemd/user/ cho tệp đơn vị chứa.
+**4. Tạo một tệp dịch vụ systemd để quản lý container `db-app01`. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, daemon systemd sẽ giữ nguyên container gốc. Khởi động và kích hoạt container dưới dạng dịch vụ systemd. Cấu hình container db-app01 để khởi động cùng hệ thống.**
+
+*4.1 Tạo thư mục `~/.config/systemd/user/` cho tệp đơn vị chứa.*
 ```
 [podmgr@serverb ~]$ mkdir -p ~/.config/systemd/user/
-
 ```
-4.2  Tạo tệp đơn vị systemd cho vùng chứa db-app01 và di chuyển tệp đơn vị này đến thư mục ~/.config/systemd/user/.
 
+*4.2  Tạo tệp đơn vị systemd cho container `db-app01` và di chuyển tệp đơn vị này đến thư mục `~/.config/systemd/user/`.*
 ```
 [podmgr@serverb ~]$ podman generate systemd --name db-app01 --files
 /home/podmgr/container-db-app01.service
 [podmgr@serverb ~]$ mv container-db-app01.service ~/.config/systemd/user/
 ```
-4.3 Stop the db-app01 container.
 
-
+*4.3 Stop the `db-app01` container.*
 ```
 [podmgr@serverb ~]$ podman stop db-app01
 db-app01
@@ -2901,14 +2809,13 @@ db-app01
 CONTAINER ID  IMAGE                                              COMMAND     CREATED        STATUS                    PORTS                    NAMES
 0959ba5df57d  registry.lab.example.com/rhel9/mariadb-105:latest  run-mysqld  2 minutes ago  Exited (0) 2 seconds ago  0.0.0.0:13306->3306/tcp  db-app01
 ```
-4.4 Tải lại dịch vụ systemd của người dùng để sử dụng đơn vị dịch vụ mới.
 
+*4.4 Tải lại dịch vụ `systemd` của người dùng để sử dụng đơn vị dịch vụ mới.*
 ```
 [podmgr@serverb ~]$ systemctl --user daemon-reload
-
 ```
-4.5 Khởi động và kích hoạt đơn vị systemd cho vùng chứa db-app01.
 
+*4.5 Khởi động và kích hoạt đơn vị systemd cho container `db-app01`.*
 ```
 [podmgr@serverb ~]$ systemctl --user enable --now container-db-app01
 Created symlink /home/podmgr/.config/systemd/user/default.target.wants/container-db-app01.service → /home/podmgr/.config/systemd/user/container-db-app01.service.
@@ -2921,38 +2828,36 @@ Created symlink /home/podmgr/.config/systemd/user/default.target.wants/container
 CONTAINER ID  IMAGE                                              COMMAND     CREATED        STATUS        PORTS                    NAMES
 0959ba5df57d  registry.lab.example.com/rhel9/mariadb-105:latest  run-mysqld  2 minutes ago  Up 2 minutes  0.0.0.0:13306->3306/tcp  db-app01
 ```
-4.6 Sử dụng lệnh loginctl để cấu hình vùng chứa db-app01 để khởi động khi hệ thống khởi động.
 
+*4.6 Sử dụng lệnh `loginctl` để cấu hình container `db-app01` để khởi động khi hệ thống khởi động.*
 ```
 [podmgr@serverb ~]$ loginctl enable-linger
-
 ```
 
-5. Sao chép tập lệnh /home/podmgr/db-dev/inventory.sql vào thư mục /tmp của vùng chứa db-app01 và thực thi tập lệnh bên trong vùng chứa. Nếu bạn thực thi tập lệnh cục bộ, bạn sẽ sử dụng lệnh mysql -u root inventory < /tmp/inventory.sql.
+**5. Sao chép tập lệnh `/home/podmgr/db-dev/inventory.sql` vào thư mục `/tmp` của container `db-app01` và thực thi tập lệnh bên trong container. Nếu bạn thực thi tập lệnh cục bộ, bạn sẽ sử dụng lệnh `mysql -u root inventory < /tmp/inventory.sql`.**
 
-5.1 Sao chép tập lệnh /home/podmgr/db-dev/inventory.sql vào thư mục /tmp của vùng chứa db-app01.
-
+*5.1 Sao chép tập lệnh `/home/podmgr/db-dev/inventory.sql` vào thư mục `/tmp` của container `db-app01`.*
 ```
 [podmgr@serverb ~]$ podman cp /home/podmgr/db-dev/inventory.sql \
 db-app01:/tmp/inventory.sql
 ```
-5.2 Thực thi tập lệnh inventory.sql trong vùng chứa db-app01.
 
+*5.2 Thực thi tập lệnh `inventory.sql` trong container `db-app01`.*
 ```
 [podmgr@serverb ~]$ podman exec -it db-app01 sh -c 'mysql -u root \
 inventory < /tmp/inventory.sql'
 ```
 
-6. Sử dụng tệp container trong thư mục /home/podmgr/http-dev để tạo container tách rời http-app01. Tên ảnh container phải là http-client:9.0. Ánh xạ cổng 8080 trên máy cục bộ với cổng 8080 trong container.
+**6. Sử dụng tệp container trong thư mục /home/podmgr/http-dev để tạo container tách rời http-app01. Tên ảnh container phải là http-client:9.0. Ánh xạ cổng 8080 trên máy cục bộ với cổng 8080 trong container.**
 
-6.1 Tạo ảnh http-client:9.0 với tệp chứa trong thư mục /home/podmgr/http-dev.
+*6.1 Tạo ảnh http-client:9.0 với tệp chứa trong thư mục /home/podmgr/http-dev.*
 ```
 [podmgr@serverb ~]$ podman build -t http-client:9.0 http-dev/
 STEP 1/7: FROM registry.lab.example.com/rhel9/php-82:1-15
 ...output omitted...
 ```
-6.2 Tạo vùng chứa http-app01 tách biệt. Ánh xạ cổng 8080 từ máy cục bộ sang cổng 8080 trong vùng chứa.
 
+*6.2 Tạo container http-app01 tách biệt. Ánh xạ cổng 8080 từ máy cục bộ sang cổng 8080 trong container.*
 ```
 [podmgr@serverb ~]$ podman run -d --name http-app01 \
 -p 8080:8080 localhost/http-client:9.0
@@ -2963,18 +2868,22 @@ ee424df19621  localhost/http-client:9.0                        /bin/sh -c   4 se
 ```
 
 
-7. Truy vấn nội dung của container http-app01. Xác minh rằng nó hiển thị tên container của máy khách và trạng thái của cơ sở dữ liệu đang hoạt động. 
+**7. Truy vấn nội dung của container http-app01. Xác minh rằng nó hiển thị tên container của máy khách và trạng thái của cơ sở dữ liệu đang hoạt động.**
 
-7.1 Xác minh rằng container http-app01 phản hồi các yêu cầu http.
+*7.1 Xác minh rằng container http-app01 phản hồi các yêu cầu http.*
 ```
 [podmgr@serverb ~]$ curl 127.0.0.1:8080
 This is the server http-app01 and the database is up
 ```
 
-8. Return to the workstation machine as the student user.
+**8. Return to the workstation machine as the student user.**
 ```
 [podmgr@serverb ~]$ exit
 logout
 Connection to serverb closed.
 [student@workstation ~]$
 ```
+
+---
+# ---------------------------- END ----------------------------
+---
