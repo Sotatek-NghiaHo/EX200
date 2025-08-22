@@ -2648,12 +2648,9 @@ Kết quả
 ---
 
 Thông số kỹ thuật
-
-Trên serverb, hãy cấu hình người dùng podmgr với mật khẩu là redhat và thiết lập các công cụ phù hợp cho người dùng podmgr để quản lý các container cho bài đánh giá toàn diện này. Cấu hình registry.lab.example.com làm registry từ xa. Sử dụng admin làm người dùng và redhat321 làm mật khẩu để xác thực với registry. Bạn có thể sử dụng tệp /tmp/review4/registries.conf để cấu hình registry.
-
-Thư mục /tmp/review4/container-dev chứa hai thư mục chứa các tệp phát triển cho các container trong bài đánh giá toàn diện này. Sao chép hai thư mục trong thư mục /tmp/review4/container-dev vào thư mục home của podmgr. Cấu hình thư mục con /home/podmgr/storage/database để bạn có thể sử dụng nó làm bộ nhớ lưu trữ liên tục cho một container.
-
-Tạo container tách biệt db-app01 dựa trên hình ảnh container registry.lab.example.com/rhel9/mariadb-105. Sử dụng thư mục /home/podmgr/storage/database làm bộ nhớ lưu trữ cố định cho thư mục /var/lib/mysql/data của container db-app01. Ánh xạ cổng 13306 trên máy cục bộ thành cổng 3306 trong container. Sử dụng các giá trị trong bảng sau để thiết lập các biến môi trường nhằm tạo cơ sở dữ liệu được chứa trong container:
+- Trên `serverb`, hãy cấu hình người dùng `podmgr` với mật khẩu là `redhat` và thiết lập các công cụ phù hợp cho người dùng podmgr để quản lý các container cho bài đánh giá toàn diện này. Cấu hình `registry.lab.example.com` làm registry từ xa. Sử dụng `admin` làm người dùng và `redhat321` làm mật khẩu để xác thực với registry. Bạn có thể sử dụng tệp `/tmp/review4/registries`.conf để cấu hình registry.
+- Thư mục `/tmp/review4/container-dev` chứa hai thư mục chứa các tệp phát triển cho các container trong bài đánh giá toàn diện này. Sao chép hai thư mục trong thư mục `/tmp/review4/container-dev` vào thư mục home của `podmgr`. Cấu hình thư mục con `/home/podmgr/storage/database` để bạn có thể sử dụng nó làm bộ nhớ lưu trữ liên tục cho một container.
+- Tạo container tách biệt `db-app01` dựa trên hình ảnh container `registry.lab.example.com/rhel9/mariadb-105`. Sử dụng thư mục `/home/podmgr/storage/database` làm bộ nhớ lưu trữ cố định cho thư mục `/var/lib/mysql/data` của container `db-app01`. Ánh xạ cổng `13306` trên máy cục bộ thành cổng `3306` trong container. Sử dụng các giá trị trong bảng sau để thiết lập các biến môi trường nhằm tạo cơ sở dữ liệu được chứa trong container:
 
 Variable	|Value
 ---|---
@@ -2662,13 +2659,13 @@ MYSQL_PASSWORD	|redhat
 MYSQL_DATABASE	|inventory
 MYSQL_ROOT_PASSWORD	|redhat
 
-Tạo một tệp dịch vụ systemd để quản lý container db-app01. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, daemon systemd sẽ giữ nguyên container gốc. Khởi động và kích hoạt container như một dịch vụ systemd. Cấu hình container db-app01 để khởi động cùng hệ thống.
+- Tạo một tệp dịch vụ systemd để quản lý container `db-app01`. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, daemon systemd sẽ giữ nguyên container gốc. Khởi động và kích hoạt container như một dịch vụ systemd. Cấu hình container `db-app01` để khởi động cùng hệ thống.
 
-Sao chép tập lệnh /home/podmgr/db-dev/inventory.sql vào thư mục /tmp của container db-app01 và thực thi tập lệnh bên trong container. Nếu bạn đã thực thi tập lệnh cục bộ, bạn sẽ sử dụng lệnh mysql -u root inventory < /tmp/inventory.sql.
+- Sao chép file `/home/podmgr/db-dev/inventory.sql` vào thư mục `/tmp` của container `db-app01` và thực thi tập lệnh bên trong container. Nếu bạn đã thực thi tập lệnh cục bộ, bạn sẽ sử dụng lệnh `mysql -u root inventory < /tmp/inventory.sql`.
 
-Sử dụng tệp container trong thư mục /home/podmgr/http-dev để tạo container http-app01 tách biệt. Tên ảnh container phải là http-client:9.0. Ánh xạ cổng 8080 trên máy cục bộ với cổng 8080 trong container.
+- Sử dụng tệp container trong thư mục `/home/podmgr/http-dev` để tạo container http-app01 tách biệt. Tên ảnh container phải là `http-client:9.0`. Ánh xạ cổng `8080` trên máy cục bộ với cổng `8080` trong container.
 
-Sử dụng lệnh curl để truy vấn nội dung của container http-app01. Xác minh rằng đầu ra của lệnh hiển thị tên container của máy khách và trạng thái của cơ sở dữ liệu là đang hoạt động.
+- Sử dụng lệnh curl để truy vấn nội dung của container `http-app01`. Xác minh rằng đầu ra của lệnh hiển thị tên container của máy khách và trạng thái của cơ sở dữ liệu là đang hoạt động.
 
 **1. Trên `serverb`, hãy cấu hình người dùng podmgr với mật khẩu là `redhat` và thiết lập các công cụ phù hợp cho người dùng podmgr để quản lý các container cho bài đánh giá toàn diện này. Cấu hình `registry.lab.example.com` làm registry từ xa. Sử dụng admin làm người dùng và redhat321 làm mật khẩu để xác thực. Bạn có thể sử dụng tệp `/tmp/review4/registries.conf` để cấu hình registry.**
 
