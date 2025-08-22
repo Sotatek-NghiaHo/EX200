@@ -1,8 +1,8 @@
-Lab environment  
+Lab Environment Redhat  
 ![](../pic/42.png)
 
 
-
+---
 # CHAPTER 2: Access the Command Line
 - Chạy thành công các chương trình đơn giản từ dòng lệnh Bash shell.
 - Thực hiện các lệnh để xác định loại tệp và hiển thị các phần của tệp văn bản.
@@ -113,7 +113,7 @@ Trong hoạt động này, bạn tạo `my_task.txt` và sau đó thêm thông t
 `touch my_task.txt`  
 **1. Tìm kiếm và mở trang hướng dẫn sử dụng `hostname`. Tìm tùy chọn lệnh để hiển thị tất cả tên miền đủ điều kiện (FQDN) của máy. Sau đó, chạy `hostname` với tùy chọn in tất cả FQDN và gửi kết quả ra `my_task.txt`.**
 
-1.1 Tìm kiếm các trang hướng dẫn có chứa chuỗi "hostname"  
+*1.1 Tìm kiếm các trang hướng dẫn có chứa chuỗi "hostname"*
 ```
 [root@redhat9-server-1 ~]# man -k hostname
 freehostent (3)      - get network hostnames and addresses
@@ -151,7 +151,7 @@ workstation.lab.example.com workstation
 
 **2. Mở trang hướng dẫn của `date`. Tìm tùy chọn giúp bạn xác định số giây đã trôi qua giữa ngày 1 tháng 1 năm 1970 và ngày 1 tháng 1 năm 2025. Chạy lệnh và thêm kết quả đầu ra vào `my_task.txt`.**
 
-2.1 Duyệt trang hướng dẫn sử dụng date để tìm tùy chọn phù hợp.
+*2.1 Duyệt trang hướng dẫn sử dụng date để tìm tùy chọn phù hợp.*
 ```
        -d, --date=STRING
               display time described by STRING, not 'now'
@@ -188,7 +188,7 @@ Wed Jan  1 07:00:00 AM +07 2025
 [root@redhat9-server-1 ~]#  man -k selinux
 getenforce (8)       - get the current mode of SELinux
 ```
-3.2 Sử dụng `getenforce` để lấy chế độ SELinux hiện tại và thêm vào `my_tasks.txt`.
+*3.2 Sử dụng `getenforce` để lấy chế độ SELinux hiện tại và thêm vào `my_tasks.txt`.*
 ```
 [root@redhat9-server-1 ~]# getenforce >> my_task.txt 
 
@@ -265,7 +265,7 @@ mystery_chapter1.odf  mystery_chapter3.odf  mystery_chapter5.odf  mystery_chapte
 mystery_chapter2.odf  mystery_chapter4.odf  mystery_chapter6.odf  mystery_chapter8.odf
 
 ```
-5. Sử dụng một lệnh duy nhất để tạo thư mục `~/Videos/season1` và `~/Videos/season2` để sắp xếp các tập phim truyền hình. Di chuyển các tập phim truyền hình phù hợp vào các thư mục con của mùa phim. Chỉ sử dụng hai lệnh và chỉ định đích đến bằng cú pháp tương ứng.  
+**5. Sử dụng một lệnh duy nhất để tạo thư mục `~/Videos/season1` và `~/Videos/season2` để sắp xếp các tập phim truyền hình. Di chuyển các tập phim truyền hình phù hợp vào các thư mục con của mùa phim. Chỉ sử dụng hai lệnh và chỉ định đích đến bằng cú pháp tương ứng.**
 
 Tạo hai thư mục con có tên là `season1` và `season2` trong thư mục `Videos` bằng cách sử dụng một lệnh duy nhất.
 ```
@@ -297,9 +297,9 @@ Videos/season2:
 tv_season2_episode1.ogg  tv_season2_episode3.ogg  tv_season2_episode5.ogg
 tv_season2_episode2.ogg  tv_season2_episode4.ogg  tv_season2_episode6.ogg
 ```
-6. Tạo một hệ thống phân cấp thư mục hai cấp chỉ bằng một lệnh để sắp xếp các chương sách bí ẩn. Tạo thư mục con `my_bestseller` trong thư mục `Documents`, và tạo thư mục con `chapters` trong thư mục `my_bestseller` mới. Tạo thêm ba thư mục con ngay trong thư mục `my_bestseller` chỉ bằng một lệnh. Đặt tên cho các thư mục con này là `editor, changes và vacation`. Bạn không cần sử dụng lệnh `mkdir -p `để tạo thư mục cha vì thư mục cha `my_bestseller` đã tồn tại.
+**6. Tạo một hệ thống phân cấp thư mục hai cấp chỉ bằng một lệnh để sắp xếp các chương sách bí ẩn. Tạo thư mục con `my_bestseller` trong thư mục `Documents`, và tạo thư mục con `chapters` trong thư mục `my_bestseller` mới. Tạo thêm ba thư mục con ngay trong thư mục `my_bestseller` chỉ bằng một lệnh. Đặt tên cho các thư mục con này là `editor, changes và vacation`. Bạn không cần sử dụng lệnh `mkdir -p `để tạo thư mục cha vì thư mục cha `my_bestseller` đã tồn tại.**
 
-6.1 Tạo thư mục `my_bestseller` trong thư mục `Documents`. Tạo thư mục `chapters` trong thư mục `my_bestseller`.
+*6.1 Tạo thư mục `my_bestseller` trong thư mục `Documents`. Tạo thư mục `chapters` trong thư mục `my_bestseller`.*
 ```
 [nghiahv@redhat9-server-1 ~]$ mkdir -p Documents/my_bestseller/chapters
 [nghiahv@redhat9-server-1 ~]$ ls -R Documents/
@@ -316,7 +316,7 @@ season1_project_plan.odf  season2_project_plan.odf
 
 ```
 
-6.2 Tạo ba thư mục có tên là `editor`, `changes` và `vacation` trong thư mục `my_bestseller` bằng cách sử dụng một lệnh duy nhất.
+*6.2 Tạo ba thư mục có tên là `editor`, `changes` và `vacation` trong thư mục `my_bestseller` bằng cách sử dụng một lệnh duy nhất.*
 ```
 [nghiahv@redhat9-server-1 ~]$ mkdir Documents/my_bestseller/{editor,changes,vacation}
 [nghiahv@redhat9-server-1 ~]$ ls -R Documents/
@@ -338,13 +338,13 @@ Documents/project_plans:
 season1_project_plan.odf  season2_project_plan.odf
 
 ```
-7. Chuyển đến thư mục `chapters`. Sử dụng phím tắt thư mục home dấu ngã (~) để di chuyển tất cả các chương sách đến thư mục `chapters`, hiện là thư mục hiện tại của bạn. Sử dụng cú pháp đơn giản nhất để chỉ định thư mục đích.
+**7. Chuyển đến thư mục `chapters`. Sử dụng phím tắt thư mục home dấu ngã (~) để di chuyển tất cả các chương sách đến thư mục `chapters`, hiện là thư mục hiện tại của bạn. Sử dụng cú pháp đơn giản nhất để chỉ định thư mục đích.**
 
 Bạn muốn gửi hai chương đầu tiên đến trình soạn thảo để xem xét. Chỉ di chuyển hai chương đó đến thư mục trình soạn thảo để tránh sửa đổi chúng trong quá trình xem xét. Bắt đầu từ thư mục con chương, sử dụng dấu ngoặc nhọn mở rộng với một phạm vi để chỉ định tên tệp chương cần di chuyển và đường dẫn tương đối đến thư mục đích.
 
 Trong thời gian nghỉ, bạn dự định viết chương 7 và 8. Sử dụng một lệnh duy nhất để di chuyển các tệp từ thư mục chương sang thư mục nghỉ. Chỉ định tên tệp chương bằng cách sử dụng dấu ngoặc nhọn mở rộng với danh sách các chuỗi và không sử dụng ký tự đại diện.
 
-7.1 Chuyển đến thư mục `chapters` và sử dụng phím tắt thư mục gốc dấu ngã (~) để di chuyển tất cả các chương sách vào thư mục chương.
+*7.1 Chuyển đến thư mục `chapters` và sử dụng phím tắt thư mục gốc dấu ngã (~) để di chuyển tất cả các chương sách vào thư mục chương.*
 ```
 [nghiahv@redhat9-server-1 ~]$ cd Documents/my_bestseller/chapters/
 [nghiahv@redhat9-server-1 chapters]$ mv ~/mystery_chapter* .
@@ -354,7 +354,7 @@ mystery_chapter2.odf  mystery_chapter4.odf  mystery_chapter6.odf  mystery_chapte
 
 ```
 
-7.2 Di chuyển hai chương đầu tiên đến thư mục `editor`. Sử dụng dấu ngoặc nhọn mở rộng với phạm vi để chỉ định tên tệp chương cần di chuyển và đường dẫn tương đối đến thư mục đích.
+*7.2 Di chuyển hai chương đầu tiên đến thư mục `editor`. Sử dụng dấu ngoặc nhọn mở rộng với phạm vi để chỉ định tên tệp chương cần di chuyển và đường dẫn tương đối đến thư mục đích.*
 
 ```
 [nghiahv@redhat9-server-1 chapters]$ mv mystery_chapter{1..2}.odf ../editor/
@@ -388,7 +388,7 @@ cd	|Về thư mục home hoặc đến thư mục chỉ định
 cd -	|Quay lại thư mục trước đó
 cd ..	|Lùi một cấp thư mục cha
 
-7.3 Sử dụng một lệnh duy nhất để di chuyển chương 7 và 8 từ thư mục `chapters` sang thư mục `vacation`. Chỉ định tên tệp chương bằng cách sử dụng dấu ngoặc nhọn mở rộng với danh sách chuỗi và không sử dụng ký tự đại diện.
+*7.3 Sử dụng một lệnh duy nhất để di chuyển chương 7 và 8 từ thư mục `chapters` sang thư mục `vacation`. Chỉ định tên tệp chương bằng cách sử dụng dấu ngoặc nhọn mở rộng với danh sách chuỗi và không sử dụng ký tự đại diện.*
 ```
 [nghiahv@redhat9-server-1 chapters]$ mv mystery_chapter{7..8}.odf ../vacation/
 [nghiahv@redhat9-server-1 chapters]$ ls
@@ -413,9 +413,9 @@ ls ../vacation
 = cd .. + ls /vacation
 ```
 
-8. Chuyển thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa phim vào thư mục `vacation`. Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`. Liệt kê các tệp của thư mục đó. Sử dụng đối số thư mục làm việc trước đó để quay lại thư mục `season2`. Đối số này thành công nếu lần thay đổi thư mục cuối cùng bằng lệnh cd chỉ sử dụng một lệnh thay vì nhiều lệnh cd. Từ thư mục `season2`, sao chép tệp tập 2 vào thư mục `vacation`. Sử dụng phím tắt một lần nữa để quay lại thư mục `vacation`.  
+**8. Chuyển thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa phim vào thư mục `vacation`. Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`. Liệt kê các tệp của thư mục đó. Sử dụng đối số thư mục làm việc trước đó để quay lại thư mục `season2`. Đối số này thành công nếu lần thay đổi thư mục cuối cùng bằng lệnh cd chỉ sử dụng một lệnh thay vì nhiều lệnh cd. Từ thư mục `season2`, sao chép tệp tập 2 vào thư mục `vacation`. Sử dụng phím tắt một lần nữa để quay lại thư mục `vacation`.**
 
-8.1 Thay đổi thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa giải vào thư mục `vacation`.
+*8.1 Thay đổi thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa giải vào thư mục `vacation`.*
 ```
 [nghiahv@redhat9-server-1 chapters]$ cd ~/Videos/season2/
 [nghiahv@redhat9-server-1 season2]$ ls
@@ -426,7 +426,7 @@ tv_season2_episode2.ogg  tv_season2_episode4.ogg  tv_season2_episode6.ogg
 mystery_chapter7.odf  mystery_chapter8.odf  tv_season2_episode1.ogg
 
 ```
-8.2 Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`, liệt kê các tệp trong đó và sử dụng tham số - để trở về thư mục trước đó. Sao chép tệp tập 2 vào thư mục `vacation`. Sử dụng lệnh cd với tham số - để trở về thư mục `vacation`.
+*8.2 Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`, liệt kê các tệp trong đó và sử dụng tham số - để trở về thư mục trước đó. Sao chép tệp tập 2 vào thư mục `vacation`. Sử dụng lệnh cd với tham số - để trở về thư mục `vacation`.*
 ```
 [nghiahv@redhat9-server-1 season2]$ cd ~/Documents/my_bestseller/vacation/
 [nghiahv@redhat9-server-1 vacation]$ ls
@@ -440,7 +440,7 @@ mystery_chapter7.odf  mystery_chapter8.odf  tv_season2_episode1.ogg
 mystery_chapter7.odf  mystery_chapter8.odf  tv_season2_episode1.ogg  tv_season2_episode2.ogg
 ```
 
-9. Tác giả của chương 5 và 6 muốn thử nghiệm các thay đổi có thể. Hãy sao chép cả hai tệp từ thư mục `~/Documents/my_bestseller/chapters` sang thư mục `~/Documents/my_bestseller/changes` để ngăn những thay đổi này làm thay đổi các tệp gốc. 
+**9. Tác giả của chương 5 và 6 muốn thử nghiệm các thay đổi có thể. Hãy sao chép cả hai tệp từ thư mục `~/Documents/my_bestseller/chapters` sang thư mục `~/Documents/my_bestseller/changes` để ngăn những thay đổi này làm thay đổi các tệp gốc.**
 
 Truy cập thư mục `~/Documents/my_bestseller`. Sử dụng mẫu so khớp trong ngoặc vuông để chỉ định số chương nào sẽ khớp trong đối số tên tệp của lệnh cp.
 ```
@@ -454,7 +454,7 @@ mystery_chapter3.odf  mystery_chapter4.odf  mystery_chapter5.odf  mystery_chapte
 mystery_chapter5.odf  mystery_chapter6.odf
 ```
 
-10. Chuyển thư mục hiện tại của bạn thành thư mục `changes` và sử dụng lệnh `date +%F` kết hợp với lệnh copy để sao chép tệp `mystery_chapter5.odf` sang một tệp mới chứa ngày tháng đầy đủ. Sử dụng định dạng tên `mystery_chapter5_YYYY-MM-DD.odf`.
+**10. Chuyển thư mục hiện tại của bạn thành thư mục `changes` và sử dụng lệnh `date +%F` kết hợp với lệnh copy để sao chép tệp `mystery_chapter5.odf` sang một tệp mới chứa ngày tháng đầy đủ. Sử dụng định dạng tên `mystery_chapter5_YYYY-MM-DD.odf`.**
 
 Bằng cách sử dụng lệnh thay thế với lệnh` date +%s`, hãy tạo một bản sao khác của tệp `mystery_chapter5.odf` và thêm dấu thời gian hiện tại (là số giây kể từ thời điểm epoch, 1970-01-01 00:00 UTC) để đảm bảo tên tệp duy nhất.
 ```
@@ -466,7 +466,7 @@ mystery_chapter5_1755058581.odf  mystery_chapter5_2025-08-13.odf  mystery_chapte
 ```
 Note: Phần $(...) là command substitution (thay thế bằng kết quả của lệnh bên trong).
 
-11. Sau khi xem xét kỹ hơn, bạn quyết định rằng mình không cần thay đổi cốt truyện. Hãy xóa thư mục `changes`.
+**11. Sau khi xem xét kỹ hơn, bạn quyết định rằng mình không cần thay đổi cốt truyện. Hãy xóa thư mục `changes`.**
 
 Nếu cần, hãy vào thư mục `changes` và xóa tất cả các tệp trong thư mục đó. Bạn không thể xóa một thư mục khi nó là thư mục làm việc hiện tại.
 
@@ -495,7 +495,7 @@ chapters  editor
 [nghiahv@redhat9-server-1 ~]$ 
 ```
 
-12. Tạo một liên kết cứng đến tệp `~/Documents/project_plans/season2_project_plan.odf` có tên là `~/Documents/backups/season2_project_plan.odf`.back. Liên kết cứng giúp bảo vệ tệp gốc khỏi việc vô tình xóa nhầm và giữ cho tệp sao lưu được cập nhật khi bạn thay đổi tệp gốc.
+**12. Tạo một liên kết cứng đến tệp `~/Documents/project_plans/season2_project_plan.odf` có tên là `~/Documents/backups/season2_project_plan.odf`.back. Liên kết cứng giúp bảo vệ tệp gốc khỏi việc vô tình xóa nhầm và giữ cho tệp sao lưu được cập nhật khi bạn thay đổi tệp gốc.**
 
 Gợi ý: Nếu thư mục `~/Documents/backups` không tồn tại, hãy sử dụng lệnh mkdir để tạo thư mục đó.
 ```
@@ -561,7 +561,7 @@ PASS_MAX_DAYS   30
 [root@redhat9-server-1 ~]# cat /etc/group | grep consultants
 consultants:x:35000:
 ```
-4.  Cấu hình quyền quản trị để cho phép tất cả thành viên nhóm `consultants` thực thi bất kỳ lệnh nào với tư cách người dùng. Tránh sử dụng công cụ dòng lệnh visudo để chỉnh sửa tệp `/etc/sudoers`. Thay vào đó, hãy đặt tệp cấu hình vào thư mục `/etc/sudoers.d`.
+**4.  Cấu hình quyền quản trị để cho phép tất cả thành viên nhóm `consultants` thực thi bất kỳ lệnh nào với tư cách người dùng. Tránh sử dụng công cụ dòng lệnh visudo để chỉnh sửa tệp `/etc/sudoers`. Thay vào đó, hãy đặt tệp cấu hình vào thư mục `/etc/sudoers.d`.**
 ```
 vi /etc/sudoers.d/consultants
 %consultants  ALL=(ALL) ALL
@@ -569,7 +569,7 @@ vi /etc/sudoers.d/consultants
 Note:
 - dấu % ở đầu nghĩa là nhóm (group) trong Linux.
 - Không có dấu % → nghĩa là tài khoản người dùng cụ thể.
-5. Tạo người dùng `consultant1`, `consultant2` và `consultant3` với nhóm `consultants` là nhóm bổ sung của họ.
+**5. Tạo người dùng `consultant1`, `consultant2` và `consultant3` với nhóm `consultants` là nhóm bổ sung của họ.**
 ```
 [root@redhat9-server-1 ~]# useradd -G consultants consultant1
 [root@redhat9-server-1 ~]# useradd -G consultants consultant2
@@ -686,7 +686,7 @@ Kết quả:
 - Tạo cấu trúc tệp và thư mục cần thiết, chỉ định quyền truy cập theo yêu cầu.  
 
 Chuyển sang người dùng `sudo -i `     
-2. Tạo thư mục cộng tác `techdocs` trong thư mục `/home`. Đặt quyền sở hữu nhóm của thư mục thành nhóm `techdocs`, cấp toàn quyền cho user và group, và cấu hình thư mục sao cho chỉ chủ sở hữu tệp mới có thể xóa tệp của họ.  
+**2. Tạo thư mục cộng tác `techdocs` trong thư mục `/home`. Đặt quyền sở hữu nhóm của thư mục thành nhóm `techdocs`, cấp toàn quyền cho user và group, và cấu hình thư mục sao cho chỉ chủ sở hữu tệp mới có thể xóa tệp của họ.**
 
 Ban dau
 ```
@@ -753,8 +753,7 @@ drwxrwx--T. 2 root techdocs 6 Aug 13 14:46 /home/techdocs
 # Bộ quyền --T cho thấy thư mục được cấu hình với quyền sticky bit
 ```
 
-3. Xác minh rằng người dùng trong nhóm `techdocs` có thể tạo và cộng tác trên các tệp trong thư mục `/home/techdocs`. Với tư cách là người dùng dev1, hãy tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`. Với tư cách là người dùng dev2, hãy thêm nội dung sau vào tệp: "This is the first tech doc". Cấu hình quyền sở hữu và quyền hạn nhóm cần thiết để cho phép cộng tác này.
-
+**3. Xác minh rằng người dùng trong nhóm `techdocs` có thể tạo và cộng tác trên các tệp trong thư mục `/home/techdocs`. Với tư cách là người dùng dev1, hãy tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`. Với tư cách là người dùng dev2, hãy thêm nội dung sau vào tệp: "This is the first tech doc". Cấu hình quyền sở hữu và quyền hạn nhóm cần thiết để cho phép cộng tác này.**  
 *3.1 Chuyển sang người dùng `dev1`. Chuyển đến thư mục `/home/techdocs`.*
 ```
 [root@redhat9-server-1 ~]# su - dev1
@@ -818,8 +817,7 @@ total 4
 -rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
 
 ```
-*4.2 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng dev1. Chuyển đến thư mục` /home/techdocs`.
-*
+*4.2 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng dev1. Chuyển đến thư mục` /home/techdocs`.*  
 ```
 [dev2@redhat9-server-1 techdocs]$ exit
 logout
@@ -896,7 +894,7 @@ Note
 - Khi login lại (dù qua su - dev1 hay ssh dev1@host), shell mới sẽ đọc các file config mặc định (/etc/profile, ~/.bashrc, ~/.bash_profile …). umask sẽ trở về giá trị mặc định (thường là 0022, trừ khi anh sửa file config). Nghĩa là thiết lập 0027 vừa set trước đó không còn hiệu lực
 
 
-5.3 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev1. Đổi quyền sở hữu nhóm của các tệp này thành nhóm `techdocs`. Xác minh rằng người dùng dev1 có thể ghi vào chúng.
+*5.3 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev1. Đổi quyền sở hữu nhóm của các tệp này thành nhóm `techdocs`. Xác minh rằng người dùng dev1 có thể ghi vào chúng.*
 ```
 [dev1@redhat9-server-1 dev1]$ touch dev1.txt
 [dev1@redhat9-server-1 dev1]$ touch dev1.log
@@ -1271,7 +1269,7 @@ chmod +x /home/student/bin/task101.sh
 
 **2. Trong terminal bên phải, theo dõi tất cả các tiến trình đang chạy trong máy serverb.**
 
-2.1 Trong terminal bên phải, hãy chạy tiện ích trên cùng để theo dõi tất cả các tiến trình. Điều chỉnh cửa sổ sao cho cao nhất có thể để xem thêm thông tin. Tiếp tục chạy tiện ích trên cùng để kiểm tra mức sử dụng CPU và tải trung bình trong các bước sau.
+*2.1 Trong terminal bên phải, hãy chạy tiện ích trên cùng để theo dõi tất cả các tiến trình. Điều chỉnh cửa sổ sao cho cao nhất có thể để xem thêm thông tin. Tiếp tục chạy tiện ích trên cùng để kiểm tra mức sử dụng CPU và tải trung bình trong các bước sau.*
 ```
 top
 ```
@@ -1361,7 +1359,7 @@ MiB Swap:  0.0/0.0      [                                                       
 ...output omitted...
 Q
 ```
-4.5 Xem tất cả các luồng đang chạy cho tiến trình `task101.sh`. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn -H và -p. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.
+*4.5 Xem tất cả các luồng đang chạy cho tiến trình `task101.sh`. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn -H và -p. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.*
 
 Tiến trình `task101.sh` không chạy nhiều luồng.
 
@@ -1433,6 +1431,7 @@ Note:
 **6. Trong shell terminal bên phải, hãy kiểm tra xem tiến trình `task102.sh` có đang chạy và sử dụng nhiều tài nguyên CPU nhất không. Kiểm tra mức tải trung bình của máy chủ serverb.**
 
 Trong shell terminal bên phải, hãy kiểm tra xem tiến trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng từ 25% đến 35%.  
+
 *6.1 Trong shell terminal bên phải, hãy kiểm tra xem quy trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng 25% đến 35%.*
 
 ```
@@ -1533,7 +1532,7 @@ PPID  PID ... TPGID STAT  UID  TIME COMMAND
 ```
 Note: `task101.sh` có trạng thái là `T`. Trạng thái này có nghĩa là tiến trình hiện đang bị tạm dừng. 
 
-**9. Tiếp tục tiến trình `task101.sh`.**
+**9. Tiếp tục tiến trình `task101.sh`.**    
 *9.1 Trong shell bên trái, tiếp tục tiến trình `task101.sh`.*
 
 ```
@@ -1655,7 +1654,8 @@ Cấu hình giao diện mạng và cài đặt trên máy chủ Red Hat Enterpri
 Kết quả:
  - Cấu hình hai địa chỉ IPv4 tĩnh cho giao diện mạng chính.
 
-sudo -i
+Vao `root`:  
+`sudo -i`
 
 **2. Tạo kết nối sử dụng cấu hình mạng tĩnh bằng cách sử dụng thông tin từ bảng sau.**
 
@@ -1969,35 +1969,35 @@ Kết quả
 - Ghi lại nội dung cụ thể từ tệp văn bản hoặc lệnh và chuyển hướng đầu ra sang tệp khác.
 - Chỉnh sửa tệp văn bản.
 
-Create the /home/student/grading directory.
+Create the `/home/student/grading directory`.
 ```
 [root@redhat9-server-1 ~]# mkdir -p /home/nghiahv/grading
 
 ```
-Create three empty files named grade1, grade2, and grade3, in the /home/student/grading directory.
+Create three empty files named `grade1`, `grade2`, and `grade3`, in the `/home/student/grading directory`.
 ```
 [root@redhat9-server-1 ~]# touch /home/nghiahv/grading/grade{1,2,3}
 
 ```
-Capture the first five lines of the /home/student/bin/manage file in the /home/student/grading/review.txt file.
+Capture the first five lines of the `/home/student/bin/manage` file in the `/home/student/grading/review.txt` file.
 
 
 ```
 head -5 bin/manage > grading/review.txt
 ```
-Without overwriting any existing text, append the last three lines of the /home/student/bin/manage file to the /home/student/grading/review.txt file.
+Without overwriting any existing text, append the last three lines of the `/home/student/bin/manage` file to the `/home/student/grading/review.txt` file.
 
 
 ```
  tail -3 bin/manage >> grading/review.txt 
 ```
-Copy the /home/student/grading/review.txt file to the /home/student/grading/review-copy.txt file.
+Copy the `/home/student/grading/review.txt` file to the `/home/student/grading/review-copy.txt` file.
 
 
 ```
 cp grading/review.txt grading/review-copy.txt
 ```
-Duplicate the Test JJ line in the /home/student/grading/review-copy.txt file. Make sure that the duplicated line appears immediately after the original line.
+Duplicate the Test JJ line in the `/home/student/grading/review-copy.txt` file. Make sure that the duplicated line appears immediately after the original line.
 
 
 ```
@@ -2007,7 +2007,7 @@ vi /home/student/grading/review-copy.txt
 ```
 type "yy" line "Test JJ" -> type "p"
 ```
-Remove the Test HH line from the /home/student/grading/review-copy.txt file.
+Remove the Test HH line from the `/home/student/grading/review-copy.txt` file.
 ```
 vi /home/student/grading/review-copy.txt
 ```
@@ -2015,7 +2015,7 @@ vi /home/student/grading/review-copy.txt
 ```
 type "dd" line "Test HH" 
 ```
-Add the `Level 1 Training` line between the `Test BB` line and the `Test CC` line in the /home/student/grading/review-copy.txt file.
+Add the `Level 1 Training` line between the `Test BB` line and the `Test CC` line in the `/home/student/grading/review-copy.txt` file.
 
 ```
 vi /home/student/grading/review-copy.txt
@@ -2036,7 +2036,7 @@ Create a link named `data-backup` that points to the same data as the `/home/stu
 ```
 ln -s grading/grade1 data-backup
 ```
-- Create a link named filename-backup that points to the /home/student/grading/grade2 file name.
+- Create a link named `filename-backup` that points to the `/home/student/grading/grade2` file name.
 
 
 ```
@@ -2103,7 +2103,8 @@ Note
 
 -M 30 → đặt maximum days = 30 ngày → mật khẩu sẽ hết hạn sau 30 ngày, buộc phải đổi.
 
-📌 Nghĩa là: Lần đăng nhập tới (dau tien), consultant1 phải đổi mật khẩu. Sau đó, Số ngày tối thiểu để đổi mật khẩu la 10 ngày, và mật khẩu sẽ hết hạn sau 30 ngày.
+📌 Nghĩa là: Lần đăng nhập tới (dau tien), consultant1 phải đổi mật khẩu.   
+Sau đó, Số ngày tối thiểu để đổi mật khẩu la 10 ngày, và mật khẩu sẽ hết hạn sau 30 ngày.
 ```
 umask = 0027
 ```
@@ -2112,11 +2113,10 @@ Thư mục mới: 777 - 027 = 750
 
 File mới: 666 - 027 = 640
 -> rw- cho owner, r-- cho group, --- cho other.
-
 ```
 
 
-Create the `/home/dbadmin1/grading/review2 `directory and set all its contents to be owned by the dbadmin1 user and the database group.
+Create the `/home/dbadmin1/grading/review2 `directory and set all its contents to be owned by the `dbadmin1` user and the `database` group.
 ```
 mkdir -p /home/dbadmin1/grading/review2
 
@@ -2155,9 +2155,9 @@ chown dbadmin1:database /home/dbadmin1/grading/review2
 chmod g+s /home/dbadmin1/grading/review2 
 ```
 
-Configure the `/home/dbadmin1/grading/review2 `directory so that users are allowed to delete only files that they own. Configure the permissions on the directory to allow members of the database group to access the directory and to create contents in it. All other users must have read and execute permissions on the directory.
+Configure the `/home/dbadmin1/grading/review2 `directory so that users are allowed to delete only files that they own. Configure the permissions on the directory to allow members of the `database` group to access the directory and to create contents in it. All other users must have read and execute permissions on the directory.
 
-- Sau khi thay doi umask = 0027
+- Sau khi thay doi `umask = 0027`
 ```
 [dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
 /home/dbadmin1/:
@@ -2224,7 +2224,7 @@ Kết quả
 - Cấu hình kho phần mềm trên máy chủ để nhận các bản cập nhật.
 - Cài đặt các gói và mô-đun gói bằng lệnh dnf.
 
-Generate an SSH key pair for the student user. Do not protect the private key with a passphrase. Save the private key as the /home/student/.ssh/review3_key file, and save the public key as the /home/student/.ssh/review3_key.pub file.
+Generate an SSH key pair for the `student` user. Do not protect the private key with a passphrase. Save the private key as the `/home/student/.ssh/review3_key file`, and save the public key as the `/home/student/.ssh/review3_key.pub` file.
 ```
 [dbadmin1@redhat9-server-1 ~]$ ssh-keygen -f /home/dbadmin1/.ssh/review3_key
 
@@ -2233,7 +2233,7 @@ total 8
 -rw-------. 1 dbadmin1 dbadmin1 2610 Aug 14 16:35 review3_key
 -rw-r-----. 1 dbadmin1 dbadmin1  579 Aug 14 16:35 review3_key.pub
 ```
-Configure SSH to prevent the root user from logging in.
+Configure SSH to prevent the `root` user from logging in.
 ```
  vi /etc/ssh/sshd_config
  PermitRootLogin no
@@ -2266,9 +2266,8 @@ gpgcheck=0
 Install the zsh and rht-system packages.
 ```
 -> sudo dnf install zsh rht-system -y
-
 ```
-The student user on the serverb machine must be able to log in to the servera machine by using the review3_key.pub SSH key.
+The student user on the serverb machine must be able to log in to the servera machine by using the `review3_key.pub` SSH key.
 ```
 ssh student#
 ```
@@ -2297,7 +2296,6 @@ nmcli connection add con-name static type ethernet \
 ifname ens4 ipv4.addresses '172.25.250.111/24' ipv4.gateway '172.25.250.254' \
 ipv4.dns '172.25.250.254' ipv4.method manual \
 && nmcli connection up static \
-
 ```
 Parameter	|Setting
 ---|---
@@ -2315,14 +2313,12 @@ hostnamectl hostname server-review4.lab4.example.com
 ```
 vi /etc/hosts
 172.25.250.10 client-review4 
-
 ```
 Cấu hình `static` connection profile với địa chỉ IPv4 bổ sung là `172.25.250.211` với netmask là 255.255.255.0. Không xóa địa chỉ IPv4 hiện có. Đảm bảo máy chủ phản hồi tất cả các địa chỉ khi kết nối tĩnh đang hoạt động.
 ```
 nmcli connection modify static \
 +ipv4.addresses '172.25.250.211/24' \
 && nmcli connection up static
-
 ```
 
 Note
@@ -2365,7 +2361,6 @@ Note:
 Tìm tệp `review5-path`. Tạo tệp `/review5-disk/review5-path.txt` chứa một dòng duy nhất với đường dẫn tuyệt đối đến tệp `review5-path`.
 ```
 find / -iname review5-path 2>/dev/null > /review5-disk/review5-path.txt
-
 ```
 
 Note:
