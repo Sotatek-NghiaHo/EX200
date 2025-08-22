@@ -466,6 +466,7 @@ configsync/etc/xattr.conf
 Note:
 
 ![](../pic/51.png)
+
 4.4 Giải nén nội dung lưu trữ vào thư mục `/tmp/savedconfig/`.
 
 ```
@@ -1268,9 +1269,9 @@ Danh sách sau đây cung cấp các đặc điểm môi trường để hoàn t
 - Thư mục đã xuất `/shares/operation` được tự động gắn kết vào `/remote/operation` trên servera.
 - Tất cả mật khẩu người dùng được đặt thành redhat.
 
-1. Đăng nhập vào servera và cài đặt các gói cần thiết.
+1. Đăng nhập vào `servera` và cài đặt các gói cần thiết.
 
-1.1 Đăng nhập vào servera với tư cách là người dùng student và chuyển sang người dùng gốc.
+1.1 Đăng nhập vào `servera` với tư cách là người dùng `student` và chuyển sang người dùng gốc.
 
 ```
 [student@workstation ~]$ ssh student@servera
@@ -1289,7 +1290,7 @@ Is this ok [y/N]: y
 Complete!
 ```
 
-2. Cấu hình một bản đồ gián tiếp automounter trên servera với các bản xuất từ serverb. Tạo một bản đồ gián tiếp với các tệp có tên là /etc/auto.master.d/shares.autofs cho bản đồ chính và /etc/auto.shares cho tệp ánh xạ. Sử dụng thư mục /remote làm điểm gắn kết chính trên servera. Khởi động lại servera để xác định xem dịch vụ autofs có tự động khởi động hay không.
+2. Cấu hình một bản đồ gián tiếp automounter trên `servera` với các bản xuất từ `serverb`. Tạo một bản đồ gián tiếp với các tệp có tên là `/etc/auto.master.d/shares.autofs` cho bản đồ chính và `/etc/auto.shares` cho tệp ánh xạ. Sử dụng thư mục `/remote` làm điểm gắn kết chính trên `servera`. Khởi động lại `servera` để xác định xem dịch vụ autofs có tự động khởi động hay không.
 
 2.1 Kiểm tra máy chủ NFS trước khi cấu hình trình tự động gắn kết.
 
@@ -1716,17 +1717,17 @@ Connection to serverb closed.
 
 ```
 
-4. Từ máy workstation, hãy kiểm tra lại quyền truy cập vào máy chủ web mặc định tại http://serverb.lab.example.com và máy chủ ảo http://serverb.lab.example.com:1001. Hiển thị giải pháp
+**4. Từ máy `workstation`, hãy kiểm tra lại quyền truy cập vào máy chủ web mặc định tại http://serverb.lab.example.com và máy chủ ảo http://serverb.lab.example.com:1001.**
 
 
-4.1 Test access to the http://serverb.lab.example.com web server. The web server should return SERVER B.
+*4.1 Test access to the http://serverb.lab.example.com web server. The web server should return SERVER B.*
 
 
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com
 SERVER B
 ```
-4.2 Test access to the http://serverb.lab.example.com:1001 virtual host. The test continues to fail.
+*4.2 Test access to the http://serverb.lab.example.com:1001 virtual host. The test continues to fail.*
 
 
 ```
@@ -1734,9 +1735,9 @@ SERVER B
 curl: (7) Failed to connect to serverb.lab.example.com port 1001: No route to host
 ```
 
-5. Đăng nhập vào máy chủ để xác định xem các cổng có được gán đúng cho tường lửa hay không.
+**5. Đăng nhập vào máy chủ để xác định xem các cổng có được gán đúng cho tường lửa hay không.**
 
-5.1 Log in to the serverb machine as the student user.
+*5.1 Log in to the `serverb` machine as the `student` user.*
 
 
 ```
@@ -1744,18 +1745,18 @@ curl: (7) Failed to connect to serverb.lab.example.com port 1001: No route to ho
 ...output omitted...
 [student@serverb ~]$
 ```
-5.2 Xác minh rằng vùng tường lửa mặc định được đặt thành vùng công cộng.
+*5.2 Xác minh rằng vùng tường lửa mặc định được đặt thành `public` zone.*
 
 ```
 [student@serverb ~]$ firewall-cmd --get-default-zone
 public
 ```
-5.3 Nếu bước trước đó không trả về `public` làm vùng mặc định, hãy sửa bằng lệnh sau:
+*5.3 Nếu bước trước đó không trả về `public` làm vùng mặc định, hãy sửa bằng lệnh sau:*
 
 ```
-
+[student@serverb ~]$ sudo firewall-cmd --set-default-zone public
 ```
-5.4 Xác định các cổng mở được liệt kê trong vùng mạng `publish`.
+*5.4 Xác định các cổng mở được liệt kê trong vùng mạng `publish`.*
 
 ```
 [student@serverb ~]$ sudo firewall-cmd --zone=public --list-all
@@ -1776,24 +1777,23 @@ public
   rich rules:
 ```
 
-6. Thêm cổng 1001/TCP vào cấu hình cố định cho vùng mạng công cộng. Xác nhận cấu hình của bạn.
+**6. Thêm cổng 1001/TCP vào cấu hình cố định cho vùng mạng `public`.**
 
-6.1 Thêm cổng 1001/TCP vào vùng mạng công cộng.
+*6.1 Thêm cổng 1001/TCP vào vùng mạng `public`.*
 
 ```
 [student@serverb ~]$ sudo firewall-cmd --permanent --zone=public \
 --add-port=1001/tcp
 success
 ```
-6.2 Reload the firewall configuration.
 
-
+*6.2 Reload the firewall configuration.*
 ```
 [student@serverb ~]$ sudo firewall-cmd --reload
 success
 ```
-6.3 Verify your configuration.
 
+*6.3 Verify your configuration.*
 ```
 [student@serverb ~]$ sudo firewall-cmd --zone=public --list-all
 public
@@ -1811,8 +1811,8 @@ public
   icmp-blocks:
   rich rules:
 ```
-6.4 Return to the workstation machine as the student user.
 
+*6.4 Return to the `workstation` machine as the `student` user.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -1822,45 +1822,43 @@ Connection to serverb closed.
 
 **7. Từ `workstation`, hãy xác nhận rằng máy chủ web mặc định tại http://serverb.lab.example.com trả về MÁY CHỦ B và máy chủ ảo tại http://serverb.lab.example.com:1001 trả về VHOST 1.**
 
-7.1 Test access to the http://serverb.lab.example.com web server.
-
-
+*7.1 Test access to the http://serverb.lab.example.com web server.*
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com
 SERVER B
-
 ```
-7.2 Test access to the http://serverb.lab.example.com:1001 virtual host.
+
+*7.2 Test access to the http://serverb.lab.example.com:1001 virtual host.*
 ```
 [student@workstation ~]$ curl http://serverb.lab.example.com:1001
 VHOST 1
 ```
 
+---
 # CHAPTER 12: Lab: Install Red Hat Enterprise Linux
 
-
+---
 # CHAPTER 13: Lab: Run Containers
 
-Sử dụng podman để kéo một ảnh container từ sổ đăng ký và sử dụng ảnh đó để chạy một container tách biệt.
+Sử dụng `podman` để kéo (pull) một container image từ registry và sử dụng image đó để chạy một container tách biệt.
 
 Kết quả
-- Tạo các container tách biệt không có root.
+- Tạo các container tách biệt không có `root`.
 - Cấu hình sổ đăng ký ảnh container và tạo một container từ một ảnh hiện có.
 - Cấu hình ánh xạ cổng và lưu trữ liên tục.
-- Cấu hình container dưới dạng dịch vụ systemd và sử dụng lệnh systemctl để quản lý nó.
+- Cấu hình container dưới dạng dịch vụ systemd và sử dụng lệnh `systemctl` để quản lý nó.
 - Là người dùng học viên trên `workstation`, hãy sử dụng lệnh lab để chuẩn bị hệ thống của bạn cho bài tập này.
 
-1. Trên máy serverb, cấu hình người dùng podsvc với mật khẩu là redhat. Cấu hình registry.lab.example.com làm registry từ xa. Sử dụng admin làm người dùng và redhat321 làm mật khẩu để xác thực.
+**1. Trên máy `serverb`, cấu hình người dùng `podsvc` với mật khẩu là `redhat`. Cấu hình `registry.lab.example.com` làm registry từ xa. Sử dụng `admin` làm người dùng và `redhat321` làm mật khẩu để xác thực.**
 
-1.1 Log in to the serverb machine as the student user.
-
+*1.1 Log in to the `serverb` machine as the `student` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-1.2 Tạo người dùng `podsvc` và đặt `redhat` làm mật khẩu cho người dùng. Sử dụng `student` làm mật khẩu để tạo người dùng bằng lệnh `sudo`.
 
+*1.2 Tạo người dùng `podsvc` và đặt `redhat` làm mật khẩu cho người dùng. Sử dụng `student` làm mật khẩu để tạo người dùng bằng lệnh `sudo`.*
 ```
 [student@serverb ~]$ sudo useradd podsvc
 [sudo] password for student: student
@@ -1871,15 +1869,16 @@ BAD PASSWORD: The password is shorter than 8 characters
 Retype new password: redhat
 passwd: all authentication tokens updated successfully.
 ```
-1.3 Trở lại máy `workstation` với tư cách là người dùng là `student`.
 
+*1.3 Trở lại máy `workstation` với tư cách là người dùng là `student`.*
 ```
 [student@serverb ~]$ exit
 logout
 Connection to serverb closed.
 [student@workstation ~]$
 ```
-1.4 Đăng nhập vào máy serverb với tư cách là người dùng `podsvc`. Sử dụng `redhat` làm mật khẩu.
+
+*1.4 Đăng nhập vào máy `serverb` với tư cách là người dùng `podsvc`. Sử dụng `redhat` làm mật khẩu.*
 
 ```
 [student@workstation ~]$ ssh podsvc@serverb
@@ -1887,16 +1886,14 @@ Connection to serverb closed.
 [podsvc@serverb ~]$
 ```
 
-2. Cấu hình `registry.lab.example.com` registry classroom trong thư mục home của bạn. Đăng nhập vào registry container với tài khoản admin và mật khẩu `redhat321`.
+**2. Cấu hình `registry.lab.example.com` registry classroom trong thư mục home của bạn. Đăng nhập vào registry container với tài khoản `admin` và mật khẩu `redhat321`.**
 
-2.1 Tạo thư mục /home/podsvc/.config/containers.
-
+*2.1 Tạo thư mục `/home/podsvc/.config/containers`.*
 ```
 [podsvc@serverb ~]$ mkdir -p /home/podsvc/.config/containers
-
 ```
-2.2 Tạo tệp /home/podsvc/.config/containers/registries.conf với nội dung sau:
 
+*2.2 Tạo tệp `/home/podsvc/.config/containers/registries.conf` với nội dung sau:*
 ```
 unqualified-search-registries = ['registry.lab.example.com']
 
@@ -1905,8 +1902,8 @@ location = "registry.lab.example.com"
 insecure = true
 blocked = false
 ```
-2.3 Đăng nhập vào sổ đăng ký lớp học.
 
+*2.3 Đăng nhập vào registry.*
 ```
 [podsvc@serverb ~]$ podman login registry.lab.example.com
 Username: admin
@@ -1914,20 +1911,20 @@ Password: redhat321
 Login Succeeded!
 ```
 
-3. Sử dụng thư mục /home/podsvc/webserver/html/ làm bộ nhớ lưu trữ cố định cho vùng chứa máy chủ web. Tạo trang thử nghiệm index.html với nội dung "Chào mừng đến với vùng chứa máy chủ web".
+**3. Sử dụng thư mục `/home/podsvc/webserver/html/` làm bộ nhớ lưu trữ cố định cho vùng chứa máy chủ web. Tạo trang thử nghiệm `index.html` với nội dung "Welcome to the webserver container".**
 
-3.1 Tạo thư mục ~/webserver/html/.
+*3.1 Tạo thư mục `~/webserver/html/`.*
 ```
 [podsvc@serverb ~]$ mkdir -p ~/webserver/html/
-
 ```
-3.2 Tạo tệp index.html và thêm nội dung Chào mừng đến với vùng chứa máy chủ web.
+
+*3.2 Tạo tệp `index.html `và thêm nội dung Chào mừng đến với vùng chứa máy chủ web.*
 ```
 [podsvc@serverb ~]$ echo "Welcome to the webserver container" > \
 ~/webserver/html/index.html
 ```
-3.3 Xác minh rằng quyền cho người khác được đặt thành r-x trong thư mục webserver/html và được đặt thành r-- trong tệp index.html. Vùng chứa sử dụng một người dùng không có đặc quyền, người dùng này phải có khả năng đọc tệp index.html.
 
+*3.3 Xác minh rằng quyền cho người khác được đặt thành `r-x` trong thư mục `webserver/html` và được đặt thành `r--` trong tệp `index.html`. Container sử dụng một người dùng không có đặc quyền, người dùng này phải có khả năng đọc tệp `index.html`.*
 ```
 [podsvc@serverb ~]$ ls -ld ~/webserver/html/
 drwxr-xr-x. 2 podsvc podsvc 24 Jul 10 05:42 /home/podsvc/webserver/html/
@@ -1935,48 +1932,43 @@ drwxr-xr-x. 2 podsvc podsvc 24 Jul 10 05:42 /home/podsvc/webserver/html/
 -rw-r--r--. 1 podsvc podsvc 21 Jul 10 05:42 /home/podsvc/webserver/html/index.html
 ```
 
-4. Tạo tệp dịch vụ systemd để quản lý vùng chứa máy chủ web bằng lệnh systemctl. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, trình nền systemd sẽ tạo một vùng chứa. Trình nền systemd dự kiến vùng chứa đó chưa tồn tại ngay từ đầu.
+**4. Tạo tệp dịch vụ systemd để quản lý vùng chứa máy chủ web bằng lệnh `systemctl`. Cấu hình dịch vụ systemd sao cho khi bạn khởi động dịch vụ, trình nền systemd sẽ tạo một vùng chứa. Trình nền systemd dự kiến container đó chưa tồn tại ngay từ đầu.**
 
-4.1 Thực hiện lệnh podman run để tạo container tách biệt. Sử dụng ảnh registry.lab.example.com/rhel9/httpd-24 để chạy một container tách biệt có tên là webserver. Sử dụng tùy chọn -p để ánh xạ cổng 8080 trên máy serverb với cổng 8080 trong container. Sử dụng tùy chọn -v để gắn thư mục ~/webserver trên máy serverb vào thư mục /var/www trong container. Sử dụng tùy chọn Z để đặt ngữ cảnh SELinux vào thư mục đã gắn kết.
+*4.1 Thực hiện lệnh podman run để tạo container tách biệt. Sử dụng ảnh `registry.lab.example.com/rhel9/httpd-24` để chạy một container tách biệt có tên là webserver. Sử dụng tùy chọn -p để ánh xạ cổng 8080 trên máy serverb với cổng 8080 trong container. Sử dụng tùy chọn -v để gắn thư mục `~/webserver` trên máy serverb vào thư mục `/var/www` trong container. Sử dụng tùy chọn Z để đặt ngữ cảnh SELinux vào thư mục đã gắn kết.*
 ```
 [podsvc@serverb ~]$ podman run -d --name webserver -p 8080:8080 \
 -v ~/webserver:/var/www:Z registry.lab.example.com/rhel9/httpd-24
 ...output omitted...
 d970ff062f002a45702b96c0a51d632d93d78ccf63a3af1a01abf70bc4c46616
 ```
-4.2 Verify that the container is running.
 
-
+*4.2 Verify that the container is running.*
 ```
 [podsvc@serverb ~]$ podman ps
 CONTAINER ID  IMAGE                                           COMMAND               CREATED             STATUS             PORTS                   NAMES
 d970ff062f00  registry.lab.example.com/rhel9/httpd-24:latest  /usr/bin/run-http...  About a minute ago  Up About a minute  0.0.0.0:8080->8080/tcp  webserver
 ```
-4.3 Verify that the web service is working on the 8080 port.
 
-
+*4.3 Verify that the web service is working on the 8080 port.*
 ```
 [podsvc@serverb ~]$ curl http://localhost:8080
 Welcome to the webserver container
 ```
+**5. Tạo tệp dịch vụ `systemd` để quản lý `webserver` container bằng lệnh systemctl. Cấu hình dịch vụ `systemd` sao cho khi bạn khởi động dịch vụ, trình nền `systemd` sẽ tạo một vùng chứa. Trình nền `systemd` dự kiến container đó chưa tồn tại ngay từ đầu.**
 
-
-5. Tạo tệp dịch vụ `systemd` để quản lý `webserver` container bằng lệnh systemctl. Cấu hình dịch vụ `systemd` sao cho khi bạn khởi động dịch vụ, trình nền `systemd` sẽ tạo một vùng chứa. Trình nền `systemd` dự kiến container đó chưa tồn tại ngay từ đầu.
-
-5.1 Tạo và thay đổi thư mục `~/.config/systemd/user/`.
-
+*5.1 Tạo và thay đổi thư mục `~/.config/systemd/user/`.*
 ```
 [podsvc@serverb ~]$ mkdir -p ~/.config/systemd/user/
 [podsvc@serverb ~]$ cd ~/.config/systemd/user
 ```
-5.2 Tạo tệp đơn vị cho `webserver` container. Sử dụng tùy chọn `--new` để dịch vụ `systemd` tạo vùng chứa khi khởi động dịch vụ và xóa vùng chứa khi dừng dịch vụ.
 
+*5.2 Tạo tệp đơn vị cho `webserver` container. Sử dụng tùy chọn `--new` để dịch vụ `systemd` tạo vùng chứa khi khởi động dịch vụ và xóa vùng chứa khi dừng dịch vụ.*
 ```
 [podsvc@serverb user]$ podman generate systemd --new --files --name webserver
 /home/podsvc/.config/systemd/user/container-webserver.service
 ```
-5.3 Dừng lại rồi xóa `webserver` container.
 
+*5.3 Dừng lại rồi xóa `webserver` container.*
 ```
 [podsvc@serverb user]$ podman stop webserver
 webserver
@@ -1986,23 +1978,20 @@ webserver
 CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
 ```
 
+**6. Tải lại cấu hình daemon `systemd`, sau đó kích hoạt và khởi động dịch vụ người dùng `container-webserver` mới. Kiểm tra xem container `webserver` đã được khởi động và đang chạy chưa.**
 
-6. Tải lại cấu hình daemon `systemd`, sau đó kích hoạt và khởi động dịch vụ người dùng `container-webserver` mới. Kiểm tra xem container `webserver` đã được khởi động và đang chạy chưa.
-
-6.1 Tải lại cấu hình để nhận dạng tệp đơn vị mới.
-
+*6.1 Tải lại cấu hình để nhận dạng tệp đơn vị mới.*
 ```
 [podsvc@serverb user]$ systemctl --user daemon-reload
-
 ```
-6.2 Kích hoạt và khởi động dịch vụ `container-webserver`.
 
+*6.2 Kích hoạt và khởi động dịch vụ `container-webserver`.*
 ```
 [podsvc@serverb user]$ systemctl --user enable --now container-webserver
 Created symlink /home/podsvc/.config/systemd/user/default.target.wants/container-webserver.service → /home/podsvc/.config/systemd/user/container-webserver.service.
 ```
-6.1 Xác minh rằng container đang chạy.
 
+*6.1 Xác minh rằng container đang chạy.*
 ```
 [podsvc@serverb user]$ podman ps
 CONTAINER ID  IMAGE                                           COMMAND               CREATED         STATUS         PORTS                   NAMES
@@ -2011,28 +2000,26 @@ CONTAINER ID  IMAGE                                           COMMAND           
 
 **7. Đảm bảo rằng các dịch vụ dành cho người dùng `podsvc` khởi động khi hệ thống khởi động.**
 
-7.1 Chạy lệnh `loginctl enable-linger`.
+*7.1 Chạy lệnh `loginctl enable-linger`.*
 
 ```
 [podsvc@serverb user]$ loginctl enable-linger
-
 ```
-7.2 Xác nhận rằng tùy chọn Linger được thiết lập cho người dùng `podsvc`.
 
+*7.2 Xác nhận rằng tùy chọn Linger được thiết lập cho người dùng `podsvc`.*
 ```
 [podsvc@serverb user]$ loginctl show-user podsvc
 ...output omitted...
 Linger=yes
 ```
 
-8. Xác minh rằng dịch vụ web đang hoạt động trên cổng `8080` và nội dung có thể truy cập được.
+**8. Xác minh rằng dịch vụ web đang hoạt động trên cổng `8080` và nội dung có thể truy cập được.**
 ```
 [podsvc@serverb user]$ curl http://localhost:8080
 Welcome to the webserver container
 ```
 
-
-9. Return to the `workstation` machine as the `student` user.
+**9. Return to the `workstation` machine as the `student` user.**
 ```
 [podsvc@serverb ~]$ exit
 logout
@@ -2040,6 +2027,7 @@ Connection to serverb closed.
 [student@workstation ~]$
 ```
 
+---
 # CHAPTER 14. COMPREHENSIVE REVIEW
 
 ## 14.2 Lab: Fix Boot Issues and Maintain Servers
@@ -2062,11 +2050,12 @@ Thông số kỹ thuật
 
 - Khởi động lại máy serverb và đợi quá trình khởi động hoàn tất trước khi chấm điểm.
 
-1. Trên `workstation`, chạy tập lệnh `/tmp/rhcsa-break1`.
+**1. Trên `workstation`, chạy tập lệnh `/tmp/rhcsa-break1`.**
 ```
 [student@workstation ~]$ sh /tmp/rhcsa-break1
 ```
-2. Sau khi máy chủ khởi động, hãy truy cập bảng điều khiển và nhận thấy quá trình khởi động bị dừng sớm. Hãy xem xét nguyên nhân có thể gây ra hiện tượng này.
+
+**2. Sau khi máy chủ khởi động, hãy truy cập bảng điều khiển và nhận thấy quá trình khởi động bị dừng sớm. Hãy xem xét nguyên nhân có thể gây ra hiện tượng này.**
 
 2.1 Tìm biểu tượng của bảng điều khiển serverb, tùy theo môi trường lớp học của bạn. Mở bảng điều khiển và kiểm tra lỗi. Có thể mất vài giây để lỗi xuất hiện.
 
@@ -2085,96 +2074,89 @@ Give root password for maintenance
 [root@serverb ~]#
 ```
 
-3. Gắn lại hệ thống tệp / với khả năng đọc và ghi. Sử dụng lệnh mount -a để thử gắn tất cả các hệ thống tệp khác.
+**3. Gắn lại hệ thống tệp / với khả năng đọc và ghi. Sử dụng lệnh `mount -a` để thử gắn tất cả các hệ thống tệp khác.**
 
-3.1 Gắn lại hệ thống tệp / với khả năng đọc và ghi để chỉnh sửa hệ thống tệp.
-
+*3.1 Gắn lại hệ thống tệp / với khả năng đọc và ghi để chỉnh sửa hệ thống tệp.*
 ```
 [root@serverb ~]# mount -o remount,rw /
 ```
-3.2 Hãy thử gắn kết tất cả các hệ thống tệp khác. Lưu ý rằng một trong các hệ thống tệp không được gắn kết.
 
+*3.2 Hãy thử gắn kết tất cả các hệ thống tệp khác. Lưu ý rằng một trong các hệ thống tệp không được gắn kết.*
 ```
 [root@serverb ~]# mount -a
 ...output omitted...
 mount: /FakeMount: can't find UUID=fake.
 ```
-3.3 Chỉnh sửa tệp /etc/fstab để khắc phục sự cố. Xóa hoặc chú thích dòng không đúng.
 
+*3.3 Chỉnh sửa tệp `/etc/fstab` để khắc phục sự cố. Xóa hoặc chú thích dòng không đúng.*
 ```
 [root@serverb ~]# vi /etc/fstab
 ...output omitted...
 #UUID=fake     /FakeMount  xfs   defaults    0 0
 ```
-3.4 Cập nhật daemon systemd để hệ thống đăng ký cấu hình tệp /etc/fstab mới.
 
+*3.4 Cập nhật daemon systemd để hệ thống đăng ký cấu hình tệp `/etc/fstab` mới.*
 ```
 [root@serverb ~]# systemctl daemon-reload
 [ 206.828912] systemd[1]: Reloading.
 ```
-3.5 Xác minh rằng tệp /etc/fstab hiện đã chính xác bằng cách thử gắn kết tất cả các mục.
 
+*3.5 Xác minh rằng tệp `/etc/fstab` hiện đã chính xác bằng cách thử gắn kết tất cả các mục.*
 ```
 [root@serverb ~]# mount -a
-
 ```
-3.6 Khởi động lại serverb và đợi quá trình khởi động hoàn tất. Hệ thống sẽ khởi động mà không gặp lỗi.
 
+*3.6 Khởi động lại `serverb` và đợi quá trình khởi động hoàn tất. Hệ thống sẽ khởi động mà không gặp lỗi.*
 ```
 [root@serverb ~]# systemctl reboot
-
 ```
-4. Trên máy `workstation`, hãy chạy tập lệnh `/tmp/rhcsa-break2`. Đợi máy serverb khởi động lại trước khi tiếp tục.
+
+**4. Trên máy `workstation`, hãy chạy tập lệnh `/tmp/rhcsa-break2`. Đợi máy serverb khởi động lại trước khi tiếp tục.**
 ```
 [student@workstation ~]$ sh /tmp/rhcsa-break2
-
 ```
 
-5. Trên serverb, đặt mục tiêu `multi-user` làm mục tiêu hiện tại và mặc định.
+**5. Trên `serverb`, đặt mục tiêu `multi-user` làm mục tiêu hiện tại và mặc định.**
 
-5.1 Log in to serverb as the student user.
-
-
+*5.1 Log in to serverb as the student user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$
 ```
-5.2 Xác định mục tiêu mặc định.
 
+*5.2 Xác định mục tiêu mặc định.*
 ```
 [student@serverb ~]$ systemctl get-default
 graphical.target
 ```
-5.3 Switch to the multi-user target.
 
-
+*5.3 Switch to the `multi-user` target.*
 ```
 [student@serverb ~]$ sudo systemctl isolate multi-user.target
 [sudo] password for student: student
 ```
 
-Giai thich tai sao phai chay isolate roi chay set-default
+Giai thich tai sao phai chay `isolate` roi chay `set-default`
 
 ![](../pic/71.png)
 
-5.4 Đặt mục tiêu `multi-user` làm mục tiêu mặc định.
-
+*5.4 Đặt mục tiêu `multi-user` làm mục tiêu mặc định.*
 ```
 [student@serverb ~]$ sudo systemctl set-default multi-user.target
 Removed /etc/systemd/system/default.target.
 Created symlink /etc/systemd/system/default.target -> /usr/lib/systemd/system/multi-user.target.
 ```
-5.5 Khởi động lại serverb và xác minh rằng mục tiêu `multi-user` được đặt làm mục tiêu mặc định.
 
+*5.5 Khởi động lại `serverb` và xác minh rằng mục tiêu `multi-user` được đặt làm mục tiêu mặc định.*
 ```
 [student@serverb ~]$ sudo systemctl reboot
 Connection to serverb closed by remote host.
 Connection to serverb closed.
 [student@workstation ~]$
 ```
-5.6 Sau khi hệ thống khởi động lại, hãy mở phiên SSH đến serverb với tư cách là người dùng student. Kiểm tra xem mục tiêu nhiều người dùng đã được đặt làm mục tiêu mặc định chưa.
 
+*5.6 Sau khi hệ thống khởi động lại, hãy mở phiên SSH đến `serverb` với tư cách là người dùng student. Kiểm tra xem mục tiêu nhiều người dùng đã được đặt làm mục tiêu mặc định chưa.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
@@ -2182,28 +2164,25 @@ Connection to serverb closed.
 multi-user.target
 ```
 
-6. Trên serverb, hãy lên lịch một tác vụ định kỳ với tư cách là người dùng student, thực thi tập lệnh /home/student/backup-home.sh hàng giờ từ 19:00 đến 21:00 tất cả các ngày trừ Thứ Bảy và Chủ Nhật. Sử dụng tập lệnh backup-home.sh để lên lịch tác vụ định kỳ. Tải xuống tập lệnh sao lưu từ http://materials.example.com/labs/backup-home.sh. Chạy lệnh dưới dạng tệp thực thi.
+**6. Trên `serverb`, hãy lên lịch một tác vụ định kỳ với tư cách là người dùng `student`, thực thi tập lệnh `/home/student/backup-home.sh` hàng giờ từ 19:00 đến 21:00 tất cả các ngày trừ Thứ Bảy và Chủ Nhật. Sử dụng tập lệnh `backup-home.sh` để lên lịch tác vụ định kỳ. Tải xuống tập lệnh sao lưu từ http://materials.example.com/labs/backup-home.sh. Chạy lệnh dưới dạng tệp thực thi.**
 
-6.1 Trên serverb, tải xuống tập lệnh sao lưu từ http://materials.example.com/labs/backup-home.sh. Sử dụng chmod để thực thi tập lệnh sao lưu.
-
+*6.1 Trên serverb, tải xuống tập lệnh sao lưu từ http://materials.example.com/labs/backup-home.sh. Sử dụng `chmod` để thực thi tập lệnh sao lưu.*
 ```
 [student@serverb ~]$ wget http://materials.example.com/labs/backup-home.sh
 ...output omitted...
 [student@serverb ~]$ chmod +x backup-home.sh
 ```
-6.2 Mở tệp crontab bằng trình soạn thảo văn bản mặc định.
 
+*6.2 Mở tệp cront`ab bằng trình soạn thảo văn bản mặc định.*
 ```
 [student@serverb ~]$ crontab -e
-
 ```
-6.3 Edit the file to add the following line:
 
-
+*6.3 Edit the file to add the following line:*
 ```
 0 19-21 * * Mon-Fri /home/student/backup-home.sh
-
 ```
+
 Save the changes and exit the editor.
 
 Note:
@@ -2215,15 +2194,13 @@ Note:
 - Sat – Saturday
 - Sun – Sunday
 
-6.4 Use the crontab -l command to list the scheduled recurring jobs.
-
-
+*6.4 Use the `crontab -l `command to list the scheduled recurring jobs.*
 ```
 [student@serverb ~]$ crontab -l
 0 19-21 * * Mon-Fri /home/student/backup-home.sh
 ```
-7. Khởi động lại serverb và đợi quá trình khởi động hoàn tất trước khi chấm điểm.
 
+**7. Khởi động lại serverb và đợi quá trình khởi động hoàn tất trước khi chấm điểm.**
 ```
 [student@serverb ~]$ sudo systemctl reboot
 [sudo] password for student: student
@@ -2232,7 +2209,7 @@ Connection to serverb closed.
 [student@workstation ~]$
 ```
 
-
+---
 ## 14.3 Lab: Configure and Manage File Systems and Storage
 
 Nếu bạn dự định thi RHCSA, hãy áp dụng cách sau để tối đa hóa lợi ích của bài Đánh giá Toàn diện này: làm bài tập thực hành mà không cần xem nút đáp án hoặc tham khảo nội dung khóa học. Sử dụng bảng chấm điểm để đánh giá tiến độ của bạn khi hoàn thành mỗi bài tập thực hành.
@@ -2253,25 +2230,19 @@ Thông số kỹ thuật
 - Tạo nhóm người dùng `production`. Tạo người dùng `production1`, `production2`, `production3` và `production4` với nhóm `production` là nhóm bổ sung của họ.
 - Trên serverb, cấu hình thư mục `/run/volatile` để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Hãy đặt 0700 làm octal permission cho thư mục. Sử dụng tệp `/etc/tmpfiles.d/volatile.conf` để cấu hình xóa theo thời gian các tệp trong thư mục `/run/volatile`.
 
-1. Trên serverb, hãy cấu hình một ổ đĩa logic vol_home 1 GiB mới trong một nhóm ổ đĩa extra_storage 2 GiB mới. Sử dụng đĩa `/dev/vdb` chưa phân vùng để tạo phân vùng.
+**1. Trên serverb, hãy cấu hình một ổ đĩa logic vol_home 1 GiB mới trong một nhóm ổ đĩa extra_storage 2 GiB mới. Sử dụng đĩa `/dev/vdb` chưa phân vùng để tạo phân vùng.**
 
-
-1.1 Log in to serverb as the student user and switch to the root user.
-
-
+*1.1 Log in to serverb as the `student` user and switch to the `root` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 [student@serverb ~]$ sudo -i
 [sudo] password for student: student
 [root@serverb ~]#
-
-```
-1.2 Create a 2 GiB partition on the /dev/vdb disk.
-
-
 ```
 
+*1.2 Create a 2 GiB partition on the `/dev/vdb` disk.*
+```
 [root@serverb ~]# parted /dev/vdb mklabel msdos
 ...output omitted...
 [root@serverb ~]# parted /dev/vdb mkpart primary 1MiB 2GiB
@@ -2279,45 +2250,39 @@ Thông số kỹ thuật
 [root@serverb ~]# parted /dev/vdb set 1 lvm on
 ...output omitted...
 ```
-1.3 Khai báo thiết bị khối /dev/vdb1 là một ổ đĩa vật lý.
 
+*1.3 Khai báo thiết bị khối `/dev/vdb1` là một ổ đĩa vật lý.*
 ```
 [root@serverb ~]# pvcreate /dev/vdb1
 ...output omitted...
-
 ```
-1.4 Tạo nhóm ổ đĩa extra_storage với phân vùng /dev/vdb1.
 
+*1.4 Tạo nhóm ổ đĩa `extra_storage` với phân vùng `/dev/vdb1`.*
 ```
 [root@serverb ~]# vgcreate extra_storage /dev/vdb1
 ...output omitted...
-
 ```
-1.5 Tạo ổ đĩa logic vol_home 1 GiB.
 
+*1.5 Tạo ổ đĩa logic `vol_home` 1 GiB.*
 ```
 [root@serverb ~]# lvcreate -L 1GiB -n vol_home extra_storage
 ...output omitted...
-
 ```
 
-2. Định dạng ổ đĩa logic vol_home theo kiểu hệ thống tệp XFS và gắn ổ đĩa này liên tục vào thư mục /user-homes.
+**2. Định dạng ổ đĩa logic `vol_home `theo kiểu hệ thống tệp `XFS` và gắn ổ đĩa này liên tục vào thư mục `/user-homes`.**
 
-2.1 Create the /user-homes directory.
-
-
+*2.1 Create the `/user-homes` directory.*
 ```
 [root@serverb ~]# mkdir /user-homes
-
 ```
-2.2 Định dạng phân vùng /dev/extra_storage/vol_home với loại hệ thống tệp XFS.
+
+*2.2 Định dạng phân vùng `/dev/extra_storage/vol_home` với loại hệ thống tệp `XFS`.*
 ```
 [root@serverb ~]# mkfs -t xfs /dev/extra_storage/vol_home
 ...output omitted...
-
 ```
-2.3 Gắn liên tục phân vùng /dev/extra_storage/vol_home vào thư mục /user-homes. Sử dụng UUID của phân vùng cho mục nhập tệp /etc/fstab.
 
+*2.3 Gắn liên tục phân vùng `/dev/extra_storage/vol_home` vào thư mục `/user-homes`. Sử dụng UUID của phân vùng cho mục nhập tệp `/etc/fstab`.*
 ```
 [root@serverb ~]# lsblk -o UUID /dev/extra_storage/vol_home
 UUID
@@ -2327,46 +2292,41 @@ UUID
 [root@serverb ~]# mount /user-homes
 ```
 
-3.  Trên serverb, hãy liên tục gắn hệ thống tệp mạng /share mà servera xuất vào thư mục /local-share. Máy servera sẽ xuất đường dẫn servera.lab.example.com:/share.
+3.  Trên `serverb`, hãy liên tục gắn hệ thống tệp mạng `/share` mà servera xuất vào thư mục `/local-share`. Máy `servera` sẽ xuất đường dẫn `servera.lab.example.com:/share`.
 
-3.1 Create the /local-share directory.
-
-
+*3.1 Create the /local-share directory.*
 ```
 [root@serverb ~]# mkdir /local-share
-
 ```
-3.2 Thêm mục nhập thích hợp vào tệp /etc/fstab để gắn kết liên tục hệ thống tệp mạng servera.lab.example.com:/share.
 
+*3.2 Thêm mục nhập thích hợp vào tệp `/etc/fstab` để gắn kết liên tục hệ thống tệp mạng `servera.lab.example.com:/share`.*
 ```
 [root@serverb ~]# echo "servera.lab.example.com:/share /local-share \
 nfs rw,sync 0 0" >> /etc/fstab
 ```
-3.3 Gắn hệ thống tập tin mạng vào thư mục /local-share.
 
+*3.3 Gắn hệ thống tập tin mạng vào thư mục `/local-share`.*
 ```
 [root@serverb ~]# mount /local-share
-
 ```
 
-4. Trên serverb, tạo một phân vùng swap 512 MiB trên ổ đĩa `/dev/vdc`. Kích hoạt và gắn kết liên tục phân vùng swap này.
+**4. Trên serverb, tạo một phân vùng swap 512 MiB trên ổ đĩa `/dev/vdc`. Kích hoạt và gắn kết liên tục phân vùng swap này.**
 
-4.1 Tạo phân vùng 512 MiB trên disk `/dev/vdc`.
-
+*4.1 Tạo phân vùng 512 MiB trên disk `/dev/vdc`.*
 ``` 
 [root@serverb ~]# parted /dev/vdc mklabel msdos
 ...output omitted...
 [root@serverb ~]# parted /dev/vdc mkpart primary linux-swap 1MiB 513MiB
 ...output omitted...
 ```
-4.2 Tạo không gian swap trên phân vùng `/dev/vdc1`.
 
+*4.2 Tạo không gian swap trên phân vùng `/dev/vdc1`.*
 ```
 [root@serverb ~]# mkswap /dev/vdc1
 ...output omitted...
 ```
-4.3 Tạo một mục trong tệp /etc/fstab để gắn kết liên tục không gian hoán đổi. Sử dụng UUID của phân vùng để tạo mục trong tệp /etc/fstab. Kích hoạt không gian hoán đổi.
 
+*4.3 Tạo một mục trong tệp `/etc/fstab` để gắn kết liên tục không gian hoán đổi. Sử dụng UUID của phân vùng để tạo mục trong tệp `/etc/fstab`. Kích hoạt không gian hoán đổi.*
 ```
 [root@serverb ~]# lsblk -o UUID /dev/vdc1
 UUID
@@ -2374,8 +2334,8 @@ cc18ccb6-bd29-48a5-8554-546bf3471b69
 [root@serverb ~]# echo "UUID=cc18...1b69 swap swap defaults 0 0" >> /etc/fstab
 [root@serverb ~]# swapon -a
 ```
-5. Tạo nhóm người dùng production. Sau đó, tạo người dùng production1, production2, production3 và production4 với nhóm production là nhóm bổ sung.
 
+**5. Tạo nhóm người dùng `production`. Sau đó, tạo người dùng `production1`, `production2`, `production3` và `production4` với nhóm `production` là nhóm bổ sung.**
 ```
 [root@serverb ~]# groupadd production
 [root@serverb ~]# for i in 1 2 3 4; do useradd -G production production$i; done
@@ -2385,10 +2345,8 @@ Note
 - -G: ghi đè toàn bộ danh sách nhóm phụ hiện có.
 - -aG : Thêm user vào nhóm phụ mới mà không xóa các nhóm phụ đang có.
 
-6. Trên serverb, hãy cấu hình thư mục `/run/volatile` để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Đặt 0700 làm quyền octal cho thư mục. Sử dụng tệp `/etc/tmpfiles.d/volatile.conf` để cấu hình xóa các tệp trong thư mục /run/volatile theo thời gian.
-
-6.1 Tạo tệp `/etc/tmpfiles.d/volatile.conf` với nội dung sau:
-
+**6. Trên serverb, hãy cấu hình thư mục `/run/volatile` để lưu trữ các tệp tạm thời. Nếu các tệp trong thư mục này không được truy cập trong hơn 30 giây, hệ thống sẽ tự động xóa chúng. Đặt 0700 làm quyền octal cho thư mục. Sử dụng tệp `/etc/tmpfiles.d/volatile.conf` để cấu hình xóa các tệp trong thư mục /run/volatile theo thời gian.**  
+*6.1 Tạo tệp `/etc/tmpfiles.d/volatile.conf` với nội dung sau:*
 ```
 # Type Path          Mode  UID  GID  Age   Argument
 d /run/volatile 0700 root root 30s
@@ -2398,8 +2356,7 @@ Note:
 - Age (theo man tmpfiles.d)
 ![](../pic/72.png)
 
-6.2 Sử dụng lệnh systemd-tmpfiles `--create` để tạo thư mục` /run/volatile` nếu nó không tồn tại.
-
+*6.2 Sử dụng lệnh `systemd-tmpfiles --create` để tạo thư mục` /run/volatile` nếu nó không tồn tại.*
 ```
 [root@serverb ~]# systemd-tmpfiles --create /etc/tmpfiles.d/volatile.conf
 ```
@@ -2418,11 +2375,7 @@ sudo systemd-tmpfiles --clean /etc/tmpfiles.d/volatile.conf
   - File timer này chạy tự động (thường là 1h/lần hoặc theo cài đặt distro).
   - Khi tới lịch, systemd sẽ gọi systemd-tmpfiles --clean cho tất cả config trong /usr/lib/tmpfiles.d/, /etc/tmpfiles.d/, /run/tmpfiles.d/.
 
-
-
-6.3 Return to the workstation machine as the student user.
-
-
+*6.3 Return to the `workstation` machine as the `student` user.*
 ```
 [root@serverb ~]# exit
 logout
@@ -2450,17 +2403,15 @@ Thông số kỹ thuật
 - Trên serverb, hãy điều chỉnh cài đặt tường lửa để chặn tất cả các yêu cầu kết nối từ máy servera. Sử dụng địa chỉ IPv4 của servera (172.25.250.10) để cấu hình quy tắc tường lửa.
 - Trên serverb, hãy điều tra và khắc phục sự cố liên quan đến dịch vụ web Apache đang gặp sự cố, dịch vụ này đang lắng nghe trên cổng 30080/TCP để nhận kết nối. Điều chỉnh cài đặt tường lửa phù hợp để cổng 30080/TCP được mở cho các kết nối đến.
 
-1. Trên serverb, hãy tạo cặp khóa SSH cho người dùng student. Không bảo vệ khóa riêng bằng cụm mật khẩu.
+**1. Trên `serverb`, hãy tạo cặp khóa SSH cho người dùng `student`. Không bảo vệ khóa riêng bằng cụm mật khẩu.**
 
-1.1 Log in to serverb as the student user.
-
-
+*1.1 Log in to `serverb` as the `student` user.*
 ```
 [student@workstation ~]$ ssh student@serverb
 ...output omitted...
 ```
-1.2 Sử dụng lệnh ssh-keygen để tạo cặp khóa SSH. Không bảo vệ khóa riêng bằng cụm mật khẩu.
 
+*1.2 Sử dụng lệnh ssh-keygen để tạo cặp khóa SSH. Không bảo vệ khóa riêng bằng cụm mật khẩu.*
 ```
 [student@serverb ~]$ ssh-keygen
 Generating public/private rsa key pair.
@@ -2486,10 +2437,9 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-2. Cấu hình người dùng student trên servera để chấp nhận xác thực đăng nhập bằng cặp khóa SSH mà bạn đã tạo trên máy serverb. Người dùng student trên serverb phải có thể đăng nhập vào servera qua SSH mà không cần nhập mật khẩu.
+**2. Cấu hình người dùng `student` trên `servera` để chấp nhận xác thực đăng nhập bằng cặp khóa SSH mà bạn đã tạo trên máy `serverb`. Người dùng `student` trên `serverb` phải có thể đăng nhập vào `servera` qua SSH mà không cần nhập mật khẩu.**
 
-2.1 Gửi khóa công khai của cặp khóa SSH mới tạo tới người dùng student trên máy chủ.
-
+*2.1 Gửi khóa công khai của cặp khóa SSH mới tạo tới người dùng `student` trên máy chủ.*
 ```
 [student@serverb ~]$ ssh-copy-id student@servera
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/student/.ssh/id_rsa.pub"
@@ -2506,25 +2456,23 @@ Number of key(s) added: 1
 Now try logging in to the machine, with:   "ssh 'student@servera'"
 and check to make sure that only the key(s) you wanted were added.
 ```
-2.2 Xác minh rằng người dùng student có thể đăng nhập vào servera từ serverb mà không cần nhập mật khẩu. Không đóng kết nối.
 
+2.2 Xác minh rằng người dùng `student` có thể đăng nhập vào `servera` từ `serverb` mà không cần nhập mật khẩu. Không đóng kết nối.
 ```
 [student@serverb ~]$ ssh student@servera
 ...output omitted...
 [student@servera ~]$
-
 ```
 
-3. Trên máy chủ, hãy xác minh quyền thư mục `/user-homes/production5`. Sau đó, cấu hình SELinux để chạy ở chế độ cho phép theo mặc định.
+**3. Trên máy chủ `servera`, hãy xác minh quyền thư mục `/user-homes/production5`. Sau đó, cấu hình SELinux để chạy ở chế độ `permissive` by default.**
 
-3.1 Xác minh quyền của thư mục `/user-homes/production5`.
-
+*3.1 Xác minh quyền của thư mục `/user-homes/production5`.*
 ```
 [student@servera ~]$ ls -ld /user-homes/production5
 drwx------. 2 production5 production5 62 May  6 05:27 /user-homes/production5
 ```
-3.2 Chỉnh sửa tệp `/etc/sysconfig/selinux` để đặt tham số SELINUX thành giá trị cho phép.
 
+*3.2 Chỉnh sửa tệp `/etc/sysconfig/selinux` để đặt tham số SELINUX thành `permissive` value.*
 ```
 [student@servera ~]$ sudo vi /etc/sysconfig/selinux
 ...output omitted...
@@ -2532,35 +2480,30 @@ drwx------. 2 production5 production5 62 May  6 05:27 /user-homes/production5
 SELINUX=permissive
 ...output omitted...
 ```
-3.3 Reboot the system.
 
-
+*3.3 Reboot the system.*
 ```
 [student@servera ~]$ sudo systemctl reboot
 Connection to servera closed by remote host.
 Connection to servera closed.
 [student@serverb ~]$
 ```
-4. Trên serverb, hãy kiểm tra xem thư mục /localhome không tồn tại. Sau đó, cấu hình thư mục home của người dùng production5 để mount hệ thống tệp mạng /user-homes/production5. Máy servera.lab.example.com sẽ xuất hệ thống tệp dưới dạng chia sẻ NFS servera.lab.example.com:/user-homes/production5. Sử dụng dịch vụ autofs để mount chia sẻ mạng. Kiểm tra xem dịch vụ autofs có tạo thư mục /localhome/production5 với cùng quyền như trên servera không.
+**4. Trên `serverb`, hãy kiểm tra xem thư mục `/localhome` không tồn tại. Sau đó, cấu hình thư mục home của người dùng production5 để mount hệ thống tệp mạng `/user-homes/production5`. Máy `servera.lab.example.com` sẽ xuất hệ thống tệp dưới dạng chia sẻ NFS `servera.lab.example.com:/user-homes/production5`. Sử dụng dịch vụ autofs để mount chia sẻ mạng. Kiểm tra xem dịch vụ autofs có tạo thư mục `/localhome/production5` với cùng quyền như trên `servera` không.**
 
-4.1 Verify that the /localhome directory does not exist.
-
-
+*4.1 Verify that the `/localhome` directory does not exist.*
 ```
 [student@serverb ~]$ ls -ld /localhome
 ls: cannot access '/localhome': No such file or directory
 ```
-4.2 On serverb, switch to the root user.
 
-
+*4.2 On `serverb`, switch to the `root` user.*
 ```
 [student@serverb ~]$ sudo -i
 [sudo] password for student: student
 [root@serverb ~]#
 ```
-4.3 Install the autofs package.
 
-
+*4.3 Install the `autofs` package.*
 ```
 [root@serverb ~]# dnf install autofs
 ...output omitted...
@@ -2571,58 +2514,58 @@ Installed:
 
 Complete!
 ```
-4.4 Tạo tệp bản đồ /etc/auto.master.d/production5.autofs với nội dung sau:
 
+*4.4 Tạo tệp master map `/etc/auto.master.d/production5.autofs` với nội dung sau:*
 ```
 /- /etc/auto.production5
-
 ```
-4.5 Xác định thư mục gốc của người dùng production5.
 
+Note: Autofs có 2 kiểu map  
+- /- = dùng direct map, để bạn mount vào bất kỳ path tuyệt đối nào trong hệ thống, thay vì phải gom dưới một thư mục cha. Phu thuoc vao file /`etc/auto.production5`
+
+*4.5 Xác định thư mục gốc của người dùng `production5`.*
 ```
 [root@serverb ~]# getent passwd production5
 production5:x:5001:5001::/localhome/production5:/bin/bash
 ```
-4.6 Tạo tệp /etc/auto.production5 với nội dung sau:
 
+*4.6 Tạo tệp `/etc/auto.production5` với nội dung sau:*
 ```
 /localhome/production5 -rw servera.lab.example.com:/user-homes/production5
-
 ```
-4.7 Khởi động lại dịch vụ autofs.
 
+*4.7 Khởi động lại dịch vụ `autofs`.*
 ```
 [root@serverb ~]# systemctl restart autofs
-
 ```
-4.8 Xác minh rằng dịch vụ autofs tạo thư mục /localhome/production5 trên serverb với cùng quyền như thư mục /user-homes/production5 trên servera.
 
+*4.8 Xác minh rằng dịch vụ autofs tạo thư mục `/localhome/production5` trên `serverb` với cùng quyền như thư mục `/user-homes/production5` trên `servera`.*
 ```
 [root@serverb ~]# ls -ld /localhome/production5
 drwx------. 2 production5 production5 62 May  6 05:52 /localhome/production5
 ```
 
-Lưu ý
-Dịch vụ autofs hiển thị đúng quyền khi bạn thử truy cập thư mục chia sẻ /localhome/production5. Trước khi bạn truy cập thư mục này, quyền tệp hiển thị sai rằng thư mục có root là chủ sở hữu người dùng và chủ sở hữu nhóm. Sau khi bạn thử truy cập thư mục /localhome/production5, các quyền chính xác sẽ được hiển thị, trong đó production5 là chủ sở hữu người dùng và chủ sở hữu nhóm.
+Lưu ý  
+Dịch vụ autofs hiển thị đúng quyền khi bạn thử truy cập thư mục chia sẻ `/localhome/production5`. Trước khi bạn truy cập thư mục này, quyền tệp hiển thị sai rằng thư mục có root là chủ sở hữu người dùng và chủ sở hữu nhóm. Sau khi bạn thử truy cập thư mục `/localhome/production5`, các quyền chính xác sẽ được hiển thị, trong đó `production5` là chủ sở hữu người dùng và chủ sở hữu nhóm.
 
-5. Trên serverb, hãy điều chỉnh giá trị Boolean SELinux phù hợp để người dùng production5 có thể sử dụng thư mục gốc được gắn NFS sau khi xác thực bằng khóa SSH. Nếu cần, hãy sử dụng redhat làm mật khẩu cho người dùng production5.
+**5. Trên `serverb`, hãy điều chỉnh giá trị Boolean SELinux phù hợp để người dùng `production5` có thể sử dụng thư mục gốc được gắn NFS sau khi xác thực bằng khóa SSH. Nếu cần, hãy sử dụng `redhat` làm mật khẩu cho người dùng `production5`.**
 
-5.1 Mở một cửa sổ terminal mới và xác minh từ servera rằng người dùng production5 không thể đăng nhập vào serverb bằng xác thực dựa trên khóa SSH. Một SELinux Boolean đang ngăn người dùng đăng nhập. Từ `workstation`, hãy mở một terminal mới và đăng nhập vào servera với tư cách là người dùng student.
+*5.1 Mở một cửa sổ terminal mới và xác minh từ `servera` rằng người dùng `production5` không thể đăng nhập vào `serverb` bằng xác thực dựa trên khóa SSH. Một SELinux Boolean đang ngăn người dùng đăng nhập. Từ `workstation`, hãy mở một terminal mới và đăng nhập vào servera với tư cách là người dùng student.*
 ```
 [student@workstation ~]$ ssh student@servera
 ...output omitted...
 [student@servera ~]$
 ```
-5.2 Chuyển sang người dùng production5. Khi được nhắc, hãy sử dụng redhat làm mật khẩu của người dùng production5.
+
+*5.2 Chuyển sang người dùng `production5`. Khi được nhắc, hãy sử dụng redhat làm mật khẩu của người dùng `production5`.*
 
 ```
 [student@servera ~]$ su - production5
 Password: redhat
 [production5@servera ~]$
 ```
-5.3 Generate an SSH key pair.
 
-
+*5.3 Generate an SSH key pair.*
 ```
 [production5@servera ~]$ ssh-keygen
 Generating public/private rsa key pair.
@@ -2647,8 +2590,8 @@ The key's randomart image is:
 |    ooo .=+      |
 +----[SHA256]-----+
 ```
-5.4 Chuyển khóa công khai của cặp khóa SSH cho người dùng production5 trên máy serverb. Khi được nhắc, hãy sử dụng redhat làm mật khẩu của người dùng production5.
 
+*5.4 Chuyển khóa công khai của cặp khóa SSH cho người dùng `production5` trên máy `serverb`. Khi được nhắc, hãy sử dụng `redhat` làm mật khẩu của người dùng `production5`.*
 ```
 [production5@servera ~]$ ssh-copy-id production5@serverb
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/production5/.ssh/id_rsa.pub"
@@ -2664,41 +2607,40 @@ Number of key(s) added: 1
 Now try logging in to the machine, with:   "ssh 'production5@serverb'"
 and check to make sure that only the key(s) you wanted were added.
 ```
-5.5 Sử dụng xác thực dựa trên khóa công khai SSH thay vì xác thực dựa trên mật khẩu để đăng nhập vào serverb với tư cách là người dùng production5. Lệnh này sẽ không thành công.
 
+*5.5 Sử dụng xác thực dựa trên khóa công khai SSH thay vì xác thực dựa trên mật khẩu để đăng nhập vào `serverb` với tư cách là người dùng `production5`. Lệnh này sẽ không thành công.*
 ```
 [production5@servera ~]$ ssh -o pubkeyauthentication=yes \
 -o passwordauthentication=no production5@serverb
 production5@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
 ```
-5.6 Trên thiết bị đầu cuối được kết nối với serverb với tư cách là người dùng root, hãy đặt use_nfs_home_dirs SELinux Boolean thành true.
 
+*5.6 Trên terminal được kết nối với `serverb` với tư cách là người dùng `root`, hãy đặt `use_nfs_home_dirs` SELinux Boolean thành `true`.*
 ```
 [root@serverb ~]# setsebool -P use_nfs_home_dirs true
-
 ```
-5.7 Quay lại terminal được kết nối với servera với tư cách là người dùng production5 và sử dụng xác thực dựa trên khóa công khai SSH thay vì xác thực dựa trên mật khẩu để đăng nhập vào serverb với tư cách là người dùng production5. Lệnh này sẽ thành công.
 
+*5.7 Quay lại terminal được kết nối với `servera` với tư cách là người dùng `production5` và sử dụng xác thực dựa trên khóa công khai SSH thay vì xác thực dựa trên mật khẩu để đăng nhập vào `serverb` với tư cách là người dùng `production5`. Lệnh này sẽ thành công.*
 ```
 [production5@servera ~]$ ssh -o pubkeyauthentication=yes \
 -o passwordauthentication=no production5@serverb
 ...output omitted...
 [production5@serverb ~]$
 ```
-5.8  Thoát và đóng terminal được kết nối với serverb với tư cách là người dùng production5. Vẫn mở terminal được kết nối với serverb với tư cách là người dùng root.
+
+*5.8  Thoát và đóng terminal được kết nối với `serverb` với tư cách là người dùng `production5`. Vẫn mở terminal được kết nối với serverb với tư cách là người dùng `root`.*
 
 
-6. Trên serverb, hãy điều chỉnh cài đặt tường lửa để chặn tất cả các yêu cầu kết nối đến từ máy servera. Sử dụng địa chỉ IPv4 của servera (172.25.250.10) để cấu hình quy tắc tường lửa.
+**6. Trên `serverb`, hãy điều chỉnh cài đặt tường lửa để chặn tất cả các yêu cầu kết nối đến từ máy servera. Sử dụng địa chỉ IPv4 của `servera` (172.25.250.10) để cấu hình quy tắc tường lửa.**
 
-6.1 Add the IPv4 address of servera to the block zone.
-
-
+*6.1 Add the IPv4 address of servera to the block zone.*
 ```
 [root@serverb ~]# firewall-cmd --add-source=172.25.250.10/32 \
 --zone=block --permanent
 success
 ```
-6.2 Reload the changes in the firewall settings.
+
+*6.2 Reload the changes in the firewall settings.*
 ```
 [root@serverb ~]# firewall-cmd --reload
 success
