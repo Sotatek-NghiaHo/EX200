@@ -1113,7 +1113,6 @@ The package changes the motd.
 *4.2 Install the `rhcsa-script-1.0.0-1.noarch.rpm` package.*
 ```
 [root@serverb ~]# dnf install ~/rhcsa-script-1.0.0-1.noarch.rpm
-
 ```
 
 *4.3 Verify that the package is installed.*
@@ -1207,7 +1206,7 @@ NAME      FSTYPE FSVER LABEL UUID           FSAVAIL FSUSE% MOUNTPOINTS
 du /usr/share > /mnt/system-report/disk-usage.txt
 ```
 
-**3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp**
+**3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp**  
 *3.1 Update the locate database.*
 ```
 updatedb
@@ -1327,7 +1326,7 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1341.6 avail Mem
 ...output omitted...
 ```
 
-*4.3 Hiển thị thêm chi tiết bộ nhớ bằng cách nhấn M. Thanh sử dụng bộ nhớ không hiển thị mức sử dụng đáng kể trong máy chủ.*
+*4.3 Hiển thị thêm chi tiết bộ nhớ bằng cách nhấn `M`. Thanh sử dụng bộ nhớ không hiển thị mức sử dụng đáng kể trong máy chủ.*
 
 ```
 top - 21:05:56 up  1:47,  3 users,  load average: 0.27, 0.17, 0.10
@@ -1343,7 +1342,7 @@ MiB Swap:  0.0/0.0      [                                                       
  2608 student 20   0  228796   3056   2800 S  16.3   0.2   3:41.10 task101.sh
 ...output omitted...
 ```
-*4.4 Hiển thị thông tin luồng bằng cách nhấn Shift+H. Tổng số luồng trong hệ thống hiển thị là 157. Thoát khỏi tiện ích trên cùng bằng cách nhấn Q.*
+*4.4 Hiển thị thông tin luồng bằng cách nhấn `Shift+H`. Tổng số luồng trong hệ thống hiển thị là 157. Thoát khỏi tiện ích trên cùng bằng cách nhấn `Q`.*
 ```
 top - 21:23:28 up  2:05,  3 users,  load average: 0.09, 0.12, 0.09
 Threads: 157 total,   1 running, 156 sleeping,   0 stopped,   0 zombie
@@ -1359,7 +1358,7 @@ MiB Swap:  0.0/0.0      [                                                       
 ...output omitted...
 Q
 ```
-*4.5 Xem tất cả các luồng đang chạy cho tiến trình `task101.sh`. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn -H và -p. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.*
+*4.5 Xem tất cả các luồng đang chạy cho tiến trình `task101.sh`. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn `-H` và `-p`. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.*
 
 Tiến trình `task101.sh` không chạy nhiều luồng.
 
@@ -1483,7 +1482,7 @@ jobs
 ```
 *7.5 Trong shell terminal bên phải, hãy kiểm tra mức sử dụng CPU của tiến trình `task103.sh` và mức tải trung bình của máy. Mức sử dụng CPU của tiến trình `task03.sh` dao động trong khoảng từ 60% đến 85%. Mức tải trung bình có thể mất vài phút để tăng lên.*
 
-Lưu ý rằng tổng mức tiêu thụ CPU của ba tiến trình lớn hơn 100. Khi tiến trình task103.sh đang chạy, máy chủ serverb sử dụng 100% CPU, nhưng không đủ để đáp ứng nhu cầu tài nguyên của tất cả các tiến trình. Do tình huống này, mức tải trung bình tăng dần lên trên 1.
+Lưu ý rằng tổng mức tiêu thụ CPU của ba tiến trình lớn hơn 100. Khi tiến trình `task103.sh` đang chạy, máy chủ `serverb` sử dụng 100% CPU, nhưng không đủ để đáp ứng nhu cầu tài nguyên của tất cả các tiến trình. Do tình huống này, mức tải trung bình tăng dần lên trên 1.
 ```
 top - 21:51:54 up  2:33,  3 users,  load average: 1.13, 0.61, 0.33
 ...output omitted...
@@ -1582,7 +1581,6 @@ Kết quả
 2.2
 ```
 [root@serverb ~]# systemctl start psacct
-
 ```
 2.3
 ```
@@ -1630,7 +1628,7 @@ inactive
 ```
 **5. Cấu hình dịch vụ `rsyslog` để nó không khởi động khi hệ thống khởi động.**
 
-*5.1 Vô hiệu hóa dịch vụ rsyslog để nó không khởi động khi hệ thống khởi động.*
+*5.1 Vô hiệu hóa dịch vụ `rsyslog` để nó không khởi động khi hệ thống khởi động.*
 ```
 [root@serverb ~]# systemctl disable rsyslog
 Removed '/etc/systemd/system/multi-user.target.wants/rsyslog.service'.
@@ -1654,8 +1652,15 @@ Cấu hình giao diện mạng và cài đặt trên máy chủ Red Hat Enterpri
 Kết quả:
  - Cấu hình hai địa chỉ IPv4 tĩnh cho giao diện mạng chính.
 
-Vao `root`:  
-`sudo -i`
+Log in to the `serverb` machine as the `student` user and switch to the `root` user. Use `student` as the password.
+
+```
+student@workstation:~$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
 
 **2. Tạo kết nối sử dụng cấu hình mạng tĩnh bằng cách sử dụng thông tin từ bảng sau.**
 
@@ -1679,7 +1684,7 @@ DNS address	|172.25.250.254
 
 ```
 Note: The ens160 interface uses the `00:0c:29:a9:58:17` MAC address.  
-2.2 Tạo cấu hình kết nối tùy chỉnh dựa trên thông tin bảng trong hướng dẫn. Liên kết cấu hình với giao diện mạng sử dụng địa chỉ MAC `00:0c:29:a9:58:17`.
+*2.2 Tạo cấu hình kết nối tùy chỉnh dựa trên thông tin bảng trong hướng dẫn. Liên kết cấu hình với giao diện mạng sử dụng địa chỉ MAC `00:0c:29:a9:58:17`.*
 ```
 [root@serverb ~]# nmcli con add con-name custom-profile \
 ifname ens160 \
@@ -1844,40 +1849,40 @@ Kết quả
 - Ngăn người dùng đăng nhập trực tiếp với tư cách người dùng root bằng SSH.
 - Cấu hình xác thực dựa trên khóa để ngăn người dùng đăng nhập bằng mật khẩu.
 
-1. From the workstation machine, log in to the servera machine as the student user.
+**1. From the `workstation` machine, log in to the `servera` machine as the `student` user.**
 ```
 student@workstation:~$ ssh student@servera
 [student@servera ~]$
 ```
-2. Switch to the production1 user on the servera machine. Enter redhat as the password.
+**2. Switch to the `production1` user on the `servera` machine. Enter `redhat` as the password.**
 ```
 [student@servera ~]$ su - production1
 Password: redhat
 [production1@servera ~]$
 ```
-3. Generate SSH keys for the `production1` user on the servera machine. Do not set a passphrase.
+**3. Generate SSH keys for the `production1` user on the `servera` machine. Do not set a passphrase.**
 ```
 [production1@servera ~]$ ssh-keygen
 ```
-4. Gửi public key SSH của người dùng `production1` trên máy chủ servera đến người dùng `production1` trên máy chủ serverb. Sử dụng `redhat` làm mật khẩu.
+**4. Gửi public key SSH của người dùng `production1` trên máy chủ `servera` đến người dùng `production1` trên máy chủ `serverb`. Sử dụng `redhat` làm mật khẩu.**
 ```
 [production1@servera ~]$ ssh-copy-id production1@serverb
 ```
-5. Từ máy servera, hãy xác minh rằng người dùng production1 có thể đăng nhập thành công vào máy serverb bằng cách sử dụng khóa SSH.
+**5. Từ máy `servera`, hãy xác minh rằng người dùng `production1` có thể đăng nhập thành công vào máy `serverb` bằng cách sử dụng khóa SSH.**
 ```
 [production1@servera ~]$ ssh production1@serverb
 ...output omitted...
 [production1@serverb ~]$
 ```
-6. Cấu hình dịch vụ `sshd` trên máy serverb để ngăn người dùng đăng nhập với tư cách người dùng root. Sử dụng `redhat` làm mật khẩu `root`. Mở một terminal thứ hai để xác minh rằng người dùng production1 không thể đăng nhập vào máy serverb với tư cách người dùng root.
+**6. Cấu hình dịch vụ `sshd` trên máy `serverb` để ngăn người dùng đăng nhập với tư cách người dùng `root`. Sử dụng `redhat` làm mật khẩu `root`. Mở một terminal thứ hai để xác minh rằng người dùng `production1` không thể đăng nhập vào máy serverb với tư cách người dùng `root`.**
 
-6.1 Switch to the root user on the serverb machine.
+*6.1 Switch to the `root` user on the `serverb` machine.*
 ```
 [production1@serverb ~]$ su -
 Password: redhat
 [root@serverb ~]#
 ```
-6.2 Set the `PermitRootLogin` parameter to `prohibit-password `in the `/etc/ssh/sshd_config` file and restart the sshd service. Edit the active uncommented parameter and not a commented example.  
+*6.2 Set the `PermitRootLogin` parameter to `prohibit-password `in the `/etc/ssh/sshd_config` file and restart the sshd service. Edit the active uncommented parameter and not a commented example. * 
 `vi  /etc/ssh/sshd_config`
 ```
 ...output omitted...
@@ -1885,7 +1890,7 @@ PermitRootLogin prohibit-password
 ...output omitted...
 [root@serverb ~]# systemctl restart sshd.service
 ```
-6.3 Kiểm tra xem bạn có thể đăng nhập vào máy serverb với tư cách người dùng root hay không ?. Mở một terminal thứ hai và đăng nhập vào máy serverb với tư cách người dùng production1. Từ máy serverb, hãy thử đăng nhập vào máy serverb với tư cách người dùng root, với mật khẩu là `redhat`. Lệnh này sẽ không thành công sau ba lần đăng nhập.
+*6.3 Kiểm tra xem bạn có thể đăng nhập vào máy `serverb` với tư cách người dùng `root` hay không ?. Mở một terminal thứ hai và đăng nhập vào máy `serverb` với tư cách người dùng `production1`. Từ máy `serverb`, hãy thử đăng nhập vào máy `serverb` với tư cách người dùng `root`, với mật khẩu là `redhat`. Lệnh này sẽ không thành công sau ba lần đăng nhập.*
 
 Theo mặc định, SSH trước tiên sẽ thử sử dụng khóa SSH để xác thực. Nếu khóa SSH cho người dùng chưa được cấu hình, SSH sẽ yêu cầu mật khẩu của người dùng để xác thực.
 ```
@@ -1902,9 +1907,9 @@ root@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password
 ```
 Note:  However, this configuration is highly insecure, and is not recommended for any production environment.
 
-7. Sử dụng terminal đầu tiên để cấu hình dịch vụ `sshd` trên máy serverb sao cho người dùng phải xác thực bằng khóa SSH và không thể xác thực bằng mật khẩu. Sử dụng terminal thứ hai để xác minh rằng người dùng phải sử dụng khóa SSH để đăng nhập vào máy serverb. Trước tiên, hãy thử đăng nhập vào máy serverb với tư cách là người dùng production2, nơi khóa SSH chưa được cấu hình. Sau đó, hãy thử đăng nhập với tư cách là người dùng production1 bằng cách sử dụng khóa SSH.
+**7. Sử dụng terminal đầu tiên để cấu hình dịch vụ `sshd` trên máy `serverb` sao cho người dùng phải xác thực bằng khóa SSH và không thể xác thực bằng mật khẩu. Sử dụng terminal thứ hai để xác minh rằng người dùng phải sử dụng khóa SSH để đăng nhập vào máy `serverb`. Trước tiên, hãy thử đăng nhập vào máy `serverb` với tư cách là người dùng `production2`, nơi khóa SSH chưa được cấu hình. Sau đó, hãy thử đăng nhập với tư cách là người dùng `production1` bằng cách sử dụng khóa SSH.**
 
-7.1 Quay lại terminal đầu tiên với shell root đang hoạt động trên máy serverb. Đặt tham số `PasswordAuthentication` thành `no` trong tệp `/etc/ssh/sshd_config` và khởi động lại dịch vụ sshd. Chỉnh sửa tham số chưa chú thích đang hoạt động chứ không phải ví dụ đã chú thích.  
+*7.1 Quay lại terminal đầu tiên với shell root đang hoạt động trên máy serverb. Đặt tham số `PasswordAuthentication` thành `no` trong tệp `/etc/ssh/sshd_config` và khởi động lại dịch vụ sshd. Chỉnh sửa tham số chưa chú thích đang hoạt động chứ không phải ví dụ đã chú thích.* 
 `vi  /etc/ssh/sshd_config`
 ```
 ...output omitted...
@@ -1912,12 +1917,12 @@ PasswordAuthentication no
 ...output omitted...
 [root@serverb ~]# systemctl restart sshd
 ```
-7.2 Hãy chuyển đến terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production2`. Lệnh này sẽ không thành công, vì khóa SSH chưa được cấu hình cho người dùng production2 và dịch vụ sshd trên máy serverb không cho phép sử dụng mật khẩu để xác thực.
+*7.2 Hãy chuyển đến terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production2`. Lệnh này sẽ không thành công, vì khóa SSH chưa được cấu hình cho người dùng `production2` và dịch vụ sshd trên máy `serverb` không cho phép sử dụng mật khẩu để xác thực.*
 ```
 [production1@servera ~]$ ssh production2@serverb
 production2@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
 ```
-7.3 Quay lại terminal đầu tiên với shell `root` đang hoạt động trên máy serverb. Kiểm tra xem tham số `PubkeyAuthentication` đã được bật trong tệp `/etc/ssh/sshd_config` chưa.
+*7.3 Quay lại terminal đầu tiên với shell `root` đang hoạt động trên máy `serverb`. Kiểm tra xem tham số `PubkeyAuthentication` đã được bật trong tệp `/etc/ssh/sshd_config` chưa.*
 
 ```
 [root@serverb ~]# grep PubkeyAuthentication /etc/ssh/sshd_config
@@ -1925,13 +1930,13 @@ production2@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
 ```
 Dòng `PubkeyAuthentication` được chú thích. Các dòng được chú thích biểu thị các giá trị mặc định của tham số. Xác thực khóa công khai được kích hoạt theo mặc định, như được biểu thị trong dòng chú thích.
 
-7.4 Quay lại terminal thứ hai với shell production1 đang hoạt động trên máy servera và thử đăng nhập vào máy serverb với tư cách người dùng production1. Lệnh này sẽ thành công, vì khóa SSH đã được cấu hình để người dùng production1 có thể đăng nhập vào máy serverb từ máy servera.
+*7.4 Quay lại terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production1`. Lệnh này sẽ thành công, vì khóa SSH đã được cấu hình để người dùng `production1` có thể đăng nhập vào máy `serverb` từ máy `servera`.*
 ```
 [production1@servera ~]$ ssh production1@serverb
 ...output omitted...
 [production1@serverb ~]$
 ```
-7.5 Exit and close the second terminal.
+*7.5 Exit and close the second terminal.*
 ```
 [production1@serverb ~]$ exit
 logout
@@ -1940,7 +1945,7 @@ Connection to serverb closed.
 logout
 student@workstation:~$ exit
 ```
-8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy workstation với tư cách là người dùng là học viên.
+**8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy `workstation` với tư cách là người dùng là `student`.**
 ```
 [root@serverb ~]# exit
 logout
