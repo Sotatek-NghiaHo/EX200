@@ -2754,10 +2754,11 @@ MYSQL_PASSWORD	|redhat
 MYSQL_DATABASE	|inventory
 MYSQL_ROOT_PASSWORD	|redhat
 
-*3.1 Kiểm tra hình ảnh container `registry.lab.example.com/rhel9/mariadb`.*
+*3.1 Kiểm tra container image `registry.lab.example.com/rhel9/mariadb`.*
 ```
 [podmgr@serverb ~]$ skopeo inspect \
 docker://registry.lab.example.com/rhel9/mariadb-105
+
 {
     "Name": "registry.lab.example.com/rhel9/mariadb-105",
     "Digest": "sha256:2bf8...fab8",
@@ -2845,16 +2846,16 @@ db-app01:/tmp/inventory.sql
 inventory < /tmp/inventory.sql'
 ```
 
-**6. Sử dụng tệp container trong thư mục /home/podmgr/http-dev để tạo container tách rời http-app01. Tên ảnh container phải là http-client:9.0. Ánh xạ cổng 8080 trên máy cục bộ với cổng 8080 trong container.**
+**6. Sử dụng tệp container trong thư mục `/home/podmgr/http-dev` để tạo container tách rời `http-app01`. Tên container image phải là `http-client:9.0`. Ánh xạ cổng `8080` trên máy cục bộ với cổng `8080` trong container.**
 
-*6.1 Tạo ảnh http-client:9.0 với tệp chứa trong thư mục /home/podmgr/http-dev.*
+*6.1 Tạo ảnh `http-client:9.0` với tệp chứa trong thư mục `/home/podmgr/http-dev`.*
 ```
 [podmgr@serverb ~]$ podman build -t http-client:9.0 http-dev/
 STEP 1/7: FROM registry.lab.example.com/rhel9/php-82:1-15
 ...output omitted...
 ```
 
-*6.2 Tạo container http-app01 tách biệt. Ánh xạ cổng 8080 từ máy cục bộ sang cổng 8080 trong container.*
+*6.2 Tạo container `http-app01` tách biệt. Ánh xạ cổng `8080` từ máy cục bộ sang cổng `8080` trong container.*
 ```
 [podmgr@serverb ~]$ podman run -d --name http-app01 \
 -p 8080:8080 localhost/http-client:9.0
@@ -2865,9 +2866,9 @@ ee424df19621  localhost/http-client:9.0                        /bin/sh -c   4 se
 ```
 
 
-**7. Truy vấn nội dung của container http-app01. Xác minh rằng nó hiển thị tên container của máy khách và trạng thái của cơ sở dữ liệu đang hoạt động.**
+**7. Truy vấn nội dung của container `http-app01`. Xác minh rằng nó hiển thị tên container của máy client và trạng thái của cơ sở dữ liệu đang hoạt động.**
 
-*7.1 Xác minh rằng container http-app01 phản hồi các yêu cầu http.*
+*7.1 Xác minh rằng container `http-app01` phản hồi các yêu cầu http.*
 ```
 [podmgr@serverb ~]$ curl 127.0.0.1:8080
 This is the server http-app01 and the database is up
@@ -2880,6 +2881,8 @@ logout
 Connection to serverb closed.
 [student@workstation ~]$
 ```
+Ket qua: 
+![](../pic/74.png)
 
 ---
 # ---------------------------- END ----------------------------
