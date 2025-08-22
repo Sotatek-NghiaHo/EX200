@@ -2149,9 +2149,9 @@ drwxr-x---. 2 dbadmin1 database 6 Aug 14 14:34 review2
 
 /home/dbadmin1/grading/review2:
 total 0
-
 ```
-Note"
+
+Note:  
 - Neu tao file sau khi ap dung `chown -R` thi se khong co tac dung ma muon ap dung vinh vien phai :
 ```
 chown dbadmin1:database /home/dbadmin1/grading/review2
@@ -2188,7 +2188,6 @@ Note:
 ```
  chmod g+w /home/dbadmin1/grading/review2
  chmod g+w /home/dbadmin1/grading/
-
 ```
 - Tất cả người dùng khác phải có quyền đọc và thực thi trên thư mục.
 ```
@@ -2241,7 +2240,6 @@ Configure SSH to prevent the `root` user from logging in.
  vi /etc/ssh/sshd_config
  PermitRootLogin no
  systemctl restart sshd
-
 ```
 Configure SSH so that users log in by using key-based authentication and not by password-based authentication.
 ```
@@ -2264,7 +2262,6 @@ name=Custom RHCSA Practice Repo
 baseurl=http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata
 enabled=1
 gpgcheck=0
-
 ```
 Install the zsh and rht-system packages.
 ```
