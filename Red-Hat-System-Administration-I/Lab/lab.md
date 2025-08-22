@@ -1977,12 +1977,10 @@ Kết quả
 Create the `/home/student/grading directory`.
 ```
 [root@redhat9-server-1 ~]# mkdir -p /home/nghiahv/grading
-
 ```
 Create three empty files named `grade1`, `grade2`, and `grade3`, in the `/home/student/grading directory`.
 ```
 [root@redhat9-server-1 ~]# touch /home/nghiahv/grading/grade{1,2,3}
-
 ```
 Capture the first five lines of the `/home/student/bin/manage` file in the `/home/student/grading/review.txt` file.
 
@@ -2410,13 +2408,14 @@ Bonus
 [root@redhat9-server-1 ~]# du -sh /root/test 
 4.0K	/root/test
 ```
+So sanh dung luong kich thuong cua `ls -l` &` dh -sh`  
 ![](../pic/40.png)
 
--> 
-```
-Lệnh find / -type f -size … sẽ dựa trên kích thước dữ liệu thực (logical size) của file, không dựa trên dung lượng chiếm trên ổ đĩa.
-```
-Vi du khac
+Note:   
+Lệnh `find / -type f -size …` sẽ dựa trên kích thước dữ liệu thực (logical size) của file, không dựa trên dung lượng chiếm trên ổ đĩa.
+
+
+Vi du khac:  
 ```
 [root@redhat9-server-1 ~]# ll -a
 -rw-------. 1 root root 10975 Aug 14 16:53 .bash_history 
@@ -2426,3 +2425,6 @@ Vi du khac
 10 975 / 4 096 = 2,68…
 Làm tròn lên → 3 block (1 Block la 4K)~ 3x4 = 12K 
 ```
+
+---
+# -------------- END --------------
