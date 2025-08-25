@@ -293,10 +293,15 @@ Example
 ```bash
 # Chỉ lưu stdout:
 ls /etc > out.txt
+
 # Chỉ lưu stderr:
 ls /khong_ton_tai 2> err.txt
+
 #Ghi cả stdout và stderr chung một file:
 ls /etc /khong_ton_tai > all.txt 2>&1
+
+# Ghi stdout và stderr ra hai file riêng:
+ls /etc /khong_ton_tai > out.txt 2> err.txt
 ```
 
 **Constructing Pipelines**  
@@ -326,6 +331,63 @@ Tùy chọn	|Ý nghĩa
 ---|---
 -a	|Append – thêm vào cuối file thay vì ghi đè
 -i	| Ignore interrupt signals (bỏ qua Ctrl+C)
+
+**Use grep and regular expressions to analyze text**
+```bash
+# Tìm từ trong file
+grep "root" /etc/passwd
+
+# dùng biểu thức chính quy
+grep -E "^r..t" /etc/passwd
+
+# không phân biệt hoa thường
+grep -i "user" /etc/passwd
+```
+Tìm dòng chứa nhiều mẫu
+```
+grep -E "root|user" /etc/passwd
+```
+Dùng | (OR) để tìm các dòng chứa root hoặc user.
+
+- Tìm chính xác cả từ (whole word)
+```
+grep -w "root" /etc/passwd
+```
+Chỉ khớp từ nguyên vẹn `root` (không khớp roots, groot...).
+
+- Đếm số lần khớp
+```
+grep -c "bash" /etc/passwd
+```
+Hiển thị số dòng có chứa từ bash.
+
+- In số dòng chứa kết quả
+```
+grep -n "root" /etc/passwd
+```
+Thêm số dòng ở đầu mỗi kết quả.
+
+- Tìm dòng không khớp
+```
+grep -v "nologin" /etc/passwd
+```
+Hiển thị tất cả các dòng không chứa nologin.
+
+*Tìm theo regex nâng cao*  
+- Các user có tên bắt đầu bằng chữ cái và dài ít nhất 5 ký tự:
+```
+grep -E "^[a-zA-Z]{5,}:" /etc/passwd
+```
+- Các dòng kết thúc bằng `/bin/bash`:
+```
+grep "/bin/bash$" /etc/passwd
+```
+
+- Tìm đệ quy trong thư mục
+```
+grep -r "TODO" ./src
+```
+Tìm tất cả dòng có `TODO` trong thư mục `src`.
 
 ---
 # Chapter 10. Managing Local Users and Groups
