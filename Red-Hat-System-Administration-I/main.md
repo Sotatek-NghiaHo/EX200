@@ -267,6 +267,67 @@ set cursorline       " Tô sáng dòng đang chọn
 Xem huong dan cua Vim la `vimtutor`  
 
 ---
+Create and edit text files
+
+- Tạo file mới:
+    
+    ```bash
+    touch file.txt
+    ```
+    
+- Chỉnh sửa bằng `vi` hoặc `nano`:
+    
+    ```bash
+    vi file.txt
+    # hoac 
+    nano file.txt
+    ```
+    
+
+Sâu hơn về text editor `vi`
+
+Các chế độ
+
+| Mode | Mô tả |
+| --- | --- |
+| normal | mặc định  |
+| insert | nhấn “i” để vào. quay trở lại normal nhấn “Esc” |
+
+Luu & thoat
+
+| :q! | thoat khong luu |
+| --- | --- |
+| :q  | thoat (không có chỉnh sửa nào) |
+| :wq | luu va thoat |
+
+Xóa/ cắt / dán
+
+| yy | sao chep |
+| --- | --- |
+| p | paste |
+| u | undo |
+| dd | cut |
+
+Di chuyển 
+
+| shift g (G) | cuối file |
+| --- | --- |
+| gg | đầu file |
+- Tìm kiếm ký tự
+
+Khi ở mode Normal nhấn “/” → rồi nhập ký tự muốn tìm, đúng ký tự muốn tìm thì nhấn “enter” để vào dòng đó, còn muốn tìm tiếp thì nhấn phím “n”
+
+- Thay thế chuỗi ký tự (trái qua phải) (mode: normal)
+
+```bash
+:s/old/new/         # Thay thế lần đầu tiên xuất hiện trên dòng hiện tại
+:s/old/new/g        # Thay thế **tất cả** các chuỗi "old" trên dòng hiện tại
+:%s/old/new/g       # Thay thế toàn bộ trong **toàn file**
+```
+
+hoặc thay đổi trực tiếp `sed -i 's/old/new/g' filename.txt`
+
+---
 # Chapter 9. Redirecting Shell Input and Output
 
 **Standard Input, Standard Output, and Standard Error**
@@ -1253,3 +1314,50 @@ Host myserver
     User nghia
     IdentityFile ~/.ssh/id_ed25519
 ```
+
+---
+**Create hard links and soft links**
+- Tạo Hard link:
+```bash
+echo "Hello" > original.txt
+ln original.txt hardlink_new.txt
+ln /path/to/source /path/to/hardlink
+```
+- Tạo Symbolic (soft) link:
+```bash
+# Tạo file gốc
+echo "Hello World" > /tmp/original.txt
+
+# Tạo symbolic link
+ln -s /tmp/original.txt symlink.txt
+
+# Kiểm tra
+ls -l symlink.txt
+```
+Tiêu chí	|Hard Link	|Soft Link (Symbolic Link)
+---|---|---
+Cách hoạt động	|Trỏ trực tiếp vào inode (dữ liệu thật)	|Trỏ đến tên đường dẫn của file
+Xóa file gốc	|Vẫn dùng được nếu còn hard link khác	|Link sẽ bị lỗi (broken) nếu xóa file gốc
+Ổ đĩa	|Phải cùng filesystem|	Có thể khác filesystem
+Cho thư mục?	|Không (trừ root)|	Có (nhưng cẩn thận với vòng lặp)
+Xem link	|`ls -li `(inode giống nhau)	|`ls -l` thấy mũi tên →
+Sửa nội dung	|Không có cái nào là "gốc", mọi tên là ngang hàng.	|`ln -s file1.txt file1_symlink` <br> Nếu bạn sửa file1_symlink, thực chất bạn đang sửa file1.txt, vì symlink chỉ là “lối đi”.
+Đường dẫn tuyệt đối|	Liên kết cứng (hard link) không cần (và không nên dùng) đường dẫn tuyệt đối.	|`ln -s /root/file1.txt /tmp/file2.txt`
+
+![](./pic/45.png)
+Hạn chế của hardlink: 
+- Không thể tạo hard link đến thư mục
+- Không thể tạo hard link trên các hệ thống tập tin khác nhau
+
+![](./pic/46.png)
+
+➤ *Dùng trong trường hợp nào?*
+
+- **Hard link**:
+    - Khi cần bản sao y chang file gốc (chia sẻ nội dung).
+    - Không lo lắng nếu file gốc bị xóa.
+- **Soft link**:
+    - Khi muốn tạo đường dẫn tắt (shortcut).
+    - Dùng cho thư mục, hệ thống file khác.
+    - Dễ quản lý và rõ ràng hơn.
+---
