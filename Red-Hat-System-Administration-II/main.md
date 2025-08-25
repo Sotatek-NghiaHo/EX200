@@ -114,7 +114,6 @@ kernel-5.14.0-70.2.1.el9_0.x86_64 was installed on Thu Mar 24 10:53:04 PM EDT 20
 6
 8
 10
-
 ```
 lệnh exit và mã thoát (exit code)
 exit trong shell được dùng để kết thúc tiến trình (script hoặc shell hiện tại) và trả về một mã thoát số nguyên cho tiến trình cha.
@@ -161,7 +160,6 @@ else
       ...
       <STATEMENT>
 fi
-
 ```
 Use the If/Then/Elif/Then/Else Construct
 ```
@@ -178,7 +176,6 @@ else
       ...
       <STATEMENT>
 fi
-
 ```
 1.5 Match Text in Command Output with Regular Expressions
 
@@ -393,22 +390,7 @@ Có thể gửi log đi máy khác (centralized logging)
 ![](pic/6.png)  
 
 `journalctl` commands  
-| Lệnh                                  | Ý nghĩa                                 | Ví dụ                                   |              |              |
-| ------------------------------------- | --------------------------------------- | --------------------------------------- | ------------ | ------------ |
-| `journalctl`                          | Xem toàn bộ log                         | `journalctl`                            |              |              |
-| `journalctl -r`                       | Log mới → cũ (reverse)                  | `journalctl -r`                         |              |              |
-| `journalctl -f`                       | Theo dõi log realtime (giống `tail -f`) | `journalctl -f`                         |              |              |
-| `journalctl -n N`                     | Hiện N dòng cuối                        | `journalctl -n 50`                      |              |              |
-| `journalctl --since TIME`             | Log từ thời điểm TIME                   | `journalctl --since "2025-08-10 14:00"` |              |              |
-| `journalctl --until TIME`             | Log đến thời điểm TIME                  | `journalctl --until "2025-08-10 15:00"` |              |              |
-| `journalctl -u SERVICE`               | Log của 1 service                       | `journalctl -u sshd`                    |              |              |
-| `journalctl -u SERVICE --since today` | Log service từ hôm nay                  | `journalctl -u sshd --since today`      |              |              |
-| `journalctl -b`                       | Log của lần boot hiện tại               | `journalctl -b`                         |              |              |
-| `journalctl -b -1`                    | Log của lần boot trước                  | `journalctl -b -1`                      |              |              |
-| `journalctl -p LEVEL`                 | Lọc theo mức ưu tiên (0–7)              | `journalctl -p err`                     |              |              |
-| `journalctl _PID=PID`                 | Lọc theo tiến trình                     | `journalctl _PID=1234`                  |              |              |
-| `journalctl _UID=UID`                 | Lọc theo user                           | `journalctl _UID=1000`                  |              |              |
-| \`journalctl                          | grep "keyword"\`                        | Lọc theo từ khóa                        | 
+
 📌 Mức ưu tiên (-p)  
 
 | Tên       | Số | Ý nghĩa              |
@@ -424,16 +406,11 @@ Có thể gửi log đi máy khác (centralized logging)
 
 `journalctl -o verbose`
 Danh sách sau đây hiển thị một số trường của nhật ký hệ thống mà bạn có thể sử dụng để tìm kiếm các dòng có liên quan đến một quy trình hoặc sự kiện cụ thể:
-
-_COMM là tên lệnh.
-
-_EXE là đường dẫn đến tệp thực thi cho tiến trình.
-
-_PID là PID của quá trình.
-
-_UID là UID của người dùng chạy tiến trình.
-
-_SYSTEMD_UNIT là systemdđơn vị bắt đầu quá trình.
+- _COMM là tên lệnh.
+- _EXE là đường dẫn đến tệp thực thi cho tiến trình.
+- _PID là PID của quá trình.
+- _UID là UID của người dùng chạy tiến trình.
+- _SYSTEMD_UNIT là systemdđơn vị bắt đầu quá trình.
 
 Bảo tồn Nhật ký Hệ thống  
 Mục tiêu: Cấu hình nhật ký hệ thống để lưu lại bản ghi sự kiện khi máy chủ khởi động lại.  
@@ -459,6 +436,7 @@ Nếu systemd-journalddịch vụ khởi động lại thành công, dịch vụ
 [root@host ~]# ls /var/log/journal/4ec03abd2f7b40118b1b357f479b3112
 system.journal  user-1000.journal
 ```
+
 Mặc dù nhật ký hệ thống vẫn tồn tại sau khi khởi động lại, journalctlđầu ra lệnh bao gồm các mục từ lần khởi động hệ thống hiện tại cũng như từ các lần khởi động hệ thống trước đó. Để giới hạn đầu ra cho một lần khởi động hệ thống cụ thể, hãy sử dụng tùy chọn journalctllệnh -b. Lệnh sau journalctlchỉ truy xuất các mục từ lần khởi động hệ thống đầu tiên:
 
 `[root@host ~]#journalctl -b 1` 
@@ -478,6 +456,7 @@ Bạn có thể liệt kê các sự kiện khởi động hệ thống mà jour
   -1 e754... Thứ bảy 2022-05-07 13:58:08 EDT—Thứ bảy 2022-05-07 14:10:53 EDT
    0 ee2c... Thứ Hai 2022-05-09 09:56:45 EDT—Thứ Hai 2022-05-09 12:57:21 EDT
 ```
+
 Lệnh sau đây journalctlchỉ lấy các mục từ lần khởi động hệ thống hiện tại:
 
 [root@host ~]#`journalctl -b`
@@ -520,39 +499,27 @@ Co the dung `tzselect` de setup mui gio
 
 ---
 # Chapter 4.  Archive and Transfer Files
-Manage Compressed `tar` Archives
-Options of the tar Utility
-One of the following tar command actions is required to perform a tar operation:
+Manage Compressed `tar` Archives  
+Options of the tar Utility  
+One of the following tar command actions is required to perform a tar operation:  
+- -c or --create : Create an archive file.
+- -t or --list : List the contents of an archive.
+- -x or --extract : Extract an archive.
 
--c or --create : Create an archive file.
-
--t or --list : List the contents of an archive.
-
--x or --extract : Extract an archive.
-
-The following tar command general options are often included:
-
--v or --verbose : Show the files that are being archived or extracted during the tar operation.
-
--f or --file : Follow this option with the archive file name to create or open.
-
--p or --preserve-permissions : Preserve the original file permissions when extracting.
-
---xattrs : Enable extended attribute support, and store extended file attributes.
-
---selinux : Enable SELinux context support, and store SELinux file contexts.
+The following tar command general options are often included:  
+- -v or --verbose : Show the files that are being archived or extracted during the tar operation.
+- -f or --file : Follow this option with the archive file name to create or open.
+- -p or --preserve-permissions : Preserve the original file permissions when extracting.
+- --xattrs : Enable extended attribute support, and store extended file attributes.
+- --selinux : Enable SELinux context support, and store SELinux file contexts.
 
 The following tar command compression options are used to select an algorithm:
+- -a or --auto-compress : Use the archive's suffix to determine the algorithm to use.
+- -z or --gzip : Use the gzip compression algorithm, which results in a .tar.gz suffix.
+- -j or --bzip2 : Use the bzip2 compression algorithm, which results in a .tar.bz2 suffix.
+- -J or --xz : Use the xz compression algorithm, which results in a .tar.xz suffix.
 
--a or --auto-compress : Use the archive's suffix to determine the algorithm to use.
-
--z or --gzip : Use the gzip compression algorithm, which results in a .tar.gz suffix.
-
--j or --bzip2 : Use the bzip2 compression algorithm, which results in a .tar.bz2 suffix.
-
--J or --xz : Use the xz compression algorithm, which results in a .tar.xz suffix.
-
-Lệnh sau đây tạo `mybackup.tar` kho lưu trữ để chứa các tệp myapp1.log, myapp2.log, và myapp2.log từ thư mục gốc của người dùng. Nếu có tệp trùng tên với tệp lưu trữ được yêu cầu trong thư mục đích, tar lệnh sẽ ghi đè lên tệp đó.
+Lệnh sau đây tạo `mybackup.tar` kho lưu trữ để chứa các tệp `myapp1.log`, `myapp2.log`, và `myapp2.log` từ thư mục gốc của người dùng. Nếu có tệp trùng tên với tệp lưu trữ được yêu cầu trong thư mục đích, `tar` lệnh sẽ ghi đè lên tệp đó.
 ```
 [user@host ~]$ tar -cf mybackup.tar myapp1.log myapp2.log myapp3.log
 [user@host ~]$ ls mybackup.tar
@@ -807,15 +774,14 @@ Nếu không có rule cho hành động → mặc định từ chối.
 Targeted policy (mặc định) → mỗi ứng dụng quan trọng sẽ có rule riêng, chạy trong miền bị giới hạn (confined domain).
 
 3. Chế độ hoạt động
-Enforcing (mặc định): Áp dụng và thực thi rule → hành vi trái phép bị chặn + ghi log.
+- Enforcing (mặc định): Áp dụng và thực thi rule → hành vi trái phép bị chặn + ghi log.
+- Permissive: Không chặn, chỉ ghi log vi phạm → dùng khi test/troubleshoot.
+- Disabled: Tắt hoàn toàn → không khuyến khích.
 
-Permissive: Không chặn, chỉ ghi log vi phạm → dùng khi test/troubleshoot.
-
-Disabled: Tắt hoàn toàn → không khuyến khích.
-
-Từ RHEL 9, muốn tắt hoàn toàn phải dùng selinux=0 trong kernel parameter khi boot.
-
-Nếu chỉnh SELINUX=disabled trong /etc/selinux/config → SELinux vẫn bật nhưng không load policy → mọi hành động bị chặn.
+Note:
+- `senteforce 0` : SELinux sẽ chuyển tạm thời sang Permissive, nhưng sau reboot sẽ quay lại Enforcing (vì config mặc định trong file vẫn là Enforcing).
+- Từ RHEL 9, muốn tắt hoàn toàn phải dùng `selinux=0` trong kernel parameter khi boot.
+  - Nếu chỉnh `SELINUX=disabled` trong /etc/selinux/config → SELinux vẫn bật nhưng không load policy → mọi hành động bị chặn.
 
 Thay đổi chế độ SELinux
 ```
@@ -1031,6 +997,8 @@ Xóa hoặc tắt Swap
 - LV (Logical Volume): Vùng lưu trữ logic được tạo từ không gian trống trong VG, dùng để format, mount, hoặc làm swap.
 - PE (Physical Extent): Đơn vị lưu trữ nhỏ nhất trong PV.
 - LE (Logical Extent): Đơn vị tương ứng trong LV (thường 1 LE = 1 PE).
+
+![](pic/70.png)
 
 2. Quy trình tạo LVM
 Bước 1: Tạo Physical Volume
@@ -1668,12 +1636,64 @@ systemctl --user disable container-web.service   # Tắt tự chạy khi login
 ```
 Bước 5: Cho phép chạy khi chưa login (tự động khi boot)
 Mặc định, service rootless chạy khi bạn login.
-Muốn nó chạy ngay khi máy khởi động (dù chưa login):
-
+Muốn nó chạy ngay khi máy khởi động (dù chưa login):  
 `loginctl enable-linger <username>`  
-Ví dụ:
-
+Ví dụ:  
 `loginctl enable-linger user1`  
-Để tắt lại:
-
+Để tắt lại:  
 `loginctl disable-linger <username>`
+
+---
+
+**Archive, compress, unpack, and uncompress files using tar, gzip, and bzip2**
+
+- tar
+
+(chỉ đóng gói, không nén)
+
+```bash
+tar -cvf archive.tar /path/to/dir
+tar -xvf archive.tar
+tar -xvf archive.tar -C /duong/dan/thu_muc_dich
+
+```
+
+| Tùy chọn | Ý nghĩa |
+| --- | --- |
+| -c | Tạo file lưu trữ mới |
+| -x | Giải nén file tar |
+| -t | Liệt kê nội dung file tar |
+| -v | Hiển thị chi tiết quá trình |
+| -f | Chỉ định tên file |
+- gzip (-z)
+
+```bash
+tar -czvf archive.tar.gz /path/to/dir
+tar -xzvf archive.tar.gz
+```
+
+Note: `gzip [tùy_chọn] [tệp]` chỉ nén file không nén thư mục
+
+```bash
+# giai nen
+gzip bangluong.sql.gz # mat file goc
+gunzip -c bangluong.sql.gz > bangluong.sql
+```
+
+- bzip2 (-j)
+
+```bash
+tar -cjvf archive.tar.bz2 /path/to/dir
+tar -xjvf archive.tar.bz2
+```
+
+- So sánh
+
+Tiêu chí	|tar	|gzip|	bzip2
+---|---|---|---
+📉 Tốc độ nén	|Không nén	|Nhanh	|Chậm hơn gzip (~2–3 lần)
+💾 Hiệu quả nén	|Không nén	|Trung bình	|Tốt hơn gzip
+📦 Kích thước file sau nén	|k nén	|trung bình	|nhỏ nhất
+
+
+---

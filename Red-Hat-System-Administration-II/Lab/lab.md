@@ -2874,7 +2874,7 @@ ee424df19621  localhost/http-client:9.0                        /bin/sh -c   4 se
 This is the server http-app01 and the database is up
 ```
 
-**8. Return to the workstation machine as the student user.**
+**8. Return to the `workstation` machine as the `student` user.**
 ```
 [podmgr@serverb ~]$ exit
 logout
