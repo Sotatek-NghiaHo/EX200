@@ -94,6 +94,12 @@ Chức năng: Lệnh whereis dùng để tìm đường dẫn của:
 - File cấu hình liên quan
 - Trang man liên quan    
 
+SS `man` va `info`  
+![alt text](pic/47.png)
+
+Các section thường gặp trong man    
+![alt text](pic/48.png)
+
 Lưu đầu ra của lệnh vào một tệp. vi du: 
 ```
 [root@redhat9-server-1 ~]# ls /home/ >> manual

@@ -1128,6 +1128,160 @@ logout
 Connection to serverb closed.
 [student@workstation ~]$
 ```
+---
+# CHAPTER 13: Guided Exercise: Manage Applications from Flatpak
+Liệt kê, tìm kiếm, cài đặt, gỡ bỏ và lấy thông tin siêu dữ liệu của các ứng dụng bằng cách sử dụng Flatpak.
+
+Kết quả
+- Sử dụng các lệnh Flatpak để quản lý ứng dụng và thời gian chạy.
+- Cài đặt ứng dụng và xem lại thông tin của chúng.
+- Gỡ cài đặt các ứng dụng Flatpak và các phần phụ thuộc của chúng.
+
+**1. Với tư cách là người dùng là `student` trên máy `workstation` , hãy xác minh rằng kho lưu trữ từ xa `rhel` và `myrepo` Flatpak đã được cấu hình.**
+```
+student@workstation:~$ flatpak remotes
+Name     Options
+rhel     system,oci,no-gpg-verify
+myrepo   user,no-gpg-verify
+```
+2. Xác minh rằng không có ứng dụng Flatpak nào có trong hệ thống.
+```
+student@workstation:~$ flatpak list --app
+```
+**3. Xác định và cài đặt `codium` và `Obsidian` Flatpak ở chế độ cài đặt người dùng từ kho lưu trữ từ xa `myrepo`.**
+
+3.1 Liệt kê các đối tượng Flatpak có sẵn từ kho lưu trữ từ xa myrepo. Lưu ý các mã định danh ứng dụng và nhánh.
+```
+student@workstation:~$ flatpak remote-ls myrepo
+Name                              Application ID        Version   Branch
+codium                            com.vscodium.codium             stable
+Obsidian                          md.obsidian.Obsidian            stable
+freedesktop platform              org.freedesktop.Platform        24.08
+freedesktop development platform  org.freedesktop.Sdk             24.08
+```
+3.2 Cài đặt phiên bản mới nhất của các gói `codium` và `Obsidian` bằng cách sử dụng bộ ba mã định danh mà nhánh `stable` sử dụng.
+```
+student@workstation:~$ flatpak install com.vscodium.codium//stable \
+md.obsidian.Obsidian//stable
+```
+
+4. Xác minh rằng các ứng dụng đã được cài đặt thành công. Lưu ý rằng phần phụ thuộc thời gian chạy cũng đã được cài đặt.
+```
+student@workstation:~$ flatpak list
+Name            Application ID         Version                  Branch Inst...
+VSCodium        com.vscodium.codium    1.100.23258              stable user
+Obsidian        md.obsidian.Obsidian   1.8.10                   stable user
+Freedesktop Pl… ….freedesktop.Platform freedesktop-sdk-24.08.19 24.08  user
+Freedesktop SDK org.freedesktop.Sdk    freedesktop-sdk-24.08.19 24.08  user
+```
+
+5. Truy xuất thông tin bổ sung về các ứng dụng đã cài đặt. 
+
+5.1 Truy xuất thông tin cho ứng dụng `VSCodium`.
+```
+student@workstation:~$ flatpak info md.obsidian.Obsidian
+
+Obsidian - Markdown-based knowledge base
+
+          ID: md.obsidian.Obsidian
+         Ref: app/md.obsidian.Obsidian/x86_64/stable
+        Arch: x86_64
+      Branch: stable
+     Version: 1.8.10
+     License: LicenseRef-proprietary=https://obsidian.md/eula
+      Origin: myrepo
+  Collection: org.flathub.Stable
+Installation: user
+   Installed: 634.3 MB
+     Runtime: org.freedesktop.Platform/x86_64/24.08
+         Sdk: org.freedesktop.Sdk/x86_64/24.08
+
+      Commit: 9f43...e633
+      Parent: 79b5...9a9c
+     Subject: Update gh module (91b101008d04)
+        Date: 2025-05-30 04:52:34 +0000
+```
+
+6. Từ màn hình nền đồ họa GNOME, hãy khởi chạy các ứng dụng `VSCodium` và `Obsidian` để kiểm tra xem chúng đã được cài đặt đúng cách chưa.
+
+6.1 Nhấp vào logo Red Hat ở góc trên bên trái màn hình để mở Tổng quan Hoạt động.
+
+6.2 Trong hộp tìm kiếm, nhập vscodium và nhấp vào biểu tượng VSCodium để mở ứng dụng.
+
+6.3 Kiểm tra xem ứng dụng đã khởi động đúng cách chưa. Khám phá giao diện của ứng dụng và đóng ứng dụng khi hoàn tất.
+
+6.4 Trong hộp tìm kiếm, nhập obsidian và nhấp vào biểu tượng Obsidian để mở ứng dụng.
+
+6.5 Nhấp vào Khởi động Nhanh để khám phá ứng dụng và đóng ứng dụng khi hoàn tất.
+
+7. Gỡ cài đặt gói `VSCodium` Flatpak cùng tất cả các gói phụ thuộc. 
+
+7.1 Hãy thử xóa `org.freedesktop.Sdk` runtime trước khi gỡ cài đặt ứng dụng phụ thuộc vào nó. Bạn sẽ nhận được thông báo lỗi.
+```bash
+student@workstation:~$ flatpak uninstall org.freedesktop.Sdk
+Info: applications using the runtime org.freedesktop.Sdk branch 24.08:
+   com.vscodium.codium
+Really remove? [y/n]: y
+
+
+        ID                         Branch       Op
+ 1.     org.freedesktop.Sdk        24.08        r
+
+Proceed with these changes to the user installation? [Y/n]: y
+
+       ID                         Branch       Op
+ 1. [✗] org.freedesktop.Sdk        24.08        r
+
+Error: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
+error: Failed to uninstall org.freedesktop.Sdk: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
+```
+
+7.2 Chạy lại lệnh gỡ cài đặt Flatpak và chỉ định gói Codium và thời gian chạy SDK. Bạn có thể sử dụng các định danh dạng rút gọn vì không có phiên bản nào khác được cài đặt cho các đối tượng đó.
+
+Flatpak tự động đặt thứ tự ưu tiên gỡ cài đặt, bất kể thứ tự của các định danh trong lệnh.
+```
+student@workstation:~$ flatpak uninstall Sdk codium
+Found installed ref 'runtime/org.freedesktop.Sdk/x86_64/24.08' (user). Is this correct? [Y/n]: y
+Found installed ref 'app/com.vscodium.codium/x86_64/stable' (user). Is this correct? [Y/n]: y
+
+
+        ID                         Branch       Op
+ 1.     com.vscodium.codium        stable       r
+ 2.     org.freedesktop.Sdk        24.08        r
+
+Proceed with these changes to the user installation? [Y/n]: y
+
+        ID                         Branch       Op
+ 1. [-] com.vscodium.codium        stable       r
+ 2. [-] org.freedesktop.Sdk        24.08        r
+
+Uninstalling 1/2…
+Uninstalling 2/2…
+```
+*7.3 Verify that the Flatpak objects are no longer installed.*
+```
+student@workstation:~$ flatpak list
+Name                 Application ID           Version               Branch Inst...
+Obsidian             md.obsidian.Obsidian     1.8.9                 stable user
+Freedesktop Platform org.freedesktop.Platform freedesktop-sdk-24.08 24.08  user
+```
+
+**8. Từ GNOME desktop, hãy gỡ cài đặt `Obsidian` Flatpak cùng tất cả các thành phần phụ thuộc bằng GNOME Software graphical tool..**
+
+*8.1 Từ môi trường màn hình nền đồ họa GNOME, nhấp vào logo `Red Hat` ở góc trên bên trái, sau đó chọn `Software` từ bảng điều khiển, hoặc sử dụng nút `Show Application` để mở ứng dụng.*
+
+*8.2 Nhấp vào tab `Insatalled`  . Trong phần `Apps`, tìm `Obsidian` và nhấp vào `Uninstall`. Nhấp vào `Uninstall` để xác nhận.*
+
+*8.3 Trong phần `Add-ons`, tìm `Freedesktop Platform`. Nhấp vào `Uninstall` và nhấp vào `Uninstall` một lần nữa khi được yêu cầu xác nhận.*
+
+8.4 Đóng GNOME Software tool.
+
+**9. Kiểm tra xem tất cả các đối tượng Flatpak đã được xóa khỏi máy trạm chưa.**
+
+9.1 Kiểm tra xem không có đối tượng Flatpak nào trên ổ đĩa.
+```
+student@workstation:~$ flatpak list
+```
 
 ---
 # CHAPTER 14: Access Removable Media
