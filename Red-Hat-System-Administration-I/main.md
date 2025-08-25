@@ -268,12 +268,50 @@ Xem huong dan cua Vim la `vimtutor`
 
 ---
 # Chapter 9. Redirecting Shell Input and Output
- 
-Pipeline
- 
-`ls -l /usr/bin | less`  
-Pipelines, Redirection, and Appending to a File
- 
+
+**Standard Input, Standard Output, and Standard Error**
+- Standard input (channel 0) reads input from the keyboard.
+- Standard output (channel 1) sends regular system output to the terminal.
+- Standard error (channel 2) sends error messages to the terminal.
+
+![](pic/11.png)
+
+Channels (File Descriptors)  
+Number	|Channel name	|Description	|Default connection	|Usage
+---|---|---|---|---
+0	|stdin	|Standard |input	|Keyboard	|Read only
+1	|stdout	|Standard |output	|Terminal	|Write only
+2	|stderr	|Standard |error	|Terminal	|Write only
+3+	|filename|Other files	|None	|Read, write, or both
+
+**Redirecting Output to a File**  
+![](pic/12.png)
+![](pic/13.png)
+
+**Constructing Pipelines**  
+Pipelines là một chuỗi gồm một hoặc nhiều lệnh được phân tách bằng ký tự đường ống (|). Pipelines kết nối đầu ra chuẩn của lệnh đầu tiên với đầu vào chuẩn của lệnh tiếp theo.  
+
+![](pic/14.png)
+
+Example
+```bash
+# Chỉ lưu stdout:
+ls /etc > out.txt
+# Chỉ lưu stderr:
+ls /khong_ton_tai 2> err.txt
+#Ghi cả stdout và stderr chung một file:
+ls /etc /khong_ton_tai > all.txt 2>&1
+```
+Pipeline Examples  
+```
+ls -l /usr/bin | less
+ls -t | head -n 10 > /tmp/first-ten-changed-files
+``` 
+**Pipelines, Redirection, and Appending to a File**
+
+![](pic/15.png)
+
+Ví dụ sau đây chuyển hướng đầu ra của lệnh ls đến tệp `/tmp/saved-output` và chuyển nó đến lệnh less để lệnh này hiển thị trên thiết bị đầu cuối từng màn hình một.
 ```
 ls -l | tee /tmp/saved-output | less
 ls -t | head -n 10 | tee /tmp/ten-last-changed-files
@@ -593,6 +631,17 @@ user@host:~$ ls -l default.txt
 # đổi umask
 umask 0027
 ```
+
+Cấu trúc permission (khi ls -l)
+
+![](pic/43.png)
+
+Quyền user (owner) và group là hai phạm vi khác nhau, và hệ thống sẽ ưu tiên theo thứ tự khi xác định quyền:
+- (1) Nếu user là owner của file → áp dụng quyền của user.
+- (2) Nếu user không phải owner nhưng thuộc group của file → áp dụng quyền của group.
+- (3) Nếu không rơi vào 2 trường hợp trên → áp dụng quyền của others.
+
+![](pic/44.png)
 
 ---
 # Chapter 12.  Installing and Updating Software with RPM
