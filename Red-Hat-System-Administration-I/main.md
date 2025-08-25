@@ -285,13 +285,9 @@ Number	|Channel name	|Description	|Default connection	|Usage
 3+	|filename|Other files	|None	|Read, write, or both
 
 **Redirecting Output to a File**  
+
 ![](pic/12.png)
 ![](pic/13.png)
-
-**Constructing Pipelines**  
-Pipelines là một chuỗi gồm một hoặc nhiều lệnh được phân tách bằng ký tự đường ống (|). Pipelines kết nối đầu ra chuẩn của lệnh đầu tiên với đầu vào chuẩn của lệnh tiếp theo.  
-
-![](pic/14.png)
 
 Example
 ```bash
@@ -302,6 +298,12 @@ ls /khong_ton_tai 2> err.txt
 #Ghi cả stdout và stderr chung một file:
 ls /etc /khong_ton_tai > all.txt 2>&1
 ```
+
+**Constructing Pipelines**  
+Pipelines là một chuỗi gồm một hoặc nhiều lệnh được phân tách bằng ký tự đường ống (|). Pipelines kết nối đầu ra chuẩn của lệnh đầu tiên với đầu vào chuẩn của lệnh tiếp theo.  
+
+![](pic/14.png)
+
 Pipeline Examples  
 ```
 ls -l /usr/bin | less
