@@ -1144,13 +1144,13 @@ Name     Options
 rhel     system,oci,no-gpg-verify
 myrepo   user,no-gpg-verify
 ```
-2. Xác minh rằng không có ứng dụng Flatpak nào có trong hệ thống.
+**2. Xác minh rằng không có ứng dụng Flatpak nào có trong hệ thống.**
 ```
 student@workstation:~$ flatpak list --app
 ```
 **3. Xác định và cài đặt `codium` và `Obsidian` Flatpak ở chế độ cài đặt người dùng từ kho lưu trữ từ xa `myrepo`.**
 
-3.1 Liệt kê các đối tượng Flatpak có sẵn từ kho lưu trữ từ xa myrepo. Lưu ý các mã định danh ứng dụng và nhánh.
+*3.1 Liệt kê các đối tượng Flatpak có sẵn từ kho lưu trữ từ xa `myrepo`. Lưu ý các mã định danh ứng dụng và nhánh.*
 ```
 student@workstation:~$ flatpak remote-ls myrepo
 Name                              Application ID        Version   Branch
@@ -1159,13 +1159,13 @@ Obsidian                          md.obsidian.Obsidian            stable
 freedesktop platform              org.freedesktop.Platform        24.08
 freedesktop development platform  org.freedesktop.Sdk             24.08
 ```
-3.2 Cài đặt phiên bản mới nhất của các gói `codium` và `Obsidian` bằng cách sử dụng bộ ba mã định danh mà nhánh `stable` sử dụng.
+*3.2 Cài đặt phiên bản mới nhất của các gói `codium` và `Obsidian` bằng cách sử dụng bộ ba mã định danh mà nhánh `stable` sử dụng.*
 ```
 student@workstation:~$ flatpak install com.vscodium.codium//stable \
 md.obsidian.Obsidian//stable
 ```
 
-4. Xác minh rằng các ứng dụng đã được cài đặt thành công. Lưu ý rằng phần phụ thuộc thời gian chạy cũng đã được cài đặt.
+**4. Xác minh rằng các ứng dụng đã được cài đặt thành công. Lưu ý rằng phần phụ thuộc thời gian chạy cũng đã được cài đặt.**
 ```
 student@workstation:~$ flatpak list
 Name            Application ID         Version                  Branch Inst...
@@ -1175,9 +1175,9 @@ Freedesktop Pl… ….freedesktop.Platform freedesktop-sdk-24.08.19 24.08  user
 Freedesktop SDK org.freedesktop.Sdk    freedesktop-sdk-24.08.19 24.08  user
 ```
 
-5. Truy xuất thông tin bổ sung về các ứng dụng đã cài đặt. 
+**5. Truy xuất thông tin bổ sung về các ứng dụng đã cài đặt.**
 
-5.1 Truy xuất thông tin cho ứng dụng `VSCodium`.
+*5.1 Truy xuất thông tin cho ứng dụng `VSCodium`.*
 ```
 student@workstation:~$ flatpak info md.obsidian.Obsidian
 
@@ -1202,21 +1202,21 @@ Installation: user
         Date: 2025-05-30 04:52:34 +0000
 ```
 
-6. Từ màn hình nền đồ họa GNOME, hãy khởi chạy các ứng dụng `VSCodium` và `Obsidian` để kiểm tra xem chúng đã được cài đặt đúng cách chưa.
+**6. Từ màn hình nền đồ họa GNOME, hãy khởi chạy các ứng dụng `VSCodium` và `Obsidian` để kiểm tra xem chúng đã được cài đặt đúng cách chưa.**
 
-6.1 Nhấp vào logo Red Hat ở góc trên bên trái màn hình để mở Tổng quan Hoạt động.
+*6.1 Nhấp vào logo `Red Hat` ở góc trên bên trái màn hình để mở  `Activities Overview`.*
 
-6.2 Trong hộp tìm kiếm, nhập vscodium và nhấp vào biểu tượng VSCodium để mở ứng dụng.
+6.2 Trong hộp tìm kiếm, nhập vscodium và nhấp vào biểu tượng `VSCodium` để mở ứng dụng.
 
 6.3 Kiểm tra xem ứng dụng đã khởi động đúng cách chưa. Khám phá giao diện của ứng dụng và đóng ứng dụng khi hoàn tất.
 
-6.4 Trong hộp tìm kiếm, nhập obsidian và nhấp vào biểu tượng Obsidian để mở ứng dụng.
+6.4 Trong hộp tìm kiếm, nhập `Obsidian` và nhấp vào biểu tượng Obsidian để mở ứng dụng.
 
-6.5 Nhấp vào Khởi động Nhanh để khám phá ứng dụng và đóng ứng dụng khi hoàn tất.
+6.5 Nhấp vào `Quick Start` để khám phá ứng dụng và đóng ứng dụng khi hoàn tất.
 
-7. Gỡ cài đặt gói `VSCodium` Flatpak cùng tất cả các gói phụ thuộc. 
+**7. Gỡ cài đặt gói `VSCodium` Flatpak cùng tất cả các gói phụ thuộc.**
 
-7.1 Hãy thử xóa `org.freedesktop.Sdk` runtime trước khi gỡ cài đặt ứng dụng phụ thuộc vào nó. Bạn sẽ nhận được thông báo lỗi.
+*7.1 Hãy thử xóa `org.freedesktop.Sdk` runtime trước khi gỡ cài đặt ứng dụng phụ thuộc vào nó. Bạn sẽ nhận được thông báo lỗi.*
 ```bash
 student@workstation:~$ flatpak uninstall org.freedesktop.Sdk
 Info: applications using the runtime org.freedesktop.Sdk branch 24.08:
@@ -1236,7 +1236,7 @@ Error: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vsco
 error: Failed to uninstall org.freedesktop.Sdk: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
 ```
 
-7.2 Chạy lại lệnh gỡ cài đặt Flatpak và chỉ định gói Codium và thời gian chạy SDK. Bạn có thể sử dụng các định danh dạng rút gọn vì không có phiên bản nào khác được cài đặt cho các đối tượng đó.
+*7.2 Chạy lại lệnh `flatpak uninstall` và chỉ định gói `Codium` và thời gian chạy `SDK`. Bạn có thể sử dụng các định danh dạng rút gọn vì không có phiên bản nào khác được cài đặt cho các đối tượng đó.*
 
 Flatpak tự động đặt thứ tự ưu tiên gỡ cài đặt, bất kể thứ tự của các định danh trong lệnh.
 ```
@@ -1274,11 +1274,11 @@ Freedesktop Platform org.freedesktop.Platform freedesktop-sdk-24.08 24.08  user
 
 *8.3 Trong phần `Add-ons`, tìm `Freedesktop Platform`. Nhấp vào `Uninstall` và nhấp vào `Uninstall` một lần nữa khi được yêu cầu xác nhận.*
 
-8.4 Đóng GNOME Software tool.
+*8.4 Đóng GNOME Software tool.*
 
 **9. Kiểm tra xem tất cả các đối tượng Flatpak đã được xóa khỏi máy trạm chưa.**
 
-9.1 Kiểm tra xem không có đối tượng Flatpak nào trên ổ đĩa.
+*9.1 Kiểm tra xem không có đối tượng Flatpak nào trên ổ đĩa.*
 ```
 student@workstation:~$ flatpak list
 ```
