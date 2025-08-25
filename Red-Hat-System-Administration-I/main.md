@@ -343,7 +343,8 @@ grep -E "^r..t" /etc/passwd
 # không phân biệt hoa thường
 grep -i "user" /etc/passwd
 ```
-Tìm dòng chứa nhiều mẫu
+
+- Tìm dòng chứa nhiều mẫu
 ```
 grep -E "root|user" /etc/passwd
 ```
