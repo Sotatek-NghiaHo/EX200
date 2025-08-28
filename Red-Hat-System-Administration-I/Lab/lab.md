@@ -957,7 +957,7 @@ Note
 
 
 ---
-# CHAPTER 12: Install and Update Software with RPM
+# CHAPTER 12: Install and Update Software 
 12.7 PAGE 71/128  
 Tải xuống, cài đặt, cập nhật và quản lý các gói phần mềm từ kho lưu trữ gói Red Hat và DNF.
 
@@ -1221,7 +1221,7 @@ student@workstation:~$ flatpak list
 ```
 
 ---
-# CHAPTER 14: Access Removable Media
+# CHAPTER 13: Access Linux File Systems
 14.7 PAGE 85/128  
 Truy cập hệ thống tệp trên các thiết bị lưu trữ di động bằng cách gắn chúng vào một thư mục trong hệ thống phân cấp tệp.
 
@@ -1330,20 +1330,13 @@ PAGE 67/125
 Diễn giải và giám sát các số liệu hệ thống, đồng thời nghiên cứu ý nghĩa của các phép đo đó để cải thiện hiệu suất hệ thống của bạn.
 
 Kết quả
-- Quản lý quy trình với Top như một công cụ quản lý quy trình.
+- Quản lý quy trình với `top` như một công cụ quản lý quy trình.
 
-**1. Trên may `workstation` , hãy mở hai cửa sổ terminal cạnh nhau. Trong phần này, các terminal này được gọi là trái và phải. Trên mỗi cửa sổ terminal, hãy đăng nhập vào máy `serverb` với tư cách là user `student`.**
+**1. On `workstation`, open two terminal windows side by side. In this section, these terminals are referred to as left and right. On each terminal window, log in to serverb as the student user.**
 
-Tạo tập lệnh `task101.sh` trong thư mục `/home/student/bin`. Tập lệnh `task101.sh` tạo ra tải CPU nhân tạo bằng cách thực hiện các phép tính số học liên tục.
-
-*1.2 Trong shell bên trái, tạo thư mục `/home/student/bin`.*
-```
-mkdir -p /home/student/bin
-```
-*1.3 Trong shell terminal bên trái, hãy tạo tệp `task101.sh` trong thư mục `~/bin`. Tệp phải chứa nội dung sau.*
+Create the process101 script in the `/home/student/bin directory`. The process101 script generates artificial CPU load.
 ```
 #!/bin/bash
-touch ~/bin/.$(basename $0)
 while true; do
   var=1
   while [[ var -lt 50000 ]]; do
@@ -1352,308 +1345,344 @@ while true; do
   sleep 1
 done
 ```
-*1.4 Làm cho tập lệnh `task101.sh` có thể thực thi được.*
+**2. In the right terminal shell, run the top utility.**
+
+*2.1 Size the window to be as tall as possible.*
 ```
-chmod +x /home/student/bin/task101.sh
+[student@serverb ~]$ top
+top - 17:02:43 up 42 min,  2 users,  load average: 0.00, 0.00, 0.00
+Tasks: 120 total,   1 running, 119 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   1774.8 total,   1420.7 free,    206.3 used,    147.8 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1417.3 avail Mem
+
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.30 systemd
+   2 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kthreadd
+   3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
+   4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp
+   6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-event+
+...output omitted...
 ```
 
-**2. Trong terminal bên phải, theo dõi tất cả các tiến trình đang chạy trong máy serverb.**
+**3. In the left terminal shell, verify the number of logical CPUs on the virtual machine. Run the process101 script in the background.**
 
-*2.1 Trong terminal bên phải, hãy chạy tiện ích trên cùng để theo dõi tất cả các tiến trình. Điều chỉnh cửa sổ sao cho cao nhất có thể để xem thêm thông tin. Tiếp tục chạy tiện ích trên cùng để kiểm tra mức sử dụng CPU và tải trung bình trong các bước sau.*
-```
-top
-```
-
-**3. Trong shell terminal bên trái, hãy kiểm tra số lượng CPU logic trên máy ảo. Chạy tập lệnh task101.sh ở chế độ nền.**
-
-*3.1 Kiểm tra số lượng CPU logic.*
+*3.3 Verify the number of logical CPUs.*
 ```
 [student@serverb ~]$ grep "model name" /proc/cpuinfo | wc -l
 2
 ```
-*3.2 Chạy tập lệnh task101.sh ở chế độ nền. Tập lệnh `task101.sh` nằm trong thư mục con `~/bin`. Do vị trí này, biến môi trường PATH sẽ định vị tập lệnh mà không cần xác định đường dẫn đầy đủ của nó.*
-
+*3.2 Change to the `/home/student/bin` directory. Run the process101 script in the background.*
 ```
-[student@serverb ~]$ task101.sh &
-
-[1] 2608
+[student@serverb ~]$ cd /home/student/bin
+[student@serverb bin]$ process101 &
+[1] 1161
 ```
-**4. Trong shell terminal bên phải, hãy quan sát các tiến trình đang chạy. Tìm ID tiến trình (PID) của tiến trình `task101.sh` và lượng CPU mà tiến trình này tiêu thụ.**
+**4. In the right terminal shell, observe the top display. Note the process ID (PID), and view the CPU percentage that the process101 process uses. The CPU percentage that the process uses should hover around 10% to 15%. Toggle the top utility display between load, threads, and memory. Return to the CPU usage display of the top utility.**
 
-Kiểm tra mức tiêu thụ tải hệ thống, luồng và bộ nhớ. Đảm bảo tìm các tài nguyên hệ thống bị ảnh hưởng bởi tiến trình `task101.sh`.  
-4.1 Kiểm tra kết quả đầu ra của tiện ích `top`.
-
-Tiện ích top sắp xếp các tiến trình theo mức tiêu thụ CPU theo mặc định. Tiến trình `task101.sh` nằm ở đầu danh sách. PID của tiến trình là 2608. PID trong hệ thống của bạn có thể khác.
-
-Lưu ý rằng tỷ lệ phần trăm CPU mà tiến trình `task101.sh` sử dụng dao động trong khoảng 10% đến 16%.
+*4.1 Press `Shift+m`.*
 ```
-top - 20:44:19 up  1:25,  3 users,  load average: 0.14, 0.09, 0.02
-Tasks: 136 total,   1 running, 135 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  5.1 us,  0.5 sy,  0.0 ni, 94.0 id,  0.0 wa,  0.2 hi,  0.2 si,  0.0 st
-MiB Mem :   1705.2 total,   1285.2 free,    383.5 used,    183.4 buff/cache
-MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1321.7 avail Mem
+top - 17:11:24 up 51 min,  2 users,  load average: 0.16, 0.07, 0.02
+Tasks: 118 total,   1 running, 117 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  7.8 us,  0.7 sy,  0.0 ni, 91.2 id,  0.0 wa,  0.2 hi,  0.2 si,  0.0 st
+MiB Mem :   1774.8 total,   1419.5 free,    207.4 used,    147.9 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1416.2 avail Mem
 
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 2608 student   20   0  228796   3056   2800 S  11.0   0.2   0:35.00 task101.sh
- 2568 student   20   0  232152   5164   2988 R   0.3   0.3   0:00.33 top
-    1 root      20   0   48740  40532  10316 S   0.0   2.3   0:02.23 systemd
-    2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 761 root      20   0  340412  41416  17888 S   0.0   2.3   0:00.44 firewalld
+ 780 root      20   0  474344  30704  13508 S   0.0   1.7   0:00.62 tuned
+ 736 polkitd   20   0 2577132  24592  18320 S   0.0   1.4   0:00.07 polkitd
+ 767 root      20   0  471864  18992  16416 S   0.0   1.0   0:00.15 NetworkManager
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.30 systemd
+...output omitted...
+1161 student   20   0  222652   3888   3432 S  12.3   0.2   0:54.81 process101
+...output omitted...
+```
+Note: When the top utility switches into memory mode, the process101 process is no longer the first process. You can press Shift+p to return to CPU usage.
+
+*4.2 Press m to display more memory details.*
+```
+top - 17:16:14 up 56 min,  2 users,  load average: 0.20, 0.12, 0.04
+Tasks: 118 total,   1 running, 117 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  7.5 us,  0.8 sy,  0.0 ni, 91.5 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem : 19.9/1774.8   [||||||||||                                           ]
+MiB Swap:  0.0/0.0      [                                                     ]
+
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 761 root      20   0  340412  41416  17888 S   0.0   2.3   0:00.44 firewalld
+ 780 root      20   0  474344  30704  13508 S   0.0   1.7   0:00.66 tuned
+ 736 polkitd   20   0 2577132  24592  18320 S   0.0   1.4   0:00.07 polkitd
+ 767 root      20   0  471864  18992  16416 S   0.0   1.0   0:00.15 NetworkManager
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.30 systemd
+1068 student   20   0   21652  13144  10128 S   0.0   0.7   0:00.08 systemd
+1114 root      20   0   19332  11928   9648 S   0.0   0.7   0:00.02 sshd
+...output omitted...
+1161 student   20   0  222652   3888   3432 S  11.0   0.2   1:35.17 process101
+...output omitted...
+```
+*4.3 Press t.*
+```
+top - 17:21:43 up  1:01,  2 users,  load average: 0.23, 0.18, 0.09
+Tasks: 121 total,   1 running, 120 sleeping,   0 stopped,   0 zombie
+%Cpu(s):   7.5/1.0     8[|||||                                                ]
+MiB Mem : 20.1/1774.8   [||||||||||||                                         ]
+MiB Swap:  0.0/0.0      [                                                     ]
+
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 761 root      20   0  340412  41416  17888 S   0.0   2.3   0:00.44 firewalld
+ 780 root      20   0  474344  30704  13508 S   0.0   1.7   0:00.70 tuned
+ 736 polkitd   20   0 2577132  24592  18320 S   0.0   1.4   0:00.07 polkitd
+ 767 root      20   0  471864  18992  16416 S   0.0   1.0   0:00.17 NetworkManager
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.31 systemd
+1068 student   20   0   21652  13144  10128 S   0.0   0.7   0:00.08 systemd
+1114 root      20   0   19332  11928   9648 S   0.0   0.7   0:00.02 sshd
+ 668 root      20   0   33656  11892   8728 S   0.0   0.7   0:00.10 systemd-udevd
+1064 root      20   0   19328  11780   9504 S   0.0   0.6   0:00.03 sshd
+...output omitted...
+1155 student   20   0  225976   4400   3656 R   0.0   0.2   0:01.31 top
+...output omitted...
+```
+*4.4 Press `Shift+p` to switch to CPU usage.*
+```
+top - 17:23:33 up  1:03,  2 users,  load average: 0.17, 0.17, 0.09
+Tasks: 121 total,   1 running, 120 sleeping,   0 stopped,   0 zombie
+%Cpu(s):   7.3/0.8     8[||||||                                               ]
+MiB Mem : 20.2/1774.8   [|||||||||||||                                        ]
+MiB Swap:  0.0/0.0      [                                                     ]
+
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+1161 student   20   0  222652   3888   3432 S  15.6   0.2   2:09.61 process101
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.31 systemd
 ...output omitted...
 ```
 
-*4.2 Sắp xếp các tiến trình theo mức sử dụng bộ nhớ bằng cách nhấn `Shift+M`. Tiến trình `task101.sh` không tiêu tốn nhiều tài nguyên bộ nhớ.*
+**5. Turn off the use of bold in the display. Save this configuration for reuse when top is restarted. Confirm that the changes are saved.**
+
+*5.1 Press `Shift+b` to switch off the use of bold.*
 ```
-top - 21:00:39 up  1:42,  3 users,  load average: 0.14, 0.13, 0.09
-Tasks: 137 total,   1 running, 136 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  7.5 us,  1.0 sy,  0.0 ni, 91.2 id,  0.2 wa,  0.2 hi,  0.0 si,  0.0 st
-MiB Mem :   1705.2 total,   1305.1 free,    363.6 used,    183.5 buff/cache
-MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1341.6 avail Mem
+top - 17:29:12 up  1:09,  2 users,  load average: 0.17, 0.15, 0.10
+Tasks: 117 total,   2 running, 115 sleeping,   0 stopped,   0 zombie
+%Cpu(s):   5.6/0.7     6[||||                                                 ]
+MiB Mem : 20.4/1774.8   [||||||||||||||                                       ]
+MiB Swap:  0.0/0.0      [                                                     ]
 
-  PID USER    PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-  916 root    20   0  350960  42620  16788 S   0.0   2.4   0:01.62 firewalld
-    1 root    20   0   48740  40532  10316 S   0.0   2.3   0:02.28 systemd
-...output omitted...
- 2608 student 20   0  228796   3056   2800 S  16.7   0.2   2:55.59 task101.sh
-...output omitted...
-```
-
-*4.3 Hiển thị thêm chi tiết bộ nhớ bằng cách nhấn `M`. Thanh sử dụng bộ nhớ không hiển thị mức sử dụng đáng kể trong máy chủ.*
-
-```
-top - 21:05:56 up  1:47,  3 users,  load average: 0.27, 0.17, 0.10
-Tasks: 138 total,   4 running, 134 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  7.5 us,  1.0 sy,  0.0 ni, 91.2 id,  0.2 wa,  0.2 hi,  0.0 si,  0.0 st
-MiB Mem : 21.6/1705.2   [||||||||||||||                                          ]
-MiB Swap:  0.0/0.0      [                                                        ]
-
-  PID USER    PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-  916 root    20   0  350960  42620  16788 S   0.0   2.4   0:01.71 firewalld
-    1 root    20   0   48740  40532  10316 S   0.0   2.3   0:02.30 systemd
-...output omitted...
- 2608 student 20   0  228796   3056   2800 S  16.3   0.2   3:41.10 task101.sh
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+1161 student   20   0  222652   3888   3432 R  12.0   0.2   2:57.18 process101
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.31 systemd
 ...output omitted...
 ```
-*4.4 Hiển thị thông tin luồng bằng cách nhấn `Shift+H`. Tổng số luồng trong hệ thống hiển thị là 157. Thoát khỏi tiện ích trên cùng bằng cách nhấn `Q`.*
+*5.2 Press `Shift+w` to save this configuration. The default configuration is stored in the toprc file in the `/home/student/.config/procps` directory. In the left terminal shell, confirm that the toprc file exists.*
 ```
-top - 21:23:28 up  2:05,  3 users,  load average: 0.09, 0.12, 0.09
-Threads: 157 total,   1 running, 156 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  7.7 us,  1.0 sy,  0.0 ni, 91.2 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
-MiB Mem : 22.4/1705.2   [||||||||||||||||                                        ]
-MiB Swap:  0.0/0.0      [                                                        ]
-
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-  916 root      20   0  350960  42620  16788 S   0.0   2.4   0:01.89 firewalld
-  996 root      20   0  350960  42620  16788 S   0.0   2.4   0:00.00 gmain
-...output omitted...
- 2608 student   20   0  228796   3056   2800 S  11.0   0.2   4:25.37 task101.sh
-...output omitted...
-Q
+[student@serverb bin]$ ls -l /home/student/.config/procps/toprc
+-rw-rw-r--. 1 student student 966 Feb 18 19:45 /home/student/.config/procps/toprc
 ```
-*4.5 Xem tất cả các luồng đang chạy cho tiến trình `task101.sh`. Để làm như vậy, hãy chạy tiện ích top với các tùy chọn `-H` và `-p`. Thay thế ID tiến trình 2608 bằng PID thực tế trên hệ thống của bạn.*
-
-Tiến trình `task101.sh` không chạy nhiều luồng.
-
-Thoát khỏi tiện ích top bằng cách nhấn Q.
+5.3 In the right terminal shell, exit top, and then restart it. Confirm that the new display uses the saved configuration.
 ```
-[student@serverb ~]$ top -H -p 2608
-top - 21:28:42 up  2:10,  3 users,  load average: 0.19, 0.13, 0.10
-Threads:   1 total,   1 running,   0 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  6.9 us,  1.1 sy,  0.0 ni, 91.8 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
-MiB Mem :   1705.2 total,   1300.1 free,    368.4 used,    184.0 buff/cache
-MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1336.9 avail Mem
+top - 17:51:48 up  1:31,  2 users,  load average: 0.09, 0.12, 0.09
+Tasks: 119 total,   1 running, 118 sleeping,   0 stopped,   0 zombie
+%Cpu(s):   5.0/0.5     5[|||                                                  ]
+MiB Mem : 20.0/1774.8   [|||||||||||||                                        ]
+MiB Swap:  0.0/0.0      [                                                     ]
 
-   PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
-   2608 student   20   0  228796   3132   2876 S  15.7   0.2   6:56.92 task101.sh
-
-Q
-```
-
-*4.6 Chạy `top` với các tùy chọn mặc định của nó.*
-```
-[student@serverb ~]$ top
-top - 21:32:43 up  2:14,  3 users,  load average: 0.17, 0.15, 0.10
-Tasks: 136 total,   1 running, 135 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  7.5 us,  1.0 sy,  0.0 ni, 91.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
-MiB Mem :   1705.2 total,   1295.6 free,    372.8 used,    184.0 buff/cache
-MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1332.4 avail Mem
-
-  PID USER    PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 2608 student 20   0  228796   3056   2800 S  16.3   0.2   7:31.29 task101.sh
-    1 root    20   0   48740  40532  10316 S   0.0   2.3   0:02.44 systemd
-    2 root    20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   1161 student   20   0  222652   3888   3432 S  10.6   0.2   6:08.76 process101
+      1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.33 systemd
 ...output omitted...
 ```
 
-**5. Sao chép tập lệnh `task101.sh` vào tệp moi `task102.sh`  và tăng tải CPU nhân tạo lên 100000 trong tập lệnh mới. Khởi động tiến trình `task102.sh` ở chế độ nền.**
-
-*5.1 Trong shell bên trái, sao chép tệp `task101.sh` vào tệp `task102.sh` mới.*
-
+**6. Copy the process101 script to a new process102 file, and increase the artificial CPU load to one hundred thousand in the new script. Start the process102 process in the background.**
+6.1 In the left terminal shell, copy process101 to process102.
 ```
-[student@serverb ~]$  cp bin/task101.sh bin/task102.sh
-
+[student@serverb bin]$ cp process101 process102
 ```
-*5.2 Chỉnh sửa tập lệnh `task102.sh` và tăng số phép tính cộng từ 50000 lên 100000. Tập lệnh `task102.sh` phải khớp với nội dung sau:*
+6.2 Edit the process102 script and increase the addition calculations from fifty thousand to one hundred thousand. Enter interactive mode by using i.   
+Type :wq to save the file and quit.
 ```
+[student@serverb bin]$ vim process102
 #!/bin/bash
-touch ~/bin/.$(basename $0)
 while true; do
   var=1
-  while [[ var -lt 100000 ]]; do
-    var=$(($var+1))
-  done
-  sleep 1
-done
-
-```
-5.3
-```
-[student@serverb ~]$ task102.sh &
-```
-Note:
-- `&` -> chạy nền (background)  
-
-5.4
-```
-[student@serverb ~]$ jobs
-[1]-  Running                 task101.sh &
-[2]+  Running                 task102.sh &
-```
-**6. Trong shell terminal bên phải, hãy kiểm tra xem tiến trình `task102.sh` có đang chạy và sử dụng nhiều tài nguyên CPU nhất không. Kiểm tra mức tải trung bình của máy chủ serverb.**
-
-Trong shell terminal bên phải, hãy kiểm tra xem tiến trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng từ 25% đến 35%.  
-
-*6.1 Trong shell terminal bên phải, hãy kiểm tra xem quy trình có đang chạy không. Mức sử dụng CPU nên dao động trong khoảng 25% đến 35%.*
-
-```
-[root@redhat9-server-1 ~]# top
-
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 6430 student   20   0  228796   3080   2824 R  30.7   0.2   0:19.73 task102.sh
- 2608 student   20   0  228796   3056   2800 R  11.7   0.2   8:53.08 task101.sh
-...output omitted...
-```
-*6.2 Kiểm tra tải trung bình của máy chủ. Tải trung bình của máy chủ luôn dưới 1, nghĩa là máy không bị quá tải.*
-
-```
-[root@redhat9-server-1 ~]# top
-top - 21:44:53 up  2:26,  3 users,  load average: 0.51, 0.30, 0.16
-...output omitted...
-
-```
-
-**7. Sao chép tập lệnh `task101.sh` sang một tập lệnh mới có tên `task103.sh`. Tăng số lần thêm vào lên 800000. Khởi động `task103.sh` ở chế độ nền. Theo dõi tải trung bình của máy chủ serverb. Tải trung bình có thể mất vài phút để tăng.** 
-
-*7.1 Trong shell bên trái, sao chép tập lệnh `task101.sh` vào tập lệnh `task103.sh` mới.*
-
-```
-[student@serverb ~]$ cp bin/task101.sh bin/task103.sh
-
-```
-*7.2 Chỉnh sửa tập lệnh `task103.sh`. Tăng số lần cộng lên 800000.*
-```
-#!/bin/bash
-touch ~/bin/.$(basename $0)
-while true; do
-  var=1
-  while [[ var -lt 800000 ]]; do
-    var=$(($var+1))
+    while [[ var -lt 100000 ]]; do
+      var=$(($var+1))
   done
   sleep 1
 done
 ```
-*7.3 Start the `task103.sh` process in the background.*
+*6.3 Start the process102 process in the background.*
 ```
-[student@serverb ~]$ task103.sh &
+[student@serverb bin]$ process102 &
+[2] 4023
+```
+*6.4 Verify that both processes are running in the background.*
+```
+[student@serverb bin]$ jobs
+[1]-  Running                 process101 &
+[2]+  Running                 process102 &
+```
+**7. In the right terminal shell, verify that the process is running and uses the most CPU resources. The load should hover between 25% to 35%.**
 
+*7.1 In the right terminal shell, verify that the process is running. The load should hover between 25% to 35%.*
 ```
-*7.4 Verify that the three jobs are running in the background.*
+top - 18:04:54 up  1:44,  2 users,  load average: 0.37, 0.24, 0.13
+Tasks: 120 total,   1 running, 119 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 18.1 us,  2.0 sy,  0.0 ni, 79.7 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem :   1774.8 total,   1374.3 free,    210.1 used,    190.4 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1410.7 avail Mem
 
-```
-jobs
-```
-*7.5 Trong shell terminal bên phải, hãy kiểm tra mức sử dụng CPU của tiến trình `task103.sh` và mức tải trung bình của máy. Mức sử dụng CPU của tiến trình `task03.sh` dao động trong khoảng từ 60% đến 85%. Mức tải trung bình có thể mất vài phút để tăng lên.*
-
-Lưu ý rằng tổng mức tiêu thụ CPU của ba tiến trình lớn hơn 100. Khi tiến trình `task103.sh` đang chạy, máy chủ `serverb` sử dụng 100% CPU, nhưng không đủ để đáp ứng nhu cầu tài nguyên của tất cả các tiến trình. Do tình huống này, mức tải trung bình tăng dần lên trên 1.
-```
-top - 21:51:54 up  2:33,  3 users,  load average: 1.13, 0.61, 0.33
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+4023 student   20   0  222652   3980   3524 S  22.3   0.2   0:32.94 process102
+1161 student   20   0  222652   3888   3432 S  17.7   0.2   7:59.52 process101
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.33 systemd
 ...output omitted...
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 7581 student   20   0  228796   3148   2892 R  63.1   0.2   1:59.98 task103.sh
- 6430 student   20   0  228796   3120   2864 R  27.2   0.2   0:41.86 task102.sh
- 2608 student   20   0  228796   3260   3004 S  17.3   0.2   0:36.07 task101.sh
+```
+
+Note : If you do not see the process101 and process102 processes at the top of the process list, then press Shift+p to ensure that the top utility sorts the output by CPU usage.
+
+**8. Notice that the load average is below 1. Copy the process101 script to a new script called process103. Increase the addition count to eight hundred thousand. Start process103 in the background. Confirm that the load average is above 1. It might take a few minutes for the load average to change.**
+
+*8.1 In the right terminal shell, verify that the load average is below 1.*
+```
+top - 18:12:49 up  1:52,  2 users,  load average: 0.45, 0.38, 0.24
 ...output omitted...
 ```
-Note: 
-+ (plus)
-  - Là job mặc định (current job).
-  - Nếu bạn gõ fg hoặc bg mà không chỉ định job ID, shell sẽ áp dụng cho job có dấu +.
+8.2 In the left terminal shell, copy process101 to a new process103 script.
+```
+[student@serverb bin]$ cp process101 process103
+```
+8.3 In the left terminal shell, edit the process103 script. Increase the addition count to eight hundred thousand. Enter interactive mode with the i key. Type :wq to save the file and quit.
+```
+[student@serverb bin]$ vim process103
+#!/bin/bash
+while true; do
+  var=1
+    while [[ var -lt 800000 ]]; do
+      var=$(($var+1))
+    done
+    sleep 1
+done
+```
+8.4 Start the process103 process in the background. The CPU usage hovers between 60% to 85%.
+```
+[student@serverb bin]$ process103 &
+[3] 5172
+```
+8.5 Verify that all three jobs are running in the background.
+```
+[student@serverb bin]$ jobs
+[1]   Running                 process101 &
+[2]-  Running                 process102 &
+[3]+  Running                 process103 &
+```
+8.6 In the right terminal shell, verify that the load average is above 1. It might take a few minutes for the load to increase.
+```
+top - 18:16:07 up  1:56,  2 users,  load average: 1.11, 0.77, 0.45
+...output omitted...
+```
+**9. In the left terminal shell, switch to the root user. Suspend the process101 process. List the remaining jobs. Observe that the process state for process101 is now in the T state.**
 
-- (minus)
-  - Là job trước đó (previous job) — job sẽ trở thành mặc định nếu job + kết thúc.
-- Các job khác (không có + hoặc -) thì không phải “current” hay “previous” job.
-  
-**8. Trong shell terminal bên trái, chuyển sang tài khoản root và sử dụng redhat làm mật khẩu. Tạm dừng tiến trình task101.sh. Liệt kê các tác vụ còn lại. Xác minh rằng tiến trình task101.sh hiện đang ở trạng thái T.** 
+9.1 Switch to the root user.
+```
+[student@serverb bin]$ su -
+Password: redhat
+```
+9.2 Suspend the process101 process.
+```
+[root@serverb ~]# pkill -SIGSTOP process101
+```
+9.3 In the right terminal shell, confirm that the process101 process is no longer running.
+```
+top - 18:19:17 up  1:59,  2 users,  load average: 0.92, 0.83, 0.50
+Tasks: 123 total,   3 running, 118 sleeping,   1 stopped,   1 zombie
+%Cpu(s): 42.9 us,  4.0 sy,  0.0 ni, 52.8 id,  0.0 wa,  0.3 hi,  0.0 si,  0.0 st
+MiB Mem :   1774.8 total,   1368.4 free,    215.5 used,    190.8 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1405.2 avail Mem
 
-*8.1 Switch to the `root` user. Use `redhat` as the password.*
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+5172 student   20   0  222652   3900   3448 R  66.4   0.2   3:25.81 process103
+4023 student   20   0  222652   3980   3524 R  26.9   0.2   4:07.89 process102
+   1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.34 systemd
+   2 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kthreadd
+...output omitted...
 ```
-su - or sudo -i
-```
-*8.2 Tạm dừng tiến trình task101.sh.*
-```
-[root@serverb ~]# pkill -SIGSTOP `task101.sh`
-
-```
-*8.3 Trong shell bên phải, hãy xác nhận rằng tiến trình `task101.sh` không còn chạy nữa.*
-```
-[root@redhat9-server-1 ~]# top
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 7581 student   20   0  228796   3132   2876 R  66.4   0.2   2:25.59 task103.sh
- 6430 student   20   0  228796   3080   2824 S  22.3   0.2   3:15.12 task102.sh
-```
-*8.4 Trong shell  bên trái, hãy xem các công việc còn lại.*
+*9.4 In the left terminal shell, view the remaining jobs.*
 ```
 [root@serverb ~]# ps jT
-PPID  PID ... TPGID STAT  UID  TIME COMMAND
-2395 2396 ...  8047 Ss   1000  0:00 -bash
-2396 2608 ...  8047 T    1000 10:34 /bin/bash /home/student/bin/task101.sh
-2396 6430 ...  8047 S    1000  3:25 /bin/bash /home/student/bin/task102.sh
-2396 7581 ...  8047 R    1000  2:57 /bin/bash /home/student/bin/task103.sh
+...output omitted...
+PPID PID  PGID  SID  TTY    TPGID STAT UID   TIME COMMAND
+1117 1118 1118  1118 pts/1  5778  Ss   1000   0:00 -bash
+1118 1161 1161  1118 pts/1  5778  T    1000  10:00 /bin/bash /home/student/bin/process101
+1118 4023 4023  1118 pts/1  5778  S    1000   4:19 /bin/bash /home/student/bin/process102
+1118 5172 5172  1118 pts/1  5778  S    1000   3:59 /bin/bash /home/student/bin/process103
 ...output omitted...
 ```
-Note: `task101.sh` có trạng thái là `T`. Trạng thái này có nghĩa là tiến trình hiện đang bị tạm dừng. 
+Note that process101 has a status of T. It means that the process is currently suspended.
 
-**9. Tiếp tục tiến trình `task101.sh`.**    
-*9.1 Trong shell bên trái, tiếp tục tiến trình `task101.sh`.*
+10. Resume the process101 process.
+
+10.1 In the left terminal shell, resume the process101 process.
+```
+[root@serverb ~]# pkill -SIGCONT process101
+```
+10.2 In the right terminal shell, verify that the process is running again.
+```
+top - 18:24:18 up  2:04,  2 users,  load average: 1.06, 0.96, 0.65
+Tasks: 125 total,   2 running, 123 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 48.3 us,  4.3 sy,  0.0 ni, 47.2 id,  0.0 wa,  0.2 hi,  0.0 si,  0.0 st
+MiB Mem :   1774.8 total,   1368.6 free,    215.2 used,    191.0 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1405.5 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   5172 student   20   0  222652   3900   3448 R  72.0   0.2   7:02.30 process103
+   4023 student   20   0  222652   3980   3524 S  22.0   0.2   5:23.52 process102
+   1161 student   20   0  222652   3888   3432 S  11.0   0.2  10:00.92 process101
+...output omitted...
+```
+11. Terminate process101, process102, and process103 from the command line. Verify that the processes are no longer displayed in top.
+
+11.1 In the left terminal shell, terminate process101, process102, and process103.
+```
+[root@serverb ~]# pkill process101
+[root@serverb ~]# pkill process102
+[root@serverb ~]# pkill process103
+```
+
+11.2 In the right terminal shell, verify that the processes no longer appear in top.
+```
+top - 18:25:12 up  2:05,  2 users,  load average: 0.93, 0.95, 0.67
+Tasks: 117 total,   1 running, 116 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.2 us,  0.0 sy,  0.0 ni, 99.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   1774.8 total,   1369.8 free,    214.0 used,    191.0 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1406.7 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+    767 root      20   0  471864  18992  16416 S   0.3   1.0   0:00.26 NetworkManager
+      1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.34 systemd
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kthreadd
+      3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
+...output omitted...
 
 ```
-[root@serverb ~]# pkill -SIGCONT task101.sh
-```
-*9.2 Trong shell  bên phải, hãy xác minh rằng quy trình đang chạy lại.*
-```
-[root@redhat9-server-1 ~]# top
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
- 7581 student   20   0  228796   3132   2876 R  86.4   0.2   3:59.96 task103.sh
- 6430 student   20   0  228796   3080   2824 S  24.6   0.2   3:47.45 task102.sh
- 2608 student   20   0  228796   3056   2800 S  16.6   0.2  10:34.92 task101.sh
-```
-**10. Kết thúc các tiến trình `task101.sh, task102.sh và task103.sh` từ dòng lệnh. Sau khi kết thúc các tiến trình này, hãy kiểm tra mức sử dụng CPU và tải trung bình.**
+12. Stop the processes and return to the workstation machine.
 
-*10.1 In the left terminal shell, terminate the `task101.sh`, `task102.sh`, and `task103.sh` processes.*
+12.1 Log out from the root user and close the terminal.
+```
+[root@serverb ~]# exit
+logout
+[1]   Terminated              process101
+[2]   Terminated              process102
+[3]-  Terminated              process103
+```
+12.2 In the right terminal shell, press q to quit top. Return to the workstation system as the student user.
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
 
-```
-[root@serverb ~]# pkill task101.sh
-[root@serverb ~]# pkill task102.sh
-[root@serverb ~]# pkill task103.sh
-
-```
-*10.2 Trong shell terminal bên phải, hãy kiểm tra xem các tiến trình không còn xuất hiện trong đầu ra tiện ích hàng đầu nữa. Tải trung bình giảm dần.*
-
-```
-[root@redhat9-server-1 ~]# top
-```
 
 ---
-# CHAPTER 16: Control Services and Daemons
+# CHAPTER 9: Control Services and Daemons
 Kiểm soát và giám sát các dịch vụ hệ thống và daemon mà systemd khởi chạy.   
 Kết quả   
 - Bật, tắt, khởi động và dừng các dịch vụ.
@@ -1737,8 +1766,130 @@ Connection to serverb closed.
 student@workstation:~$
 ```
 
+
+
 ---
-# CHAPTER 18: Manage Network Configuration
+# CHAPTER 10: Configure and Secure SSH
+19.5 PAGE 120/128  
+Bảo vệ giao tiếp SSH bằng cách quản lý khóa máy chủ và triển khai xác thực dựa trên khóa cho người dùng.
+
+Kết quả
+- Xác thực bằng khóa SSH.
+- Ngăn người dùng đăng nhập trực tiếp với tư cách người dùng root bằng SSH.
+- Cấu hình xác thực dựa trên khóa để ngăn người dùng đăng nhập bằng mật khẩu.
+
+**1. From the `workstation` machine, log in to the `servera` machine as the `student` user.**
+```
+student@workstation:~$ ssh student@servera
+[student@servera ~]$
+```
+**2. Switch to the `production1` user on the `servera` machine. Enter `redhat` as the password.**
+```
+[student@servera ~]$ su - production1
+Password: redhat
+[production1@servera ~]$
+```
+**3. Generate SSH keys for the `production1` user on the `servera` machine. Do not set a passphrase.**
+```
+[production1@servera ~]$ ssh-keygen
+```
+**4. Gửi public key SSH của người dùng `production1` trên máy chủ `servera` đến người dùng `production1` trên máy chủ `serverb`. Sử dụng `redhat` làm mật khẩu.**
+```
+[production1@servera ~]$ ssh-copy-id production1@serverb
+```
+**5. Từ máy `servera`, hãy xác minh rằng người dùng `production1` có thể đăng nhập thành công vào máy `serverb` bằng cách sử dụng khóa SSH.**
+```
+[production1@servera ~]$ ssh production1@serverb
+...output omitted...
+[production1@serverb ~]$
+```
+**6. Cấu hình dịch vụ `sshd` trên máy `serverb` để ngăn người dùng đăng nhập với tư cách người dùng `root`. Sử dụng `redhat` làm mật khẩu `root`. Mở một terminal thứ hai để xác minh rằng người dùng `production1` không thể đăng nhập vào máy serverb với tư cách người dùng `root`.**
+
+*6.1 Switch to the `root` user on the `serverb` machine.*
+```
+[production1@serverb ~]$ su -
+Password: redhat
+[root@serverb ~]#
+```
+*6.2 Set the `PermitRootLogin` parameter to `prohibit-password `in the `/etc/ssh/sshd_config` file and restart the sshd service. Edit the active uncommented parameter and not a commented example. * 
+`vi  /etc/ssh/sshd_config`
+```
+...output omitted...
+PermitRootLogin prohibit-password
+...output omitted...
+[root@serverb ~]# systemctl restart sshd.service
+```
+*6.3 Kiểm tra xem bạn có thể đăng nhập vào máy `serverb` với tư cách người dùng `root` hay không ?. Mở một terminal thứ hai và đăng nhập vào máy `serverb` với tư cách người dùng `production1`. Từ máy `serverb`, hãy thử đăng nhập vào máy `serverb` với tư cách người dùng `root`, với mật khẩu là `redhat`. Lệnh này sẽ không thành công sau ba lần đăng nhập.*
+
+Theo mặc định, SSH trước tiên sẽ thử sử dụng khóa SSH để xác thực. Nếu khóa SSH cho người dùng chưa được cấu hình, SSH sẽ yêu cầu mật khẩu của người dùng để xác thực.
+```
+student@workstation:~$ ssh production1@servera
+...output omitted...
+[production1@servera ~]$ ssh root@serverb
+root@serverb's password: redhat
+Permission denied, please try again.
+root@serverb's password: redhat
+Permission denied, please try again.
+root@serverb's password: redhat
+root@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
+[production1@servera ~]$
+```
+Note:  However, this configuration is highly insecure, and is not recommended for any production environment.
+
+**7. Sử dụng terminal đầu tiên để cấu hình dịch vụ `sshd` trên máy `serverb` sao cho người dùng phải xác thực bằng khóa SSH và không thể xác thực bằng mật khẩu. Sử dụng terminal thứ hai để xác minh rằng người dùng phải sử dụng khóa SSH để đăng nhập vào máy `serverb`. Trước tiên, hãy thử đăng nhập vào máy `serverb` với tư cách là người dùng `production2`, nơi khóa SSH chưa được cấu hình. Sau đó, hãy thử đăng nhập với tư cách là người dùng `production1` bằng cách sử dụng khóa SSH.**
+
+*7.1 Quay lại terminal đầu tiên với shell root đang hoạt động trên máy serverb. Đặt tham số `PasswordAuthentication` thành `no` trong tệp `/etc/ssh/sshd_config` và khởi động lại dịch vụ sshd. Chỉnh sửa tham số chưa chú thích đang hoạt động chứ không phải ví dụ đã chú thích.* 
+`vi  /etc/ssh/sshd_config`
+```
+...output omitted...
+PasswordAuthentication no
+...output omitted...
+[root@serverb ~]# systemctl restart sshd
+```
+*7.2 Hãy chuyển đến terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production2`. Lệnh này sẽ không thành công, vì khóa SSH chưa được cấu hình cho người dùng `production2` và dịch vụ sshd trên máy `serverb` không cho phép sử dụng mật khẩu để xác thực.*
+```
+[production1@servera ~]$ ssh production2@serverb
+production2@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+```
+*7.3 Quay lại terminal đầu tiên với shell `root` đang hoạt động trên máy `serverb`. Kiểm tra xem tham số `PubkeyAuthentication` đã được bật trong tệp `/etc/ssh/sshd_config` chưa.*
+
+```
+[root@serverb ~]# grep PubkeyAuthentication /etc/ssh/sshd_config
+#PubkeyAuthentication yes
+```
+Dòng `PubkeyAuthentication` được chú thích. Các dòng được chú thích biểu thị các giá trị mặc định của tham số. Xác thực khóa công khai được kích hoạt theo mặc định, như được biểu thị trong dòng chú thích.
+
+*7.4 Quay lại terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production1`. Lệnh này sẽ thành công, vì khóa SSH đã được cấu hình để người dùng `production1` có thể đăng nhập vào máy `serverb` từ máy `servera`.*
+```
+[production1@servera ~]$ ssh production1@serverb
+...output omitted...
+[production1@serverb ~]$
+```
+*7.5 Exit and close the second terminal.*
+```
+[production1@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[production1@servera ~]$ exit
+logout
+student@workstation:~$ exit
+```
+**8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy `workstation` với tư cách là người dùng là `student`.**
+```
+[root@serverb ~]# exit
+logout
+[production1@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[production1@servera ~]$ exit
+logout
+[student@servera ~]$ exit
+logout
+Connection to servera closed.
+student@workstation:~$
+```
+---
+# CHAPTER 11: Manage Networking
 Cấu hình giao diện mạng và cài đặt trên máy chủ Red Hat Enterprise Linux.   
 Kết quả:
  - Cấu hình hai địa chỉ IPv4 tĩnh cho giao diện mạng chính.
@@ -1938,130 +2089,8 @@ PING serverb-secondary (172.25.250.150) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.345/0.370/0.385/0.018 ms
 ```
 
-
 ---
-# CHAPTER 19: Configure and Secure SSH
-19.5 PAGE 120/128  
-Bảo vệ giao tiếp SSH bằng cách quản lý khóa máy chủ và triển khai xác thực dựa trên khóa cho người dùng.
-
-Kết quả
-- Xác thực bằng khóa SSH.
-- Ngăn người dùng đăng nhập trực tiếp với tư cách người dùng root bằng SSH.
-- Cấu hình xác thực dựa trên khóa để ngăn người dùng đăng nhập bằng mật khẩu.
-
-**1. From the `workstation` machine, log in to the `servera` machine as the `student` user.**
-```
-student@workstation:~$ ssh student@servera
-[student@servera ~]$
-```
-**2. Switch to the `production1` user on the `servera` machine. Enter `redhat` as the password.**
-```
-[student@servera ~]$ su - production1
-Password: redhat
-[production1@servera ~]$
-```
-**3. Generate SSH keys for the `production1` user on the `servera` machine. Do not set a passphrase.**
-```
-[production1@servera ~]$ ssh-keygen
-```
-**4. Gửi public key SSH của người dùng `production1` trên máy chủ `servera` đến người dùng `production1` trên máy chủ `serverb`. Sử dụng `redhat` làm mật khẩu.**
-```
-[production1@servera ~]$ ssh-copy-id production1@serverb
-```
-**5. Từ máy `servera`, hãy xác minh rằng người dùng `production1` có thể đăng nhập thành công vào máy `serverb` bằng cách sử dụng khóa SSH.**
-```
-[production1@servera ~]$ ssh production1@serverb
-...output omitted...
-[production1@serverb ~]$
-```
-**6. Cấu hình dịch vụ `sshd` trên máy `serverb` để ngăn người dùng đăng nhập với tư cách người dùng `root`. Sử dụng `redhat` làm mật khẩu `root`. Mở một terminal thứ hai để xác minh rằng người dùng `production1` không thể đăng nhập vào máy serverb với tư cách người dùng `root`.**
-
-*6.1 Switch to the `root` user on the `serverb` machine.*
-```
-[production1@serverb ~]$ su -
-Password: redhat
-[root@serverb ~]#
-```
-*6.2 Set the `PermitRootLogin` parameter to `prohibit-password `in the `/etc/ssh/sshd_config` file and restart the sshd service. Edit the active uncommented parameter and not a commented example. * 
-`vi  /etc/ssh/sshd_config`
-```
-...output omitted...
-PermitRootLogin prohibit-password
-...output omitted...
-[root@serverb ~]# systemctl restart sshd.service
-```
-*6.3 Kiểm tra xem bạn có thể đăng nhập vào máy `serverb` với tư cách người dùng `root` hay không ?. Mở một terminal thứ hai và đăng nhập vào máy `serverb` với tư cách người dùng `production1`. Từ máy `serverb`, hãy thử đăng nhập vào máy `serverb` với tư cách người dùng `root`, với mật khẩu là `redhat`. Lệnh này sẽ không thành công sau ba lần đăng nhập.*
-
-Theo mặc định, SSH trước tiên sẽ thử sử dụng khóa SSH để xác thực. Nếu khóa SSH cho người dùng chưa được cấu hình, SSH sẽ yêu cầu mật khẩu của người dùng để xác thực.
-```
-student@workstation:~$ ssh production1@servera
-...output omitted...
-[production1@servera ~]$ ssh root@serverb
-root@serverb's password: redhat
-Permission denied, please try again.
-root@serverb's password: redhat
-Permission denied, please try again.
-root@serverb's password: redhat
-root@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
-[production1@servera ~]$
-```
-Note:  However, this configuration is highly insecure, and is not recommended for any production environment.
-
-**7. Sử dụng terminal đầu tiên để cấu hình dịch vụ `sshd` trên máy `serverb` sao cho người dùng phải xác thực bằng khóa SSH và không thể xác thực bằng mật khẩu. Sử dụng terminal thứ hai để xác minh rằng người dùng phải sử dụng khóa SSH để đăng nhập vào máy `serverb`. Trước tiên, hãy thử đăng nhập vào máy `serverb` với tư cách là người dùng `production2`, nơi khóa SSH chưa được cấu hình. Sau đó, hãy thử đăng nhập với tư cách là người dùng `production1` bằng cách sử dụng khóa SSH.**
-
-*7.1 Quay lại terminal đầu tiên với shell root đang hoạt động trên máy serverb. Đặt tham số `PasswordAuthentication` thành `no` trong tệp `/etc/ssh/sshd_config` và khởi động lại dịch vụ sshd. Chỉnh sửa tham số chưa chú thích đang hoạt động chứ không phải ví dụ đã chú thích.* 
-`vi  /etc/ssh/sshd_config`
-```
-...output omitted...
-PasswordAuthentication no
-...output omitted...
-[root@serverb ~]# systemctl restart sshd
-```
-*7.2 Hãy chuyển đến terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production2`. Lệnh này sẽ không thành công, vì khóa SSH chưa được cấu hình cho người dùng `production2` và dịch vụ sshd trên máy `serverb` không cho phép sử dụng mật khẩu để xác thực.*
-```
-[production1@servera ~]$ ssh production2@serverb
-production2@serverb: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
-```
-*7.3 Quay lại terminal đầu tiên với shell `root` đang hoạt động trên máy `serverb`. Kiểm tra xem tham số `PubkeyAuthentication` đã được bật trong tệp `/etc/ssh/sshd_config` chưa.*
-
-```
-[root@serverb ~]# grep PubkeyAuthentication /etc/ssh/sshd_config
-#PubkeyAuthentication yes
-```
-Dòng `PubkeyAuthentication` được chú thích. Các dòng được chú thích biểu thị các giá trị mặc định của tham số. Xác thực khóa công khai được kích hoạt theo mặc định, như được biểu thị trong dòng chú thích.
-
-*7.4 Quay lại terminal thứ hai với shell `production1` đang hoạt động trên máy `servera` và thử đăng nhập vào máy `serverb` với tư cách người dùng `production1`. Lệnh này sẽ thành công, vì khóa SSH đã được cấu hình để người dùng `production1` có thể đăng nhập vào máy `serverb` từ máy `servera`.*
-```
-[production1@servera ~]$ ssh production1@serverb
-...output omitted...
-[production1@serverb ~]$
-```
-*7.5 Exit and close the second terminal.*
-```
-[production1@serverb ~]$ exit
-logout
-Connection to serverb closed.
-[production1@servera ~]$ exit
-logout
-student@workstation:~$ exit
-```
-**8. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy `workstation` với tư cách là người dùng là `student`.**
-```
-[root@serverb ~]# exit
-logout
-[production1@serverb ~]$ exit
-logout
-Connection to serverb closed.
-[production1@servera ~]$ exit
-logout
-[student@servera ~]$ exit
-logout
-Connection to servera closed.
-student@workstation:~$
-```
-
----
-# CHAPTER 20:  Comprehensive Review
+# CHAPTER 15:  Comprehensive Review
 
 **Note:** The allocated time for this activity is 15 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more.
 
