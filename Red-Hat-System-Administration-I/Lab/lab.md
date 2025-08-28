@@ -100,396 +100,7 @@ date +%R
 ```
 
 ---
-# CHAPTER 3: Lab: Manage Files from the Command Line  
-**1. Use the ssh command to log in to the serverb machine as the student user. The system's configuration supports the use of SSH keys for authentication.**
-```
-[student@workstation ~]$ ssh student@serverb
-...output omitted...
-```
-**2. Tạo một thư mục có tên là `project_plans` trong thư mục Documents. Thư mục Documents được đặt trong thư mục home của người dùng student. Tạo hai tệp trống trong thư mục `project_plans` có tên là `season1_project_plan.odf` và `season2_project_plan.odf`.**
-
-Gợi ý: Nếu thư mục `~/Documents` không tồn tại, hãy sử dụng tùy chọn `-p` trong lệnh `mkdir` để tạo thư mục này.
-```bash
-[student@serverb ~]$ mkdir -p ~/Documents/project_plans
-[student@serverb ~]$ touch \
-~/Documents/project_plans/{season1,season2}_project_plan.odf
-[student@serverb ~]$ ls -lR Documents/
-Documents/:
-total 0
-drwxr-xr-x. 2 student student 70 Mar  7 03:50 project_plans
-
-Documents/project_plans:
-total 0
--rw-r--r--. 1 student student 0 Mar  7 03:50 season1_project_plan.odf
--rw-r--r--. 1 student student 0 Mar  7 03:50 season2_project_plan.odf
-```
-
-**3. Tạo các tập hợp tệp thực hành trống để sử dụng trong phòng thí nghiệm này. Nếu bạn không nhận ra ngay phím tắt mở rộng shell dự định, hãy sử dụng giải pháp để tìm hiểu và thực hành. Sử dụng lệnh hoàn thành tab shell để tìm tên đường dẫn tệp. Tạo 12 tệp với tên `tv_seasonX_episodeY.ogg` trong thư mục `/home/student`. Thay X bằng số mùa và Y bằng tập của mùa đó, cho hai mùa, mỗi mùa sáu tập.**
-```
-[student@serverb ~]$ touch tv_season{1..2}_episode{1..6}.ogg
-[student@serverb ~]$ ls tv*
-tv_season1_episode1.ogg  tv_season1_episode5.ogg  tv_season2_episode3.ogg
-tv_season1_episode2.ogg  tv_season1_episode6.ogg  tv_season2_episode4.ogg
-tv_season1_episode3.ogg  tv_season2_episode1.ogg  tv_season2_episode5.ogg
-tv_season1_episode4.ogg  tv_season2_episode2.ogg  tv_season2_episode6.ogg
-```
-
-**4. Là tác giả của một loạt tiểu thuyết trinh thám thành công, bạn đang biên tập các chương của cuốn sách bán chạy tiếp theo để xuất bản. Hãy tạo tám tệp với tên `mystery_chapterX.odf`. Thay X bằng các số từ 1 đến 8.**
-```
-[student@serverb ~]$ touch mystery_chapter{1..8}.odf
-[student@serverb ~]$ ls mys*
-mystery_chapter1.odf  mystery_chapter4.odf  mystery_chapter7.odf
-mystery_chapter2.odf  mystery_chapter5.odf  mystery_chapter8.odf
-mystery_chapter3.odf  mystery_chapter6.odf
-```
-
-**5. Sử dụng một lệnh duy nhất để tạo hai thư mục con tên là season1 và season2 trong thư mục Videos để sắp xếp các tập phim truyền hình. Di chuyển các tập phim truyền hình phù hợp vào các thư mục con season. Chỉ sử dụng hai lệnh và chỉ định đích đến bằng cú pháp tương ứng.**
-5.1 Tạo hai thư mục con có tên là `season1` và `season2` trong thư mục `Videos` bằng cách sử dụng một lệnh duy nhất.
-
-```
-[student@serverb ~]$ mkdir -p Videos/season{1..2}
-[student@serverb ~]$ ls Videos
-season1  season2
-```
-5.2 Di chuyển các tập phim truyền hình phù hợp vào thư mục con theo mùa chỉ bằng hai lệnh.
-```
-[student@serverb ~]$ mv tv_season1* Videos/season1
-[student@serverb ~]$ mv tv_season2* Videos/season2
-[student@serverb ~]$ ls -R Videos
-Videos:
-season1  season2
-
-Videos/season1:
-tv_season1_episode1.ogg  tv_season1_episode3.ogg  tv_season1_episode5.ogg
-tv_season1_episode2.ogg  tv_season1_episode4.ogg  tv_season1_episode6.ogg
-
-Videos/season2:
-tv_season2_episode1.ogg  tv_season2_episode3.ogg  tv_season2_episode5.ogg
-tv_season2_episode2.ogg  tv_season2_episode4.ogg  tv_season2_episode6.ogg
-```
-6. Tạo một hệ thống phân cấp thư mục hai cấp chỉ bằng một lệnh để sắp xếp các chương sách bí ẩn. Tạo thư mục con `my_bestseller` trong thư mục Documents, và tạo thư mục con programs trong thư mục `my_bestseller` mới. Tạo thêm ba thư mục con ngay trong thư mục `my_bestseller` chỉ bằng một lệnh. Đặt tên cho các thư mục con này là `editor`, `changes` và `vacation`. Bạn không cần sử dụng lệnh `mkdir -p` để tạo thư mục cha vì thư mục cha `my_bestseller` đã tồn tại.
-
-6.1 Create the my_bestseller directory under the Documents directory. Create the chapters directory under the my_bestseller directory.
-```
-[student@serverb ~]$ mkdir -p Documents/my_bestseller/chapters
-[student@serverb ~]$ ls -R Documents
-Documents:
-my_bestseller  project_plans
-
-Documents/my_bestseller:
-chapters
-
-Documents/my_bestseller/chapters:
-
-Documents/project_plans:
-season1_project_plan.odf  season2_project_plan.odf
-```
-6.2 Create three directories called editor, changes, and vacation, under the my_bestseller directory by using a single command.
-```
-[student@serverb ~]$ mkdir Documents/my_bestseller/{editor,changes,vacation}
-[student@serverb ~]$ ls -R Documents
-Documents:
-my_bestseller  project_plans
-
-Documents/my_bestseller:
-changes  chapters  editor  vacation
-
-Documents/my_bestseller/changes:
-
-Documents/my_bestseller/chapters:
-
-Documents/my_bestseller/editor:
-
-Documents/my_bestseller/vacation:
-
-Documents/project_plans:
-season1_project_plan.odf  season2_project_plan.odf
-```
-**7. Chuyển đến thư mục chương. Sử dụng phím tắt thư mục home (chương) dấu ngã (~) để di chuyển tất cả các chương sách đến thư mục chương, hiện là thư mục hiện tại của bạn. Sử dụng cú pháp đơn giản nhất để chỉ định thư mục đích.**
-
-Bạn muốn gửi hai chương đầu tiên đến trình soạn thảo để xem xét. Chỉ di chuyển hai chương đó đến thư mục trình soạn thảo để tránh sửa đổi chúng trong quá trình xem xét. Bắt đầu từ thư mục con chương, sử dụng dấu ngoặc nhọn mở rộng với một phạm vi để chỉ định tên tệp chương cần di chuyển và đường dẫn tương đối đến thư mục đích.
-
-Trong thời gian nghỉ, bạn dự định viết chương 7 và 8. Sử dụng một lệnh duy nhất để di chuyển các tệp từ thư mục chương sang thư mục nghỉ. Chỉ định tên tệp chương bằng cách sử dụng dấu ngoặc nhọn mở rộng với danh sách các chuỗi và không sử dụng ký tự đại diện.
-
-7.1 Change to the chapters directory and use the tilde (~) home directory shortcut to move all book chapters to the chapters directory.
-```
-[student@serverb ~]$ cd Documents/my_bestseller/chapters
-[student@serverb chapters]$ mv ~/mystery_chapter* .
-[student@serverb chapters]$ ls
-mystery_chapter1.odf  mystery_chapter4.odf  mystery_chapter7.odf
-mystery_chapter2.odf  mystery_chapter5.odf  mystery_chapter8.odf
-mystery_chapter3.odf  mystery_chapter6.odf
-```
-7.2 Move the first two chapters to the `editor` directory. Use brace expansion with a range to specify the chapter file names to move and a relative path for the destination directory.
-```
-[student@serverb chapters]$ mv mystery_chapter{1..2}.odf ../editor
-[student@serverb chapters]$ ls
-mystery_chapter3.odf  mystery_chapter5.odf  mystery_chapter7.odf
-mystery_chapter4.odf  mystery_chapter6.odf  mystery_chapter8.odf
-[student@serverb chapters]$ ls ../editor
-mystery_chapter1.odf  mystery_chapter2.odf
-```
-7.3 Use a single command to move the chapters 7 and 8 from the chapters directory to the vacation directory. Specify the chapter file names by using brace expansion with a list of strings and without using wildcard characters.
-```
-[student@serverb chapters]$ mv mystery_chapter{7,8}.odf ../vacation
-[student@serverb chapters]$ ls
-mystery_chapter3.odf  mystery_chapter5.odf
-mystery_chapter4.odf  mystery_chapter6.odf
-[student@serverb chapters]$ ls ../vacation
-mystery_chapter7.odf  mystery_chapter8.odf
-```
-8. Chuyển thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa phim vào thư mục `vacation`. Sử dụng lệnh `cd` để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`. Liệt kê các tệp của thư mục đó. Sử dụng đối số thư mục làm việc trước đó để quay lại thư mục `season2`. (Đối số này thành công nếu lần thay đổi thư mục cuối cùng bằng lệnh cd chỉ sử dụng một lệnh thay vì nhiều lệnh cd.) Từ thư mục `season2`, sao chép tệp tập 2 vào thư mục vacation. Sử dụng phím tắt một lần nữa để quay lại thư mục `vacation`.
-
-8.1 Change your working directory to `~/Videos/season2`, and then copy the first episode of the season to the vacation directory.
-```
-[student@serverb chapters]$ cd ~/Videos/season2
-[student@serverb season2]$ cp *episode1.ogg ~/Documents/my_bestseller/vacation
-```
-8.2 Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`, liệt kê các tệp trong đó và sử dụng tham số - để trở về thư mục trước đó. Sao chép tệp tập 2 vào thư mục vacation. Sử dụng lệnh cd với tham số - để trở về thư mục `vacation`.
-```
-[student@serverb season2]$ cd ~/Documents/my_bestseller/vacation
-[student@serverb vacation]$ ls
-mystery_chapter7.odf  mystery_chapter8.odf  tv_season2_episode1.ogg
-[student@serverb vacation]$ cd -
-/home/student/Videos/season2
-[student@serverb season2]$ cp *episode2.ogg ~/Documents/my_bestseller/vacation
-[student@serverb season2]$ cd -
-/home/student/Documents/my_bestseller/vacation
-[student@serverb vacation]$ ls
-mystery_chapter7.odf  tv_season2_episode1.ogg
-mystery_chapter8.odf  tv_season2_episode2.ogg
-```
-
-9. Tác giả của chương 5 và 6 muốn thử nghiệm các thay đổi có thể. Sao chép cả hai tệp từ thư mục `~/Documents/my_bestseller/chapters` sang thư mục `~/Documents/my_bestseller/`changes để ngăn những thay đổi này làm thay đổi các tệp gốc. Điều hướng đến thư mục `~/Documents/my_bestseller`. Sử dụng phép so khớp mẫu trong ngoặc vuông để chỉ định số chương nào sẽ khớp trong đối số `filename` của lệnh `cp`.
-```
-[student@serverb vacation]$ cd ~/Documents/my_bestseller
-[student@serverb my_bestseller]$ cp chapters/mystery_chapter[56].odf changes
-[student@serverb my_bestseller]$ ls chapters
-mystery_chapter3.odf  mystery_chapter5.odf
-mystery_chapter4.odf  mystery_chapter6.odf
-[student@serverb my_bestseller]$ ls changes
-mystery_chapter5.odf  mystery_chapter6.odf
-```
-
-**10. Chuyển thư mục hiện tại của bạn thành thư mục changes và sử dụng lệnh date `+%F` kết hợp với lệnh thay thế để sao chép tệp `mystery_chapter5.odf` sang một tệp mới chứa ngày tháng đầy đủ. Sử dụng định dạng tên `mystery_chapter5_YYYY-MM-DD.odf`.**
-
-Bằng cách sử dụng lệnh thay thế với lệnh date +%s, hãy tạo một bản sao khác của mystery_chapter5.odf và thêm dấu thời gian hiện tại (là số giây kể từ thời điểm epoch, 1970-01-01 00:00 UTC) để đảm bảo tên tệp duy nhất.
-```
-[student@serverb my_bestseller]$ cd changes
-[student@serverb changes]$ cp mystery_chapter5.odf \
-mystery_chapter5_$(date +%F).odf
-[student@serverb changes]$ cp mystery_chapter5.odf \
-mystery_chapter5_$(date +%s).odf
-[student@serverb changes]$ ls
-mystery_chapter5_1646644424.odf  mystery_chapter5.odf
-mystery_chapter5_2022-03-07.odf  mystery_chapter6.odf
-```
-**11. Sau khi xem xét kỹ hơn, bạn quyết định rằng mình không cần thay đổi cốt truyện. Hãy xóa thư mục changes.**
-
-Nếu cần, hãy điều hướng đến thư mục changes và xóa tất cả các tệp trong thư mục đó. Bạn không thể xóa thư mục khi đó là thư mục làm việc hiện tại.
-
-Chuyển đến thư mục cha của thư mục changes. Hãy thử xóa thư mục trống bằng lệnh rm mà không có tùy chọn -r đệ quy. Thử này sẽ thất bại. Cuối cùng, hãy sử dụng lệnh rmdir để xóa thư mục trống, và thành công.
-
-Khi kỳ nghỉ kết thúc, bạn không cần thư mục vacation nữa. Hãy xóa nó bằng lệnh rm với tùy chọn đệ quy.
-
-Khi hoàn tất, hãy quay lại thư mục home của người dùng student.
-
-11.1 Delete the `changes` directory. Change to the parent directory of the changes directory, and try to delete the empty directory by using the `rm` command without the `-r` recursive option, which should fail. Use the `rmdir` command to delete the empty directory.
-```
-[student@serverb changes]$ rm mystery*
-[student@serverb changes]$ cd ..
-[student@serverb my_bestseller]$ rm changes
-rm: cannot remove 'changes': Is a directory
-[student@serverb my_bestseller]$ rmdir changes
-[student@serverb my_bestseller]$ ls
-chapters  editor  vacation
-```
-11.2 Delete the vacation directory by using the `rm` command with the `-r` option. Return to the student user's home directory.
-```
-[student@serverb my_bestseller]$ rm -r vacation
-[student@serverb my_bestseller]$ ls
-chapters  editor
-[student@serverb my_bestseller]$ cd
-[student@serverb ~]$
-```
-12. Tạo một liên kết cứng đến tệp `~/Documents/project_plans/season2_project_plan.`odf có tên là `~/Documents/backups/season2_project_plan.odf.back.` Liên kết cứng giúp bảo vệ tệp gốc khỏi việc vô tình xóa nhầm và giữ cho tệp sao lưu được cập nhật khi bạn thay đổi tệp gốc.
-
-Gợi ý: Nếu thư mục `~/Documents/backups` không tồn tại, hãy sử dụng lệnh `mkdir` để tạo thư mục đó.
-
-12.1 Create a hard link to the `~/Documents/project_plans/season2_project_plan.odf` file called `~/Documents/backups/season2_project_plan.odf.back`.
-```
-[student@serverb ~]$ mkdir ~/Documents/backups
-[student@serverb ~]$ ln ~/Documents/project_plans/season2_project_plan.odf \
-~/Documents/backups/season2_project_plan.odf.back
-[student@serverb ~]$ ls -lR ~/Documents/
-/home/student/Documents/:
-total 0
-drwxr-xr-x. 2 student student 43 Mar  7 04:18 backups
-drwxr-xr-x. 4 student student 36 Mar  7 04:16 my_bestseller
-drwxr-xr-x. 2 student student 70 Mar  7 03:50 project_plans
-
-/home/student/Documents/backups:
-total 0
--rw-r--r--. 2 student student 0 Mar  7 03:50 season2_project_plan.odf.back
-
-/home/student/Documents/my_bestseller:
-total 0
-drwxr-xr-x. 2 student student 118 Mar  7 04:07 chapters
-drwxr-xr-x. 2 student student  62 Mar  7 04:06 editor
-
-/home/student/Documents/my_bestseller/chapters:
-total 0
--rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter3.odf
--rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter4.odf
--rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter5.odf
--rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter6.odf
-
-/home/student/Documents/my_bestseller/editor:
-total 0
--rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter1.odf
--rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter2.odf
-
-/home/student/Documents/project_plans:
-total 0
--rw-r--r--. 1 student student 0 Mar  7 03:50 season1_project_plan.odf
--rw-r--r--. 2 student student 0 Mar  7 03:50 season2_project_plan.odf
-```
-12.2 Return to the workstation system as the student user.
-```
-[student@serverb ~]$ exit
-logout
-Connection to serverb closed.
-[student@workstation ~]$
-```
-
-
----
-# CHAPTER 4: Get Help in Red Hat Enterprise Linux
-PAGE 29/125  
-
-Tìm kiếm thông tin từ tài liệu cục bộ để giúp bạn chạy lệnh và hoàn thành tác vụ.   
-Kết quả 
-- Tìm kiếm thông tin liên quan đến lệnh bằng cách tìm kiếm trong man page. 
-- Khám phá các tùy chọn cho một số lệnh quản trị hệ thống phổ biến.
-
-
-Trong hoạt động này, bạn tạo `my_task.txt` và sau đó thêm thông tin cụ thể vào tệp này cho từng bước.  
-`touch my_task.txt`  
-**1. Tìm kiếm và mở trang hướng dẫn sử dụng `hostname`. Tìm tùy chọn lệnh để hiển thị tất cả tên miền đủ điều kiện (FQDN) của máy. Sau đó, chạy `hostname` với tùy chọn in tất cả FQDN và gửi kết quả ra `my_task.txt`.**
-
-*1.1 Tìm kiếm các trang hướng dẫn có chứa chuỗi "hostname"*
-```
-[root@redhat9-server-1 ~]# man -k hostname
-freehostent (3)      - get network hostnames and addresses
-gethostname (2)      - get/set hostname
-gethostname (3p)     - get name of current host
-getipnodebyaddr (3)  - get network hostnames and addresses
-getipnodebyname (3)  - get network hostnames and addresses
-hostname (1)         - show or set the system's host name
-.....
-```
-*1.2 Mở trang hướng dẫn của `hostname` và tìm kiếm tùy chọn hiển thị tất cả FQDN của máy.*
-```
-[root@redhat9-server-1 ~]# man hostname
-
-OPTIONS
-       -a, --alias
-              Display the alias name of the host (if used). This option is deprecated and should not be used anymore.
-
-       -A, --all-fqdns
-              Displays all FQDNs of the machine. This option enumerates all configured network addresses on all configured network  in‐
-              terfaces,  and translates them to DNS domain names. Addresses that cannot be translated (i.e. because they do not have an
-              appropriate reverse IP entry) are skipped. Note that different addresses may resolve to the same name, therefore the out‐
-              put may contain duplicate entries. Do not make any assumptions about the order of the output.
-```
-"q" to quit the man page  
-*1.3 Sử dụng lệnh chuyển hướng với tùy chọn hostname -A để thêm tên máy chủ của máy vào `my_task.txt`*
-```
-student@workstation:~$ hostname -A >> my_task.txt
-```  
-*1.4 Xác minh rằng tệp `my_task.txt` có chứa thông tin cần thiết.*
-```
-student@workstation:~$ cat my_task.txt
-workstation.lab.example.com workstation
-```
-
-**2. Mở trang hướng dẫn của `date`. Tìm tùy chọn giúp bạn xác định số giây đã trôi qua giữa ngày 1 tháng 1 năm 1970 và ngày 1 tháng 1 năm 2025. Chạy lệnh và thêm kết quả đầu ra vào `my_task.txt`.**
-
-*2.1 Duyệt trang hướng dẫn sử dụng date để tìm tùy chọn phù hợp.*
-```
-       -d, --date=STRING
-              display time described by STRING, not 'now'
-       %s     seconds since 1970-01-01 00:00:00 UTC
-EXAMPLES
-       Convert seconds since the epoch (1970-01-01 UTC) to a date
-
-              $ date --date='@2147483647'
-```
-"q" to quit the man page  
-*2.2 Sử dụng `date` với các tùy chọn `-d` và `%s` để lấy số giây giữa các ngày được yêu cầu. Thêm đầu ra của lệnh vào `my_task.txt`.*
-```
-[root@redhat9-server-1 ~]# date -d "Jan 1 2025" +%s >> my_task.txt 
-```
-
-*2.3 Xác minh rằng `my_task.txt` có chứa thông tin cần thiết.*
-```
-[root@redhat9-server-1 ~]# cat my_task.txt 
-Enforcing
-redhat9-server-1 
-1735664400
-```
-
-*2.4 Bạn có thể xác minh kết quả bằng cách chuyển đổi số giây bạn lấy được thành ngày tháng.*
-```
-[root@redhat9-server-1 ~]# date --date='@1735689600'
-Wed Jan  1 07:00:00 AM +07 2025
-```
-
-**3. Tìm trang hướng dẫn của lệnh xác định chế độ SELinux hiện tại của máy. Chạy lệnh và thêm kết quả vào `my_task.txt`.**
-
-*3.1 Tìm lệnh hiển thị chế độ SELinux hiện tại*
-```
-[root@redhat9-server-1 ~]#  man -k selinux
-getenforce (8)       - get the current mode of SELinux
-```
-*3.2 Sử dụng `getenforce` để lấy chế độ SELinux hiện tại và thêm vào `my_tasks.txt`.*
-```
-[root@redhat9-server-1 ~]# getenforce >> my_task.txt 
-
-```
-*3.3 Xác minh rằng my_task.txt có chứa thông tin cần thiết.*
-```
-[root@redhat9-server-1 ~]# cat my_task.txt 
-Enforcing
-redhat9-server-1 
-1735664400
-Enforcing
-```
-**4. Mở trang hướng dẫn của `man`. Tìm thông tin về cách in trang hướng dẫn bằng PostScript. Nối lệnh, chứ không phải phần đầu ra, vào `my_task.txt`.**   
-
-*4.1 Sử dụng `man` `man` để xác định cách chuẩn bị trang hướng dẫn để in.*
-```
-[root@redhat9-server-1 ~]# man man
-       man -t bash | lpr -Pps
-           Format the manual page for bash into the default troff or groff format and pipe it to the printer  named  ps.   The  default
-           output for groff is usually PostScript.  man --help should advise as to which processor is bound to the -t option.
-```
-*4.2 Sử dụng echo để thêm man có tùy chọn phù hợp vào `my_tasks.txt`.*
-```
-[root@redhat9-server-1 ~]# echo "man -t bash | lpr -Pps" >> my_task.txt
-```
-*4.3 Xác minh rằng `my_task.txt` có chứa thông tin cần thiết.*
-```
-[root@redhat9-server-1 ~]# cat my_task.txt 
-Enforcing
-redhat9-server-1 
-1735664400
-Enforcing
-man -t bash | lpr -Pps
-```
-
----
-# CHAPTER 7: Manage Files from the Command Line   
+# CHAPTER 3: Manage Files from the Command Line   
 7.7 page 36/128    
 Sao chép, di chuyển, tạo, xóa và sắp xếp các tệp từ dòng lệnh.   
 Target: Sử dụng ký tự đại diện để định vị và thao tác với tệp.
@@ -801,7 +412,218 @@ total 0
 ```
 
 ---
-# CHAPTER 10: Manage Local Users and Groups
+# CHAPTER 4: Get Help in Red Hat Enterprise Linux
+PAGE 29/125  
+
+Tìm kiếm thông tin từ tài liệu cục bộ để giúp bạn chạy lệnh và hoàn thành tác vụ.   
+Kết quả   
+- Tìm kiếm thông tin liên quan đến lệnh bằng cách tìm kiếm trong trang hướng dẫn. 
+- Tìm hiểu các tùy chọn mới cho các lệnh tài liệu phổ biến nhất. 
+- Sử dụng các công cụ phù hợp để xem và in tài liệu và các tệp không được định dạng văn bản khác.
+
+1. Trên máy `workstation`, hãy xác định cách chuẩn bị trang hướng dẫn để in. Cụ thể, hãy tìm định dạng hoặc ngôn ngữ hiển thị mặc định để in.  
+
+Use the `man man` command to determine how to prepare a man page for printing.
+```
+[student@worksation ~]$ man man
+...output omitted...
+  man -t bash | lpr -Pps
+      Format the manual page for bash into the default troff or groff format
+      and pipe it to the printer named ps. The default output for groff
+      is usually PostScript. man --help should advise as to which processor
+      is bound to the -t option.
+...output omitted...
+```
+Press `q` to quit the man page.
+2. Tạo một tệp đầu ra định dạng `PostScript` cho trang hướng dẫn `passwd`. Gọi tệp `passwd.ps` và đặt nó vào thư mục home của người dùng `student`. Xác định định dạng tệp. Kiểm tra nội dung của tệp `passwd.ps` bằng lệnh `less`.
+
+LƯU Ý Vì bạn cần lưu kết quả đầu ra của lệnh man vào một tệp, bạn có thể sử dụng ký hiệu > để chuyển hướng kết quả đầu ra chuẩn sang một tệp. Ví dụ, lệnh sau liệt kê tên tệp thông thường của thư mục gốc vào một tệp.
+```
+[student@workstation ~]$ ls > /tmp/my-file-names
+```
+
+3. Bằng cách sử dụng các trang hướng dẫn, hãy tìm các lệnh bạn có thể sử dụng để xem và in các tệp PostScript. 
+
+Tìm kiếm thông tin về các tệp PostScript trong các trang hướng dẫn. Sử dụng tùy chọn -k cho mục đích này.
+```
+[student@workstation ~]# man -k postscript viewer
+enscript (1)         - convert text files to PostScript, HTML, RTF, ANSI, and overstrikes
+eps2eps (1)          - Ghostscript PostScript "distiller"
+evince (1)           - GNOME document viewer
+evince-previewer (1) - show a printing preview of PostScript and PDF documents
+evince-thumbnailer (1) - create png thumbnails from PostScript and PDF documents
+gcm-viewer (1)       - GNOME Color Manager Profile Viewer Tool
+...output omitted...
+```
+
+**4. Tìm hiểu cách sử dụng trình xem `evince`(1) ở chế độ xem trước. Ngoài ra, hãy xác định cách mở tài liệu để bắt đầu ở một trang cụ thể. Mở tệp PostScript của bạn bằng `evince` ba lần: đầu tiên bằng chế độ mặc định, sau đó bằng tùy chọn chế độ xem trước, và cuối cùng là bắt đầu ở trang 3. Đóng tệp tài liệu của bạn khi hoàn tất.**
+
+4.1 Use the man evince command to learn how to use the viewer in preview mode.
+```
+[student@workstation ~]$ man evince
+...output omitted...
+       -i, --page-index=NUMBER
+              Open the document on the page with the specified page index (this is the  exact page number, not a page label).
+...output omitted...
+       -w, --preview
+              Run evince as a previewer.
+...output omitted...
+```
+Press `q` to quit the man page.  
+Note: Tùy chọn -w (hoặc --preview) sẽ mở evince ở chế độ xem trước. Tùy chọn -i sẽ mở evince ở trang bắt đầu được chỉ định.
+
+4.2 Use the evince command to open the /home/student/passwd.ps file.
+```
+[student@workstation ~]$ evince /home/student/passwd.ps
+```
+4.3 Sử dụng lệnh evince -w /home/student/passwd.ps để mở tệp ở chế độ xem trước.
+```
+[student@workstation ~]$ evince -w /home/student/passwd.ps
+```
+4.4 Use the evince -i 3 /home/student/passwd.ps command to open the file at page 3.
+```
+[student@workstation ~]$ evince -i 3 /home/student/passwd.ps
+```
+Note: Trong khi chế độ evince thông thường hỗ trợ chế độ xem toàn màn hình và chế độ trình bày, chế độ xem trước evince hữu ích cho việc duyệt nhanh và in ấn. Lưu ý biểu tượng in ở trên cùng.
+
+5, By using the man pages, research lp(1) to determine how to print any document to start on a specific page. Without entering any commands (in the absence of printers), learn the syntax, in one command, to print only pages 2 and 3 of your PostScript file.
+
+Use the man lp command to determine how to print specific pages of a document.
+```
+[student@workstation ~]$ man lp
+...output omitted...
+       -P page-list
+            Specifies which pages to print in the document.  The list can contain a list of numbers and ranges (-) separated by commas, e.g., "1,3-5, 16". The page numbers refer to the output pages and not the document's original pages - options like "number-up" can affect the numbering of the pages.
+...output omitted...
+```
+Press q to quit the man page.
+
+Note: From lp(1), you learn that the -P option specifies the page list to print in the document. The lp command spools to the default printer, and sends only the page range to start on 2 and to end on 3. Therefore, one valid answer is lp passwd.ps -P 2-3.
+
+6. Use the Firefox browser to open the system's man page directory (/usr/share/doc) and browse to the `man-db` package subdirectory. View the provided manuals. After you finish reviewing the man-db manuals, locate and browse to the kexec-tools package subdirectory. View the `kexec-kdump-howto.txt` file, which describes important system configurations that are stored in the `/etc/sysconfig directory`.
+
+6.1 Use firefox `/usr/share/doc` to view system documentation. Browse the `man-db` subdirectory. Click the manuals to view them.
+
+[student@workstation ~]$ firefox /usr/share/doc
+The firefox command might return output that is unrelated to the Satellite console.
+
+Note
+You can create bookmarks for any frequently used directory. After browsing the man-db directory, click to open and view the text version of the manual, and then close it. Click to open the PostScript version. As observed earlier, evince is the system's default viewer for PostScript and PDF documents. When finished, close the evince viewer.
+
+![alt text](../pic/52.png)
+
+6.2 In the Firefox browser, locate the kexec-tools package subdirectory and view the kexec-kdump-howto.txt file. This file describes important system configurations that are stored in the /etc/sysconfig directory.
+
+Close the document and Firefox when finished.
+
+---
+# CHAPTER 5: Create, View, and Edit Text Files
+Chỉnh sửa tệp văn bản bằng trình soạn thảo vim.  
+Kết quả 
+- Sử dụng Vim để chỉnh sửa tệp. 
+- Sử dụng chế độ trực quan của Vim để đơn giản hóa việc chỉnh sửa các tệp lớn.
+
+**1. Trên máy `workstation`, hãy tạo biến shell `lab_file` và gán giá trị `editing_final_lab.txt`. Liệt kê nội dung của thư mục home của `student`, bao gồm các thư mục và tệp ẩn, cũng như quyền, kích thước tệp và thời gian sửa đổi, sau đó chuyển hướng đầu ra đến tệp `editing_final_lab.txt` bằng cách sử dụng biến shell.**
+
+Trên máy trạm, hãy tạo biến shell lab_file và gán giá trị editing_final_lab.txt. Sử dụng lệnh ls -al trong thư mục home của sinh viên và chuyển hướng đầu ra đến tệp editing_final_lab.txt.
+```
+[student@workstation ~]$ lab_file=editing_final_lab.txt
+[student@workstation ~]$ ls -al > $lab_file
+```
+**2. Use Vim to edit the `editing_final_lab.txt file`. Use the `lab_file` shell variable.**
+```
+[student@workstation ~]$ vim $lab_file
+```
+**3. Enter the line-based visual mode of Vim. Your screen output might differ from these examples. Remove the first three lines of the editing_final_lab.txt file.**
+
+![alt text](../pic/53.png)
+
+Sử dụng các phím mũi tên để đặt con trỏ tại ký tự đầu tiên của dòng đầu tiên. Vào chế độ xem theo dòng bằng phím Shift+V. Di chuyển xuống bằng cách sử dụng phím mũi tên xuống hai lần để chọn ba dòng đầu tiên. Xóa các dòng bằng cách nhập x.
+
+Vào chế độ visual mode  của Vim. Xóa bảy ký tự cuối cùng khỏi cột đầu tiên trên dòng đầu tiên. Chỉ giữ lại bốn ký tự đầu tiên của cột đầu tiên.
+
+Sử dụng các phím mũi tên để định vị con trỏ tại ký tự cuối cùng của cột đầu tiên trên dòng đầu tiên. Xóa lựa chọn bằng cách nhập x.
+
+![alt text](../pic/54.png)
+
+Sử dụng các phím mũi tên để đặt con trỏ tại ký tự thứ năm của cột đầu tiên trên dòng đầu tiên. Vào chế độ trực quan bằng cách gõ v. Ẩn Giải pháp
+
+**5. Vào chế độ visual block của Vim. Lặp lại thao tác của bước trước, nhưng lần này chọn từ dòng thứ hai đến dòng cuối cùng. Chỉ giữ lại bốn ký tự đầu tiên của cột đầu tiên.**
+
+![alt text](../pic/55.png)
+
+Sử dụng các phím mũi tên để đặt con trỏ ở ký tự thứ năm của dòng thứ hai. Vào chế độ trực quan bằng cách sử dụng tổ hợp phím Ctrl+V. Sử dụng các phím mũi tên để đặt con trỏ ở ký tự cuối cùng của cột đầu tiên trên dòng cuối cùng. Xóa lựa chọn bằng cách nhập x
+
+**6. Vào chế độ visual block của Vim và xóa cột thứ tư của tệp.**
+
+![alt text](../pic/56.png)
+
+Sử dụng các phím mũi tên để đặt con trỏ tại ký tự đầu tiên của cột thứ tư. Vào chế độ khối hình ảnh bằng cách nhấn Ctrl+V. Sử dụng các phím mũi tên để đặt con trỏ tại ký tự và hàng cuối cùng của cột thứ tư. Xóa vùng chọn bằng cách nhập x.
+
+**7. Vào chế độ visual block của Vim để xóa cột thời gian, giữ lại cột tháng và ngày trên tất cả các dòng.**
+
+![alt text](../pic/57.png)
+
+Sử dụng các phím mũi tên để đặt con trỏ tại ký tự đầu tiên của cột thứ bảy hiện tại. Vào chế độ khối hình ảnh bằng cách nhấn Ctrl+V. Sử dụng các phím mũi tên để đặt con trỏ tại ký tự cuối cùng của cột thứ bảy trên hàng cuối cùng. Xóa lựa chọn bằng cách nhấn x.
+
+**8. Vào chế độ visual line của Vim và xóa các hàng chứa chuỗi `Desktop` và `Public`.**
+
+![alt text](../pic/58.png)
+
+Sử dụng các phím mũi tên để đặt con trỏ tại bất kỳ ký tự nào trên hàng Desktop. Vào chế độ trực quan bằng chữ V in hoa. Toàn bộ dòng được chọn. Xóa lựa chọn bằng cách nhập x. Lặp lại thao tác cho hàng có chuỗi Public.
+
+**9. Save your changes and exit the file.**
+
+![alt text](../pic/59.png)
+
+**10. Back up the editing_final_lab.txt file and append the date (in seconds) at the end of the file name preceded with an underscore (_) character. Use the lab_file shell variable.**
+
+Use the cp command to back up the editing_final_lab.txt file. Use the `$(date +%s)` command at the end of the backup name preceded with an underscore character to make the name unique.
+```
+[student@workstation ~]$ cp $lab_file \
+editing_final_lab_$(date +%s).txt
+```
+
+**11. Append a dashed line to the editing_final_lab.txt file. The dashed line should contain 12 dash (-) characters for this lab to be graded correctly. Use the lab_file shell variable.**
+
+Use the echo command with 12 dashes and append the output to the editing_final_lab.txt file.
+```
+[student@workstation ~]$ echo "------------" >> $lab_file
+```
+
+**12. List the content of the Documents directory, and append the output to the editing_final_lab.txt file, and display the output in the terminal. Use the tee command and the lab_file shell variable.**
+
+Use the ls command to list the Documents directory and pipe the output to the tee -a command to append the output to the editing_final_lab.txt file.
+```
+[student@workstation ~]$ ls Documents/ | tee -a $lab_file
+lab_review.txt
+```
+Confirm that the directory listing is at the bottom of the lab file. Use the `lab_file` shell variable.
+```
+[student@workstation ~]$ cat $lab_file
+drwx  3 student    17 Mar  4  .ansible
+-rw-  1 student    18 Nov  5  .bash_logout
+-rw-  1 student   141 Nov  5  .bash_profile
+-rw-  1 student   492 Nov  5  .bashrc
+drwx  9 student  4096 Mar  8  .cache
+drwx  8 student  4096 Mar  8  .config
+drwx  2 student     6 Mar  8  Documents
+drwx  2 student     6 Mar  8  Downloads
+-rw-  1 student     0 Mar  8  editing_final_lab.txt
+drwx  2 student    25 Mar  4  .grading
+drwx  4 student    32 Mar  8  .local
+drwx  2 student     6 Mar  8  Music
+drwx  2 student     6 Mar  8  Pictures
+drwx  2 student    77 Mar  4  .ssh
+drwx  2 student     6 Mar  8  Templates
+drwx  3 student    18 Mar  4  .venv
+drwx  2 student     6 Mar  8  Videos
+------------
+lab_review.txt
+```
+
+---
+# CHAPTER 6: Manage Local Users and Groups
 10.11 - PAGE 55/128  
 Sử dụng quyền truy cập superuser để quản lý người dùng và nhóm cục bộ và để quản lý chính sách mật khẩu cục bộ.
 
@@ -859,7 +681,7 @@ Note:
 - Đổi nhóm chính:  
 `sudo usermod -g new_primary_group username`
 
-**6. Đặt mật khẩu `consultant1`, `consultant2` và `consultant3` la redhat.**
+**6. Đặt mật khẩu `consultant1`, `consultant2` và `consultant3` la `redhat`.**
 ```
 [root@redhat9-server-1 ~]# passwd consultant1
 Changing password for user consultant1.
@@ -941,32 +763,162 @@ Number of days of warning before password expires	: 7
 ```
 
 ---
-# CHAPTER 11: Control Access to Files
-11.7 - page 63/128  
-Đặt quyền tiêu chuẩn cho các tệp và giải thích tác động bảo mật của các cài đặt quyền khác nhau.
+# CHAPTER 7: Control Access to Files  
+PAGE 57/125      
+Cấu hình quyền trên tệp và thiết lập thư mục mà người dùng trong một nhóm cụ thể có thể sử dụng để chia sẻ tệp trên hệ thống tệp cục bộ.
 
-Kết quả:
-- Tạo một thư mục nơi người dùng có thể cùng nhau làm việc trên các tập tin.
-- Tạo cấu trúc tệp và thư mục cần thiết, chỉ định quyền truy cập theo yêu cầu.  
+Kết quả
+- Tạo một thư mục nơi người dùng có thể cộng tác làm việc trên tệp.
+- Tạo các tệp được tự động gán quyền sở hữu nhóm.
+- Tạo các tệp không thể truy cập bên ngoài nhóm.
 
-Chuyển sang người dùng `sudo -i `     
-**2. Tạo thư mục cộng tác `techdocs` trong thư mục `/home`. Đặt quyền sở hữu nhóm của thư mục thành nhóm `techdocs`, cấp toàn quyền cho user và group, và cấu hình thư mục sao cho chỉ chủ sở hữu tệp mới có thể xóa tệp của họ.**
-
-Ban dau
+**1. Log in to serverb as the student user. Run the `sudo -i` command at the shell prompt to become the root user. Use student as the `student` user password.**
 ```
-# Tạo group
-groupadd techdocs
-
-# Tạo user và gán group
-useradd -g techdocs dev1
-useradd -g techdocs dev2
-useradd -g techdocs editor1
-
-# Tạo user không thuộc nhóm techdocs
-useradd dbadmin1
-
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+Create a /home/techdocs directory.
 ```
-Giai thich
+*2.1 Use the `mkdir` command to create a `/home/techdocs` directory.*
+```
+[root@serverb ~]# mkdir /home/techdocs
+```
+**3. Change the group ownership of the `/home/techdocs` directory to the `techdocs` group.**
+
+Use the `chown` command to change the group ownership for the /home/techdocs directory to the techdocs group.
+```
+[root@serverb ~]# chown :techdocs /home/techdocs
+```
+**4. Verify that users in the techdocs group cannot create files in the `/home/techdocs` directory.**
+
+*4.1 Use the `su` command to switch to the `tech1` user.*
+```
+[root@serverb ~]# su - tech1
+[tech1@serverb ~]$
+```
+
+*4.2 Create a `techdoc1.txt` file in the `/home/techdocs` directory. This step should fail.*
+
+Although the /home/techdocs directory is owned by the techdocs group and tech1 is part of the techdocs group, you cannot create a file in that directory. The reason is because the techdocs group does not have write permission.
+```
+[tech1@serverb ~]$ touch /home/techdocs/techdoc1.txt
+touch: cannot touch '/home/techdocs/techdoc1.txt': Permission denied
+```
+
+*4.3 List the directory's permissions.*
+```
+[tech1@serverb ~]$ ls -ld /home/techdocs/
+  drwxr-xr-x. 2 root techdocs 6 Feb  5 16:05 /home/techdocs/
+```
+
+**5. Set permissions on the `/home/techdocs `directory. On the `/home/techdocs `directory, configure setgid (2); read, write, and execute permissions (7) for the owner/user and group; and no permissions (0) for other users.**
+
+*5.1 Exit from the `tech1` user shell.*
+```
+[tech1@serverb ~]$ exit
+logout
+[root@serverb ~]#
+```
+
+*5.2 Set the group permission for the `/home/techdocs` directory. Configure setgid; read, write, and execute permissions for the owner and group; and no permissions for others.*
+```
+[root@serverb ~]# chmod 2770 /home/techdocs
+```
+
+**6. Verify that the permissions are set correctly.**
+
+The `techdocs` group now has write permission.
+```
+[root@serverb ~]# ls -ld /home/techdocs
+drwxrws---. 2 root techdocs 6 Feb 4 18:12 /home/techdocs/
+```
+
+**7. Confirm that users in the `techdocs` group can now create and edit files in the `/home/techdocs` directory. Users that are not in the `techdocs` group cannot edit or create files in the /home/techdocs directory. The tech1 and tech2 users are in the techdocs group. The database1 user is not in that group.**
+
+*7.1 Switch to the tech1 user. Create a `techdoc1.txt` file in the `/home/techdocs directory`. Add some text to the `/home/techdocs/techdoc1.txt` file. Exit from the tech1 user shell.*
+```
+[root@serverb ~]# su - tech1
+[tech1@serverb ~]$ touch /home/techdocs/techdoc1.txt
+[tech1@serverb ~]$ ls -l /home/techdocs/techdoc1.txt
+-rw-r--r--. 1 tech1 techdocs 0 Feb  5 16:42 /home/techdocs/techdoc1.txt
+[tech1@serverb ~]$ echo "This is the first tech doc." > /home/techdocs/techdoc1.txt
+[tech1@serverb ~]$ exit
+logout
+[root@serverb ~]#
+```
+
+*7.2 Switch to the tech2 user. Display the content of the /home/techdocs/techdoc1.txt file. Create a techdoc2.txt file in the /home/techdocs directory. Exit from the tech2 user shell.*
+```
+[root@serverb ~]# su - tech2
+[tech2@serverb ~]$ cd /home/techdocs
+[tech2@serverb techdocs]$ cat techdoc1.txt
+This is the first tech doc.
+[tech2@serverb techdocs]$ touch /home/techdocs/techdoc2.txt
+[tech2@serverb techdocs]$ ls -l
+total 4
+-rw-r--r--. 1 tech1 techdocs 28 Feb  5 17:43 techdoc1.txt
+-rw-r--r--. 1 tech2 techdocs  0 Feb  5 17:45 techdoc2.txt
+[tech2@serverb techdocs]$ exit
+logout
+[root@serverb ~]#
+```
+
+*7.3 Switch to the database1 user. Display the content of the /home/techdocs/techdoc1.txt file. You get a Permission Denied message. Verify that the database1 user does not have access to the file. Exit from the database1 user shell.*
+
+Enter the following long echo command on a single line:
+```
+[root@serverb ~]# su - database1
+[database1@serverb ~]$ cat /home/techdocs/techdoc1.txt
+cat: /home/techdocs/techdoc1.txt: Permission denied
+[database1@serverb ~]$ ls -l /home/techdocs/techdoc1.txt
+ls: cannot access '/home/techdocs/techdoc1.txt': Permission denied
+[database1@serverb ~]$ exit
+logout
+[root@serverb ~]#
+```
+
+**8. Modify the /etc/login.defs file to adjust the default umask for login shells. Normal users should have a umask setting that allows the user and group to create, write, and execute files and directories, and preventing other users from viewing, modifying, or executing new files and directories.**
+
+*8.1 Determine the umask of the student user. Switch to the student login shell. When done, exit from the shell.*
+```
+[root@serverb ~]# su - student
+[student@serverb ~]$ umask
+0022
+[student@serverb ~]$ exit
+logout
+[root@serverb ~]#
+```
+
+*8.2 Edit the /etc/login.defs file and set a umask of 007. The /etc/login.defs file already contains a umask definition. Search the file and update with the appropriate value.*
+```
+[root@serverb ~]# cat /etc/login.defs
+...output omitted...
+UMASK           007
+...output omitted...
+```
+
+*8.3 As the student user, verify that the global umask changes to 007.*
+```
+[root@serverb ~]# exit
+logout
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ umask
+0007
+```
+
+*8.4 Return to the workstation system as the student user.*
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
 
 Lệnh	|Tùy chọn	
 ---|---
@@ -977,31 +929,6 @@ usermod -g	|Đổi nhóm chính của user
 usermod -G	|Thay thế toàn bộ nhóm phụ	
 usermod -aG	|Thêm nhóm phụ mới, giữ lại nhóm cũ
 
-*2.1 Tạo thư mục `/home/techdocs`.*
-```
-mkdir /home/techdocs
-[root@redhat9-server-1 ~]# ll /home/
-drwxr-xr-x.  2 root        root           6 Aug 13 14:46 techdocs
-```
-*2.2 Thay đổi quyền sở hữu nhóm cho thư mục `/home/techdocs` thành nhóm `techdocs`.*
-```
-[root@redhat9-server-1 ~]# chown :techdocs /home/techdocs/
-[root@redhat9-server-1 ~]# ll /home/
-drwxr-xr-x.  2 root        techdocs       6 Aug 13 14:46 techdocs
-```
-*2.3 Đặt quyền đọc, ghi và thực thi cho người dùng và nhóm, không cấp quyền cho những người khác trong thư mục `/home/techdocs`.*
-```
-[root@redhat9-server-1 ~]# chmod 0770 /home/techdocs
-[root@redhat9-server-1 ~]# ll /home/
-drwxrwx---.  2 root        techdocs       6 Aug 13 14:46 techdocs
-
-```
-*2.4 Gán bit cố định vào thư mục `/home/techdocs`.*
-```
-[root@redhat9-server-1 ~]#  chmod o+t /home/techdocs
-[root@redhat9-server-1 ~]# ll /home/
-drwxrwx--T.  2 root        techdocs       6 Aug 13 14:46 techdocs
-```
 
 Note 
 - Sticky bit (t / T)
@@ -1010,97 +937,6 @@ Quy tắc (other):
 - Không có x → hiện T
 
 
-*2.5 Liệt kê các quyền của thư mục.*
-```
-[root@redhat9-server-1 ~]# ls -ld /home/techdocs
-drwxrwx--T. 2 root techdocs 6 Aug 13 14:46 /home/techdocs
-# Bộ quyền --T cho thấy thư mục được cấu hình với quyền sticky bit
-```
-
-**3. Xác minh rằng người dùng trong nhóm `techdocs` có thể tạo và cộng tác trên các tệp trong thư mục `/home/techdocs`. Với tư cách là người dùng dev1, hãy tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`. Với tư cách là người dùng dev2, hãy thêm nội dung sau vào tệp: "This is the first tech doc". Cấu hình quyền sở hữu và quyền hạn nhóm cần thiết để cho phép cộng tác này.**  
-*3.1 Chuyển sang người dùng `dev1`. Chuyển đến thư mục `/home/techdocs`.*
-```
-[root@redhat9-server-1 ~]# su - dev1
-[dev1@redhat9-server-1 ~]$ cd /home/techdocs/
-```
-*3.2 Tạo tệp `techdoc1.txt` trong thư mục `/home/techdocs`.*
-```
-[dev1@redhat9-server-1 techdocs]$ touch techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ ls
-techdoc1.txt
-```
-*3.3 Thay đổi quyền sở hữu nhóm cho tệp `techdoc1.txt` thành nhóm `techdocs`. Thêm quyền ghi cho nhóm trên tệp `techdoc1.txt`. Liệt kê các quyền của tệp.*
-
-```
-[dev1@redhat9-server-1 techdocs]$ ll
-total 0
--rw-r--r--. 1 dev1 techdocs 0 Aug 13 15:11 techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ chown :techdocs techdoc1.txt 
-[dev1@redhat9-server-1 techdocs]$ ll
-total 0
--rw-r--r--. 1 dev1 techdocs 0 Aug 13 15:11 techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ chmod g+w techdoc1.txt 
-[dev1@redhat9-server-1 techdocs]$ ll
-total 0
--rw-rw-r--. 1 dev1 techdocs 0 Aug 13 15:11 techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ 
-
-```
-*3.4 Exit from the dev1 user shell. Switch to the dev2 user.*
-```
-[dev1@redhat9-server-1 techdocs]$ exit
-logout
-[root@redhat9-server-1 ~]# su - dev2
-[dev2@redhat9-server-1 ~]$ 
-
-```
-2 user dev1 & dev2
-```
-[dev2@redhat9-server-1 ~]$ id dev2
-uid=1006(dev2) gid=35002(techdocs) groups=35002(techdocs)
-[dev2@redhat9-server-1 ~]$ id dev1
-uid=1005(dev1) gid=35002(techdocs) groups=35002(techdocs)
-```
-
-*3.5 Chuyển đến thư mục `/home/techdocs`. Xác minh rằng người dùng `dev2` có thể ghi vào tệp `techdoc1.txt`.*
-```
-[dev2@redhat9-server-1 ~]$ cd /home/techdocs/
-[dev2@redhat9-server-1 techdocs]$ echo "This is the first tech doc." > techdoc1.txt 
-[dev2@redhat9-server-1 techdocs]$ cat techdoc1.txt 
-This is the first tech doc.
-
-```
-**4. Xác minh rằng chỉ chủ sở hữu của tệp `techdoc1.txt` mới có thể xóa tệp đó. Nếu không phải là người dùng sở hữu tệp, hãy thử xóa tệp. Sau đó, chuyển sang chủ sở hữu, sao lưu tệp và xóa tệp. Cuối cùng, khôi phục tệp gốc từ bản sao lưu bằng cách di chuyển tệp.**
-
-*4.1 Với tư cách là người dùng `dev2`, hãy thử xóa tệp `techdoc1.txt`*
-```
-[dev2@redhat9-server-1 techdocs]$ rm techdoc1.txt 
-rm: cannot remove 'techdoc1.txt': Operation not permitted
-[dev2@redhat9-server-1 techdocs]$ ll
-total 4
--rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
-
-```
-*4.2 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng dev1. Chuyển đến thư mục` /home/techdocs`.*  
-```
-[dev2@redhat9-server-1 techdocs]$ exit
-logout
-[root@redhat9-server-1 ~]# su - dev1
-[dev1@redhat9-server-1 ~]$ cd /home/techdocs/
-
-```
-*4.3 Sao lưu tệp `techdoc1.txt`, sau đó xóa tệp này.*
-
-```
-[dev1@redhat9-server-1 techdocs]$ cp -pr techdoc1.txt techdoc1.txt.bkp
-[dev1@redhat9-server-1 techdocs]$ ls
-techdoc1.txt  techdoc1.txt.bkp
-[dev1@redhat9-server-1 techdocs]$ rm techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ ll
-total 4
--rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt.bkp
-
-```
 Ý nghĩa từng option
 - -p (preserve – giữ nguyên thông tin gốc của file):
   Khi copy, nó sẽ giữ lại:
@@ -1112,183 +948,13 @@ total 4
   - Copy thư mục và toàn bộ nội dung bên trong (bao gồm cả thư mục con, file con).
   - Nếu copy chỉ một file, -r gần như không có tác dụng.
 
-*4.4 Khôi phục tệp `techdoc1.txt` từ bản sao lưu.*
-```
-[dev1@redhat9-server-1 techdocs]$  mv techdoc1.txt.bkp techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ ll
-total 4
--rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
 
-```
-
-**5. Trong thư mục `/home/techdocs`, hãy tạo các thư mục con cho người dùng `dev1` và `dev2` dựa trên bảng sau.**
-
-Chỉnh sửa quyền để chỉ chủ sở hữu mới có thể ghi vào các tệp và thư mục, nhóm `techdocs` có thể đọc chúng và những người khác không có quyền truy cập. Điều chỉnh quyền sở hữu và quyền cho phù hợp, đồng thời xác minh rằng các tệp mới tuân thủ các quy tắc truy cập này.
-
-Owner	|Directory|	Group	|Files
----|---|---|---
-dev1	|dev1	|techdocs	|dev1.txt <br> dev1.log <br> dev1.cfg
-dev2	|dev2	|techdocs	|dev2.txt <br> dev2.log <br>dev2.cfg
-
-*5.1 Với tư cách là người dùng `dev1`, hãy tạo thư mục `dev1`. Đổi quyền sở hữu nhóm cho thư mục `dev1` thành nhóm `techdocs`. Thiết lập quyền đọc, ghi và thực thi cho người dùng, quyền đọc và thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục `dev1`.*
-```
-[dev1@redhat9-server-1 techdocs]$ ls
-techdoc1.txt
-[dev1@redhat9-server-1 techdocs]$ mkdir dev1
-[dev1@redhat9-server-1 techdocs]$ chown :techdocs dev1
-[dev1@redhat9-server-1 techdocs]$ chmod 0750 dev1
-[dev1@redhat9-server-1 techdocs]$ ll
-total 4
-drwxr-x---. 2 dev1 techdocs  6 Aug 13 15:42 dev1
--rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
-
-```
-
-*5.2 Chuyển đến thư mục dev1. Liệt kê giá trị umask cho người dùng dev1. Đổi umask mặc định cho người dùng dev1 thành 0027.*
-
-```
-[dev1@redhat9-server-1 techdocs]$ cd dev1/
-[dev1@redhat9-server-1 dev1]$ umask
-0022
-[dev1@redhat9-server-1 dev1]$ umask 0027
-
-```
 Note
 - Bất kể đang ở thư mục nào (/home/dev1, /tmp, /etc, hay /home/techdocs/dev1), khi tạo file mới trong session này, quyền sẽ tuân theo 0027. Muốn một thư mục có “policy riêng” -> chmod. 
 - Khi login lại (dù qua su - dev1 hay ssh dev1@host), shell mới sẽ đọc các file config mặc định (/etc/profile, ~/.bashrc, ~/.bash_profile …). umask sẽ trở về giá trị mặc định (thường là 0022, trừ khi anh sửa file config). Nghĩa là thiết lập 0027 vừa set trước đó không còn hiệu lực
 
 
-*5.3 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev1. Đổi quyền sở hữu nhóm của các tệp này thành nhóm `techdocs`. Xác minh rằng người dùng dev1 có thể ghi vào chúng.*
-```
-[dev1@redhat9-server-1 dev1]$ touch dev1.txt
-[dev1@redhat9-server-1 dev1]$ touch dev1.log
-[dev1@redhat9-server-1 dev1]$ touch dev1.cfg
-[dev1@redhat9-server-1 dev1]$ chown :techdocs dev1.*
-[dev1@redhat9-server-1 dev1]$ ll
-total 0
--rw-r-----. 1 dev1 techdocs 0 Aug 13 15:50 dev1.cfg
--rw-r-----. 1 dev1 techdocs 0 Aug 13 15:50 dev1.log
--rw-r-----. 1 dev1 techdocs 0 Aug 13 15:50 dev1.txt
-[dev1@redhat9-server-1 dev1]$ echo "hello" > dev1.txt 
-[dev1@redhat9-server-1 dev1]$ cat dev1.txt 
-hello
 
-```
-
-*5.4 Thoát khỏi shell người dùng `dev1`. Chuyển sang người dùng `dev2`. Chuyển đến thư mục `/home/techdocs`.*
-
-```
-[dev1@redhat9-server-1 dev1]$ exit
-logout
-[root@redhat9-server-1 ~]# su - dev2
-[dev2@redhat9-server-1 ~]$ cd /home/techdocs/
-```
-
-*5.5 Với tư cách là người dùng dev2, hãy tạo thư mục `dev2`. Đổi quyền sở hữu nhóm cho thư mục dev2 thành nhóm `techdocs`. Thiết lập quyền đọc, quyền ghi và quyền thực thi cho người dùng, quyền đọc và quyền thực thi cho nhóm, và không cấp quyền cho những người khác trên thư mục dev2.*
-```
-[dev2@redhat9-server-1 techdocs]$ mkdir dev2
-[dev2@redhat9-server-1 techdocs]$ chown :techdocs dev2
-[dev2@redhat9-server-1 techdocs]$ chmod 0750 dev2
-[dev2@redhat9-server-1 techdocs]$ ll
-total 4
-drwxr-x---. 2 dev1 techdocs 54 Aug 13 15:50 dev1
-drwxr-x---. 2 dev2 techdocs  6 Aug 13 15:54 dev2
--rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
-
-```
-
-*5.6 Chuyển đến thư mục `dev2`. Liệt kê giá trị umask cho người dùng `dev2`. Đổi umask mặc định cho người dùng `dev2` thành 0027.*
-```
-[dev2@redhat9-server-1 techdocs]$ cd dev2/
-[dev2@redhat9-server-1 dev2]$ umask
-0022
-[dev2@redhat9-server-1 dev2]$ umask 0027
-
-```
-
-*5.7 Tạo các tệp được liệt kê trong bảng trước cho người dùng dev2. Đổi quyền sở hữu nhóm cho các tệp này thành nhóm techdocs. Xác minh rằng người dùng dev2 có thể ghi vào chúng.*
-
-```
-[dev2@redhat9-server-1 dev2]$ touch dev2.txt \
-> dev2.log dev2.cfg
-[dev2@redhat9-server-1 dev2]$ ll
-total 0
--rw-r-----. 1 dev2 techdocs 0 Aug 13 15:58 dev2.cfg
--rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.log
--rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.txt
-[dev2@redhat9-server-1 dev2]$ chown :techdocs dev2.*
-[dev2@redhat9-server-1 dev2]$ ll
-total 0
--rw-r-----. 1 dev2 techdocs 0 Aug 13 15:58 dev2.cfg
--rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.log
--rw-r-----. 1 dev2 techdocs 0 Aug 13 15:56 dev2.txt
-[dev2@redhat9-server-1 dev2]$ echo "hello" > dev2.txt
-[dev2@redhat9-server-1 dev2]$ cat dev2.txt 
-hello
-```
-
-**6. Xác minh rằng người dùng trong nhóm `techdocs` không phải là chủ sở hữu tệp có thể đọc nội dung tệp trong thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng `editor1`, hãy đọc các tệp thuộc sở hữu của những người dùng khác trong nhóm `techdocs`.**  
-*6.1 Thoát khỏi shell người dùng `dev2`. Chuyển sang người dùng `editor1`. Chuyển đến thư mục` /home/techdocs`.*
-
-```
-[dev2@redhat9-server-1 dev2]$ exit
-logout
-[root@redhat9-server-1 ~]# su - editor1 
-[editor1@redhat9-server-1 ~]$ cd /home/techdocs/
-
-```
-*6.2 Xác định các thư mục và tệp mà người dùng `editor1` không sở hữu. Xem cấu trúc tệp và chủ sở hữu trong thư mục cộng tác` /home/techdocs`.*
-```
-[editor1@redhat9-server-1 techdocs]$ tree -ug
-.
-├── [dev1     techdocs]  dev1
-│   ├── [dev1     techdocs]  dev1.cfg
-│   ├── [dev1     techdocs]  dev1.log
-│   └── [dev1     techdocs]  dev1.txt
-├── [dev2     techdocs]  dev2
-│   ├── [dev2     techdocs]  dev2.cfg
-│   ├── [dev2     techdocs]  dev2.log
-│   └── [dev2     techdocs]  dev2.txt
-└── [dev1     techdocs]  techdoc1.txt
-
-2 directories, 7 files
-```
-*6.3 Với tư cách là người dùng `editor1`, hãy đọc nội dung trong các tệp `techdoc1.txt`, `dev1.txt` và `dev2.txt`.*
-```
-[editor1@redhat9-server-1 techdocs]$ ll
-total 4
-drwxr-x---. 2 dev1 techdocs 54 Aug 13 15:50 dev1
-drwxr-x---. 2 dev2 techdocs 54 Aug 13 15:58 dev2
--rw-rw-r--. 1 dev1 techdocs 28 Aug 13 15:20 techdoc1.txt
-[editor1@redhat9-server-1 techdocs]$ cat techdoc1.txt 
-This is the first tech doc.
-[editor1@redhat9-server-1 techdocs]$ cat dev1/dev1.txt 
-hello
-[editor1@redhat9-server-1 techdocs]$ cat dev2/dev2.txt 
-hello
-
-```
-**7. Xác minh rằng chỉ những người dùng trong nhóm `techdocs` mới có thể truy cập thư mục cộng tác `/home/techdocs`. Với tư cách là người dùng `dbadmin1`, hãy thử truy cập thư mục` /home/techdocs`.**
-
-*7.1 Thoát khỏi shell người dùng `editor1`. Chuyển sang người dùng `dbadmin1`. Chuyển đến thư mục `/home/techdocs`.*
-
-```
-
-[editor1@redhat9-server-1 techdocs]$ exit
-logout
-[root@redhat9-server-1 ~]# su - dbadmin1 
-[dbadmin1@redhat9-server-1 ~]$ cd /home/techdocs/
--bash: cd: /home/techdocs/: Permission denied
-[dbadmin1@redhat9-server-1 ~]$ 
-
-```
-*7.2 Thoát khỏi shell người dùng `dbadmin1`.*
-```
-[dbadmin1@redhat9-server-1 ~]$ exit
-logout
-[root@redhat9-server-1 ~]# 
- 
-```
 
 ---
 # CHAPTER 12: Install and Update Software with RPM
@@ -1658,8 +1324,8 @@ student@workstation:~$
 ```
 
 ---
-# CHAPTER 15: Monitor and Manage Linux Processes
-15.9 PAGE 95/128
+# CHAPTER 8: Monitor and Manage Linux Processes
+PAGE 67/125
 
 Diễn giải và giám sát các số liệu hệ thống, đồng thời nghiên cứu ý nghĩa của các phép đo đó để cải thiện hiệu suất hệ thống của bạn.
 
