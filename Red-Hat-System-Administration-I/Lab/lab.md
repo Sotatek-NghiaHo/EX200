@@ -1937,63 +1937,109 @@ Quản lý tệp, chuyển hướng một tập hợp các dòng cụ thể từ
 
 Kết quả
 - Quản lý tệp từ dòng lệnh.
-- Ghi lại nội dung cụ thể từ tệp văn bản hoặc lệnh và chuyển hướng đầu ra sang tệp khác.
+- Hiển thị một số dòng cụ thể từ tệp văn bản và chuyển hướng đầu ra sang tệp khác.
 - Chỉnh sửa tệp văn bản.
 
-Create the `/home/student/grading directory`.
-```
-[root@redhat9-server-1 ~]# mkdir -p /home/nghiahv/grading
-```
-Create three empty files named `grade1`, `grade2`, and `grade3`, in the `/home/student/grading directory`.
-```
-[root@redhat9-server-1 ~]# touch /home/nghiahv/grading/grade{1,2,3}
-```
-Capture the first five lines of the `/home/student/bin/manage` file in the `/home/student/grading/review.txt` file.
+![alt text](../pic/60.png)
 
+**1. Log in to serverb as the student user.**
+```
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$
+```
+**2. Create the /home/student/grading directory. If the /home/student directory is your current directory, then you do not need to specify the absolute path to the grading directory when creating it.**
+```
+[student@serverb ~]$ mkdir grading
+```
+**3. In the /home/student/grading directory, create three empty files called grade1, grade2, and grade3.**
 
+*3.1 Create the empty files called grade1, grade2, and grade3 in the /home/student/grading directory. Apply the brace expansion shell feature to create all three files with a single touch command.*
 ```
-head -5 bin/manage > grading/review.txt
+[student@serverb ~]$ touch grading/grade{1,2,3}
 ```
-Without overwriting any existing text, append the last three lines of the `/home/student/bin/manage` file to the `/home/student/grading/review.txt` file.
+*3.2 Verify that the grade1, grade2, and grade3 files exist in the /home/student/grading directory.*
+```
+[student@serverb ~]$ ls grading/
+grade1  grade2  grade3
+```
+**4. Copy the first five lines of the /home/student/bin/manage file to the /home/student/grading/review.txt file.**
 
+*4.1 View the first five lines of the /home/student/bin/manage file and redirect the output to the /home/student/grading/review.txt file. Use the single redirection symbol (>) to overwrite any existing content in the file.*
+```
+[student@serverb ~]$ head -5 bin/manage > grading/review.txt
+```
 
-```
- tail -3 bin/manage >> grading/review.txt 
-```
-Copy the `/home/student/grading/review.txt` file to the `/home/student/grading/review-copy.txt` file.
-
-
-```
-cp grading/review.txt grading/review-copy.txt
-```
-Duplicate the Test JJ line in the `/home/student/grading/review-copy.txt` file. Make sure that the duplicated line appears immediately after the original line.
-
-
-```
-vi /home/student/grading/review-copy.txt
-```
--> Comand mode Vim
-```
-type "yy" line "Test JJ" -> type "p"
-```
-Remove the Test HH line from the `/home/student/grading/review-copy.txt` file.
-```
-vi /home/student/grading/review-copy.txt
-```
--> Comand mode Vim
-```
-type "dd" line "Test HH" 
-```
-Add the `Level 1 Training` line between the `Test BB` line and the `Test CC` line in the `/home/student/grading/review-copy.txt` file.
-
-```
-vi /home/student/grading/review-copy.txt
-```
--> Insert mode Vim
+*4.2 Verify that the /home/student/grading/review.txt file contains the following text:*
 ```
 Test AA
 Test BB
-Level 1 Training
+Test CC
+Test DD
+Test EE
+```
+**5. Append the last three lines of the /home/student/bin/manage file to the /home/student/grading/review.txt file. Use the double redirection symbol (>>) to append the output and preserve the contents of the file.**
+
+*5.1 View the last three lines of the /home/student/bin/manage file and append the output to the /home/student/grading/review.txt file.*
+```
+[student@serverb ~]$ tail -3 bin/manage >> grading/review.txt
+```
+*5.2 Verify that the /home/student/grading/review.txt file contains the following text:*
+```
+Test AA
+Test BB
+Test CC
+Test DD
+Test EE
+Test HH
+Test II
+Test JJ
+```
+*6. Copy the /home/student/grading/review.txt file to the /home/student/grading/review-copy.txt file.*
+
+*6.1 Navigate to the /home/student/grading directory.*
+```
+[student@serverb ~]$ cd grading/
+[student@serverb grading]$
+```
+*6.2 Copy the /home/student/grading/review.txt file to the /home/student/grading/review-copy.txt file.*
+```
+[student@serverb grading]$ cp review.txt review-copy.txt
+```
+*6.3 Navigate back to the home directory of the student user.*
+```
+[student@serverb grading]$ cd
+[student@serverb ~]$
+```
+**7. Edit the /home/student/grading/review-copy.txt file to have two sequential Test JJ lines.**
+
+*7.1 Use the vim text editor to open the /home/student/grading/review-copy.txt file.*
+```
+[student@serverb ~]$ vim grading/review-copy.txt
+```
+*7.2 From the command mode in vim, scroll down to the Test JJ line. Press the y key twice to copy the line of text, and press the p key to paste it below the cursor. Type wq to save the changes and quit vim. Verify that the /home/student/grading/review-copy.txt file contains the following text:*
+```
+Test AA
+Test BB
+Test CC
+Test DD
+Test EE
+Test HH
+Test II
+Test JJ
+Test JJ
+```
+**8. Edit the /home/student/grading/review-copy.txt file to remove the Test HH line.**
+
+*8.1 Use the Vim text editor to open the /home/student/grading/review-copy.txt file.*
+```
+[student@serverb ~]$ vim grading/review-copy.txt
+```
+
+*8.2 From the command mode in Vim, scroll down to the Test HH line. Press the d key twice on your keyboard to delete the line of text. Type wq to save the changes and quit vim. Verify that the /home/student/grading/review-copy.txt file contains the following text:*
+```
+Test AA
+Test BB
 Test CC
 Test DD
 Test EE
@@ -2001,349 +2047,532 @@ Test II
 Test JJ
 Test JJ
 ```
-Create a link named `data-backup` that points to the same data as the `/home/student/grading/grade1` file.
-```
-ln -s grading/grade1 data-backup
-```
-- Create a link named `filename-backup` that points to the `/home/student/grading/grade2` file name.
+**9. Edit the /home/student/grading/review-copy.txt file so that the line with A new line exists between the Test BB line and the Test CC line.**
 
+*9.1 Use the Vim text editor to open the /home/student/grading/review-copy.txt file.*
+```
+[student@serverb ~]$ vim grading/review-copy.txt
+```
+*9.2 From the command mode in Vim, scroll down to the Test CC line. Press the i key to switch to the insert mode while keeping the cursor at the beginning of the Test CC line. From the insert mode, press Enter to create a blank line above the cursor. Use the up arrow to navigate to the blank line and create the line of A new line text. Press the Esc key to switch back to the command mode. Type wq to save the changes and to quit Vim. Verify that the /home/student/grading/review-copy.txt file contains the following text.*
+```
+Test AA
+Test BB
+A new line
+Test CC
+Test DD
+Test EE
+Test II
+Test JJ
+Test JJ
+```
+**10. Create the /home/student/hardcopy hard link to the /home/student/grading/grade1 file.**
 
+*10.1 Create the /home/student/hardcopy hard link to the /home/student/grading/grade1 file.*
 ```
-ln -s grading/grade2 filename-backup
+[student@serverb ~]$ ln grading/grade1 hardcopy
 ```
-- List the contents of the `/boot` directory and save the output to the `/home/student/grading/longlisting.txt` file. The output should be a long listing that includes the file permissions, owner and group owner, size, and modification date of each file. The output must omit hidden files.
+*10.2 View the link count of the /home/student/grading/grade1 file.*
 ```
-ls -l /boot > grading/longlisting.txt
+[student@serverb ~]$ ls -l grading/grade1
+-rw-r--r--. 2 student student 0 Mar  6 16:45 grading/grade1
 ```
-**20.3 Lab: Manage Users and Groups, Permissions, and Processes**
+**11. Create the /home/student/softcopy symbolic link to the /home/student/grading/grade2 file.**
 
-Quản lý tài khoản người dùng và nhóm, thiết lập quyền cho tệp và thư mục, và quản lý quy trình.  
-Kết quả
-- Quản lý tài khoản người dùng và nhóm.
-- Thiết lập quyền cho tệp và thư mục.
+*11.1 Create the /home/student/softcopy symbolic link to the /home/student/grading/grade2 file.*
+```
+[student@serverb ~]$ ln -s grading/grade2 softcopy
+```
+*11.2 View the properties of the /home/student/softcopy symbolic link.*
+```
+[student@serverb ~]$ ls -l softcopy
+lrwxrwxrwx. 1 student student 14 Mar  6 17:58 softcopy -> grading/grade2
+```
+**12. List the contents of the /boot directory and redirect the output to the /home/student/grading/longlisting.txt file. The output should be a long listing that includes the file permissions, owner and group owner, size, and modification date of each file. The output should omit hidden files.**
+
+*12.1 View the contents of the /boot directory in the long listing format, and omit hidden files. Redirect the output to the /home/student/grading/longlisting.txt file.*
+```
+[student@serverb ~]$ ls -l /boot > grading/longlisting.txt
+```
+*12.2 Return to the workstation system as the student user.*
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+```
+
+**15.3 Manage Users and Groups, Permissions, and Processes**
+
+Quản lý tài khoản người dùng và nhóm, thiết lập quyền cho tệp và thư mục, và quản lý quy trình.   Kết quả 
+- Quản lý tài khoản người dùng và nhóm. 
+- Thiết lập quyền cho tệp và thư mục. 
 - Xác định và quản lý các quy trình tiêu tốn nhiều CPU.
 
-`sudo -i`
+![alt text](../pic/61.png)
 
-Identify and terminate the process that currently uses the most CPU time.
+**1. Log in to serverb as the student user.**
 ```
-top → PID → kill
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$
 ```
+**2. Identify and terminate the process that currently uses the most CPU time.**
 
-Create the database group with a group ID (GID) of 50000.
+*2.1 Use the `top` command to view the real-time system CPU consumption.*
 ```
-groupadd -g 50000 database
+[student@serverb ~]$ top
 ```
-- Create the `dbadmin1` user and configure it with the following requirements:
-  - Add the database group as a supplementary group.
-  ```
-  useradd -G database dbadmin1
-  ```
-  - Set the password to redhat and force a password change on first login.
-  ```
-   chage -d 0 dbadmin1
-  ```
-  - Allow the password to be changed 10 days after the last password change.
-  ```
-  chage -m 10 dbadmin1
-  ```
-  - Configure the password to expire 30 days after the last password change.
-  ```
-  chage -M 30 dbadmin1
-  ```
-  - Allow the user to use Sudo to run any command as the superuser by creating its own sudoers file.
-  ```
-  vi  /etc/sudoers.d/dbadmin1
-  dbadmin1 ALL=(ALL) ALL
-  ```
-  - Configure the default umask as 027 for the dbadmin1 user.
-  ```
-  [root@redhat9-server-1 ~]# su - dbadmin1 
-  [dbadmin1@redhat9-server-1 ~]$ umask
-  0022
-  [dbadmin1@redhat9-server-1 ~]$ echo "umask 027" >> .bashrc
-  [dbadmin1@redhat9-server-1 ~]$ source ~/.bashrc
-  ```
-Note
+*2.2 From the interactive interface of the top command, look at the %CPU column and confirm that a dd process is consuming the most CPU resources.*
 ```
--d 0 →  ép đổi mật khẩu ngay lần đăng nhập tới.
-
--m 10 → đặt minimum days = 10 ngày → người dùng chỉ được đổi mật khẩu sau khi mật khẩu hiện tại đã được dùng ít nhất 10 ngày.
-
--M 30 → đặt maximum days = 30 ngày → mật khẩu sẽ hết hạn sau 30 ngày, buộc phải đổi.
-
-📌 Nghĩa là: Lần đăng nhập tới (dau tien), consultant1 phải đổi mật khẩu.   
-Sau đó, Số ngày tối thiểu để đổi mật khẩu la 10 ngày, và mật khẩu sẽ hết hạn sau 30 ngày.
+...output omitted...
+PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+2303 student   20   0  217048    944    876 R  99.7   0.1 100:11.64 dd
+...output omitted...
 ```
-umask = 0027
+The dd process in the preceding output has the 2303 PID. This process is consuming 99.7% of the CPU resources. The PID and the percentage of CPU resource consumption would vary in your system.
+
+*2.3 From the interactive interface of the top command, type k to kill the dd process with the 2303 PID, as you determined in the preceding step. After you type k in the top command, if the default PID that is shown in the prompt matches the PID of the process to terminate, then press the Enter key. If the suggested PID does not match, then specify the PID interactively.*
 ```
-Thư mục mới: 777 - 027 = 750
--> rwx cho owner, r-x cho group, --- cho other.
-
-File mới: 666 - 027 = 640
--> rw- cho owner, r-- cho group, --- cho other.
+...output omitted...
+PID to signal/kill [default pid = 2303] Enter
+...output omitted...
 ```
-
-
-Create the `/home/dbadmin1/grading/review2 `directory and set all its contents to be owned by the `dbadmin1` user and the `database` group.
+*2.4 Use the default SIGTERM signal to terminate the process.*
 ```
-mkdir -p /home/dbadmin1/grading/review2
-
----
-[dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
-/home/dbadmin1/:
-total 0
-drwxr-x---. 3 dbadmin1 dbadmin1 21 Aug 14 14:34 grading
-
-/home/dbadmin1/grading:
-total 0
-drwxr-x---. 2 dbadmin1 dbadmin1 6 Aug 14 14:34 review2
-
-/home/dbadmin1/grading/review2:
-total 0
----
-
-[dbadmin1@redhat9-server-1 ~]$ chown -R dbadmin1:database /home/dbadmin1/grading/review2/
-[dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
-/home/dbadmin1/:
-total 0
-drwxr-x---. 3 dbadmin1 dbadmin1 21 Aug 14 14:34 grading
-
-/home/dbadmin1/grading:
-total 0
-drwxr-x---. 2 dbadmin1 database 6 Aug 14 14:34 review2
-
-/home/dbadmin1/grading/review2:
-total 0
+...output omitted...
+Send pid 2833 signal [15/sigterm] Enter
+...output omitted...
 ```
+*2.5 Press the q key to quit the interactive interface of the top command.*
 
-Note:  
-- Neu tao file sau khi ap dung `chown -R` thi se khong co tac dung ma muon ap dung vinh vien phai :
+**3. Create the `database` group with a GID of 50000.**
+
+*3.1 Switch to the `root` user.*
 ```
-chown dbadmin1:database /home/dbadmin1/grading/review2
-chmod g+s /home/dbadmin1/grading/review2 
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
 ```
-
-Configure the `/home/dbadmin1/grading/review2 `directory so that users are allowed to delete only files that they own. Configure the permissions on the directory to allow members of the `database` group to access the directory and to create contents in it. All other users must have read and execute permissions on the directory.
-
-- Sau khi thay doi `umask = 0027`
+*3.2 Create the database group with a GID of 50000.*
 ```
-[dbadmin1@redhat9-server-1 ~]$ ls -lR /home/dbadmin1/
-/home/dbadmin1/:
-total 0
-drwxr-x---. 3 dbadmin1 dbadmin1 21 Aug 14 14:34 grading
+[root@serverb ~]# groupadd -g 50000 database
+```
+**4. Create the dbadmin1 user. Add the database group as a supplementary group. Set the password to redhat and force a password change on the user's first login. Allow the password to change after 10 days since the day of the last password change. Set the password expiration to 30 days since the day of the last password change. Allow the user to use the sudo command to run any command as the superuser. Configure the default umask as 007.**
 
-/home/dbadmin1/grading:
-total 0
-drwxr-x---. 2 dbadmin1 database 6 Aug 14 14:39 review2
+*4.1 Create the `dbadmin1` user. Add the `database` group as a supplementary group.*
+```
+[root@serverb ~]# useradd -G database dbadmin1
+```
+*4.2 Set the password of the dbadmin1 user to redhat.*
+```
+[root@serverb ~]# passwd dbadmin1
+Changing password for user dbadmin1.
+New password: redhat
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: redhat
+passwd: all authentication tokens updated successfully.
+```
+*4.3 Force the dbadmin1 user to change its password on the next login.*
+```
+[root@serverb ~]# chage -d 0 dbadmin1
+```
+*4.4 Set the password's minimum age of the dbadmin1 user to 10 days.*
+```
+[root@serverb ~]# chage -m 10 dbadmin1
+```
+*4.5 Set the password's maximum age of the dbadmin1 user to 30 days.*
+```
+[root@serverb ~]# chage -M 30 dbadmin1
+```
+*4.6 Enable the dbadmin1 user to use the sudo command to run any command as the superuser. Use the vim /etc/sudoers.d/dbadmin1 command to create the file and add the following content:*
+```
+[root@serverb ~]# vim /etc/sudoers.d/dbadmin1
+dbadmin1 ALL=(ALL) ALL
+```
+*4.7 Switch to the dbadmin1 user. Append the umask 007 line to the /home/dbadmin1/.bashrc file.*
+```
+[root@serverb ~]# su - dbadmin1
+[dbadmin1@serverb ~]$ echo "umask 007" >> .bashrc
+```
+*4.8 Source the ~/.bashrc file to update the umask.*
+```
+[dbadmin1@serverb ~]$ source ~/.bashrc
+```
+**5. Create the /home/dbadmin1/grading/review2 directory with dbadmin1 as the owning user and the database group as the owning group.**
 
-/home/dbadmin1/grading/review2:
-total 0
+*5.1 Use the mkdir command -p option to create the /home/dbadmin1/grading/review2 directory.*
+```
+[dbadmin1@serverb ~]$ mkdir -p /home/dbadmin1/grading/review2
+```
+*5.2 Recursively set dbadmin1 and database as the respective owning user and group of the /home/dbadmin1/ directory and subdirectories.*
+```
+[dbadmin1@serverb ~]$ chown -R dbadmin1:database /home/dbadmin1/
+```
+*5.3 Recursively set group execute permissions on the `/home/dbadmin1` directory and subdirectories. This permission allow members of the database group to traverse the `/home/dbadmin1` directory structure.*
+```
+[dbadmin1@serverb ~]$ chmod -R g+x /home/dbadmin1
+```
+**6. Configure the /home/dbadmin1/grading/review2 directory to allow members of the database group to create contents in it. All other users should have read and execute permissions on the directory.**
+
+*6.1 Apply the SetGID special permission on the /home/dbadmin1/grading/review2 directory so that the database group owns files that are created in the directory.*
+```
+[dbadmin1@serverb ~]$ chmod g+s /home/dbadmin1/grading/review2
+```
+*6.2 Apply the 775 permission mode on the /home/dbadmin1/grading/review2 directory.*
+```
+[dbadmin1@serverb ~]$ chmod 775 /home/dbadmin1/grading/review2
 ```
 
-- người dùng chỉ được phép xóa các tệp thuộc sở hữu của họ
+**7. Ensure that users are allowed to delete only files that they own from the /home/dbadmin1/grading/review2 directory.**
+
+*7.1 Apply the sticky bit special permission on the /home/dbadmin1/grading/review2 directory.*
 ```
-chmod o+t /home/dbadmin1/grading/review2
+[dbadmin1@serverb ~]$ chmod o+t /home/dbadmin1/grading/review2
 ```
-Note:
-- Lúc này chỉ ... co the xoa :
-  - Owner của file
-  - Owner của thư mục (thu muc cha)
-  - root
-- Cấu hình quyền trên thư mục để cho phép các thành viên của nhóm `database` truy cập và tạo nội dung trong đó
+*7.2 Return to the workstation system as the student user.*
 ```
- chmod g+w /home/dbadmin1/grading/review2
- chmod g+w /home/dbadmin1/grading/
-```
-- Tất cả người dùng khác phải có quyền đọc và thực thi trên thư mục.
-```
-chmod o+r /home/dbadmin1/grading/review2
+[dbadmin1@serverb ~]$ exit
+logout
+[root@serverb ~]# exit
+logout
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
 ```
 
-Them 
-```
-chmod -R 710 /home/dbadmin1
-```
-bonus
-```
-user: dbadmin2 
-[dbadmin2@redhat9-server-1 ~]$ touch /home/dbadmin1/grading/review2/21111
-[dbadmin2@redhat9-server-1 ~]$ umask
-0022
-# nen khi tao se khac 
-[dbadmin1@redhat9-server-1 ~]$ ll /home/dbadmin1/grading/review2/
-total 0
--rw-r--r--. 1 dbadmin2 dbadmin2 0 Aug 14 16:22 21111
--rw-r-----. 1 dbadmin1 dbadmin1 0 Aug 14 16:26 555555
--rw-r--r--. 1 dbadmin2 database 0 Aug 14 15:46 hiiiii
--rw-r-----. 1 dbadmin1 database 0 Aug 14 15:18 tessssst
-```
+# 15.4 Configure and Manage a Server
 
-![](../pic/37.png)
-
-**20.4 Lab: Configure and Manage a Server**  
-Cấu hình, bảo mật và sử dụng dịch vụ SSH để truy cập máy tính từ xa.  
-Cấu hình dnf và quản lý các gói bằng tiện ích dnf.
+Cấu hình, bảo mật và sử dụng dịch vụ SSH để truy cập máy tính từ xa và quản lý các gói bằng tiện ích dnf.
 
 Kết quả
-- Tạo cặp khóa SSH.
-- Vô hiệu hóa đăng nhập SSH với tư cách là người dùng root.
+- Tạo cặp khóa SSH mới.
+- Vô hiệu hóa đăng nhập SSH với tư cách người dùng root.
 - Vô hiệu hóa đăng nhập SSH bằng mật khẩu.
-- Cấu hình kho phần mềm trên máy chủ để nhận các bản cập nhật.
 - Cài đặt các gói và mô-đun gói bằng lệnh dnf.
 
-Generate an SSH key pair for the `student` user. Do not protect the private key with a passphrase. Save the private key as the `/home/student/.ssh/review3_key file`, and save the public key as the `/home/student/.ssh/review3_key.pub` file.
-```
-[dbadmin1@redhat9-server-1 ~]$ ssh-keygen -f /home/dbadmin1/.ssh/review3_key
+![alt text](../pic/62.png)
 
-[dbadmin1@redhat9-server-1 ~]$ ls -l .ssh/
-total 8
--rw-------. 1 dbadmin1 dbadmin1 2610 Aug 14 16:35 review3_key
--rw-r-----. 1 dbadmin1 dbadmin1  579 Aug 14 16:35 review3_key.pub
+**1. Log in to serverb as the student user.**
 ```
-Configure SSH to prevent the `root` user from logging in.
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$
 ```
- vi /etc/ssh/sshd_config
- PermitRootLogin no
- systemctl restart sshd
+**2. Generate SSH keys for the student user. Do not protect the private key with a passphrase. Name the private and public key files /home/student/.ssh/review3_key and /home/student/.ssh/review3_key.pub respectively.**
 ```
-Configure SSH so that users log in by using key-based authentication and not by password-based authentication.
+[student@serverb ~]$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/student/.ssh/id_rsa): /home/student/.ssh/review3_key
+Enter passphrase (empty for no passphrase): Enter
+Enter same passphrase again: Enter
+Your identification has been saved in /home/student/.ssh/review3_key.
+Your public key has been saved in /home/student/.ssh/review3_key.pub.
+The key fingerprint is:
+SHA256:Uqefehw+vRfm94fQZDoz/6IfNYSLK/OpiQ4n6lrKIbY student@serverb.lab.example.com
+The key's randomart image is:
++---[RSA 3072]----+
+| .+=oBo+         |
+| ...O * =        |
+|.. + % =         |
+|. +.B =.         |
+|...*..o S        |
+|E.=. o + .       |
+|  .= oo o .      |
+|    *... .       |
+|     .oo.        |
++----[SHA256]-----+
 ```
- vi /etc/ssh/sshd_config
- PasswordAuthentication no
- systemctl restart sshd
-```
-Configure DNF to get packages from http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata. Disable GPG checking for this repository.
-```
-sudo dnf config-manager --add-repo \
-"http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata" \
-&& sudo dnf config-manager --save \
---setopt=repo.example.com_rhel10.0_x86_64_rhcsa-practice_errata.gpgcheck=0 \
-&& sudo dnf install rht-system zsh -y
+**3. Configure the student user on servera to accept logins that are authenticated by the review3_key SSH key pair. The student user on serverb should be able to log in to servera by using SSH without entering a password.**
 
-# or
-vi /etc/yum.repos.d/custom.repo
-[custom-repo]
-name=Custom RHCSA Practice Repo
-baseurl=http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata
-enabled=1
-gpgcheck=0
+*3.1 Export the review3_key public key to servera from serverb.*
 ```
-Install the zsh and rht-system packages.
-```
--> sudo dnf install zsh rht-system -y
-```
-The student user on the serverb machine must be able to log in to the servera machine by using the `review3_key.pub` SSH key.
-```
-ssh student#
-```
- 
-**20.5 Lab: Manage Networks**   
-Note : The allocated time for this activity is 10 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more. 
+[student@serverb ~]$ ssh-copy-id -i .ssh/review3_key.pub student@servera
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: ".ssh/review3.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+student@servera's password: student
 
-Cấu hình và kiểm tra kết nối mạng.
+Number of key(s) added: 1
 
-Kết quả
-- Cấu hình cài đặt mạng.
-- Kiểm tra kết nối mạng.
-- Đặt tên máy chủ tĩnh.
+Now try logging into the machine, with:   "ssh 'student@servera'"
+and check to make sure that only the key(s) you wanted were added.
+```
+*3.2 Verify that you can log in to servera from serverb as the student user by using the review3_key private key without being prompted for the password.*
+```
+[student@serverb ~]$ ssh -i .ssh/review3_key student@servera
+...output omitted...
+[student@servera ~]$
+```
+*3.3 Exit from servera.*
+```
+[student@servera ~]$ exit
+logout
+Connection to servera closed.
+[student@serverb ~]$
+```
+**4. On `serverb`, configure the sshd service to prevent the root user from logging in.**
+
+*4.1 Set the `PermitRootLogin` parameter to no in the `/etc/ssh/sshd_config` file. Use the `sudo vim /etc/ssh/sshd_config` command to edit the configuration file.*
+
+*4.2 Reload the sshd service.*
+```
+[student@serverb ~]$ sudo systemctl reload sshd.service
+```
+**5. On `serverb`, configure the sshd service to prevent users from using their passwords to log in. Users should still be able to authenticate logins by using SSH keys.**
+
+*5.1 Set the `PasswordAuthentication` parameter to no in the `/etc/ssh/sshd_config` file. Use the sudo `vim /etc/ssh/sshd_config` command to edit the configuration file.*
+
+*5.2 Reload the sshd service.*
+```
+[student@serverb ~]$ sudo systemctl reload sshd.service
+```
+**6. Install the zsh package.**
+```
+[student@serverb ~]$ sudo dnf install zsh
+...output omitted...
+Is this ok [y/N]: y
+...output omitted...
+Installed:
+  zsh-5.8-9.el9.x86_64
+Complete!
+```
+*6.1 Return to the workstation system as the student user.*
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
+
+**15.5 Manage Networks**
+Cấu hình và kiểm tra kết nối mạng. 
+Kết quả 
+- Cấu hình cài đặt mạng. 
+- Kiểm tra kết nối mạng. 
+- Đặt tên máy chủ tĩnh. 
 - Sử dụng tên máy chủ chuẩn có thể phân giải cục bộ để kết nối với hệ thống.
 
-Tìm thiết bị mạng chưa sử dụng và sử dụng thiết bị đó để tạo và kích hoạt cấu hình kết nối tĩnh. Cấu hình cấu hình tĩnh để thiết lập cài đặt mạng tĩnh và không sử dụng DHCP. Sử dụng thông tin từ bảng sau cho các cài đặt kết nối khác:
-```
-[dbadmin1@redhat9-server-1 ~]$ nmcli device status 
-DEVICE  TYPE      STATE                   CONNECTION     
-ens160  ethernet  connected               custom-profile 
-lo      loopback  connected (externally)  lo  
+![alt text](../pic/63.png)
 
----
-
-nmcli connection add con-name static type ethernet \
-ifname ens4 ipv4.addresses '172.25.250.111/24' ipv4.gateway '172.25.250.254' \
-ipv4.dns '172.25.250.254' ipv4.method manual \
-&& nmcli connection up static \
+**1. Use the serverb console to log in as the student user on the serverb machine, and switch to the root user.**
 ```
-Parameter	|Setting
----|---
+serverb login: student
+Password: student
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
+**2. On serverb, determine the Ethernet interface name and the connection profile name that it uses.**
+
+*2.1 Display the network connection information.*
+```
+[root@serverb ~]# nmcli device status
+DEVICE  TYPE      STATE                   CONNECTION
+eth0    ethernet  connected               System eth0
+eth1    ethernet  connected               System eth1
+lo      loopback  connected (externally)  lo
+```
+In this example, eth0 is the Ethernet interface name. The connection profile name is System eth0. Create the static connection profile for this interface.
+
+Note: The network interface and connection profile names might differ from the previous output. Use the name that your system shows to replace the ethX placeholder name in subsequent steps.
+
+3. On serverb, create the static connection profile for the ethX interface. Set the network settings statically so that it does not use DHCP. When done, activate that connection profile. Base the settings on the following table:
+
 IPv4 address	|172.25.250.111
+---|---
 Netmask	|255.255.255.0
 Gateway	|172.25.250.254
-DNS Server	|172.25.250.
+DNS server	|172.25.250.254
 
-Đặt tên máy chủ thành `server-review4.lab4.example.com`.
+3.1 Create the static connection profile with the provided network settings.
 ```
-hostnamectl hostname server-review4.lab4.example.com
+[root@serverb ~]# nmcli connection add con-name static type ethernet \
+ifname ethX ipv4.addresses '172.25.250.111/24' ipv4.gateway '172.25.250.254' \
+ipv4.dns '172.25.250.254' ipv4.method manual
+Connection 'static' (ac8620e6-b77e-499f-9931-118b8b015807) successfully added.
 ```
+*3.2 Activate the new connection profile.*
+```
+[root@serverb ~]# nmcli connection up static
+```
+**4. Set the serverb hostname to server-review4.lab4.example.com. Verify the new hostname.**
 
-Đặt `client-review4` làm tên máy chủ chính tắc cho địa chỉ IPv4 `172.25.250.10` của máy chủ.
+*4.1 Configure server-review4.lab4.example.com as the new hostname.*
 ```
-vi /etc/hosts
-172.25.250.10 client-review4 
-```
-Cấu hình `static` connection profile với địa chỉ IPv4 bổ sung là `172.25.250.211` với netmask là 255.255.255.0. Không xóa địa chỉ IPv4 hiện có. Đảm bảo máy chủ phản hồi tất cả các địa chỉ khi kết nối tĩnh đang hoạt động.
-```
-nmcli connection modify static \
-+ipv4.addresses '172.25.250.211/24' \
-&& nmcli connection up static
-```
-
-Note
-```
-[root@redhat9-server-1 ~]# nmcli connection modify custom-profile +ipv4.addresses '192.168.38.129/24' && nmcli connection up custom-profile
-Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/3)
-
----
-2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 00:0c:29:a9:58:17 brd ff:ff:ff:ff:ff:ff
-    altname enp3s0
-    inet 192.168.38.128/24 brd 192.168.38.255 scope global noprefixroute ens160
-       valid_lft forever preferred_lft forever
-    inet 192.168.38.129/24 brd 192.168.38.255 scope global secondary noprefixroute ens160
----
-
-# Nếu bạn chỉ muốn thay thế IP hiện tại → dùng ipv4.addresses (không có dấu +).
+[root@serverb ~]# hostnamectl hostname server-review4.lab4.example.com
+[root@serverb ~]# hostname
+server-review4.lab4.example.com
 ```
 
-**20.6 Lab: Mount File Systems and Find Files**  
-Note: The allocated time for this activity is 10 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more.    
+**5. On serverb, set client-review4 as the canonical hostname for the servera 172.25.250.10 IPv4 address.**
 
-Gắn hệ thống tệp và định vị tệp dựa trên các tiêu chí khác nhau.  
+*5.1 Edit the /etc/hosts file and add client-review4 as a name for the 172.25.250.10 IPv4 address.*
+```
+172.25.250.10 client-review4
+```
+*5.2 Verify that you can reach the `servera` `172.25.250.10` IPv4 address by using the canonical client-review4 hostname.*
+```
+[root@serverb ~]# ping -c2 client-review4
+PING client-review4 (172.25.250.10) 56(84) bytes of data.
+64 bytes from client-review4 (172.25.250.10): icmp_seq=1 ttl=64 time=0.259 ms
+64 bytes from client-review4 (172.25.250.10): icmp_seq=2 ttl=64 time=0.391 ms
+
+--- client-review4 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 33ms
+rtt min/avg/max/mdev = 0.259/0.325/0.391/0.066 ms
+```
+**6. Modify the static connection profile to configure the additional `172.25.250.211` IPv4 address with the `255.255.255.0` netmask. Do not remove the existing IPv4 address. Verify that serverb responds to all addresses when the static connection profile is active.**
+
+*6.1 Add the 172.25.250.211 IP address to the static connection.*
+```
+[root@serverb ~]# nmcli connection modify static \
++ipv4.addresses '172.25.250.211/24'
+```
+*6.2 Activate the new IP address.*
+```
+[root@serverb ~]# nmcli connection up static
+...output omitted...
+```
+
+*6.3 From `workstation`, use the ping command to verify that the 172.25.250.211 IPv4 address is reachable.*
+```
+[student@workstation ~]$ ping -c2 172.25.250.211
+PING 172.25.250.211 (172.25.250.211) 56(84) bytes of data.
+64 bytes from 172.25.250.211: icmp_seq=1 ttl=64 time=0.246 ms
+64 bytes from 172.25.250.211: icmp_seq=2 ttl=64 time=0.296 ms
+
+--- 172.25.250.211 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 50ms
+rtt min/avg/max/mdev = 0.246/0.271/0.296/0.025 ms
+```
+**7. On serverb, restore the original settings by activating the original network profile.**
+
+*7.1 Return to the console and use the nmcli command to activate the original network profile.*
+```
+[root@serverb ~]# nmcli connection up "System eth0"
+...output omitted...
+```
+The original connection profile name might differ on serverb. Replace the name in this solution with the name from your system. Find the profile name with the nmcli connection show command.
+
+*7.2 From workstation, log in to serverb as the student user to verify that the original network settings are active.*
+```
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@server-review4 ~]$
+```
+*7.3 Exit any extra terminals. Return to the workstation system as the student user.*
+```
+[student@server-review4 ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
+
+# 15.6 Mount File Systems and Find Files
+
+Gắn hệ thống tệp và định vị tệp dựa trên các tiêu chí khác nhau. 
 Kết quả 
 - Gắn hệ thống tệp hiện có. 
 - Tìm tệp dựa trên tên tệp, quyền và kích thước.
 
-Xác định thiết bị block chưa được sử dụng, chưa được gắn kết có chứa hệ thống tệp XFS trên máy serverb. Gắn thiết bị block vào thư mục `/review5-disk`.
-```
-lsblk -f
-mkdir /review5-disk 
-mount /dev/sdb1 /review5-disk
-```
-Note:
-- Cột FSTYPE sẽ cho biết loại filesystem (ví dụ xfs).
-- Cột MOUNTPOINT sẽ trống nếu chưa được mount.
+![alt text](../pic/64.png)
 
-![](../pic/38.png)
+**1. Log in to the serverb machine as the student user and switch to the root user.**
+```
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
+**2. Identify the unmounted block device that contains an XFS file system on the serverb machine. Mount the block device on the /review5-disk directory.**
 
-Tìm tệp `review5-path`. Tạo tệp `/review5-disk/review5-path.txt` chứa một dòng duy nhất với đường dẫn tuyệt đối đến tệp `review5-path`.
+*2.1 Identify the unmounted block device that contains the XFS file system.*
 ```
-find / -iname review5-path 2>/dev/null > /review5-disk/review5-path.txt
+[root@serverb ~]# lsblk -fs
+NAME  FSTYPE LABEL UUID                                 MOUNTPOINT
+...output omitted...
+vdb1  xfs          7694653c-45f6-4749-bd87-f2f69c37daa7
+└─vdb
+...output omitted...
+```
+From the preceding output, the vdb1 block device contains the XFS file system, which is not mounted on the system.
+
+*2.2 Create the `/review5-disk` directory.*
+```
+[root@serverb ~]# mkdir /review5-disk
+```
+*2.3 Mount the vdb1 block device on the /review5-disk directory.*
+```
+[root@serverb ~]# mount /dev/vdb1 /review5-disk
+```
+*2.4 Verify that the vdb1 block device is mounted on the /review5-disk directory.*
+```
+[root@serverb ~]# df -Th
+Filesystem     Type      Size  Used Avail Use% Mounted on
+...output omitted...
+/dev/vdb1      xfs       2.0G   47M  2.0G   3% /review5-disk
+...output omitted...
+```
+**3. Find the review5-path file. Save its absolute path in the /review5-disk/review5-path.txt file.**
+
+*3.1 Find the review5-path file. Redirect all error messages to the /dev/null special file.*
+```
+[root@serverb ~]# find / -iname review5-path 2>/dev/null
+/var/tmp/review5-path
+```
+Note the absolute path to the review5-path file from the preceding output.
+
+*3.2 Use the `echo` command with the previous output of the `find` command to add the absolute path for the `review5-path` file to the `/review5-disk/review5-path.txt` file.*
+```
+[root@serverb ~]# echo "/var/tmp/review5-path" >> /review5-disk/review5-path.txt
+```
+**4. Find all files that the contractor1 user and the contractor group own. The files must have 640 octal permissions. Save the absolute paths of these files in the /review5-disk/review5-perms.txt file.**
+
+*4.1 Find all the files that the contractor1 user and the contractor group own and that have 640 octal permissions. Redirect all the errors to the /dev/null special file.*
+```
+[root@serverb ~]# find / -user contractor1 \
+-group contractor -perm 640 2>/dev/null
+/usr/share/review5-perms
+```
+Only the /usr/share/review5-perms file meets the criteria of the preceding find command. Note the absolute path to the review5-perms file.
+
+*4.2  Use the `echo` command with the previous output of the find command to add the absolute path for the review5-perms file to the /review5-disk/review5-perms.txt file.*
+```
+[root@serverb ~]# echo "/usr/share/review5-perms" >> /review5-disk/review5-perms.txt
+```
+**5. Find all the files with a size of 100 bytes. Save the absolute paths of these files in the /review5-disk/review5-size.txt file.**
+
+*5.1 Find all the files with a size of exactly 100 bytes. Redirect all the errors to the /dev/null special file.*
+```
+[root@serverb ~]# find / -type f -size 100c 2>/dev/null
+/usr/share/licenses/ethtool/LICENSE
+/usr/share/doc/libuser
+/usr/share/doc/plymouth/AUTHORS
+...output omitted...
+/opt/review5-size
+...output omitted...
+```
+The preceding output might vary depending on the number of files that match the size criteria in your system. Note the absolute paths to all the files from the preceding output.
+
+*5.2 Use the echo command with the previous output of the find command to add the absolute path for the review5-size file to the /review5-disk/review5-size.txt file.*
+```
+[root@serverb ~]# echo "/opt/review5-size" >> /review5-disk/review5-size.txt
+```
+*5.3 Return to the workstation system as the student user.*
+```
+[root@serverb ~]# exit
+logout
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
 ```
 
-Note:
-- `/dev/null` → là “thùng rác” của Linux, mọi dữ liệu gửi vào đây sẽ bị bỏ đi.
-- Chỉ kết quả tìm thấy mới được in ra màn hình.
 
-Tìm tất cả các tệp có quyền 640 octal và thuộc sở hữu của người dùng `contractor1` và nhóm `contractor`. Lưu danh sách các tệp này trong tệp `/review5-disk/review5-perms.txt`.
-```
-find / -user contractor1 \
--group contractor -perm 640 2>/dev/null \
-> /review5-disk/review5-perms.txt ; \
-```
-Tìm tất cả các tệp có kích thước 100 byte. Lưu đường dẫn tuyệt đối của các tệp này trong tệp /review5-disk/review5-size.txt.
-```
-find / -type f -size 100c 2>/dev/null \
-> /review5-disk/review5-size.txt
-```
+
+
+
+---
 
 Note:  
 - -size 100c → đúng 100 byte (1c = 1bytes).
@@ -2390,5 +2619,6 @@ Làm tròn lên → 3 block (1 Block la 4K)~ 3x4 = 12K
 ```
 
 ---
+
 # ---------------------------- END ----------------------------
 ---
