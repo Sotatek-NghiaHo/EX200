@@ -522,6 +522,8 @@ Note: The `-w` (or `--preview`) option opens evince in preview mode. The -i opti
 ```
 Note: Whereas the normal evince mode supports full-screen and presentation-style viewing, the evince preview mode is useful for quick browsing and printing. Notice the print icon at the top.
 
+![alt text](../pic/65.png)
+
 **5. By using the man pages, research lp(1) to determine how to print any document to start on a specific page. Without entering any commands (in the absence of printers), learn the syntax, in one command, to print only pages 2 and 3 of your PostScript file.**
 
 Use the `man lp` command to determine how to print specific pages of a document.
@@ -559,6 +561,12 @@ Kết quả
 - Sử dụng Vim để chỉnh sửa tệp. 
 - Sử dụng chế độ trực quan của Vim để đơn giản hóa việc chỉnh sửa các tệp lớn.
 
+```
+[student@workstation ~]$ lab start edit-review
+[student@workstation ~]$ lab grade edit-review
+[student@workstation ~]$ lab finish edit-review
+```
+
 **1. Trên máy `workstation`, hãy tạo biến shell `lab_file` và gán giá trị `editing_final_lab.txt`. Liệt kê nội dung của thư mục home của `student`, bao gồm các thư mục và tệp ẩn, cũng như quyền, kích thước tệp và thời gian sửa đổi, sau đó chuyển hướng đầu ra đến tệp `editing_final_lab.txt` bằng cách sử dụng biến shell.**
 
 Trên máy trạm, hãy tạo biến shell lab_file và gán giá trị editing_final_lab.txt. Sử dụng lệnh ls -al trong thư mục home của sinh viên và chuyển hướng đầu ra đến tệp editing_final_lab.txt.
@@ -574,21 +582,21 @@ Trên máy trạm, hãy tạo biến shell lab_file và gán giá trị editing_
 
 ![alt text](../pic/53.png)
 
-Sử dụng các phím mũi tên để đặt con trỏ tại ký tự đầu tiên của dòng đầu tiên. Vào chế độ xem theo dòng bằng phím Shift+V. Di chuyển xuống bằng cách sử dụng phím mũi tên xuống hai lần để chọn ba dòng đầu tiên. Xóa các dòng bằng cách nhập x.
+Sử dụng các phím mũi tên để đặt con trỏ tại ký tự đầu tiên của dòng đầu tiên. Vào chế độ xem theo dòng bằng phím `Shift+V` (-- VISUAL LINE --). Di chuyển xuống bằng cách sử dụng phím mũi tên xuống hai lần để chọn ba dòng đầu tiên. Xóa các dòng bằng cách nhập `x`.
 
-Vào chế độ visual mode  của Vim. Xóa bảy ký tự cuối cùng khỏi cột đầu tiên trên dòng đầu tiên. Chỉ giữ lại bốn ký tự đầu tiên của cột đầu tiên.
+**4. Vào chế độ visual mode của Vim. Xóa bảy ký tự cuối cùng khỏi cột đầu tiên trên dòng đầu tiên. Chỉ giữ lại bốn ký tự đầu tiên của cột đầu tiên.**
 
 Sử dụng các phím mũi tên để định vị con trỏ tại ký tự cuối cùng của cột đầu tiên trên dòng đầu tiên. Xóa lựa chọn bằng cách nhập x.
 
 ![alt text](../pic/54.png)
 
-Sử dụng các phím mũi tên để đặt con trỏ tại ký tự thứ năm của cột đầu tiên trên dòng đầu tiên. Vào chế độ trực quan bằng cách gõ v. Ẩn Giải pháp
+Sử dụng các phím mũi tên để đặt con trỏ tại ký tự thứ năm của cột đầu tiên trên dòng đầu tiên. Vào chế độ trực quan bằng cách gõ `v` (-- VISUAL --). -> `x` de xoa
 
 **5. Vào chế độ visual block của Vim. Lặp lại thao tác của bước trước, nhưng lần này chọn từ dòng thứ hai đến dòng cuối cùng. Chỉ giữ lại bốn ký tự đầu tiên của cột đầu tiên.**
 
 ![alt text](../pic/55.png)
 
-Sử dụng các phím mũi tên để đặt con trỏ ở ký tự thứ năm của dòng thứ hai. Vào chế độ trực quan bằng cách sử dụng tổ hợp phím Ctrl+V. Sử dụng các phím mũi tên để đặt con trỏ ở ký tự cuối cùng của cột đầu tiên trên dòng cuối cùng. Xóa lựa chọn bằng cách nhập x
+Sử dụng các phím mũi tên để đặt con trỏ ở ký tự thứ năm của dòng thứ hai. Vào chế độ trực quan bằng cách sử dụng tổ hợp phím `Ctrl+V` (-- VISUAL BLOCK --). Sử dụng các phím mũi tên để đặt con trỏ ở ký tự cuối cùng của cột đầu tiên trên dòng cuối cùng. Xóa lựa chọn bằng cách nhập x
 
 **6. Vào chế độ visual block của Vim và xóa cột thứ tư của tệp.**
 
@@ -634,6 +642,8 @@ Use the ls command to list the Documents directory and pipe the output to the te
 [student@workstation ~]$ ls Documents/ | tee -a $lab_file
 lab_review.txt
 ```
+Note: `-a` (append) : ghi thêm vào cuối file thay vì ghi đè. (tee → overwrite (ghi đè).)
+
 Confirm that the directory listing is at the bottom of the lab file. Use the `lab_file` shell variable.
 ```
 [student@workstation ~]$ cat $lab_file
@@ -901,7 +911,7 @@ logout
 [root@serverb ~]#
 ```
 
-*7.3 Switch to the database1 user. Display the content of the /home/techdocs/techdoc1.txt file. You get a Permission Denied message. Verify that the database1 user does not have access to the file. Exit from the database1 user shell.*
+*7.3 Switch to the `database1` user. Display the content of the /home/techdocs/techdoc1.txt file. You get a Permission Denied message. Verify that the `database1` user does not have access to the file. Exit from the `database1` user shell.*
 
 Enter the following long echo command on a single line:
 ```
@@ -915,9 +925,9 @@ logout
 [root@serverb ~]#
 ```
 
-**8. Modify the /etc/login.defs file to adjust the default umask for login shells. Normal users should have a umask setting that allows the user and group to create, write, and execute files and directories, and preventing other users from viewing, modifying, or executing new files and directories.**
+**8. Modify the `/etc/login.defs `file to adjust the default umask for login shells. Normal users should have a umask setting that allows the user and group to create, write, and execute files and directories, and preventing other users from viewing, modifying, or executing new files and directories.**
 
-*8.1 Determine the umask of the student user. Switch to the student login shell. When done, exit from the shell.*
+*8.1 Determine the umask of the student user. Switch to the `student` login shell. When done, exit from the shell.*
 ```
 [root@serverb ~]# su - student
 [student@serverb ~]$ umask
@@ -927,7 +937,7 @@ logout
 [root@serverb ~]#
 ```
 
-*8.2 Edit the /etc/login.defs file and set a umask of 007. The /etc/login.defs file already contains a umask definition. Search the file and update with the appropriate value.*
+*8.2 Edit the `/etc/login.defs` file and set a umask of `007`. The `/etc/login.defs` file already contains a umask definition. Search the file and update with the appropriate value.*
 ```
 [root@serverb ~]# cat /etc/login.defs
 ...output omitted...
@@ -935,7 +945,7 @@ UMASK           007
 ...output omitted...
 ```
 
-*8.3 As the student user, verify that the global umask changes to 007.*
+*8.3 As the `student` user, verify that the global umask changes to `007`.*
 ```
 [root@serverb ~]# exit
 logout
@@ -948,7 +958,7 @@ Connection to serverb closed.
 0007
 ```
 
-*8.4 Return to the workstation system as the student user.*
+*8.4 Return to the `workstation` system as the student user.*
 ```
 [student@serverb ~]$ exit
 logout
@@ -988,6 +998,9 @@ Quy tắc (other):
 Note
 - Bất kể đang ở thư mục nào (/home/dev1, /tmp, /etc, hay /home/techdocs/dev1), khi tạo file mới trong session này, quyền sẽ tuân theo 0027. Muốn một thư mục có “policy riêng” -> chmod. 
 - Khi login lại (dù qua su - dev1 hay ssh dev1@host), shell mới sẽ đọc các file config mặc định (/etc/profile, ~/.bashrc, ~/.bash_profile …). umask sẽ trở về giá trị mặc định (thường là 0022, trừ khi anh sửa file config). Nghĩa là thiết lập 0027 vừa set trước đó không còn hiệu lực
+
+File `/etc/login.defs`  
+![alt text](../pic/66.png)
 
 
 
