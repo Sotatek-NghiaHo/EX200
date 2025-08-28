@@ -955,374 +955,6 @@ Note
 
 
 
-
----
-# CHAPTER 12: Install and Update Software 
-12.7 PAGE 71/128  
-Tải xuống, cài đặt, cập nhật và quản lý các gói phần mềm từ kho lưu trữ gói Red Hat và DNF.
-
-Kết quả
-- Quản lý kho phần mềm.
-- Cài đặt và nâng cấp các gói từ kho lưu trữ.
-- Cài đặt gói RPM.
-
-1. Trên máy chủ, hãy cấu hình kho phần mềm tùy chỉnh để cài đặt các gói cụ thể. Đặt tên kho lưu trữ là `errata` và tạo tệp kho lưu trữ `errata.repo`. Cấu hình tệp `errata.repo` để sử dụng kho lưu trữ http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata. Không xác minh chữ ký GPG.
-
-- Tuy thuoc vao version redhat
-- Chi lab duoc tren tren moi truong redhat vi la repo private
-
-```
-
-student@workstation:~$ ssh student@serverb
-...output omitted...
-[student@serverb ~]$ sudo -i
-[sudo] password for student: student
-[root@serverb ~]#
-```
-```
-[root@serverb ~]# vi /etc/yum.repos.d/errata.repo
----
-[errata]
-name=Red Hat Updates
-baseurl=http://content.example.com/rhel9.3/x86_64/rhcsa-practice/errata
-enabled=1
-gpgcheck=0
----
-```
-**2. Trên máy chủ, hãy cài đặt gói `rht-system`**  
-*2.1 Liệt kê các gói có sẵn cho gói `rht-system`*
-```
-[root@serverb ~]# dnf list rht-system
-```
-*2.2 Cài đặt phiên bản mới nhất của gói `rht-system`.*
-```
-[root@serverb ~]# dnf install rht-system
-```
-**3. Vì lý do bảo mật, máy chủ ServerB không được phép kết nối với máy in giấy. Bạn có thể thực hiện việc này bằng cách gỡ bỏ gói `cups`. Khi hoàn tất, hãy thoát khỏi root shell.**
-
-*3.1 Liệt kê các gói `cups` đã cài đặt.*
-```
-[root@serverb ~]# dnf list cups
-...output omitted...
-Installed Packages
-cups.x86_64        1:2.4.10-11.el10         @rhel-10.0-for-x86_64-appstream-rpms
-```
-*3.2 Remove the `cups` package.*
-```
-[root@serverb ~]# dnf remove cups.x86_64
-```
-
-**4. Tập lệnh khởi động sẽ tải xuống gói `rhcsa-script-1.0.0-1.noarch.rpm` trong thư mục `/home/student` trên máy serverb.**
-
-Hãy xác nhận rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb và cài đặt nó bằng quyền `root`. Kiểm tra xem gói đã được cài đặt chưa. Thoát khỏi máy `serverb`.
-
-*4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên `serverb`.*
-
-```
-[root@serverb ~]# rpm -q -p -i ~/rhcsa-script-1.0.0-1.noarch.rpm
-Name        : rhcsa-script
-Version     : 1.0.0
-Release     : 1
-Architecture: noarch
-Install Date: (not installed)
-Group       : System
-Size        : 593
-License     : GPL
-Signature   : (none)
-Source RPM  : rhcsa-script-1.0.0-1.src.rpm
-Build Date  : Wed Mar 23 12:24:21 2022
-Build Host  : localhost
-Packager    : Bernardo Gargallo
-URL         : http://example.com
-Summary     : RHCSA Practice Script
-Description :
-A RHCSA practice script.
-The package changes the motd.
-```
-
-*4.2 Install the `rhcsa-script-1.0.0-1.noarch.rpm` package.*
-```
-[root@serverb ~]# dnf install ~/rhcsa-script-1.0.0-1.noarch.rpm
-```
-
-*4.3 Verify that the package is installed.*
-```
-[root@serverb ~]# rpm -q rhcsa-script
-rhcsa-script-1.0.0-1.noarch
-[root@serverb ~]#
-```
-*4.4 Trở lại hệ thống máy workstation với tư cách là người dùng là student.*
-```
-[student@serverb ~]$ exit
-logout
-Connection to serverb closed.
-[student@workstation ~]$
-```
----
-# CHAPTER 13: Guided Exercise: Manage Applications from Flatpak
-Liệt kê, tìm kiếm, cài đặt, gỡ bỏ và lấy thông tin siêu dữ liệu của các ứng dụng bằng cách sử dụng Flatpak.
-
-Kết quả
-- Sử dụng các lệnh Flatpak để quản lý ứng dụng và runtime.
-- Cài đặt ứng dụng và xem lại thông tin của chúng.
-- Gỡ cài đặt các ứng dụng Flatpak và các phần phụ thuộc của chúng.
-
-**1. Với tư cách là người dùng là `student` trên máy `workstation` , hãy xác minh rằng kho lưu trữ từ xa `rhel` và `myrepo` Flatpak đã được cấu hình.**
-```
-student@workstation:~$ flatpak remotes
-Name     Options
-rhel     system,oci,no-gpg-verify
-myrepo   user,no-gpg-verify
-```
-**2. Xác minh rằng không có ứng dụng Flatpak nào có trong hệ thống.**
-```
-student@workstation:~$ flatpak list --app
-```
-**3. Xác định và cài đặt `codium` và `Obsidian` Flatpak ở chế độ cài đặt người dùng từ kho lưu trữ từ xa `myrepo`.**
-
-*3.1 Liệt kê các đối tượng Flatpak có sẵn từ kho lưu trữ từ xa `myrepo`. Lưu ý các mã định danh ứng dụng và nhánh.*
-```
-student@workstation:~$ flatpak remote-ls myrepo
-Name                              Application ID        Version   Branch
-codium                            com.vscodium.codium             stable
-Obsidian                          md.obsidian.Obsidian            stable
-freedesktop platform              org.freedesktop.Platform        24.08
-freedesktop development platform  org.freedesktop.Sdk             24.08
-```
-*3.2 Cài đặt phiên bản mới nhất của các gói `codium` và `Obsidian` bằng cách sử dụng bộ ba mã định danh mà nhánh `stable` sử dụng.*
-```
-student@workstation:~$ flatpak install com.vscodium.codium//stable \
-md.obsidian.Obsidian//stable
-```
-
-**4. Xác minh rằng các ứng dụng đã được cài đặt thành công. Lưu ý rằng phần phụ thuộc runtime cũng đã được cài đặt.**
-```
-student@workstation:~$ flatpak list
-Name            Application ID         Version                  Branch Inst...
-VSCodium        com.vscodium.codium    1.100.23258              stable user
-Obsidian        md.obsidian.Obsidian   1.8.10                   stable user
-Freedesktop Pl… ….freedesktop.Platform freedesktop-sdk-24.08.19 24.08  user
-Freedesktop SDK org.freedesktop.Sdk    freedesktop-sdk-24.08.19 24.08  user
-```
-
-**5. Truy xuất thông tin bổ sung về các ứng dụng đã cài đặt.**
-
-*5.1 Truy xuất thông tin cho ứng dụng `VSCodium`.*
-```
-student@workstation:~$ flatpak info md.obsidian.Obsidian
-
-Obsidian - Markdown-based knowledge base
-
-          ID: md.obsidian.Obsidian
-         Ref: app/md.obsidian.Obsidian/x86_64/stable
-        Arch: x86_64
-      Branch: stable
-     Version: 1.8.10
-     License: LicenseRef-proprietary=https://obsidian.md/eula
-      Origin: myrepo
-  Collection: org.flathub.Stable
-Installation: user
-   Installed: 634.3 MB
-     Runtime: org.freedesktop.Platform/x86_64/24.08
-         Sdk: org.freedesktop.Sdk/x86_64/24.08
-
-      Commit: 9f43...e633
-      Parent: 79b5...9a9c
-     Subject: Update gh module (91b101008d04)
-        Date: 2025-05-30 04:52:34 +0000
-```
-
-**6. Từ màn hình nền đồ họa GNOME, hãy khởi chạy các ứng dụng `VSCodium` và `Obsidian` để kiểm tra xem chúng đã được cài đặt đúng cách chưa.**
-
-*6.1 Nhấp vào logo `Red Hat` ở góc trên bên trái màn hình để mở  `Activities Overview`.*
-
-6.2 Trong hộp tìm kiếm, nhập `vscodium` và nhấp vào biểu tượng `VSCodium` để mở ứng dụng.
-
-6.3 Kiểm tra xem ứng dụng đã khởi động đúng cách chưa. Khám phá giao diện của ứng dụng và đóng ứng dụng khi hoàn tất.
-
-6.4 Trong hộp tìm kiếm, nhập `obsidian` và nhấp vào biểu tượng `Obsidian` để mở ứng dụng.
-
-6.5 Nhấp vào `Quick Start` để khám phá ứng dụng và đóng ứng dụng khi hoàn tất.
-
-**7. Gỡ cài đặt gói `VSCodium` Flatpak cùng tất cả các gói phụ thuộc.**
-
-*7.1 Hãy thử xóa `org.freedesktop.Sdk` runtime trước khi gỡ cài đặt ứng dụng phụ thuộc vào nó. Bạn sẽ nhận được thông báo lỗi.*
-```bash
-student@workstation:~$ flatpak uninstall org.freedesktop.Sdk
-Info: applications using the runtime org.freedesktop.Sdk branch 24.08:
-   com.vscodium.codium
-Really remove? [y/n]: y
-
-
-        ID                         Branch       Op
- 1.     org.freedesktop.Sdk        24.08        r
-
-Proceed with these changes to the user installation? [Y/n]: y
-
-       ID                         Branch       Op
- 1. [✗] org.freedesktop.Sdk        24.08        r
-
-Error: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
-error: Failed to uninstall org.freedesktop.Sdk: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
-```
-Note: bạn không thể gỡ runtime (`org.freedesktop.Sdk`) khi nó đang được một ứng dụng (com.vscodium.codium) sử dụng.
-Ở đây, `VSCodium` (Codium) phụ thuộc vào runtime `org.freedesktop.Sdk`, nên Flatpak từ chối.
-
-*7.2 Chạy lại lệnh `flatpak uninstall` và chỉ định gói `Codium` và runtime `SDK`. Bạn có thể sử dụng các định danh dạng rút gọn vì không có phiên bản nào khác được cài đặt cho các đối tượng đó.*
-
-Flatpak tự động đặt thứ tự ưu tiên gỡ cài đặt, bất kể thứ tự của các định danh trong lệnh.  
-Gỡ cả ứng dụng (Codium) và runtime (Sdk) cùng lúc.  
-```
-student@workstation:~$ flatpak uninstall Sdk codium
-Found installed ref 'runtime/org.freedesktop.Sdk/x86_64/24.08' (user). Is this correct? [Y/n]: y
-Found installed ref 'app/com.vscodium.codium/x86_64/stable' (user). Is this correct? [Y/n]: y
-
-
-        ID                         Branch       Op
- 1.     com.vscodium.codium        stable       r
- 2.     org.freedesktop.Sdk        24.08        r
-
-Proceed with these changes to the user installation? [Y/n]: y
-
-        ID                         Branch       Op
- 1. [-] com.vscodium.codium        stable       r
- 2. [-] org.freedesktop.Sdk        24.08        r
-
-Uninstalling 1/2…
-Uninstalling 2/2…
-```
-![alt text](../pic/49.png)
-
-*7.3 Verify that the Flatpak objects are no longer installed.*
-```
-student@workstation:~$ flatpak list
-Name                 Application ID           Version               Branch Inst...
-Obsidian             md.obsidian.Obsidian     1.8.9                 stable user
-Freedesktop Platform org.freedesktop.Platform freedesktop-sdk-24.08 24.08  user
-```
-
-**8. Từ GNOME desktop, hãy gỡ cài đặt `Obsidian` Flatpak cùng tất cả các thành phần phụ thuộc bằng GNOME Software graphical tool..**
-
-*8.1 Từ môi trường màn hình nền đồ họa GNOME, nhấp vào logo `Red Hat` ở góc trên bên trái, sau đó chọn `Software` từ bảng điều khiển, hoặc sử dụng nút `Show Application` để mở ứng dụng.*
-
-*8.2 Nhấp vào tab `Insatalled`  . Trong phần `Apps`, tìm `Obsidian` và nhấp vào `Uninstall`. Nhấp vào `Uninstall` để xác nhận.*
-
-*8.3 Trong phần `Add-ons`, tìm `Freedesktop Platform`. Nhấp vào `Uninstall` và nhấp vào `Uninstall` một lần nữa khi được yêu cầu xác nhận.*
-
-*8.4 Đóng GNOME Software tool.*
-
-![alt text](../pic/50.png)
-
-**9. Kiểm tra xem tất cả các đối tượng Flatpak đã được xóa khỏi máy trạm chưa.**
-
-*9.1 Kiểm tra xem không có đối tượng Flatpak nào trên ổ đĩa.*
-```
-student@workstation:~$ flatpak list
-```
-
----
-# CHAPTER 13: Access Linux File Systems
-14.7 PAGE 85/128  
-Truy cập hệ thống tệp trên các thiết bị lưu trữ di động bằng cách gắn chúng vào một thư mục trong hệ thống phân cấp tệp.
-
-Kết quả
-- Gắn hệ thống tệp.
-- Tạo báo cáo sử dụng đĩa.
-- Tìm tệp trong hệ thống tệp cục bộ.
-
-**1. Với tư cách là người dùng root trên máy serverb, hãy xác định UUID cho device `/dev/sdb1` và gắn kết nó bằng cách sử dụng UUID của nó trên thư mục `/mnt/system-report`.**
-
-*1.1 Đăng nhập vào máy chủ `serverb` với tư cách là người dùng `student` và chuyển sang người dùng `root`. Sử dụng `student` làm mật khẩu.*
-```
-student@workstation:~$ ssh student@serverb
-...output omitted...
-[student@serverb ~]$ sudo -i
-[sudo] password for student: student
-[root@serverb ~]#
-```
-
-*1.2 Truy vấn UUID của thiết bị `/dev/sdb1`.*
-```
-[root@redhat9-server-1 ~]# lsblk -fp /dev/sdb
-NAME        FSTYPE FSVER LABEL UUID          FSAVAIL FSUSE% MOUNTPOINTS
-/dev/sdb
-└─/dev/sdb1 xfs                48bd5...3337a
-```
-Note: UUID có thể thay đổi tùy theo môi trường của bạn.
-
-*1.3 Kiểm tra xem thư mục `/mnt/system-report` có tồn tại không.*
-
-```
-[root@redhat9-server-1 ~]# ls /mnt/system-report
-ls: cannot access '/mnt/system-report': No such file or directory
-```
-*1.4  Create the `/mnt/system-report` directory.*
-```
-mkdir /mnt/system-report
-```
-*1.5  Gắn thiết bị `/dev/sdb1` vào thư mục `/mnt/system-report` bằng cách sử dụng UUID. Thay thế UUID giữ chỗ trong lệnh sau bằng UUID từ môi trường của bạn.*
-
-```
-mount UUID="48bd5...3337a" /mnt/system-report
-```
-
-Tren may ca nhan uuid
-```
-[root@redhat9-server-1 ~]# df -h
-Filesystem             Size  Used Avail Use% Mounted on
-devtmpfs               4.0M     0  4.0M   0% /dev
-tmpfs                  870M     0  870M   0% /dev/shm
-tmpfs                  348M  7.3M  341M   3% /run
-efivarfs               256K   56K  196K  23% /sys/firmware/efi/efivars
-/dev/mapper/rhel-root   22G  5.9G   16G  28% /
-/dev/nvme0n1p2         960M  357M  604M  38% /boot
-/dev/nvme0n1p1         599M  7.1M  592M   2% /boot/efi
-tmpfs                  174M   52K  174M   1% /run/user/42
-tmpfs                  174M   36K  174M   1% /run/user/0
-[root@redhat9-server-1 ~]# lsblk -fp /dev/mapper/rhel-root 
-NAME                  FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
-/dev/mapper/rhel-root xfs                131d0080-1a1b-4e25-be6b-dded50e4a185   15.5G    27% /
-```
-
-*1.6 Xác minh rằng thiết bị `/dev/sdb1` được gắn vào thư mục `/mnt/system-report`.*
-
-```
-lsblk -fp /dev/sdb1
-NAME      FSTYPE FSVER LABEL UUID           FSAVAIL FSUSE% MOUNTPOINTS
-/dev/sdb1 xfs                48bd5...3337a     4.8G     3% /mnt/system-report
-```
-
-**2. Tạo báo cáo sử dụng đĩa cho thư mục `/usr/share`. Lưu kết quả vào tệp `/mnt/system-report/disk-usage.txt`.**
-```
-du /usr/share > /mnt/system-report/disk-usage.txt
-```
-
-**3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp**  
-*3.1 Update the locate database.*
-```
-updatedb
-```
-*3.2 Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf`. Lưu kết quả vào tệp `/mnt/system-report/search1.txt`.*
-```
-locate rsyslog.conf > /mnt/system-report/search1.txt
-```
-**4. Tìm kiếm tất cả các tệp trong thư mục `/usr/share` có kích thước lớn hơn 5 MB nhưng nhỏ hơn 10 MB. Lưu kết quả vào tệp `/mnt/system-report/search2.txt`**
-
-```
-[root@redhat9-server-1 ~]# find /usr/share -size +5M -size -10M > \
-/mnt/system-report/search2.txt
-```
-
-**5. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy workstation với tư cách là người dùng là student.**
-```
-[root@serverb ~]# exit
-logout
-[student@serverb ~]$ exit
-logout
-Connection to serverb closed.
-student@workstation:~$
-```
-
 ---
 # CHAPTER 8: Monitor and Manage Linux Processes
 PAGE 67/125
@@ -2088,6 +1720,211 @@ PING serverb-secondary (172.25.250.150) 56(84) bytes of data.
 3 packets transmitted, 3 received, 0% packet loss, time 2084ms
 rtt min/avg/max/mdev = 0.345/0.370/0.385/0.018 ms
 ```
+---
+# CHAPTER 12: Install and Update Software 
+12.7 PAGE 71/128  
+Tải xuống, cài đặt, cập nhật và quản lý các gói phần mềm từ kho lưu trữ gói Red Hat và DNF.
+
+Kết quả
+- Quản lý kho phần mềm.
+- Cài đặt và nâng cấp các gói từ kho lưu trữ.
+- Cài đặt gói RPM.
+
+1. Trên máy chủ, hãy cấu hình kho phần mềm tùy chỉnh để cài đặt các gói cụ thể. Đặt tên kho lưu trữ là `errata` và tạo tệp kho lưu trữ `errata.repo`. Cấu hình tệp `errata.repo` để sử dụng kho lưu trữ http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata. Không xác minh chữ ký GPG.
+
+- Tuy thuoc vao version redhat
+- Chi lab duoc tren tren moi truong redhat vi la repo private
+
+```
+
+student@workstation:~$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
+```
+[root@serverb ~]# vi /etc/yum.repos.d/errata.repo
+---
+[errata]
+name=Red Hat Updates
+baseurl=http://content.example.com/rhel9.3/x86_64/rhcsa-practice/errata
+enabled=1
+gpgcheck=0
+---
+```
+**2. Trên máy chủ, hãy cài đặt gói `rht-system`**  
+*2.1 Liệt kê các gói có sẵn cho gói `rht-system`*
+```
+[root@serverb ~]# dnf list rht-system
+```
+*2.2 Cài đặt phiên bản mới nhất của gói `rht-system`.*
+```
+[root@serverb ~]# dnf install rht-system
+```
+**3. Vì lý do bảo mật, máy chủ ServerB không được phép kết nối với máy in giấy. Bạn có thể thực hiện việc này bằng cách gỡ bỏ gói `cups`. Khi hoàn tất, hãy thoát khỏi root shell.**
+
+*3.1 Liệt kê các gói `cups` đã cài đặt.*
+```
+[root@serverb ~]# dnf list cups
+...output omitted...
+Installed Packages
+cups.x86_64        1:2.4.10-11.el10         @rhel-10.0-for-x86_64-appstream-rpms
+```
+*3.2 Remove the `cups` package.*
+```
+[root@serverb ~]# dnf remove cups.x86_64
+```
+
+**4. Tập lệnh khởi động sẽ tải xuống gói `rhcsa-script-1.0.0-1.noarch.rpm` trong thư mục `/home/student` trên máy serverb.**
+
+Hãy xác nhận rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên serverb và cài đặt nó bằng quyền `root`. Kiểm tra xem gói đã được cài đặt chưa. Thoát khỏi máy `serverb`.
+
+*4.1 Xác minh rằng gói `rhcsa-script-1.0.0-1.noarch.rpm` có sẵn trên `serverb`.*
+
+```
+[root@serverb ~]# rpm -q -p -i ~/rhcsa-script-1.0.0-1.noarch.rpm
+Name        : rhcsa-script
+Version     : 1.0.0
+Release     : 1
+Architecture: noarch
+Install Date: (not installed)
+Group       : System
+Size        : 593
+License     : GPL
+Signature   : (none)
+Source RPM  : rhcsa-script-1.0.0-1.src.rpm
+Build Date  : Wed Mar 23 12:24:21 2022
+Build Host  : localhost
+Packager    : Bernardo Gargallo
+URL         : http://example.com
+Summary     : RHCSA Practice Script
+Description :
+A RHCSA practice script.
+The package changes the motd.
+```
+
+*4.2 Install the `rhcsa-script-1.0.0-1.noarch.rpm` package.*
+```
+[root@serverb ~]# dnf install ~/rhcsa-script-1.0.0-1.noarch.rpm
+```
+
+*4.3 Verify that the package is installed.*
+```
+[root@serverb ~]# rpm -q rhcsa-script
+rhcsa-script-1.0.0-1.noarch
+[root@serverb ~]#
+```
+*4.4 Trở lại hệ thống máy workstation với tư cách là người dùng là student.*
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
+---
+# CHAPTER 13: Access Linux File Systems
+14.7 PAGE 85/128  
+Truy cập hệ thống tệp trên các thiết bị lưu trữ di động bằng cách gắn chúng vào một thư mục trong hệ thống phân cấp tệp.
+
+Kết quả
+- Gắn hệ thống tệp.
+- Tạo báo cáo sử dụng đĩa.
+- Tìm tệp trong hệ thống tệp cục bộ.
+
+**1. Với tư cách là người dùng root trên máy serverb, hãy xác định UUID cho device `/dev/sdb1` và gắn kết nó bằng cách sử dụng UUID của nó trên thư mục `/mnt/system-report`.**
+
+*1.1 Đăng nhập vào máy chủ `serverb` với tư cách là người dùng `student` và chuyển sang người dùng `root`. Sử dụng `student` làm mật khẩu.*
+```
+student@workstation:~$ ssh student@serverb
+...output omitted...
+[student@serverb ~]$ sudo -i
+[sudo] password for student: student
+[root@serverb ~]#
+```
+
+*1.2 Truy vấn UUID của thiết bị `/dev/sdb1`.*
+```
+[root@redhat9-server-1 ~]# lsblk -fp /dev/sdb
+NAME        FSTYPE FSVER LABEL UUID          FSAVAIL FSUSE% MOUNTPOINTS
+/dev/sdb
+└─/dev/sdb1 xfs                48bd5...3337a
+```
+Note: UUID có thể thay đổi tùy theo môi trường của bạn.
+
+*1.3 Kiểm tra xem thư mục `/mnt/system-report` có tồn tại không.*
+
+```
+[root@redhat9-server-1 ~]# ls /mnt/system-report
+ls: cannot access '/mnt/system-report': No such file or directory
+```
+*1.4  Create the `/mnt/system-report` directory.*
+```
+mkdir /mnt/system-report
+```
+*1.5  Gắn thiết bị `/dev/sdb1` vào thư mục `/mnt/system-report` bằng cách sử dụng UUID. Thay thế UUID giữ chỗ trong lệnh sau bằng UUID từ môi trường của bạn.*
+
+```
+mount UUID="48bd5...3337a" /mnt/system-report
+```
+
+Tren may ca nhan uuid
+```
+[root@redhat9-server-1 ~]# df -h
+Filesystem             Size  Used Avail Use% Mounted on
+devtmpfs               4.0M     0  4.0M   0% /dev
+tmpfs                  870M     0  870M   0% /dev/shm
+tmpfs                  348M  7.3M  341M   3% /run
+efivarfs               256K   56K  196K  23% /sys/firmware/efi/efivars
+/dev/mapper/rhel-root   22G  5.9G   16G  28% /
+/dev/nvme0n1p2         960M  357M  604M  38% /boot
+/dev/nvme0n1p1         599M  7.1M  592M   2% /boot/efi
+tmpfs                  174M   52K  174M   1% /run/user/42
+tmpfs                  174M   36K  174M   1% /run/user/0
+[root@redhat9-server-1 ~]# lsblk -fp /dev/mapper/rhel-root 
+NAME                  FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+/dev/mapper/rhel-root xfs                131d0080-1a1b-4e25-be6b-dded50e4a185   15.5G    27% /
+```
+
+*1.6 Xác minh rằng thiết bị `/dev/sdb1` được gắn vào thư mục `/mnt/system-report`.*
+
+```
+lsblk -fp /dev/sdb1
+NAME      FSTYPE FSVER LABEL UUID           FSAVAIL FSUSE% MOUNTPOINTS
+/dev/sdb1 xfs                48bd5...3337a     4.8G     3% /mnt/system-report
+```
+
+**2. Tạo báo cáo sử dụng đĩa cho thư mục `/usr/share`. Lưu kết quả vào tệp `/mnt/system-report/disk-usage.txt`.**
+```
+du /usr/share > /mnt/system-report/disk-usage.txt
+```
+
+**3. Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf` và lưu trữ kết quả trong tệp `/mnt/system-report/search1.txt`. Hiển thị giải pháp**  
+*3.1 Update the locate database.*
+```
+updatedb
+```
+*3.2 Sử dụng lệnh `locate` để tìm tất cả các tệp khớp với từ khóa `rsyslog.conf`. Lưu kết quả vào tệp `/mnt/system-report/search1.txt`.*
+```
+locate rsyslog.conf > /mnt/system-report/search1.txt
+```
+**4. Tìm kiếm tất cả các tệp trong thư mục `/usr/share` có kích thước lớn hơn 5 MB nhưng nhỏ hơn 10 MB. Lưu kết quả vào tệp `/mnt/system-report/search2.txt`**
+
+```
+[root@redhat9-server-1 ~]# find /usr/share -size +5M -size -10M > \
+/mnt/system-report/search2.txt
+```
+
+**5. Sau khi hoàn thành nhiệm vụ của hoạt động này, hãy quay lại máy workstation với tư cách là người dùng là student.**
+```
+[root@serverb ~]# exit
+logout
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+student@workstation:~$
+```
+
 
 ---
 # CHAPTER 15:  Comprehensive Review
