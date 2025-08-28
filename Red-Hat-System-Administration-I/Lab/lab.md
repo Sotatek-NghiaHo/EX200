@@ -421,9 +421,9 @@ Kết quả
 - Tìm hiểu các tùy chọn mới cho các lệnh tài liệu phổ biến nhất. 
 - Sử dụng các công cụ phù hợp để xem và in tài liệu và các tệp không được định dạng văn bản khác.
 
-1. Trên máy `workstation`, hãy xác định cách chuẩn bị trang hướng dẫn để in. Cụ thể, hãy tìm định dạng hoặc ngôn ngữ hiển thị mặc định để in.  
+**1. On the workstation machine, determine how to prepare a man page for printing. Specifically, find which is the default format or rendering language for printing.**
 
-Use the `man man` command to determine how to prepare a man page for printing.
+*1.1 Use the man man command to determine how to prepare a man page for printing.*
 ```
 [student@worksation ~]$ man man
 ...output omitted...
@@ -434,17 +434,23 @@ Use the `man man` command to determine how to prepare a man page for printing.
       is bound to the -t option.
 ...output omitted...
 ```
-Press `q` to quit the man page.
-2. Tạo một tệp đầu ra định dạng `PostScript` cho trang hướng dẫn `passwd`. Gọi tệp `passwd.ps` và đặt nó vào thư mục home của người dùng `student`. Xác định định dạng tệp. Kiểm tra nội dung của tệp `passwd.ps` bằng lệnh `less`.
+Press q to quit the man page.
 
-LƯU Ý Vì bạn cần lưu kết quả đầu ra của lệnh man vào một tệp, bạn có thể sử dụng ký hiệu > để chuyển hướng kết quả đầu ra chuẩn sang một tệp. Ví dụ, lệnh sau liệt kê tên tệp thông thường của thư mục gốc vào một tệp.
+Note: The man command -t option prepares a man page for printing, using by default PostScript.
+
+**2. Create a PostScript-formatted output file of the passwd man page. Call the file passwd.ps and place it in the student user's home directory. Determine the file format. Inspect the contents of the passwd.ps file by using the less command.**
+
+Note: Because you need to save the output of the man command to a file, you can use the > symbol, which redirects the standard output to a file.
+
+As an example, the following command lists the home directory's regular file names into a file.
 ```
 [student@workstation ~]$ ls > /tmp/my-file-names
 ```
+This command is taught in more detail in a following chapter.
 
-3. Bằng cách sử dụng các trang hướng dẫn, hãy tìm các lệnh bạn có thể sử dụng để xem và in các tệp PostScript. 
+**3. By using the man pages, find which commands you can use for viewing and printing PostScript files.**
 
-Tìm kiếm thông tin về các tệp PostScript trong các trang hướng dẫn. Sử dụng tùy chọn -k cho mục đích này.
+Search in the man pages for information about PostScript files. Use the -k option for this purpose.
 ```
 [student@workstation ~]# man -k postscript viewer
 enscript (1)         - convert text files to PostScript, HTML, RTF, ANSI, and overstrikes
@@ -455,10 +461,11 @@ evince-thumbnailer (1) - create png thumbnails from PostScript and PDF documents
 gcm-viewer (1)       - GNOME Color Manager Profile Viewer Tool
 ...output omitted...
 ```
+Note : Using multiple words with the -k option finds man pages that match any word; such as "postscript" or "viewer" in their descriptions. Notice the evince(1) commands in the output.
 
-**4. Tìm hiểu cách sử dụng trình xem `evince`(1) ở chế độ xem trước. Ngoài ra, hãy xác định cách mở tài liệu để bắt đầu ở một trang cụ thể. Mở tệp PostScript của bạn bằng `evince` ba lần: đầu tiên bằng chế độ mặc định, sau đó bằng tùy chọn chế độ xem trước, và cuối cùng là bắt đầu ở trang 3. Đóng tệp tài liệu của bạn khi hoàn tất.**
+**4. Learn how to use the evince(1) viewer in preview mode. Also, determine how to open a document to start on a specific page. Open your PostScript file by using evince three times: first by using the default mode, and then with the preview mode option, and finally to start at page 3. Close your document file when you finish.**
 
-4.1 Use the man evince command to learn how to use the viewer in preview mode.
+*4.1 Use the man evince command to learn how to use the viewer in preview mode.*
 ```
 [student@workstation ~]$ man evince
 ...output omitted...
@@ -469,24 +476,25 @@ gcm-viewer (1)       - GNOME Color Manager Profile Viewer Tool
               Run evince as a previewer.
 ...output omitted...
 ```
-Press `q` to quit the man page.  
-Note: Tùy chọn -w (hoặc --preview) sẽ mở evince ở chế độ xem trước. Tùy chọn -i sẽ mở evince ở trang bắt đầu được chỉ định.
+Press q to quit the man page.
 
-4.2 Use the evince command to open the /home/student/passwd.ps file.
+Note: The -w (or --preview) option opens evince in preview mode. The -i option opens evince at the specified starting page.
+
+*4.2 Use the evince command to open the /home/student/passwd.ps file.*
 ```
 [student@workstation ~]$ evince /home/student/passwd.ps
 ```
-4.3 Sử dụng lệnh evince -w /home/student/passwd.ps để mở tệp ở chế độ xem trước.
+*4.3 Use the evince -w /home/student/passwd.ps command to open the file in preview mode.*
 ```
 [student@workstation ~]$ evince -w /home/student/passwd.ps
 ```
-4.4 Use the evince -i 3 /home/student/passwd.ps command to open the file at page 3.
+*4.4 Use the evince -i 3 /home/student/passwd.ps command to open the file at page 3.*
 ```
 [student@workstation ~]$ evince -i 3 /home/student/passwd.ps
 ```
-Note: Trong khi chế độ evince thông thường hỗ trợ chế độ xem toàn màn hình và chế độ trình bày, chế độ xem trước evince hữu ích cho việc duyệt nhanh và in ấn. Lưu ý biểu tượng in ở trên cùng.
+Note: Whereas the normal evince mode supports full-screen and presentation-style viewing, the evince preview mode is useful for quick browsing and printing. Notice the print icon at the top.
 
-5, By using the man pages, research lp(1) to determine how to print any document to start on a specific page. Without entering any commands (in the absence of printers), learn the syntax, in one command, to print only pages 2 and 3 of your PostScript file.
+**5. By using the man pages, research lp(1) to determine how to print any document to start on a specific page. Without entering any commands (in the absence of printers), learn the syntax, in one command, to print only pages 2 and 3 of your PostScript file.**
 
 Use the man lp command to determine how to print specific pages of a document.
 ```
@@ -500,9 +508,9 @@ Press q to quit the man page.
 
 Note: From lp(1), you learn that the -P option specifies the page list to print in the document. The lp command spools to the default printer, and sends only the page range to start on 2 and to end on 3. Therefore, one valid answer is lp passwd.ps -P 2-3.
 
-6. Use the Firefox browser to open the system's man page directory (/usr/share/doc) and browse to the `man-db` package subdirectory. View the provided manuals. After you finish reviewing the man-db manuals, locate and browse to the kexec-tools package subdirectory. View the `kexec-kdump-howto.txt` file, which describes important system configurations that are stored in the `/etc/sysconfig directory`.
+**6. Use the Firefox browser to open the system's man page directory (/usr/share/doc) and browse to the `man-db` package subdirectory. View the provided manuals. After you finish reviewing the man-db manuals, locate and browse to the kexec-tools package subdirectory. View the `kexec-kdump-howto.txt` file, which describes important system configurations that are stored in the `/etc/sysconfig directory`.**
 
-6.1 Use firefox `/usr/share/doc` to view system documentation. Browse the `man-db` subdirectory. Click the manuals to view them.
+*6.1 Use firefox `/usr/share/doc` to view system documentation. Browse the `man-db` subdirectory. Click the manuals to view them.*
 
 [student@workstation ~]$ firefox /usr/share/doc
 The firefox command might return output that is unrelated to the Satellite console.
@@ -512,7 +520,7 @@ You can create bookmarks for any frequently used directory. After browsing the m
 
 ![alt text](../pic/52.png)
 
-6.2 In the Firefox browser, locate the kexec-tools package subdirectory and view the kexec-kdump-howto.txt file. This file describes important system configurations that are stored in the /etc/sysconfig directory.
+*6.2 In the Firefox browser, locate the kexec-tools package subdirectory and view the kexec-kdump-howto.txt file. This file describes important system configurations that are stored in the /etc/sysconfig directory.*
 
 Close the document and Firefox when finished.
 
