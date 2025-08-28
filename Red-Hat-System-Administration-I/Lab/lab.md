@@ -1136,6 +1136,14 @@ MiB Swap:  0.0/0.0      [                                                     ]
    1 root      20   0  105972  17592  10292 S   0.0   1.0   0:01.31 systemd
 ...output omitted...
 ```
+📌 Tóm gọn phim tat `top`:
+
+- Shift+M → sort theo RAM
+- Shift+P → sort theo CPU
+- m → bật/tắt dòng memory
+- t → bật/tắt dòng CPU
+- shift b -> tat in dam
+- shift w -> save config (/home/student/.config/procps/toprc)
 
 **5. Turn off the use of bold in the display. Save this configuration for reuse when top is restarted. Confirm that the changes are saved.**
 
@@ -1318,16 +1326,16 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1405.5 avail Mem
    1161 student   20   0  222652   3888   3432 S  11.0   0.2  10:00.92 process101
 ...output omitted...
 ```
-11. Terminate process101, process102, and process103 from the command line. Verify that the processes are no longer displayed in top.
+**11. Terminate process101, process102, and process103 from the command line. Verify that the processes are no longer displayed in top.**
 
-11.1 In the left terminal shell, terminate process101, process102, and process103.
+*11.1 In the left terminal shell, terminate `process101`, `process102`, and `process103`.*
 ```
 [root@serverb ~]# pkill process101
 [root@serverb ~]# pkill process102
 [root@serverb ~]# pkill process103
 ```
 
-11.2 In the right terminal shell, verify that the processes no longer appear in top.
+*11.2 In the right terminal shell, verify that the processes no longer appear in top.*
 ```
 top - 18:25:12 up  2:05,  2 users,  load average: 0.93, 0.95, 0.67
 Tasks: 117 total,   1 running, 116 sleeping,   0 stopped,   0 zombie
@@ -1343,9 +1351,9 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1406.7 avail Mem
 ...output omitted...
 
 ```
-12. Stop the processes and return to the workstation machine.
+**12. Stop the processes and return to the `workstation` machine.**
 
-12.1 Log out from the root user and close the terminal.
+*12.1 Log out from the root user and close the terminal.*
 ```
 [root@serverb ~]# exit
 logout
@@ -1569,6 +1577,19 @@ logout
 Connection to servera closed.
 student@workstation:~$
 ```
+Note:
+Câu lệnh:
+```
+ssh-copy-id production1@serverb
+```
+
+👉 nghĩa là:
+- Copy public key của user hiện tại (production1@servera)
+- Sang authorized_keys của user production1 trên máy serverb
+(tức file ~production1/.ssh/authorized_keys trên serverb).
+
+
+
 ---
 # CHAPTER 11: Manage Networking
 Cấu hình giao diện mạng và cài đặt trên máy chủ Red Hat Enterprise Linux.   
@@ -1779,6 +1800,8 @@ Kết quả
 - Cài đặt và nâng cấp các gói từ kho lưu trữ.
 - Cài đặt gói RPM.
 
+Verify step - ignore
+
 1. Trên máy chủ, hãy cấu hình kho phần mềm tùy chỉnh để cài đặt các gói cụ thể. Đặt tên kho lưu trữ là `errata` và tạo tệp kho lưu trữ `errata.repo`. Cấu hình tệp `errata.repo` để sử dụng kho lưu trữ http://repo.example.com/rhel10.0/x86_64/rhcsa-practice/errata. Không xác minh chữ ký GPG.
 
 - Tuy thuoc vao version redhat
@@ -1942,6 +1965,8 @@ lsblk -fp /dev/sdb1
 NAME      FSTYPE FSVER LABEL UUID           FSAVAIL FSUSE% MOUNTPOINTS
 /dev/sdb1 xfs                48bd5...3337a     4.8G     3% /mnt/system-report
 ```
+
+Note: Use `lsblk --fs /dev/vdb1/`
 
 **2. Tạo báo cáo sử dụng đĩa cho thư mục `/usr/share`. Lưu kết quả vào tệp `/mnt/system-report/disk-usage.txt`.**
 ```
