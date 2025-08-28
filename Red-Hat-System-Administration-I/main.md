@@ -781,7 +781,7 @@ Quyền user (owner) và group là hai phạm vi khác nhau, và hệ thống s�
 Thành phần:   
 ![30](pic/30.png)  
 Thao tac  
-```
+```bash
 # Cài đặt package bằng rpm
 rpm -ivh podman-5.4.0-1.el10.x86_64.rpm
 
@@ -859,6 +859,12 @@ flatpak list	|Liệt kê ứng dụng đã cài
 flatpak update	|Cập nhật ứng dụng
 flatpak remote-add	|Thêm kho ứng dụng mới
 flatpak uninstall <app>	|Gỡ ứng dụng
+
+**Manage software**
+- Cấu hình quyền truy cập vào kho lưu trữ RPM (`Lab/lab.md`)
+- Cài đặt và gỡ bỏ các gói phần mềm RPM (`Lab/lab.md`)
+- Cấu hình quyền truy cập vào kho lưu trữ Flatpak 
+- Cài đặt và gỡ bỏ các gói phần mềm Flatpak
 
 ---
 # Chapter 14.  Accessing Removable Media

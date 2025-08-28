@@ -1,6 +1,6 @@
 Lab Environment Redhat  
 ![](../pic/42.png)
-
+![](../pic/51.png)
 
 ---
 # CHAPTER 2: Access the Command Line
@@ -10,21 +10,21 @@ Lab Environment Redhat
 
 **1. Sử dụng lệnh để hiển thị thời gian và ngày hiện tại.**
 ```
-[root@redhat9-server-1 ~]# date
-Wed Aug 13 08:24:16 AM +07 2025
+[student@workstation ~]$ date
+Mon Feb 28 01:57:25 PM PDT 2022
 ``` 
 
 **2. Hiển thị thời gian hiện tại theo giờ 24 giờ (ví dụ: 13:57). Gợi ý: Chuỗi định dạng hiển thị đầu ra đó là %R.**
 ```
-[root@redhat9-server-1 ~]# date +%R
-08:24
+[student@workstation ~]$ date +%R
+13:58
 ```
 
 **3. Tệp tin trong folder `/root/` này là loại tệp gì ? Con người có thể đọc được không?**
 
 ```
-[root@redhat9-server-1 ~]# file script.sh 
-script.sh: ASCII text
+[student@workstation ~]$ file zcat
+zcat: a /usr/bin/sh script, ASCII text executable
 ```
 Tệp văn bản ASCII có thể đọc được bằng mắt thường
 
@@ -100,8 +100,272 @@ date +%R
 ```
 
 ---
-# CHAPTER 3: Get Help from Local Documentation
-PAGE 17/128  
+# CHAPTER 3: Lab: Manage Files from the Command Line  
+**1. Use the ssh command to log in to the serverb machine as the student user. The system's configuration supports the use of SSH keys for authentication.**
+```
+[student@workstation ~]$ ssh student@serverb
+...output omitted...
+```
+**2. Tạo một thư mục có tên là `project_plans` trong thư mục Documents. Thư mục Documents được đặt trong thư mục home của người dùng student. Tạo hai tệp trống trong thư mục `project_plans` có tên là `season1_project_plan.odf` và `season2_project_plan.odf`.**
+
+Gợi ý: Nếu thư mục `~/Documents` không tồn tại, hãy sử dụng tùy chọn `-p` trong lệnh `mkdir` để tạo thư mục này.
+```bash
+[student@serverb ~]$ mkdir -p ~/Documents/project_plans
+[student@serverb ~]$ touch \
+~/Documents/project_plans/{season1,season2}_project_plan.odf
+[student@serverb ~]$ ls -lR Documents/
+Documents/:
+total 0
+drwxr-xr-x. 2 student student 70 Mar  7 03:50 project_plans
+
+Documents/project_plans:
+total 0
+-rw-r--r--. 1 student student 0 Mar  7 03:50 season1_project_plan.odf
+-rw-r--r--. 1 student student 0 Mar  7 03:50 season2_project_plan.odf
+```
+
+**3. Tạo các tập hợp tệp thực hành trống để sử dụng trong phòng thí nghiệm này. Nếu bạn không nhận ra ngay phím tắt mở rộng shell dự định, hãy sử dụng giải pháp để tìm hiểu và thực hành. Sử dụng lệnh hoàn thành tab shell để tìm tên đường dẫn tệp. Tạo 12 tệp với tên `tv_seasonX_episodeY.ogg` trong thư mục `/home/student`. Thay X bằng số mùa và Y bằng tập của mùa đó, cho hai mùa, mỗi mùa sáu tập.**
+```
+[student@serverb ~]$ touch tv_season{1..2}_episode{1..6}.ogg
+[student@serverb ~]$ ls tv*
+tv_season1_episode1.ogg  tv_season1_episode5.ogg  tv_season2_episode3.ogg
+tv_season1_episode2.ogg  tv_season1_episode6.ogg  tv_season2_episode4.ogg
+tv_season1_episode3.ogg  tv_season2_episode1.ogg  tv_season2_episode5.ogg
+tv_season1_episode4.ogg  tv_season2_episode2.ogg  tv_season2_episode6.ogg
+```
+
+**4. Là tác giả của một loạt tiểu thuyết trinh thám thành công, bạn đang biên tập các chương của cuốn sách bán chạy tiếp theo để xuất bản. Hãy tạo tám tệp với tên `mystery_chapterX.odf`. Thay X bằng các số từ 1 đến 8.**
+```
+[student@serverb ~]$ touch mystery_chapter{1..8}.odf
+[student@serverb ~]$ ls mys*
+mystery_chapter1.odf  mystery_chapter4.odf  mystery_chapter7.odf
+mystery_chapter2.odf  mystery_chapter5.odf  mystery_chapter8.odf
+mystery_chapter3.odf  mystery_chapter6.odf
+```
+
+**5. Sử dụng một lệnh duy nhất để tạo hai thư mục con tên là season1 và season2 trong thư mục Videos để sắp xếp các tập phim truyền hình. Di chuyển các tập phim truyền hình phù hợp vào các thư mục con season. Chỉ sử dụng hai lệnh và chỉ định đích đến bằng cú pháp tương ứng.**
+5.1 Tạo hai thư mục con có tên là `season1` và `season2` trong thư mục `Videos` bằng cách sử dụng một lệnh duy nhất.
+
+```
+[student@serverb ~]$ mkdir -p Videos/season{1..2}
+[student@serverb ~]$ ls Videos
+season1  season2
+```
+5.2 Di chuyển các tập phim truyền hình phù hợp vào thư mục con theo mùa chỉ bằng hai lệnh.
+```
+[student@serverb ~]$ mv tv_season1* Videos/season1
+[student@serverb ~]$ mv tv_season2* Videos/season2
+[student@serverb ~]$ ls -R Videos
+Videos:
+season1  season2
+
+Videos/season1:
+tv_season1_episode1.ogg  tv_season1_episode3.ogg  tv_season1_episode5.ogg
+tv_season1_episode2.ogg  tv_season1_episode4.ogg  tv_season1_episode6.ogg
+
+Videos/season2:
+tv_season2_episode1.ogg  tv_season2_episode3.ogg  tv_season2_episode5.ogg
+tv_season2_episode2.ogg  tv_season2_episode4.ogg  tv_season2_episode6.ogg
+```
+6. Tạo một hệ thống phân cấp thư mục hai cấp chỉ bằng một lệnh để sắp xếp các chương sách bí ẩn. Tạo thư mục con `my_bestseller` trong thư mục Documents, và tạo thư mục con programs trong thư mục `my_bestseller` mới. Tạo thêm ba thư mục con ngay trong thư mục `my_bestseller` chỉ bằng một lệnh. Đặt tên cho các thư mục con này là `editor`, `changes` và `vacation`. Bạn không cần sử dụng lệnh `mkdir -p` để tạo thư mục cha vì thư mục cha `my_bestseller` đã tồn tại.
+
+6.1 Create the my_bestseller directory under the Documents directory. Create the chapters directory under the my_bestseller directory.
+```
+[student@serverb ~]$ mkdir -p Documents/my_bestseller/chapters
+[student@serverb ~]$ ls -R Documents
+Documents:
+my_bestseller  project_plans
+
+Documents/my_bestseller:
+chapters
+
+Documents/my_bestseller/chapters:
+
+Documents/project_plans:
+season1_project_plan.odf  season2_project_plan.odf
+```
+6.2 Create three directories called editor, changes, and vacation, under the my_bestseller directory by using a single command.
+```
+[student@serverb ~]$ mkdir Documents/my_bestseller/{editor,changes,vacation}
+[student@serverb ~]$ ls -R Documents
+Documents:
+my_bestseller  project_plans
+
+Documents/my_bestseller:
+changes  chapters  editor  vacation
+
+Documents/my_bestseller/changes:
+
+Documents/my_bestseller/chapters:
+
+Documents/my_bestseller/editor:
+
+Documents/my_bestseller/vacation:
+
+Documents/project_plans:
+season1_project_plan.odf  season2_project_plan.odf
+```
+**7. Chuyển đến thư mục chương. Sử dụng phím tắt thư mục home (chương) dấu ngã (~) để di chuyển tất cả các chương sách đến thư mục chương, hiện là thư mục hiện tại của bạn. Sử dụng cú pháp đơn giản nhất để chỉ định thư mục đích.**
+
+Bạn muốn gửi hai chương đầu tiên đến trình soạn thảo để xem xét. Chỉ di chuyển hai chương đó đến thư mục trình soạn thảo để tránh sửa đổi chúng trong quá trình xem xét. Bắt đầu từ thư mục con chương, sử dụng dấu ngoặc nhọn mở rộng với một phạm vi để chỉ định tên tệp chương cần di chuyển và đường dẫn tương đối đến thư mục đích.
+
+Trong thời gian nghỉ, bạn dự định viết chương 7 và 8. Sử dụng một lệnh duy nhất để di chuyển các tệp từ thư mục chương sang thư mục nghỉ. Chỉ định tên tệp chương bằng cách sử dụng dấu ngoặc nhọn mở rộng với danh sách các chuỗi và không sử dụng ký tự đại diện.
+
+7.1 Change to the chapters directory and use the tilde (~) home directory shortcut to move all book chapters to the chapters directory.
+```
+[student@serverb ~]$ cd Documents/my_bestseller/chapters
+[student@serverb chapters]$ mv ~/mystery_chapter* .
+[student@serverb chapters]$ ls
+mystery_chapter1.odf  mystery_chapter4.odf  mystery_chapter7.odf
+mystery_chapter2.odf  mystery_chapter5.odf  mystery_chapter8.odf
+mystery_chapter3.odf  mystery_chapter6.odf
+```
+7.2 Move the first two chapters to the `editor` directory. Use brace expansion with a range to specify the chapter file names to move and a relative path for the destination directory.
+```
+[student@serverb chapters]$ mv mystery_chapter{1..2}.odf ../editor
+[student@serverb chapters]$ ls
+mystery_chapter3.odf  mystery_chapter5.odf  mystery_chapter7.odf
+mystery_chapter4.odf  mystery_chapter6.odf  mystery_chapter8.odf
+[student@serverb chapters]$ ls ../editor
+mystery_chapter1.odf  mystery_chapter2.odf
+```
+7.3 Use a single command to move the chapters 7 and 8 from the chapters directory to the vacation directory. Specify the chapter file names by using brace expansion with a list of strings and without using wildcard characters.
+```
+[student@serverb chapters]$ mv mystery_chapter{7,8}.odf ../vacation
+[student@serverb chapters]$ ls
+mystery_chapter3.odf  mystery_chapter5.odf
+mystery_chapter4.odf  mystery_chapter6.odf
+[student@serverb chapters]$ ls ../vacation
+mystery_chapter7.odf  mystery_chapter8.odf
+```
+8. Chuyển thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa phim vào thư mục `vacation`. Sử dụng lệnh `cd` để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`. Liệt kê các tệp của thư mục đó. Sử dụng đối số thư mục làm việc trước đó để quay lại thư mục `season2`. (Đối số này thành công nếu lần thay đổi thư mục cuối cùng bằng lệnh cd chỉ sử dụng một lệnh thay vì nhiều lệnh cd.) Từ thư mục `season2`, sao chép tệp tập 2 vào thư mục vacation. Sử dụng phím tắt một lần nữa để quay lại thư mục `vacation`.
+
+8.1 Change your working directory to `~/Videos/season2`, and then copy the first episode of the season to the vacation directory.
+```
+[student@serverb chapters]$ cd ~/Videos/season2
+[student@serverb season2]$ cp *episode1.ogg ~/Documents/my_bestseller/vacation
+```
+8.2 Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`, liệt kê các tệp trong đó và sử dụng tham số - để trở về thư mục trước đó. Sao chép tệp tập 2 vào thư mục vacation. Sử dụng lệnh cd với tham số - để trở về thư mục `vacation`.
+```
+[student@serverb season2]$ cd ~/Documents/my_bestseller/vacation
+[student@serverb vacation]$ ls
+mystery_chapter7.odf  mystery_chapter8.odf  tv_season2_episode1.ogg
+[student@serverb vacation]$ cd -
+/home/student/Videos/season2
+[student@serverb season2]$ cp *episode2.ogg ~/Documents/my_bestseller/vacation
+[student@serverb season2]$ cd -
+/home/student/Documents/my_bestseller/vacation
+[student@serverb vacation]$ ls
+mystery_chapter7.odf  tv_season2_episode1.ogg
+mystery_chapter8.odf  tv_season2_episode2.ogg
+```
+
+9. Tác giả của chương 5 và 6 muốn thử nghiệm các thay đổi có thể. Sao chép cả hai tệp từ thư mục `~/Documents/my_bestseller/chapters` sang thư mục `~/Documents/my_bestseller/`changes để ngăn những thay đổi này làm thay đổi các tệp gốc. Điều hướng đến thư mục `~/Documents/my_bestseller`. Sử dụng phép so khớp mẫu trong ngoặc vuông để chỉ định số chương nào sẽ khớp trong đối số `filename` của lệnh `cp`.
+```
+[student@serverb vacation]$ cd ~/Documents/my_bestseller
+[student@serverb my_bestseller]$ cp chapters/mystery_chapter[56].odf changes
+[student@serverb my_bestseller]$ ls chapters
+mystery_chapter3.odf  mystery_chapter5.odf
+mystery_chapter4.odf  mystery_chapter6.odf
+[student@serverb my_bestseller]$ ls changes
+mystery_chapter5.odf  mystery_chapter6.odf
+```
+
+**10. Chuyển thư mục hiện tại của bạn thành thư mục changes và sử dụng lệnh date `+%F` kết hợp với lệnh thay thế để sao chép tệp `mystery_chapter5.odf` sang một tệp mới chứa ngày tháng đầy đủ. Sử dụng định dạng tên `mystery_chapter5_YYYY-MM-DD.odf`.**
+
+Bằng cách sử dụng lệnh thay thế với lệnh date +%s, hãy tạo một bản sao khác của mystery_chapter5.odf và thêm dấu thời gian hiện tại (là số giây kể từ thời điểm epoch, 1970-01-01 00:00 UTC) để đảm bảo tên tệp duy nhất.
+```
+[student@serverb my_bestseller]$ cd changes
+[student@serverb changes]$ cp mystery_chapter5.odf \
+mystery_chapter5_$(date +%F).odf
+[student@serverb changes]$ cp mystery_chapter5.odf \
+mystery_chapter5_$(date +%s).odf
+[student@serverb changes]$ ls
+mystery_chapter5_1646644424.odf  mystery_chapter5.odf
+mystery_chapter5_2022-03-07.odf  mystery_chapter6.odf
+```
+**11. Sau khi xem xét kỹ hơn, bạn quyết định rằng mình không cần thay đổi cốt truyện. Hãy xóa thư mục changes.**
+
+Nếu cần, hãy điều hướng đến thư mục changes và xóa tất cả các tệp trong thư mục đó. Bạn không thể xóa thư mục khi đó là thư mục làm việc hiện tại.
+
+Chuyển đến thư mục cha của thư mục changes. Hãy thử xóa thư mục trống bằng lệnh rm mà không có tùy chọn -r đệ quy. Thử này sẽ thất bại. Cuối cùng, hãy sử dụng lệnh rmdir để xóa thư mục trống, và thành công.
+
+Khi kỳ nghỉ kết thúc, bạn không cần thư mục vacation nữa. Hãy xóa nó bằng lệnh rm với tùy chọn đệ quy.
+
+Khi hoàn tất, hãy quay lại thư mục home của người dùng student.
+
+11.1 Delete the `changes` directory. Change to the parent directory of the changes directory, and try to delete the empty directory by using the `rm` command without the `-r` recursive option, which should fail. Use the `rmdir` command to delete the empty directory.
+```
+[student@serverb changes]$ rm mystery*
+[student@serverb changes]$ cd ..
+[student@serverb my_bestseller]$ rm changes
+rm: cannot remove 'changes': Is a directory
+[student@serverb my_bestseller]$ rmdir changes
+[student@serverb my_bestseller]$ ls
+chapters  editor  vacation
+```
+11.2 Delete the vacation directory by using the `rm` command with the `-r` option. Return to the student user's home directory.
+```
+[student@serverb my_bestseller]$ rm -r vacation
+[student@serverb my_bestseller]$ ls
+chapters  editor
+[student@serverb my_bestseller]$ cd
+[student@serverb ~]$
+```
+12. Tạo một liên kết cứng đến tệp `~/Documents/project_plans/season2_project_plan.`odf có tên là `~/Documents/backups/season2_project_plan.odf.back.` Liên kết cứng giúp bảo vệ tệp gốc khỏi việc vô tình xóa nhầm và giữ cho tệp sao lưu được cập nhật khi bạn thay đổi tệp gốc.
+
+Gợi ý: Nếu thư mục `~/Documents/backups` không tồn tại, hãy sử dụng lệnh `mkdir` để tạo thư mục đó.
+
+12.1 Create a hard link to the `~/Documents/project_plans/season2_project_plan.odf` file called `~/Documents/backups/season2_project_plan.odf.back`.
+```
+[student@serverb ~]$ mkdir ~/Documents/backups
+[student@serverb ~]$ ln ~/Documents/project_plans/season2_project_plan.odf \
+~/Documents/backups/season2_project_plan.odf.back
+[student@serverb ~]$ ls -lR ~/Documents/
+/home/student/Documents/:
+total 0
+drwxr-xr-x. 2 student student 43 Mar  7 04:18 backups
+drwxr-xr-x. 4 student student 36 Mar  7 04:16 my_bestseller
+drwxr-xr-x. 2 student student 70 Mar  7 03:50 project_plans
+
+/home/student/Documents/backups:
+total 0
+-rw-r--r--. 2 student student 0 Mar  7 03:50 season2_project_plan.odf.back
+
+/home/student/Documents/my_bestseller:
+total 0
+drwxr-xr-x. 2 student student 118 Mar  7 04:07 chapters
+drwxr-xr-x. 2 student student  62 Mar  7 04:06 editor
+
+/home/student/Documents/my_bestseller/chapters:
+total 0
+-rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter3.odf
+-rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter4.odf
+-rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter5.odf
+-rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter6.odf
+
+/home/student/Documents/my_bestseller/editor:
+total 0
+-rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter1.odf
+-rw-r--r--. 1 student student 0 Mar  7 03:56 mystery_chapter2.odf
+
+/home/student/Documents/project_plans:
+total 0
+-rw-r--r--. 1 student student 0 Mar  7 03:50 season1_project_plan.odf
+-rw-r--r--. 2 student student 0 Mar  7 03:50 season2_project_plan.odf
+```
+12.2 Return to the workstation system as the student user.
+```
+[student@serverb ~]$ exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$
+```
+
+
+---
+# CHAPTER 4: Get Help in Red Hat Enterprise Linux
+PAGE 29/125  
 
 Tìm kiếm thông tin từ tài liệu cục bộ để giúp bạn chạy lệnh và hoàn thành tác vụ.   
 Kết quả 
@@ -1133,7 +1397,7 @@ Connection to serverb closed.
 Liệt kê, tìm kiếm, cài đặt, gỡ bỏ và lấy thông tin siêu dữ liệu của các ứng dụng bằng cách sử dụng Flatpak.
 
 Kết quả
-- Sử dụng các lệnh Flatpak để quản lý ứng dụng và thời gian chạy.
+- Sử dụng các lệnh Flatpak để quản lý ứng dụng và runtime.
 - Cài đặt ứng dụng và xem lại thông tin của chúng.
 - Gỡ cài đặt các ứng dụng Flatpak và các phần phụ thuộc của chúng.
 
@@ -1165,7 +1429,7 @@ student@workstation:~$ flatpak install com.vscodium.codium//stable \
 md.obsidian.Obsidian//stable
 ```
 
-**4. Xác minh rằng các ứng dụng đã được cài đặt thành công. Lưu ý rằng phần phụ thuộc thời gian chạy cũng đã được cài đặt.**
+**4. Xác minh rằng các ứng dụng đã được cài đặt thành công. Lưu ý rằng phần phụ thuộc runtime cũng đã được cài đặt.**
 ```
 student@workstation:~$ flatpak list
 Name            Application ID         Version                  Branch Inst...
@@ -1206,11 +1470,11 @@ Installation: user
 
 *6.1 Nhấp vào logo `Red Hat` ở góc trên bên trái màn hình để mở  `Activities Overview`.*
 
-6.2 Trong hộp tìm kiếm, nhập vscodium và nhấp vào biểu tượng `VSCodium` để mở ứng dụng.
+6.2 Trong hộp tìm kiếm, nhập `vscodium` và nhấp vào biểu tượng `VSCodium` để mở ứng dụng.
 
 6.3 Kiểm tra xem ứng dụng đã khởi động đúng cách chưa. Khám phá giao diện của ứng dụng và đóng ứng dụng khi hoàn tất.
 
-6.4 Trong hộp tìm kiếm, nhập `Obsidian` và nhấp vào biểu tượng Obsidian để mở ứng dụng.
+6.4 Trong hộp tìm kiếm, nhập `obsidian` và nhấp vào biểu tượng `Obsidian` để mở ứng dụng.
 
 6.5 Nhấp vào `Quick Start` để khám phá ứng dụng và đóng ứng dụng khi hoàn tất.
 
@@ -1235,10 +1499,13 @@ Proceed with these changes to the user installation? [Y/n]: y
 Error: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
 error: Failed to uninstall org.freedesktop.Sdk: Can't remove org.freedesktop.Sdk/x86_64/24.08, it is needed for: com.vscodium.codium
 ```
+Note: bạn không thể gỡ runtime (`org.freedesktop.Sdk`) khi nó đang được một ứng dụng (com.vscodium.codium) sử dụng.
+Ở đây, `VSCodium` (Codium) phụ thuộc vào runtime `org.freedesktop.Sdk`, nên Flatpak từ chối.
 
-*7.2 Chạy lại lệnh `flatpak uninstall` và chỉ định gói `Codium` và thời gian chạy `SDK`. Bạn có thể sử dụng các định danh dạng rút gọn vì không có phiên bản nào khác được cài đặt cho các đối tượng đó.*
+*7.2 Chạy lại lệnh `flatpak uninstall` và chỉ định gói `Codium` và runtime `SDK`. Bạn có thể sử dụng các định danh dạng rút gọn vì không có phiên bản nào khác được cài đặt cho các đối tượng đó.*
 
-Flatpak tự động đặt thứ tự ưu tiên gỡ cài đặt, bất kể thứ tự của các định danh trong lệnh.
+Flatpak tự động đặt thứ tự ưu tiên gỡ cài đặt, bất kể thứ tự của các định danh trong lệnh.  
+Gỡ cả ứng dụng (Codium) và runtime (Sdk) cùng lúc.  
 ```
 student@workstation:~$ flatpak uninstall Sdk codium
 Found installed ref 'runtime/org.freedesktop.Sdk/x86_64/24.08' (user). Is this correct? [Y/n]: y
@@ -1258,6 +1525,8 @@ Proceed with these changes to the user installation? [Y/n]: y
 Uninstalling 1/2…
 Uninstalling 2/2…
 ```
+![alt text](../pic/49.png)
+
 *7.3 Verify that the Flatpak objects are no longer installed.*
 ```
 student@workstation:~$ flatpak list
@@ -1275,6 +1544,8 @@ Freedesktop Platform org.freedesktop.Platform freedesktop-sdk-24.08 24.08  user
 *8.3 Trong phần `Add-ons`, tìm `Freedesktop Platform`. Nhấp vào `Uninstall` và nhấp vào `Uninstall` một lần nữa khi được yêu cầu xác nhận.*
 
 *8.4 Đóng GNOME Software tool.*
+
+![alt text](../pic/50.png)
 
 **9. Kiểm tra xem tất cả các đối tượng Flatpak đã được xóa khỏi máy trạm chưa.**
 
@@ -1871,6 +2142,16 @@ nmcli con up custom-profile
 reboot
 ```
 
+Nếu cấu hình IPv6 thay cho IPv4
+```bash
+nmcli con add con-name custom-ipv6 \
+ifname ens160 \
+type ethernet \
+ipv6.method manual \
+ipv6.dns '2001:4860:4860::8888' \
+ipv6.addresses '2001:db8::128/64' \
+ipv6.gateway '2001:db8::1'
+```
 
 Trên Red Hat (hoặc các distro dùng NetworkManager), profile mà bạn tạo bằng nmcli con add sẽ được lưu và quản lý bởi NetworkManager.
 ```
@@ -1881,7 +2162,6 @@ lo              509863ac-d85c-4dbb-946d-5fce9cce5ccc  loopback  lo
 custom-profile  9d8273fd-8882-42b2-8689-d98f45dbcf6b  ethernet  -- 
 # rut gon 
 nmcli con show
-
 ```
 
 **3. Cấu hình kết nối `custom-profile` để tự động bắt đầu. Đối với tất cả các kết nối Ethernet khác, hãy tắt cài đặt tự động kết nối.**
