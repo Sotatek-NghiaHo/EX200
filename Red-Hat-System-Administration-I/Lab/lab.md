@@ -288,6 +288,16 @@ ls ../vacation
 = cd .. + ls /vacation
 ```
 
+Note:
+- Khái niệm đường dẫn tuyệt đối (absolute path)
+  - Luôn bắt đầu từ thư mục gốc `/`.
+  - Ví dụ: `/home/student/file.txt`
+- Đường dẫn tương đối (relative path)
+  - Không bắt đầu bằng dấu `/`, mà tính tương đối từ thư mục hiện tại (pwd).
+  - Ký hiệu đặc biệt:
+    - `.` : thư mục hiện tại
+    - `..` : thư mục cha (trên một cấp)
+
 **8. Chuyển thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa phim vào thư mục `vacation`. Sử dụng một lệnh cd duy nhất để chuyển từ thư mục làm việc sang thư mục `~/Documents/my_bestseller/vacation`. Liệt kê các tệp của thư mục đó. Sử dụng đối số thư mục làm việc trước đó để quay lại thư mục `season2`. Đối số này thành công nếu lần thay đổi thư mục cuối cùng bằng lệnh cd chỉ sử dụng một lệnh thay vì nhiều lệnh cd. Từ thư mục `season2`, sao chép tệp tập 2 vào thư mục `vacation`. Sử dụng phím tắt một lần nữa để quay lại thư mục `vacation`.**
 
 *8.1 Thay đổi thư mục làm việc của bạn thành `~/Videos/season2`, sau đó sao chép tập đầu tiên của mùa giải vào thư mục `vacation`.*
@@ -369,6 +379,9 @@ chapters  editor
 [nghiahv@redhat9-server-1 my_bestseller]$ cd
 [nghiahv@redhat9-server-1 ~]$ 
 ```
+Note:
+- `rmdir` (xóa thư mục rỗng)
+- `rm -r` (xóa thư mục)
 
 **12. Tạo một liên kết cứng đến tệp `~/Documents/project_plans/season2_project_plan.odf` có tên là `~/Documents/backups/season2_project_plan.odf`.back. Liên kết cứng giúp bảo vệ tệp gốc khỏi việc vô tình xóa nhầm và giữ cho tệp sao lưu được cập nhật khi bạn thay đổi tệp gốc.**
 
@@ -2005,7 +2018,7 @@ student@workstation:~$
 
 **Note:** The allocated time for this activity is 15 minutes. If you need additional time to complete the task, then you must revisit the course content, or practice more.
 
-**20.2 Lab: Manage Files from the Command Line**
+**15.2 Lab: Manage Files from the Command Line**
 
 Quản lý tệp, chuyển hướng một tập hợp các dòng cụ thể từ tệp văn bản sang tệp khác và chỉnh sửa tệp văn bản.
 
@@ -2139,12 +2152,15 @@ Test II
 Test JJ
 Test JJ
 ```
-**10. Create the /home/student/hardcopy hard link to the /home/student/grading/grade1 file.**
+**10. Create the `/home/student/hardcopy` hard link to the `/home/student/grading/grade1` file.**
 
 *10.1 Create the /home/student/hardcopy hard link to the /home/student/grading/grade1 file.*
 ```
 [student@serverb ~]$ ln grading/grade1 hardcopy
 ```
+Note: Syntax: 
+- `ln file_ton_tai file_chua_co`  
+- `ln -s file_ton_tai file_chua_co`
 *10.2 View the link count of the /home/student/grading/grade1 file.*
 ```
 [student@serverb ~]$ ls -l grading/grade1
@@ -2281,6 +2297,9 @@ dbadmin1 ALL=(ALL) ALL
 ```
 [dbadmin1@serverb ~]$ chown -R dbadmin1:database /home/dbadmin1/
 ```
+Note: 
+- `-R` (recursive) = áp dụng đệ quy: không chỉ thay đổi chính thư mục /home/dbadmin1, mà còn toàn bộ file và thư mục con bên trong.
+
 *5.3 Recursively set group execute permissions on the `/home/dbadmin1` directory and subdirectories. This permission allow members of the database group to traverse the `/home/dbadmin1` directory structure.*
 ```
 [dbadmin1@serverb ~]$ chmod -R g+x /home/dbadmin1
@@ -2290,7 +2309,16 @@ dbadmin1 ALL=(ALL) ALL
 *6.1 Apply the SetGID special permission on the /home/dbadmin1/grading/review2 directory so that the database group owns files that are created in the directory.*
 ```
 [dbadmin1@serverb ~]$ chmod g+s /home/dbadmin1/grading/review2
+
+---
+ll /home/dbadmin1/grading/
+drwxrws---. 2 dbadmin1 database 6 Aug 29 02:37 review2
 ```
+Note:   
+![alt text](../pic/67.png)
+
+![alt text](../pic/68.png)
+
 *6.2 Apply the 775 permission mode on the /home/dbadmin1/grading/review2 directory.*
 ```
 [dbadmin1@serverb ~]$ chmod 775 /home/dbadmin1/grading/review2
@@ -2302,6 +2330,7 @@ dbadmin1 ALL=(ALL) ALL
 ```
 [dbadmin1@serverb ~]$ chmod o+t /home/dbadmin1/grading/review2
 ```
+Note: Nếu sửa quyền chmod xxx xong phải chmod o+t lại
 *7.2 Return to the workstation system as the student user.*
 ```
 [dbadmin1@serverb ~]$ exit
@@ -2399,6 +2428,8 @@ Connection to servera closed.
 ```
 [student@serverb ~]$ sudo systemctl reload sshd.service
 ```
+Note: Use  
+- `sudo systemctl restart sshd`  
 **6. Install the zsh package.**
 ```
 [student@serverb ~]$ sudo dnf install zsh
@@ -2464,10 +2495,27 @@ ifname ethX ipv4.addresses '172.25.250.111/24' ipv4.gateway '172.25.250.254' \
 ipv4.dns '172.25.250.254' ipv4.method manual
 Connection 'static' (ac8620e6-b77e-499f-9931-118b8b015807) successfully added.
 ```
+Note:  
+```bash
+nmcli con show 
+
+---
+
+nmcli connection add con-name static \
+type ethernet \
+ifname eth0 \
+ipv4.addresses 172.25.250.111/24 \
+ipv4.gateway 172.25.250.254 \
+ipv4.dns 172.25.250.254 \
+ipv4.method manual
+```
+-> SSH lai : `ssh student@172.25.250.111`  
+
 *3.2 Activate the new connection profile.*
 ```
 [root@serverb ~]# nmcli connection up static
 ```
+Note: Khi up proflie cu tu down 
 **4. Set the serverb hostname to server-review4.lab4.example.com. Verify the new hostname.**
 
 *4.1 Configure server-review4.lab4.example.com as the new hostname.*
@@ -2569,6 +2617,8 @@ vdb1  xfs          7694653c-45f6-4749-bd87-f2f69c37daa7
 └─vdb
 ...output omitted...
 ```
+Note: Use
+- `lsblk --fs /dev/vdb1/`   
 From the preceding output, the vdb1 block device contains the XFS file system, which is not mounted on the system.
 
 *2.2 Create the `/review5-disk` directory.*
@@ -2587,14 +2637,17 @@ Filesystem     Type      Size  Used Avail Use% Mounted on
 /dev/vdb1      xfs       2.0G   47M  2.0G   3% /review5-disk
 ...output omitted...
 ```
-**3. Find the review5-path file. Save its absolute path in the /review5-disk/review5-path.txt file.**
+**3. Find the `review5-path` file. Save its absolute path in the `/review5-disk/review5-path.txt` file.**
 
 *3.1 Find the review5-path file. Redirect all error messages to the /dev/null special file.*
 ```
 [root@serverb ~]# find / -iname review5-path 2>/dev/null
 /var/tmp/review5-path
 ```
-Note the absolute path to the review5-path file from the preceding output.
+Note the absolute path to the review5-path file from the preceding output.  
+->   
+Note:  
+![alt text](../pic/69.png)
 
 *3.2 Use the `echo` command with the previous output of the `find` command to add the absolute path for the `review5-path` file to the `/review5-disk/review5-path.txt` file.*
 ```
